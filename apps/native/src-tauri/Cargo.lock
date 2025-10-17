@@ -3676,8 +3676,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "tauri-nextjs-template"
-version = "0.1.4"
+name = "katip"
+version = "0.1.0"
 dependencies = [
  "serde",
  "serde_json",

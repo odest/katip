@@ -31,8 +31,8 @@ This project uses:
 
 ```bash
 # Clone the repository
-git clone https://github.com/odest/tauri-nextjs-template.git
-cd tauri-nextjs-template
+git clone https://github.com/odest/katip.git
+cd katip
 
 # Install dependencies
 pnpm install

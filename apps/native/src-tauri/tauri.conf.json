@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "tauri-nextjs-template",
-  "version": "0.1.4",
-  "identifier": "com.tauri-nextjs-template.app",
+  "productName": "katip",
+  "version": "0.1.0",
+  "identifier": "com.katip.app",
   "build": {
     "beforeDevCommand": "pnpm dev",
     "devUrl": "http://localhost:3000",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "tauri-nextjs-template",
+        "title": "katip",
         "width": 800,
         "height": 600
       }

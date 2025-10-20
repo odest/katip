@@ -1,36 +1,30 @@
-# Contributing to Tauri Next.js Template
+# Contributing to Katip
 
-First off, thank you for considering contributing to this project!
+Thanks for your interest in contributing to Katip! This project aims to make meetings and lectures more productive through AI-powered transcription and summarization.
 
-## Development Process
+## How to Contribute
 
-We use GitHub flow, so all code changes happen through pull requests.
+We welcome all kinds of contributions:
 
-1. Fork the repo and create your branch from `master`.
-2. Make your changes and add tests if applicable.
-3. Ensure the test suite passes.
-4. Ensure your code lints.
-5. Issue that pull request!
+- 🐛 Bug reports
+- 💡 Feature suggestions
+- 📝 Documentation improvements
+- 🔧 Code contributions
+- 🌍 Translation improvements
 
-## Development Setup
-
-This project uses:
-
-- **pnpm** for package management
-- **Turbo** for monorepo build orchestration
-- **Tauri** for desktop app development
-- **Next.js** for web frontend
+## Getting Started
 
 ### Prerequisites
 
 - Node.js 20+
 - pnpm 10+
-- Rust (for Tauri development)
+- Rust (latest stable)
+- Basic knowledge of TypeScript/React
 
 ### Setup
 
 ```bash
-# Clone the repository
+# Fork and clone the repo
 git clone https://github.com/odest/katip.git
 cd katip
 
@@ -41,49 +35,107 @@ pnpm install
 pnpm dev
 ```
 
-### Available Commands
+## Development Workflow
 
-- `pnpm dev` - Start development servers for all apps
-- `pnpm build` - Build all apps and packages
-- `pnpm lint` - Run ESLint on all packages
-- `pnpm check-types` - Run TypeScript type checking
-- `pnpm clean` - Clean all build outputs
-- `pnpm tauri` - Run Tauri CLI commands
+### 1. Pick or Create an Issue
 
-### Project Structure
+- Check existing issues or create a new one
+- Comment on the issue to let others know you're working on it
 
-```
-├── apps/
-│   ├── native/              # Tauri + Next.js desktop app
-│   └── web/                 # Next.js web app
-├── packages/
-│   ├── ui/                  # Shared UI components
-│   ├── eslint-config/       # Shared ESLint configuration
-│   └── typescript-config/   # Shared TypeScript configuration
-└── .github/                 # GitHub workflows and templates
+### 2. Create a Branch
+
+```bash
+git checkout -b feature/your-feature-name
+# or
+git checkout -b fix/bug-description
 ```
 
-## Pull Request Process
+### 3. Make Your Changes
 
-1. Update the README.md with details of changes to the interface (if applicable).
-2. Update version numbers in package.json files following [SemVer](http://semver.org/).
-3. The PR will be merged once you have the sign-off of at least one maintainer.
+- Write clean, readable code
+- Follow the existing code style
+- Add comments where needed
+- Test your changes locally
 
-## Coding Standards
+### 4. Test Everything
+
+```bash
+# Run linting
+pnpm lint
+
+# Type checking
+pnpm check-types
+
+# Build to ensure no errors
+pnpm build
+```
+
+### 5. Commit Your Changes
+
+Use [Conventional Commits](https://www.conventionalcommits.org/):
+
+```bash
+git commit -m "feat: add audio file upload"
+git commit -m "fix: resolve transcription timeout"
+git commit -m "docs: update setup instructions"
+```
+
+### 6. Push and Create PR
+
+```bash
+git push origin your-branch-name
+```
+
+Then open a Pull Request on GitHub with:
+
+- Clear description of changes
+- Reference to related issue
+- Screenshots (if UI changes)
+
+## Code Style
 
 - Use TypeScript for all new code
-- Follow the existing code style (we use Prettier and ESLint)
-- Write meaningful commit messages
-- Keep PRs focused and atomic
+- Follow the existing formatting (Prettier)
+- Keep functions small and focused
+- Write meaningful variable names
 
-## Reporting Bugs
+## Project Structure
 
-We use GitHub issues to track public bugs. Report a bug by opening a new issue with our bug report template.
+```
+katip/
+├── apps/
+│   ├── native/      # Desktop & mobile (Tauri + Next.js)
+│   └── web/         # Web app (Next.js)
+├── packages/
+│   ├── ui/          # Shared UI components
+│   └── i18n/        # Translations
+```
 
-## Feature Requests
+## What to Work On
 
-We welcome feature requests! Please open an issue with our feature request template.
+Good first issues:
+
+- UI improvements
+- Translation fixes
+- Documentation updates
+- Bug fixes
+
+Advanced contributions:
+
+- AI model integration
+- Performance optimization
+- New features
+
+## Questions?
+
+- Open an issue for questions
+- Check existing discussions
+- Review the README for setup help
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the same license as the project.
+By contributing, you agree that your contributions will be licensed under GPL-3.0.
+
+---
+
+Thank you for helping make Katip better! 🎉

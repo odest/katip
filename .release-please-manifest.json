@@ -1,7 +1,7 @@
 {
     ".": "0.1.2",
     "apps/native": "0.1.2",
-    "apps/web": "0.1.1",
+    "apps/web": "0.1.2",
     "packages/ui": "0.1.2",
     "packages/i18n": "0.1.0",
     "packages/eslint-config": "0.1.0",

@@ -56,11 +56,9 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Build Tauri Desktop App
-        uses: tauri-apps/tauri-action@v0
         env:
           CMAKE_ARGS: ${{ matrix.platform == 'macos-latest' && '-DGGML_I8MM=OFF -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || '' }}
-        with:
-          args: ${{ matrix.args }}
-          projectPath: "apps/native"
-          includeRelease: false
-          includeUpdaterJson: false
+          RUST_BACKTRACE: 1
+        run: |
+          cd apps/native
+          pnpm tauri build --verbose ${{ matrix.args }}

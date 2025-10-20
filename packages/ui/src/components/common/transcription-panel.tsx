@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { isTauri } from "@tauri-apps/api/core";
 import { invoke } from "@tauri-apps/api/core";
 import { platform } from "@tauri-apps/plugin-os";
+import { useTranslations } from "@workspace/i18n";
 import {
   AudioFilePicker,
   SelectedFileInfo,
@@ -31,6 +32,7 @@ interface TranscriptionSegment {
 }
 
 export function TranscriptionPanel() {
+  const t = useTranslations("TranscriptionPanel");
   const [audioFile, setAudioFile] = useState<SelectedFileInfo | null>(null);
   const [modelFile, setModelFile] = useState<SelectedModelInfo | null>(null);
   const [isTranscribing, setIsTranscribing] = useState(false);
@@ -49,7 +51,7 @@ export function TranscriptionPanel() {
   // Persist state to prevent loss on navigation
   useEffect(() => {
     if (typeof window === "undefined") return;
-    
+
     // Load persisted state
     try {
       const saved = sessionStorage.getItem("transcription-state");
@@ -66,7 +68,7 @@ export function TranscriptionPanel() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    
+
     // Persist transcription results
     try {
       if (transcription.length > 0) {
@@ -148,12 +150,12 @@ export function TranscriptionPanel() {
 
   const handleTranscribe = async () => {
     if (!audioFile) {
-      setError("Please select an audio file");
+      setError(t("errorSelectAudio"));
       return;
     }
 
     if (!modelFile) {
-      setError("Please select a model file");
+      setError(t("errorSelectModel"));
       return;
     }
 
@@ -223,10 +225,8 @@ export function TranscriptionPanel() {
       <div className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Audio Transcription</CardTitle>
-            <CardDescription>
-              Convert your audio files to text using Whisper AI
-            </CardDescription>
+            <CardTitle>{t("title")}</CardTitle>
+            <CardDescription>{t("description")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {isAndroid && (
@@ -234,12 +234,10 @@ export function TranscriptionPanel() {
                 <AlertCircle className="size-5 text-yellow-600 dark:text-yellow-500 shrink-0 mt-0.5" />
                 <div className="space-y-1">
                   <p className="text-sm font-medium text-yellow-600 dark:text-yellow-500">
-                    Android Platform Detected
+                    {t("androidPlatformTitle")}
                   </p>
                   <p className="text-sm text-yellow-600/90 dark:text-yellow-500/90">
-                    Speech-to-text transcription is not yet available on
-                    Android. This feature is currently only supported on desktop
-                    platforms.
+                    {t("androidPlatformMessage")}
                   </p>
                 </div>
               </div>
@@ -251,7 +249,7 @@ export function TranscriptionPanel() {
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <FileAudio className="size-4 text-muted-foreground" />
-                  <h3 className="font-medium">Audio File</h3>
+                  <h3 className="font-medium">{t("audioFile")}</h3>
                 </div>
                 <AudioFilePicker
                   onFileSelect={setAudioFile}
@@ -260,7 +258,7 @@ export function TranscriptionPanel() {
                 {audioFile && (
                   <div className="p-3 rounded-lg bg-muted/50 space-y-1">
                     <p className="text-xs font-medium text-muted-foreground">
-                      Selected File
+                      {t("selectedFile")}
                     </p>
                     <p className="text-sm font-mono break-all">
                       {audioFile.path.split(/[/\\]/).pop()}
@@ -273,7 +271,7 @@ export function TranscriptionPanel() {
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <FileCode2 className="size-4 text-muted-foreground" />
-                  <h3 className="font-medium">Whisper Model</h3>
+                  <h3 className="font-medium">{t("whisperModel")}</h3>
                 </div>
 
                 <ModelFilePicker
@@ -284,7 +282,7 @@ export function TranscriptionPanel() {
                 {modelFile && (
                   <div className="p-3 rounded-lg bg-muted/50 space-y-1">
                     <p className="text-xs font-medium text-muted-foreground">
-                      Selected Model
+                      {t("selectedModel")}
                     </p>
                     <p className="text-sm font-mono break-all">
                       {modelFile.path.split(/[/\\]/).pop()}
@@ -306,15 +304,15 @@ export function TranscriptionPanel() {
               {isTranscribing ? (
                 <>
                   <Loader2 className="size-4 animate-spin" />
-                  Transcribing...
+                  {t("transcribing")}
                 </>
               ) : isLoading ? (
                 <>
                   <Loader2 className="size-4 animate-spin" />
-                  Loading Whisper...
+                  {t("loadingWhisper")}
                 </>
               ) : (
-                "Start Transcription"
+                t("startTranscription")
               )}
             </Button>
 
@@ -323,7 +321,9 @@ export function TranscriptionPanel() {
               <div className="flex items-start gap-3 p-4 border border-destructive rounded-lg bg-destructive/10">
                 <AlertCircle className="size-5 text-destructive shrink-0 mt-0.5" />
                 <div className="space-y-1">
-                  <p className="text-sm font-medium text-destructive">Error</p>
+                  <p className="text-sm font-medium text-destructive">
+                    {t("error")}
+                  </p>
                   <p className="text-sm text-destructive/90">{error}</p>
                 </div>
               </div>
@@ -335,10 +335,13 @@ export function TranscriptionPanel() {
         {transcription.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle>Transcription Results</CardTitle>
+              <CardTitle>{t("transcriptionResults")}</CardTitle>
               <CardDescription>
-                {transcription.length} segment
-                {transcription.length !== 1 ? "s" : ""} found
+                {transcription.length}{" "}
+                {transcription.length !== 1
+                  ? t("segmentsFoundPlural")
+                  : t("segmentsFound")}{" "}
+                {t("found")}
               </CardDescription>
             </CardHeader>
             <CardContent>

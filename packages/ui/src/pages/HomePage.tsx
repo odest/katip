@@ -12,7 +12,7 @@ export function HomePage() {
           <div className="flex flex-col gap-2">
             <h1 className="text-3xl font-bold text-center">{t("title")}</h1>
             <p className="text-muted-foreground text-center">
-              Transform your audio into accurate text transcriptions
+              {t("description")}
             </p>
           </div>
           <TranscriptionPanel />

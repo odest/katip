@@ -1,6 +1,7 @@
 {
   "HomePage": {
-    "title": "Ana Sayfadasınız."
+    "title": "Ana Sayfadasınız.",
+    "description": "Ses dosyalarınızı doğru metin dökümlerine dönüştürün"
   },
   "PlaygroundPage": {
     "title": "Oyun Alanı Sayfasındasınız."
@@ -104,5 +105,33 @@
     "billing": "Faturalama",
     "notifications": "Bildirimler",
     "logOut": "Çıkış Yap"
+  },
+  "TranscriptionPanel": {
+    "title": "Ses Dökümü",
+    "description": "Whisper AI kullanarak ses dosyalarınızı metne dönüştürün",
+    "audioFile": "Ses Dosyası",
+    "whisperModel": "Whisper Modeli",
+    "selectedFile": "Seçilen Dosya",
+    "selectedModel": "Seçilen Model",
+    "startTranscription": "Dökümü Başlat",
+    "transcribing": "Döküm Yapılıyor...",
+    "loadingWhisper": "Whisper Yükleniyor...",
+    "error": "Hata",
+    "androidPlatformTitle": "Android Platformu Algılandı",
+    "androidPlatformMessage": "Konuşmadan metne dönüştürme henüz Android'de kullanılamıyor. Bu özellik şu anda yalnızca masaüstü platformlarda desteklenmektedir.",
+    "transcriptionResults": "Döküm Sonuçları",
+    "segmentsFound": "segment",
+    "segmentsFoundPlural": "segment",
+    "found": "bulundu",
+    "errorSelectAudio": "Lütfen bir ses dosyası seçin",
+    "errorSelectModel": "Lütfen bir model dosyası seçin"
+  },
+  "AudioFilePicker": {
+    "label": "Ses Dosyası Seç",
+    "chooseFile": "Dosya Seç"
+  },
+  "ModelFilePicker": {
+    "label": "Whisper Modeli Seç",
+    "chooseModel": "Model Seç (.bin)"
   }
 }

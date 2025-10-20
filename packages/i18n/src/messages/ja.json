@@ -1,6 +1,7 @@
 {
   "HomePage": {
-    "title": "ホームページにいます。"
+    "title": "ホームページにいます。",
+    "description": "音声を正確なテキスト文字起こしに変換します"
   },
   "PlaygroundPage": {
     "title": "プレイグラウンドページにいます。"
@@ -104,5 +105,33 @@
     "billing": "請求",
     "notifications": "通知",
     "logOut": "ログアウト"
+  },
+  "TranscriptionPanel": {
+    "title": "音声文字起こし",
+    "description": "Whisper AIを使用して音声ファイルをテキストに変換します",
+    "audioFile": "音声ファイル",
+    "whisperModel": "Whisperモデル",
+    "selectedFile": "選択されたファイル",
+    "selectedModel": "選択されたモデル",
+    "startTranscription": "文字起こしを開始",
+    "transcribing": "文字起こし中...",
+    "loadingWhisper": "Whisperを読み込んでいます...",
+    "error": "エラー",
+    "androidPlatformTitle": "Androidプラットフォームが検出されました",
+    "androidPlatformMessage": "音声からテキストへの文字起こしはAndroidではまだ利用できません。この機能は現在、デスクトッププラットフォームでのみサポートされています。",
+    "transcriptionResults": "文字起こし結果",
+    "segmentsFound": "セグメント",
+    "segmentsFoundPlural": "セグメント",
+    "found": "が見つかりました",
+    "errorSelectAudio": "音声ファイルを選択してください",
+    "errorSelectModel": "モデルファイルを選択してください"
+  },
+  "AudioFilePicker": {
+    "label": "音声ファイルを選択",
+    "chooseFile": "ファイルを選択"
+  },
+  "ModelFilePicker": {
+    "label": "Whisperモデルを選択",
+    "chooseModel": "モデルを選択 (.bin)"
   }
 }

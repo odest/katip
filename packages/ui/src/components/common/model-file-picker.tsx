@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { isTauri } from "@tauri-apps/api/core";
 import { open } from "@tauri-apps/plugin-dialog";
+import { useTranslations } from "@workspace/i18n";
 import { Button } from "@workspace/ui/components/button";
 import { Label } from "@workspace/ui/components/label";
 
@@ -21,9 +22,10 @@ interface ModelFilePickerProps {
 export function ModelFilePicker({
   onModelSelect,
   disabled = false,
-  label = "Select Whisper Model",
+  label,
   className,
 }: ModelFilePickerProps) {
+  const t = useTranslations("ModelFilePicker");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSelectModel = async () => {
@@ -85,7 +87,7 @@ export function ModelFilePicker({
           className="w-full"
           variant="outline"
         >
-          Choose Model (.bin)
+          {t("chooseModel")}
         </Button>
       </div>
     </div>

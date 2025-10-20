@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { isTauri } from "@tauri-apps/api/core";
 import { open } from "@tauri-apps/plugin-dialog";
+import { useTranslations } from "@workspace/i18n";
 import { Button } from "@workspace/ui/components/button";
 import { Label } from "@workspace/ui/components/label";
 
@@ -23,9 +24,10 @@ export function AudioFilePicker({
   onFileSelect,
   disabled = false,
   accept = "audio/*,.m4a,.wav,.mp3,.flac,.aac,.ogg,.wma,.aiff,.ape,.opus",
-  label = "Select Audio File",
+  label,
   className,
 }: AudioFilePickerProps) {
+  const t = useTranslations("AudioFilePicker");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSelectFile = async () => {
@@ -102,7 +104,7 @@ export function AudioFilePicker({
           className="w-full"
           variant="outline"
         >
-          Choose File
+          {t("chooseFile")}
         </Button>
       </div>
     </div>

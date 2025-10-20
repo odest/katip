@@ -1,6 +1,7 @@
 {
   "HomePage": {
-    "title": "Вы находитесь на главной странице."
+    "title": "Вы находитесь на главной странице.",
+    "description": "Преобразуйте ваши аудио в точные текстовые расшифровки"
   },
   "PlaygroundPage": {
     "title": "Вы находитесь на странице площадки."
@@ -104,5 +105,33 @@
     "billing": "Выставление счетов",
     "notifications": "Уведомления",
     "logOut": "Выйти"
+  },
+  "TranscriptionPanel": {
+    "title": "Расшифровка аудио",
+    "description": "Преобразуйте ваши аудиофайлы в текст с помощью Whisper AI",
+    "audioFile": "Аудиофайл",
+    "whisperModel": "Модель Whisper",
+    "selectedFile": "Выбранный файл",
+    "selectedModel": "Выбранная модель",
+    "startTranscription": "Начать расшифровку",
+    "transcribing": "Расшифровка...",
+    "loadingWhisper": "Загрузка Whisper...",
+    "error": "Ошибка",
+    "androidPlatformTitle": "Обнаружена платформа Android",
+    "androidPlatformMessage": "Расшифровка речи в текст пока недоступна на Android. Эта функция в настоящее время поддерживается только на настольных платформах.",
+    "transcriptionResults": "Результаты расшифровки",
+    "segmentsFound": "сегмент",
+    "segmentsFoundPlural": "сегментов",
+    "found": "найдено",
+    "errorSelectAudio": "Пожалуйста, выберите аудиофайл",
+    "errorSelectModel": "Пожалуйста, выберите файл модели"
+  },
+  "AudioFilePicker": {
+    "label": "Выбрать аудиофайл",
+    "chooseFile": "Выбрать файл"
+  },
+  "ModelFilePicker": {
+    "label": "Выбрать модель Whisper",
+    "chooseModel": "Выбрать модель (.bin)"
   }
 }

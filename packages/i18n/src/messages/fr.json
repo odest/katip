@@ -1,6 +1,7 @@
 {
   "HomePage": {
-    "title": "Vous êtes sur la page d'accueil."
+    "title": "Vous êtes sur la page d'accueil.",
+    "description": "Transformez votre audio en transcriptions textuelles précises"
   },
   "PlaygroundPage": {
     "title": "Vous êtes sur la page de jeu."
@@ -104,5 +105,33 @@
     "billing": "Facturation",
     "notifications": "Notifications",
     "logOut": "Se déconnecter"
+  },
+  "TranscriptionPanel": {
+    "title": "Transcription audio",
+    "description": "Convertissez vos fichiers audio en texte avec Whisper AI",
+    "audioFile": "Fichier audio",
+    "whisperModel": "Modèle Whisper",
+    "selectedFile": "Fichier sélectionné",
+    "selectedModel": "Modèle sélectionné",
+    "startTranscription": "Démarrer la transcription",
+    "transcribing": "Transcription en cours...",
+    "loadingWhisper": "Chargement de Whisper...",
+    "error": "Erreur",
+    "androidPlatformTitle": "Plateforme Android détectée",
+    "androidPlatformMessage": "La transcription vocale n'est pas encore disponible sur Android. Cette fonctionnalité n'est actuellement prise en charge que sur les plateformes de bureau.",
+    "transcriptionResults": "Résultats de transcription",
+    "segmentsFound": "segment",
+    "segmentsFoundPlural": "segments",
+    "found": "trouvé",
+    "errorSelectAudio": "Veuillez sélectionner un fichier audio",
+    "errorSelectModel": "Veuillez sélectionner un fichier modèle"
+  },
+  "AudioFilePicker": {
+    "label": "Sélectionner un fichier audio",
+    "chooseFile": "Choisir un fichier"
+  },
+  "ModelFilePicker": {
+    "label": "Sélectionner un modèle Whisper",
+    "chooseModel": "Choisir un modèle (.bin)"
   }
 }

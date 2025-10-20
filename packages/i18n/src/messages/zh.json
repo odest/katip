@@ -1,6 +1,7 @@
 {
   "HomePage": {
-    "title": "您在主页。"
+    "title": "您在主页。",
+    "description": "将您的音频转换为准确的文本转录"
   },
   "PlaygroundPage": {
     "title": "您在游乐场页面。"
@@ -104,5 +105,33 @@
     "billing": "账单",
     "notifications": "通知",
     "logOut": "退出登录"
+  },
+  "TranscriptionPanel": {
+    "title": "音频转录",
+    "description": "使用Whisper AI将您的音频文件转换为文本",
+    "audioFile": "音频文件",
+    "whisperModel": "Whisper模型",
+    "selectedFile": "选定的文件",
+    "selectedModel": "选定的模型",
+    "startTranscription": "开始转录",
+    "transcribing": "正在转录...",
+    "loadingWhisper": "正在加载Whisper...",
+    "error": "错误",
+    "androidPlatformTitle": "检测到Android平台",
+    "androidPlatformMessage": "语音转文本转录在Android上尚未可用。此功能目前仅在桌面平台上受支持。",
+    "transcriptionResults": "转录结果",
+    "segmentsFound": "段",
+    "segmentsFoundPlural": "段",
+    "found": "找到",
+    "errorSelectAudio": "请选择音频文件",
+    "errorSelectModel": "请选择模型文件"
+  },
+  "AudioFilePicker": {
+    "label": "选择音频文件",
+    "chooseFile": "选择文件"
+  },
+  "ModelFilePicker": {
+    "label": "选择Whisper模型",
+    "chooseModel": "选择模型 (.bin)"
   }
 }

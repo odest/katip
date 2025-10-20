@@ -6,29 +6,27 @@ import { open } from "@tauri-apps/plugin-dialog";
 import { Button } from "@workspace/ui/components/button";
 import { Label } from "@workspace/ui/components/label";
 
-export interface SelectedFileInfo {
+export interface SelectedModelInfo {
   path: string;
   webFile?: File;
 }
 
-interface AudioFilePickerProps {
-  onFileSelect: (file: SelectedFileInfo | null) => void;
+interface ModelFilePickerProps {
+  onModelSelect: (model: SelectedModelInfo | null) => void;
   disabled?: boolean;
-  accept?: string;
   label?: string;
   className?: string;
 }
 
-export function AudioFilePicker({
-  onFileSelect,
+export function ModelFilePicker({
+  onModelSelect,
   disabled = false,
-  accept = "audio/*,.m4a,.wav,.mp3,.flac,.aac,.ogg,.wma,.aiff,.ape,.opus",
-  label = "Select Audio File",
+  label = "Select Whisper Model",
   className,
-}: AudioFilePickerProps) {
+}: ModelFilePickerProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleSelectFile = async () => {
+  const handleSelectModel = async () => {
     try {
       if (isTauri()) {
         // Tauri - Native file picker
@@ -37,50 +35,35 @@ export function AudioFilePicker({
           directory: false,
           filters: [
             {
-              name: "Audio Files",
-              extensions: [
-                "m4a",
-                "wav",
-                "mp3",
-                "flac",
-                "aac",
-                "ogg",
-                "wma",
-                "aiff",
-                "ape",
-                "opus",
-              ],
+              name: "Whisper Model",
+              extensions: ["bin"],
             },
           ],
         });
 
         if (selected) {
-          const fileInfo: SelectedFileInfo = {
-            path: selected,
-          };
-
-          onFileSelect(fileInfo);
+          onModelSelect({ path: selected });
         }
       } else {
         // Web - HTML file input
         fileInputRef.current?.click();
       }
     } catch (err) {
-      console.error("Error selecting file:", err);
-      onFileSelect(null);
+      console.error("Error selecting model:", err);
+      onModelSelect(null);
     }
   };
 
-  const handleWebSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleWebFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const fileInfo: SelectedFileInfo = {
+      const modelInfo: SelectedModelInfo = {
         path: file.name,
         webFile: file,
       };
-      onFileSelect(fileInfo);
+      onModelSelect(modelInfo);
     } else {
-      onFileSelect(null);
+      onModelSelect(null);
     }
   };
 
@@ -89,20 +72,20 @@ export function AudioFilePicker({
       <input
         ref={fileInputRef}
         type="file"
-        accept={accept}
-        onChange={handleWebSelectFile}
+        accept=".bin"
+        onChange={handleWebFileSelect}
         className="hidden"
       />
 
       <div className="space-y-2">
         {label && <Label>{label}</Label>}
         <Button
-          onClick={handleSelectFile}
+          onClick={handleSelectModel}
           disabled={disabled}
           className="w-full"
           variant="outline"
         >
-          Choose File
+          Choose Model (.bin)
         </Button>
       </div>
     </div>

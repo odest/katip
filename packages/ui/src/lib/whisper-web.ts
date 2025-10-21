@@ -205,16 +205,6 @@ export class WebWhisperTranscriber {
             reject(new Error(`Transcription failed with code: ${ret}`));
             return;
           }
-
-          // Timeout after 60 seconds
-          setTimeout(() => {
-            if (!isComplete) {
-              this.outputCallback = null;
-              reject(
-                new Error("Transcription timeout - took longer than 60 seconds")
-              );
-            }
-          }, 60000);
         } catch (error) {
           this.outputCallback = null;
           reject(error);

@@ -1,6 +1,6 @@
 {
   "HomePage": {
-    "title": "您在主页。",
+    "title": "使用Whisper语音转文字",
     "description": "将您的音频转换为准确的文本转录"
   },
   "PlaygroundPage": {
@@ -125,6 +125,21 @@
     "found": "找到",
     "errorSelectAudio": "请选择音频文件",
     "errorSelectModel": "请选择模型文件"
+  },
+  "BrowserCapabilities": {
+    "checking": "检查中...",
+    "excellent": "优秀",
+    "good": "良好",
+    "limited": "有限",
+    "unsupported": "不支持",
+    "browserCapabilities": "浏览器功能",
+    "webAssembly": "Web Assembly",
+    "simd": "SIMD（并行处理）",
+    "threads": "多线程",
+    "sharedArrayBuffer": "共享内存",
+    "audioContext": "音频处理",
+    "offlineAudioContext": "离线音频处理",
+    "unsupportedMessage": "您的浏览器不支持所有必需的功能以实现最佳转录。"
   },
   "AudioFilePicker": {
     "label": "选择音频文件",

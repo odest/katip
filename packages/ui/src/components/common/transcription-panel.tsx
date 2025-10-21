@@ -13,6 +13,7 @@ import {
   ModelFilePicker,
   SelectedModelInfo,
 } from "@workspace/ui/components/common/model-file-picker";
+import { BrowserCapabilitiesBadge } from "@workspace/ui/components/common/browser-capabilities-badge";
 import { WebWhisperTranscriber } from "@workspace/ui/lib/whisper-web";
 import { Button } from "@workspace/ui/components/button";
 import {
@@ -42,6 +43,8 @@ export function TranscriptionPanel() {
   );
   const [isAndroid, setIsAndroid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isTauriApp, setIsTauriApp] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   // Web-specific states
   const whisperRef = useRef<WebWhisperTranscriber | null>(null);
@@ -82,9 +85,17 @@ export function TranscriptionPanel() {
     }
   }, [transcription]);
 
+  // Client-side only check for Tauri
   useEffect(() => {
+    setIsClient(true);
+    setIsTauriApp(isTauri());
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
     const checkPlatform = async () => {
-      const isTauriRuntime = isTauri();
+      const isTauriRuntime = isTauriApp;
 
       if (isTauriRuntime) {
         try {
@@ -106,11 +117,11 @@ export function TranscriptionPanel() {
 
     // Cleanup on unmount
     return () => {
-      if (whisperRef.current && !isTauri()) {
+      if (whisperRef.current && !isTauriApp) {
         whisperRef.current.cleanup?.();
       }
     };
-  }, []);
+  }, [isClient, isTauriApp]);
 
   const initializeWebWhisper = async () => {
     try {
@@ -131,7 +142,7 @@ export function TranscriptionPanel() {
   // When modelFile changes, load it into Whisper (Web only)
   useEffect(() => {
     const loadWebModel = async () => {
-      if (!isTauri() && modelFile?.webFile && whisperRef.current) {
+      if (!isTauriApp && modelFile?.webFile && whisperRef.current) {
         try {
           setIsLoading(true);
           await whisperRef.current.loadModelFile(modelFile.webFile);
@@ -146,7 +157,7 @@ export function TranscriptionPanel() {
     };
 
     loadWebModel();
-  }, [modelFile]);
+  }, [modelFile, isTauriApp]);
 
   const handleTranscribe = async () => {
     if (!audioFile) {
@@ -164,7 +175,7 @@ export function TranscriptionPanel() {
       setError(null);
       setTranscription([]);
 
-      if (isTauri()) {
+      if (isTauriApp) {
         // Tauri - Rust backend
         const result = await invoke<TranscriptionSegment[]>(
           "transcribe_audio",
@@ -218,15 +229,20 @@ export function TranscriptionPanel() {
     modelFile &&
     !isTranscribing &&
     !isAndroid &&
-    (isTauri() || isWhisperReady);
+    (isTauriApp || isWhisperReady);
 
   return (
     <div className="w-full h-full overflow-hidden flex flex-col">
       <div className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>{t("title")}</CardTitle>
-            <CardDescription>{t("description")}</CardDescription>
+            <div className="flex items-start justify-between gap-4">
+              <div className="space-y-1.5">
+                <CardTitle>{t("title")}</CardTitle>
+                <CardDescription>{t("description")}</CardDescription>
+              </div>
+              {isClient && !isTauriApp && <BrowserCapabilitiesBadge />}
+            </div>
           </CardHeader>
           <CardContent className="space-y-6">
             {isAndroid && (

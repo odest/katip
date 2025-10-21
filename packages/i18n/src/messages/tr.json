@@ -1,6 +1,6 @@
 {
   "HomePage": {
-    "title": "Ana Sayfadasınız.",
+    "title": "Whisper ile Konuşmadan Metne",
     "description": "Ses dosyalarınızı doğru metin dökümlerine dönüştürün"
   },
   "PlaygroundPage": {
@@ -125,6 +125,21 @@
     "found": "bulundu",
     "errorSelectAudio": "Lütfen bir ses dosyası seçin",
     "errorSelectModel": "Lütfen bir model dosyası seçin"
+  },
+  "BrowserCapabilities": {
+    "checking": "Kontrol ediliyor...",
+    "excellent": "Mükemmel",
+    "good": "İyi",
+    "limited": "Sınırlı",
+    "unsupported": "Desteklenmiyor",
+    "browserCapabilities": "Tarayıcı Yetenekleri",
+    "webAssembly": "Web Assembly",
+    "simd": "SIMD (Paralel İşlem)",
+    "threads": "Çoklu İş Parçacığı",
+    "sharedArrayBuffer": "Paylaşımlı Bellek",
+    "audioContext": "Ses İşleme",
+    "offlineAudioContext": "Çevrimdışı Ses İşleme",
+    "unsupportedMessage": "Tarayıcınız optimal döküm için gerekli tüm özellikleri desteklemiyor."
   },
   "AudioFilePicker": {
     "label": "Ses Dosyası Seç",

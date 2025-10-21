@@ -1,7 +1,7 @@
 {
   "HomePage": {
-    "title": "ホームページにいます。",
-    "description": "音声を正確なテキスト文字起こしに変換します"
+    "title": "Whisperで音声からテキストへ",
+    "description": "音声を正確なテキスト文字起こしに変換"
   },
   "PlaygroundPage": {
     "title": "プレイグラウンドページにいます。"
@@ -125,6 +125,21 @@
     "found": "が見つかりました",
     "errorSelectAudio": "音声ファイルを選択してください",
     "errorSelectModel": "モデルファイルを選択してください"
+  },
+  "BrowserCapabilities": {
+    "checking": "確認中...",
+    "excellent": "優秀",
+    "good": "良好",
+    "limited": "限定的",
+    "unsupported": "未対応",
+    "browserCapabilities": "ブラウザの機能",
+    "webAssembly": "Web Assembly",
+    "simd": "SIMD（並列処理）",
+    "threads": "マルチスレッド",
+    "sharedArrayBuffer": "共有メモリ",
+    "audioContext": "音声処理",
+    "offlineAudioContext": "オフライン音声処理",
+    "unsupportedMessage": "お使いのブラウザは最適な文字起こしに必要なすべての機能をサポートしていません。"
   },
   "AudioFilePicker": {
     "label": "音声ファイルを選択",

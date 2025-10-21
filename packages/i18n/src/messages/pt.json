@@ -1,6 +1,6 @@
 {
   "HomePage": {
-    "title": "Você está na página inicial.",
+    "title": "Voz para Texto com Whisper",
     "description": "Transforme seu áudio em transcrições de texto precisas"
   },
   "PlaygroundPage": {
@@ -125,6 +125,21 @@
     "found": "encontrado",
     "errorSelectAudio": "Por favor, selecione um arquivo de áudio",
     "errorSelectModel": "Por favor, selecione um arquivo de modelo"
+  },
+  "BrowserCapabilities": {
+    "checking": "Verificando...",
+    "excellent": "Excelente",
+    "good": "Bom",
+    "limited": "Limitado",
+    "unsupported": "Não suportado",
+    "browserCapabilities": "Capacidades do navegador",
+    "webAssembly": "Web Assembly",
+    "simd": "SIMD (Processamento Paralelo)",
+    "threads": "Multiprocessamento",
+    "sharedArrayBuffer": "Memória Compartilhada",
+    "audioContext": "Processamento de Áudio",
+    "offlineAudioContext": "Processamento de Áudio Offline",
+    "unsupportedMessage": "Seu navegador não suporta todos os recursos necessários para transcrição ideal."
   },
   "AudioFilePicker": {
     "label": "Selecionar arquivo de áudio",

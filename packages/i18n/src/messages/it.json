@@ -1,7 +1,7 @@
 {
   "HomePage": {
-    "title": "Sei nella pagina iniziale.",
-    "description": "Trasforma il tuo audio in trascrizioni testuali accurate"
+    "title": "Voce a Testo con Whisper",
+    "description": "Trasforma il tuo audio in trascrizioni di testo accurate"
   },
   "PlaygroundPage": {
     "title": "Sei nella pagina playground."
@@ -125,6 +125,21 @@
     "found": "trovato",
     "errorSelectAudio": "Seleziona un file audio",
     "errorSelectModel": "Seleziona un file modello"
+  },
+  "BrowserCapabilities": {
+    "checking": "Controllo...",
+    "excellent": "Eccellente",
+    "good": "Buono",
+    "limited": "Limitato",
+    "unsupported": "Non supportato",
+    "browserCapabilities": "Capacità del browser",
+    "webAssembly": "Web Assembly",
+    "simd": "SIMD (Elaborazione Parallela)",
+    "threads": "Multithreading",
+    "sharedArrayBuffer": "Memoria Condivisa",
+    "audioContext": "Elaborazione Audio",
+    "offlineAudioContext": "Elaborazione Audio Offline",
+    "unsupportedMessage": "Il tuo browser non supporta tutte le funzionalità necessarie per una trascrizione ottimale."
   },
   "AudioFilePicker": {
     "label": "Seleziona file audio",

@@ -1,6 +1,6 @@
 {
   "HomePage": {
-    "title": "You are on the Home Page.",
+    "title": "Speech-to-Text with Whisper",
     "description": "Transform your audio into accurate text transcriptions"
   },
   "PlaygroundPage": {
@@ -125,6 +125,21 @@
     "found": "found",
     "errorSelectAudio": "Please select an audio file",
     "errorSelectModel": "Please select a model file"
+  },
+  "BrowserCapabilities": {
+    "checking": "Checking...",
+    "excellent": "Excellent",
+    "good": "Good",
+    "limited": "Limited",
+    "unsupported": "Unsupported",
+    "browserCapabilities": "Browser Capabilities",
+    "webAssembly": "Web Assembly",
+    "simd": "SIMD (Parallel Processing)",
+    "threads": "Multithreading",
+    "sharedArrayBuffer": "Shared Memory",
+    "audioContext": "Audio Processing",
+    "offlineAudioContext": "Offline Audio Processing",
+    "unsupportedMessage": "Your browser doesn't support all required features for optimal transcription."
   },
   "AudioFilePicker": {
     "label": "Select Audio File",

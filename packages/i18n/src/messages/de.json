@@ -1,6 +1,6 @@
 {
   "HomePage": {
-    "title": "Sie befinden sich auf der Startseite.",
+    "title": "Sprache-zu-Text mit Whisper",
     "description": "Verwandeln Sie Ihre Audiodateien in präzise Texttranskriptionen"
   },
   "PlaygroundPage": {
@@ -125,6 +125,21 @@
     "found": "gefunden",
     "errorSelectAudio": "Bitte wählen Sie eine Audiodatei aus",
     "errorSelectModel": "Bitte wählen Sie eine Modelldatei aus"
+  },
+  "BrowserCapabilities": {
+    "checking": "Überprüfen...",
+    "excellent": "Ausgezeichnet",
+    "good": "Gut",
+    "limited": "Begrenzt",
+    "unsupported": "Nicht unterstützt",
+    "browserCapabilities": "Browser-Funktionen",
+    "webAssembly": "Web Assembly",
+    "simd": "SIMD (Parallele Verarbeitung)",
+    "threads": "Mehrfädigkeit",
+    "sharedArrayBuffer": "Gemeinsamer Speicher",
+    "audioContext": "Audio-Verarbeitung",
+    "offlineAudioContext": "Offline-Audio-Verarbeitung",
+    "unsupportedMessage": "Ihr Browser unterstützt nicht alle erforderlichen Funktionen für optimale Transkription."
   },
   "AudioFilePicker": {
     "label": "Audiodatei auswählen",

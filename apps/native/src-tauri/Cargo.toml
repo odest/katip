@@ -27,8 +27,12 @@ tauri-plugin-fs = "2"
 tauri-plugin-os = "2"
 
 [target.'cfg(not(target_os = "android"))'.dependencies]
-whisper-rs = "0.15"
+# Using git version for better Vulkan support
+whisper-rs = { git = "https://github.com/thewh1teagle/whisper-rs.git", features = ["whisper-cpp-tracing"], default-features = false, branch = "dev" }
 hound = "3.5"
+
+[target.'cfg(windows)'.dependencies]
+ash = { version = "0.38.0", optional = true }
 
 [features]
 # by default Tauri runs in production mode
@@ -37,3 +41,4 @@ default = [ "custom-protocol" ]
 # this feature is used used for production builds where `devPath` points to the filesystem
 # DO NOT remove this
 custom-protocol = [ "tauri/custom-protocol" ]
+vulkan = ["whisper-rs/vulkan", "dep:ash"]

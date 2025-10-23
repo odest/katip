@@ -38,6 +38,7 @@ Available as a web app, desktop app (Windows, macOS, Linux), and mobile app (And
 - 💻 **Cross-platform** - Web, desktop, and mobile apps
 - 🎨 **Modern UI** - Clean interface with dark mode support
 - 🔒 **Open Source** - Fully transparent and customizable
+- ⚡ **GPU Acceleration** - Vulkan support for faster transcription
 
 ## Quick Start
 
@@ -70,7 +71,11 @@ pnpm dev
 **Desktop App:**
 
 ```bash
+# CPU-only (default)
 pnpm tauri dev
+
+# With Vulkan GPU acceleration (recommended for AMD/NVIDIA GPUs)
+pnpm tauri dev -- --features vulkan
 ```
 
 **Web App:**
@@ -82,7 +87,11 @@ pnpm --filter web dev
 **Build for Production:**
 
 ```bash
+# CPU-only build
 pnpm build
+
+# Desktop with GPU acceleration
+pnpm tauri build -- --features vulkan
 ```
 
 ## How It Works

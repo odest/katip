@@ -24,10 +24,10 @@ jobs:
             args: "--target x86_64-apple-darwin"
           - platform: "ubuntu-22.04"
             rust_targets: ""
-            args: ""
+            args: "--features vulkan"
           - platform: "windows-latest"
             rust_targets: ""
-            args: ""
+            args: "--features vulkan"
 
     steps:
       - name: Checkout
@@ -38,6 +38,84 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - name: Setup Vulkan SDK for Ubuntu
+        if: ${{ matrix.platform == 'ubuntu-22.04' }}
+        run: |
+          echo "Installing Vulkan SDK for Ubuntu..."
+          wget -qO- https://packages.lunarg.com/lunarg-signing-key-pub.asc | sudo tee /etc/apt/trusted.gpg.d/lunarg.asc
+          sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-1.3.290-jammy.list https://packages.lunarg.com/vulkan/1.3.290/lunarg-vulkan-1.3.290-jammy.list
+          sudo apt update
+          sudo apt install vulkan-sdk -y
+          sudo apt-get install -y mesa-vulkan-drivers
+
+          # Set VULKAN_SDK environment variable
+          echo "VULKAN_SDK=/usr" >> $GITHUB_ENV
+
+          echo "✓ Vulkan SDK installed"
+          # Verify installation
+          vulkaninfo --summary || echo "⚠ vulkaninfo not available (expected in CI)"
+
+      - name: Setup Vulkan SDK for Windows
+        if: ${{ matrix.platform == 'windows-latest' }}
+        run: |
+          Write-Host "Setting up Vulkan SDK for Windows..."
+          $ProgressPreference = 'SilentlyContinue'
+
+          # Use absolute paths from the start
+          $workDir = Join-Path $PWD "apps\native\src-tauri"
+          $vulkanSdkName = "VulkanSDK-1.3.290.0-Installer"
+          $vulkanUrl = "https://sdk.lunarg.com/sdk/download/1.3.290.0/windows/$vulkanSdkName.exe"
+          $vulkanSdkRoot = Join-Path $workDir "vulkan_sdk"
+
+          Write-Host "Working directory: $workDir"
+          Write-Host "Target SDK path: $vulkanSdkRoot"
+
+          # Download Vulkan SDK
+          Write-Host "Downloading Vulkan SDK..."
+          $installerPath = Join-Path $workDir "$vulkanSdkName.exe"
+          Invoke-WebRequest -Uri $vulkanUrl -OutFile $installerPath
+          Write-Host "✓ Downloaded to: $installerPath"
+
+          # Install to local directory with absolute path
+          Write-Host "Installing Vulkan SDK to local directory..."
+
+          # Run installer with absolute path
+          & $installerPath --root $vulkanSdkRoot --accept-licenses --default-answer --confirm-command install copy_only=1
+
+          # Check if installation was successful
+          if (Test-Path $vulkanSdkRoot) {
+            Write-Host "✓ Vulkan SDK extracted to: $vulkanSdkRoot"
+          } else {
+            Write-Host "⚠ ERROR: Vulkan SDK directory not created!"
+            Write-Host "Listing work directory contents:"
+            Get-ChildItem $workDir | Select-Object Name
+            exit 1
+          }
+
+          # Set environment variables
+          Write-Host "Setting VULKAN_SDK=$vulkanSdkRoot"
+          echo "VULKAN_SDK=$vulkanSdkRoot" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          echo "$vulkanSdkRoot\Bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+          # Cleanup installer
+          Remove-Item $installerPath -Force
+
+          # Verify
+          $glslcPath = Join-Path $vulkanSdkRoot "Bin\glslc.exe"
+          if (Test-Path $glslcPath) {
+            Write-Host "✓ glslc.exe found at: $glslcPath"
+          } else {
+            Write-Host "⚠ WARNING: glslc.exe not found!"
+            Write-Host "Listing Bin directory:"
+            $binDir = Join-Path $vulkanSdkRoot "Bin"
+            if (Test-Path $binDir) {
+              Get-ChildItem $binDir | Select-Object Name
+            } else {
+              Write-Host "Bin directory does not exist!"
+            }
+          }
+        shell: pwsh
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4

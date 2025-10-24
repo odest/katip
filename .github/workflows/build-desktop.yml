@@ -153,6 +153,9 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GGML_I8MM: ${{ matrix.platform == 'macos-latest' && 'OFF' || '' }}
+          MACOSX_DEPLOYMENT_TARGET: ${{ matrix.platform == 'macos-latest' && '10.15' || '' }}
+          RUST_BACKTRACE: ${{ matrix.platform == 'macos-latest' && '1' || '' }}
         with:
           tagName: ${{ inputs.tag_name }}
           releaseName: ${{ inputs.tag_name }}

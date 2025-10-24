@@ -57,9 +57,71 @@ jobs:
 
       - name: Build Tauri Desktop App
         env:
-          GGML_I8MM: 'OFF'
-          MACOSX_DEPLOYMENT_TARGET: '10.15'
+          GGML_I8MM: "OFF"
+          MACOSX_DEPLOYMENT_TARGET: "10.15"
           RUST_BACKTRACE: 1
         run: |
+          echo "🔨 Starting macOS build for ${{ matrix.rust_targets }}..."
           cd apps/native
-          pnpm tauri build --verbose ${{ matrix.args }}
+
+          # Create logs directory
+          mkdir -p ../../build-logs
+
+          # Run build and capture all output
+          echo "Running: pnpm tauri build --verbose ${{ matrix.args }}"
+          pnpm tauri build --verbose ${{ matrix.args }} 2>&1 | tee "../../build-logs/build-${{ matrix.rust_targets }}.log"
+
+          # Capture exit code
+          BUILD_EXIT_CODE=${PIPESTATUS[0]}
+
+          echo "Build exit code: $BUILD_EXIT_CODE"
+
+          # Save system info
+          echo "=== System Information ===" > "../../build-logs/system-info-${{ matrix.rust_targets }}.log"
+          echo "Architecture: ${{ matrix.rust_targets }}" >> "../../build-logs/system-info-${{ matrix.rust_targets }}.log"
+          echo "macOS Version: $(sw_vers -productVersion)" >> "../../build-logs/system-info-${{ matrix.rust_targets }}.log"
+          echo "Xcode Version: $(xcodebuild -version 2>&1 | head -n 1)" >> "../../build-logs/system-info-${{ matrix.rust_targets }}.log"
+          echo "Rust Version: $(rustc --version)" >> "../../build-logs/system-info-${{ matrix.rust_targets }}.log"
+          echo "Cargo Version: $(cargo --version)" >> "../../build-logs/system-info-${{ matrix.rust_targets }}.log"
+          echo "Node Version: $(node --version)" >> "../../build-logs/system-info-${{ matrix.rust_targets }}.log"
+          echo "pnpm Version: $(pnpm --version)" >> "../../build-logs/system-info-${{ matrix.rust_targets }}.log"
+
+          # Exit with original build exit code
+          exit $BUILD_EXIT_CODE
+
+      - name: Upload Build Logs (Always run)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-build-logs-${{ matrix.rust_targets }}
+          path: |
+            build-logs/*.log
+          retention-days: 7
+
+      - name: Upload Build Artifacts (Only on success)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: katip-macos-${{ matrix.rust_targets }}
+          path: |
+            apps/native/src-tauri/target/${{ matrix.rust_targets }}/release/bundle/**/*
+          retention-days: 7
+
+      - name: Build Summary
+        if: always()
+        run: |
+          if [ $? -eq 0 ]; then
+            echo "### ✅ Build Successful!" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Platform:** macOS" >> $GITHUB_STEP_SUMMARY
+            echo "**Architecture:** ${{ matrix.rust_targets }}" >> $GITHUB_STEP_SUMMARY
+            echo "**Status:** Build completed successfully" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ❌ Build Failed!" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Platform:** macOS" >> $GITHUB_STEP_SUMMARY
+            echo "**Architecture:** ${{ matrix.rust_targets }}" >> $GITHUB_STEP_SUMMARY
+            echo "**Status:** Build failed - check logs artifact" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "📋 Download \`macos-build-logs-${{ matrix.rust_targets }}\` artifact for full error details" >> $GITHUB_STEP_SUMMARY
+          fi

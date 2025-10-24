@@ -3,50 +3,9 @@
     "title": "Voce a Testo con Whisper",
     "description": "Trasforma il tuo audio in trascrizioni di testo accurate"
   },
-  "PlaygroundPage": {
-    "title": "Sei nella pagina playground."
-  },
-  "DocsPage": {
-    "title": "Sei nella pagina della documentazione."
-  },
-  "ModelsPage": {
-    "title": "Sei nella pagina dei modelli."
-  },
-  "SupportPage": {
-    "title": "Sei nella pagina di supporto."
-  },
-  "FeedbackPage": {
-    "title": "Sei nella pagina dei feedback."
-  },
   "SettingsPage": {
     "title": "Impostazioni",
     "description": "Gestisci le preferenze della tua applicazione e personalizza la tua esperienza."
-  },
-  "QuantumPage": {
-    "title": "Sei nella pagina Quantistica."
-  },
-  "StarredPage": {
-    "title": "Sei nella pagina dei preferiti."
-  },
-  "ExplorerPage": {
-    "title": "Sei nella pagina dell'esploratore."
-  },
-  "IntroPage": {
-    "title": "Sei nella pagina di introduzione."
-  },
-  "HistoryPage": {
-    "title": "Sei nella pagina della cronologia."
-  },
-  "TutorialsPage": {
-    "title": "Sei nella pagina dei tutorial."
-  },
-  "GenesisPage": {
-    "title": "Sei nella pagina Genesi."
-  },
-  "Greet": {
-    "placeholder": "Inserisci un nome...",
-    "button": "Saluta",
-    "error": "Si è verificato un errore. Per favore riprova."
   },
   "LanguageCard": {
     "title": "Lingua",
@@ -79,32 +38,8 @@
   },
   "Navigation": {
     "home": "Home",
-    "playground": "Playground",
-    "models": "Modelli",
-    "docs": "Documentazione",
-    "support": "Supporto",
-    "feedback": "Feedback",
     "settings": "Impostazioni",
-    "history": "Cronologia",
-    "starred": "Preferiti",
-    "genesis": "Genesi",
-    "explorer": "Esploratore",
-    "quantum": "Quantistica",
-    "intro": "Introduzione",
-    "tutorials": "Tutorial",
-    "platform": "Piattaforma",
-    "projects": "Progetti",
-    "designEngineering": "Ingegneria del design",
-    "salesMarketing": "Vendite e marketing",
-    "viewProject": "Visualizza progetto",
-    "shareProject": "Condividi progetto",
-    "deleteProject": "Elimina progetto",
-    "more": "Altro",
-    "upgradeToPro": "Aggiorna a Pro",
-    "account": "Account",
-    "billing": "Fatturazione",
-    "notifications": "Notifiche",
-    "logOut": "Esci"
+    "platform": "Piattaforma"
   },
   "TranscriptionPanel": {
     "title": "Trascrizione audio",

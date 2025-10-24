@@ -3,50 +3,9 @@
     "title": "Whisperで音声からテキストへ",
     "description": "音声を正確なテキスト文字起こしに変換"
   },
-  "PlaygroundPage": {
-    "title": "プレイグラウンドページにいます。"
-  },
-  "DocsPage": {
-    "title": "ドキュメントページにいます。"
-  },
-  "ModelsPage": {
-    "title": "モデルページにいます。"
-  },
-  "SupportPage": {
-    "title": "サポートページにいます。"
-  },
-  "FeedbackPage": {
-    "title": "フィードバックページにいます。"
-  },
   "SettingsPage": {
     "title": "設定",
     "description": "アプリケーションの設定を管理し、体験をカスタマイズします。"
-  },
-  "QuantumPage": {
-    "title": "量子ページにいます。"
-  },
-  "StarredPage": {
-    "title": "お気に入りページにいます。"
-  },
-  "ExplorerPage": {
-    "title": "エクスプローラーページにいます。"
-  },
-  "IntroPage": {
-    "title": "紹介ページにいます。"
-  },
-  "HistoryPage": {
-    "title": "履歴ページにいます。"
-  },
-  "TutorialsPage": {
-    "title": "チュートリアルページにいます。"
-  },
-  "GenesisPage": {
-    "title": "創世記ページにいます。"
-  },
-  "Greet": {
-    "placeholder": "名前を入力してください...",
-    "button": "挨拶する",
-    "error": "エラーが発生しました。もう一度お試しください。"
   },
   "LanguageCard": {
     "title": "言語",
@@ -79,32 +38,8 @@
   },
   "Navigation": {
     "home": "ホーム",
-    "playground": "プレイグラウンド",
-    "models": "モデル",
-    "docs": "ドキュメント",
-    "support": "サポート",
-    "feedback": "フィードバック",
     "settings": "設定",
-    "history": "履歴",
-    "starred": "お気に入り",
-    "genesis": "創世記",
-    "explorer": "エクスプローラー",
-    "quantum": "量子",
-    "intro": "紹介",
-    "tutorials": "チュートリアル",
-    "platform": "プラットフォーム",
-    "projects": "プロジェクト",
-    "designEngineering": "デザインエンジニアリング",
-    "salesMarketing": "営業とマーケティング",
-    "viewProject": "プロジェクトを表示",
-    "shareProject": "プロジェクトを共有",
-    "deleteProject": "プロジェクトを削除",
-    "more": "もっと見る",
-    "upgradeToPro": "Proにアップグレード",
-    "account": "アカウント",
-    "billing": "請求",
-    "notifications": "通知",
-    "logOut": "ログアウト"
+    "platform": "プラットフォーム"
   },
   "TranscriptionPanel": {
     "title": "音声文字起こし",

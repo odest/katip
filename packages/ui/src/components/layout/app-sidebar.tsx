@@ -6,13 +6,10 @@ import { ComponentType } from "react";
 import { Biohazard } from "lucide-react";
 
 import { MainNav } from "@workspace/ui/components/navigation/main-nav";
-import { ProjectsNav } from "@workspace/ui/components/navigation/projects-nav";
 import { SecondaryNav } from "@workspace/ui/components/navigation/secondary-nav";
-import { UserNav } from "@workspace/ui/components/navigation/user-nav";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -63,7 +60,7 @@ export function AppSidebar({
             >
               <LinkComponent href="/" onClick={handleLinkClick}>
                 <Biohazard className="!size-5" />
-                <span className="text-base font-semibold">TNT</span>
+                <span className="text-base font-semibold">Katip</span>
               </LinkComponent>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -75,11 +72,6 @@ export function AppSidebar({
           pathname={pathname}
           LinkComponent={LinkComponent}
         />
-        <ProjectsNav
-          projects={navigationData.projects}
-          pathname={pathname}
-          LinkComponent={LinkComponent}
-        />
         <SecondaryNav
           items={navigationData.navSecondary}
           pathname={pathname}
@@ -87,9 +79,6 @@ export function AppSidebar({
           className="mt-auto"
         />
       </SidebarContent>
-      <SidebarFooter>
-        <UserNav user={navigationData.user} />
-      </SidebarFooter>
     </Sidebar>
   );
 }

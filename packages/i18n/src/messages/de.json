@@ -3,50 +3,9 @@
     "title": "Sprache-zu-Text mit Whisper",
     "description": "Verwandeln Sie Ihre Audiodateien in präzise Texttranskriptionen"
   },
-  "PlaygroundPage": {
-    "title": "Sie befinden sich auf der Spielplatz-Seite."
-  },
-  "DocsPage": {
-    "title": "Sie befinden sich auf der Dokumentationsseite."
-  },
-  "ModelsPage": {
-    "title": "Sie befinden sich auf der Modelle-Seite."
-  },
-  "SupportPage": {
-    "title": "Sie befinden sich auf der Support-Seite."
-  },
-  "FeedbackPage": {
-    "title": "Sie befinden sich auf der Feedback-Seite."
-  },
   "SettingsPage": {
     "title": "Einstellungen",
     "description": "Verwalten Sie Ihre Anwendungseinstellungen und passen Sie Ihre Erfahrung an."
-  },
-  "QuantumPage": {
-    "title": "Sie befinden sich auf der Quanten-Seite."
-  },
-  "StarredPage": {
-    "title": "Sie befinden sich auf der Favoriten-Seite."
-  },
-  "ExplorerPage": {
-    "title": "Sie befinden sich auf der Explorer-Seite."
-  },
-  "IntroPage": {
-    "title": "Sie befinden sich auf der Einführungsseite."
-  },
-  "HistoryPage": {
-    "title": "Sie befinden sich auf der Verlaufsseite."
-  },
-  "TutorialsPage": {
-    "title": "Sie befinden sich auf der Tutorials-Seite."
-  },
-  "GenesisPage": {
-    "title": "Sie befinden sich auf der Entstehungs-Seite."
-  },
-  "Greet": {
-    "placeholder": "Geben Sie einen Namen ein...",
-    "button": "Begrüßen",
-    "error": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
   },
   "LanguageCard": {
     "title": "Sprache",
@@ -79,32 +38,8 @@
   },
   "Navigation": {
     "home": "Startseite",
-    "playground": "Spielplatz",
-    "models": "Modelle",
-    "docs": "Dokumentation",
-    "support": "Support",
-    "feedback": "Feedback",
     "settings": "Einstellungen",
-    "history": "Verlauf",
-    "starred": "Favoriten",
-    "genesis": "Entstehung",
-    "explorer": "Explorer",
-    "quantum": "Quanten",
-    "intro": "Einführung",
-    "tutorials": "Tutorials",
-    "platform": "Plattform",
-    "projects": "Projekte",
-    "designEngineering": "Design-Engineering",
-    "salesMarketing": "Vertrieb und Marketing",
-    "viewProject": "Projekt anzeigen",
-    "shareProject": "Projekt teilen",
-    "deleteProject": "Projekt löschen",
-    "more": "Mehr",
-    "upgradeToPro": "Auf Pro upgraden",
-    "account": "Konto",
-    "billing": "Abrechnung",
-    "notifications": "Benachrichtigungen",
-    "logOut": "Abmelden"
+    "platform": "Plattform"
   },
   "TranscriptionPanel": {
     "title": "Audio-Transkription",

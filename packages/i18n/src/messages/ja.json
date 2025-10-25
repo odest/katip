@@ -83,5 +83,12 @@
   "ModelFilePicker": {
     "label": "Whisperモデルを選択",
     "chooseModel": "モデルを選択 (.bin)"
+  },
+  "FileUploadCard": {
+    "dragAndDrop": "ファイルをここにドラッグ＆ドロップ",
+    "orClickToBrowse": "またはクリックして参照",
+    "browseFiles": "ファイルを参照",
+    "fileUploaded": "ファイルが正常にアップロードされました",
+    "fileRejected": "ファイルが拒否されました"
   }
 }

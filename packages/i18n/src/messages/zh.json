@@ -83,5 +83,12 @@
   "ModelFilePicker": {
     "label": "选择Whisper模型",
     "chooseModel": "选择模型 (.bin)"
+  },
+  "FileUploadCard": {
+    "dragAndDrop": "拖放文件到这里",
+    "orClickToBrowse": "或点击浏览",
+    "browseFiles": "浏览文件",
+    "fileUploaded": "文件上传成功",
+    "fileRejected": "文件被拒绝"
   }
 }

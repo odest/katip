@@ -1,6 +1,6 @@
 import { useTranslations } from "@workspace/i18n";
 import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
-import { TranscriptionPanel } from "@workspace/ui/components/common/transcription-panel";
+import { FileUploadCard } from "@workspace/ui/components/common/file-upload-card";
 
 export function HomePage() {
   const t = useTranslations("HomePage");
@@ -15,7 +15,7 @@ export function HomePage() {
               {t("description")}
             </p>
           </div>
-          <TranscriptionPanel />
+          <FileUploadCard />
         </div>
       </div>
       <ScrollBar orientation="vertical" />

@@ -5,6 +5,7 @@ import { AppLayout } from "./components/AppLayout";
 import { themeInitScript } from "@workspace/ui/scripts/theme-init";
 import { NextIntlClientProvider, hasLocale } from "@workspace/i18n";
 import { routing } from "@workspace/i18n/routing";
+import { Toaster } from "@workspace/ui/components/sonner";
 import "@workspace/ui/globals.css";
 
 const fontSans = Geist({
@@ -50,6 +51,7 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider>
           <AppLayout>{children}</AppLayout>
+          <Toaster richColors />
         </NextIntlClientProvider>
       </body>
     </html>

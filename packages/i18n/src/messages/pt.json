@@ -83,5 +83,12 @@
   "ModelFilePicker": {
     "label": "Selecionar modelo Whisper",
     "chooseModel": "Escolher modelo (.bin)"
+  },
+  "FileUploadCard": {
+    "dragAndDrop": "Arraste e solte arquivos aqui",
+    "orClickToBrowse": "Ou clique para navegar",
+    "browseFiles": "Navegar arquivos",
+    "fileUploaded": "Arquivo carregado com sucesso",
+    "fileRejected": "Arquivo rejeitado"
   }
 }

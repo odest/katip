@@ -83,5 +83,12 @@
   "ModelFilePicker": {
     "label": "Whisper Modeli Seç",
     "chooseModel": "Model Seç (.bin)"
+  },
+  "FileUploadCard": {
+    "dragAndDrop": "Dosyaları buraya sürükleyip bırakın",
+    "orClickToBrowse": "Veya göz atmak için tıklayın",
+    "browseFiles": "Dosyalara göz at",
+    "fileUploaded": "Dosya başarıyla yüklendi",
+    "fileRejected": "Dosya reddedildi"
   }
 }

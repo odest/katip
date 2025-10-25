@@ -90,5 +90,17 @@
     "browseFiles": "Explorar archivos",
     "fileUploaded": "Archivo subido exitosamente",
     "fileRejected": "Archivo rechazado"
+  },
+  "ModelSelectCard": {
+    "title": "Selección de modelo Whisper",
+    "description": "Selecciona un modelo Whisper para usar en la transcripción",
+    "modelPath": "Ruta del modelo",
+    "selectModelPath": "Seleccionar ruta del modelo",
+    "modelPathPlaceholder": "No se ha seleccionado ruta del modelo",
+    "selectModel": "Seleccionar modelo",
+    "selectModelPlaceholder": "Elige un archivo de modelo .bin",
+    "noModelsFound": "No se encontraron modelos .bin en la ruta seleccionada",
+    "modelSelected": "Modelo seleccionado",
+    "pathRequired": "Por favor, selecciona primero la ruta del modelo"
   }
 }

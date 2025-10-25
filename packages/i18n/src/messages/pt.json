@@ -87,8 +87,20 @@
   "FileUploadCard": {
     "dragAndDrop": "Arraste e solte arquivos aqui",
     "orClickToBrowse": "Ou clique para navegar",
-    "browseFiles": "Navegar arquivos",
+    "browseFiles": "Procurar arquivos",
     "fileUploaded": "Arquivo carregado com sucesso",
     "fileRejected": "Arquivo rejeitado"
+  },
+  "ModelSelectCard": {
+    "title": "Seleção de modelo Whisper",
+    "description": "Selecione um modelo Whisper para usar na transcrição",
+    "modelPath": "Caminho do modelo",
+    "selectModelPath": "Selecionar caminho do modelo",
+    "modelPathPlaceholder": "Nenhum caminho de modelo selecionado",
+    "selectModel": "Selecionar modelo",
+    "selectModelPlaceholder": "Escolha um arquivo de modelo .bin",
+    "noModelsFound": "Nenhum modelo .bin encontrado no caminho selecionado",
+    "modelSelected": "Modelo selecionado",
+    "pathRequired": "Por favor, selecione primeiro o caminho do modelo"
   }
 }

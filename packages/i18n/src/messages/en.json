@@ -90,5 +90,17 @@
     "browseFiles": "Browse files",
     "fileUploaded": "File uploaded successfully",
     "fileRejected": "File rejected"
+  },
+  "ModelSelectCard": {
+    "title": "Whisper Model Selection",
+    "description": "Select a Whisper model to use for transcription",
+    "modelPath": "Model Path",
+    "selectModelPath": "Select Model Path",
+    "modelPathPlaceholder": "No model path selected",
+    "selectModel": "Select Model",
+    "selectModelPlaceholder": "Choose a .bin model file",
+    "noModelsFound": "No .bin models found in the selected path",
+    "modelSelected": "Model selected",
+    "pathRequired": "Please select a model path first"
   }
 }

@@ -1,6 +1,7 @@
 import { useTranslations } from "@workspace/i18n";
 import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
 import { FileUploadCard } from "@workspace/ui/components/common/file-upload-card";
+import { ModelSelectCard } from "@workspace/ui/components/common/model-select-card";
 
 export function HomePage() {
   const t = useTranslations("HomePage");
@@ -16,6 +17,7 @@ export function HomePage() {
             </p>
           </div>
           <FileUploadCard />
+          <ModelSelectCard />
         </div>
       </div>
       <ScrollBar orientation="vertical" />

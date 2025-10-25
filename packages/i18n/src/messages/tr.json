@@ -90,5 +90,17 @@
     "browseFiles": "Dosyalara göz at",
     "fileUploaded": "Dosya başarıyla yüklendi",
     "fileRejected": "Dosya reddedildi"
+  },
+  "ModelSelectCard": {
+    "title": "Whisper Model Seçimi",
+    "description": "Döküm için kullanılacak Whisper modelini seçin",
+    "modelPath": "Model Yolu",
+    "selectModelPath": "Model Yolu Seç",
+    "modelPathPlaceholder": "Model yolu seçilmedi",
+    "selectModel": "Model Seç",
+    "selectModelPlaceholder": ".bin uzantılı bir model dosyası seçin",
+    "noModelsFound": "Seçilen yolda .bin modeli bulunamadı",
+    "modelSelected": "Model seçildi",
+    "pathRequired": "Lütfen önce model yolunu seçin"
   }
 }

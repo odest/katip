@@ -90,5 +90,17 @@
     "browseFiles": "ファイルを参照",
     "fileUploaded": "ファイルが正常にアップロードされました",
     "fileRejected": "ファイルが拒否されました"
+  },
+  "ModelSelectCard": {
+    "title": "Whisperモデルの選択",
+    "description": "文字起こしに使用するWhisperモデルを選択してください",
+    "modelPath": "モデルパス",
+    "selectModelPath": "モデルパスを選択",
+    "modelPathPlaceholder": "モデルパスが選択されていません",
+    "selectModel": "モデルを選択",
+    "selectModelPlaceholder": ".binモデルファイルを選択してください",
+    "noModelsFound": "選択されたパスに.binモデルが見つかりません",
+    "modelSelected": "モデルが選択されました",
+    "pathRequired": "まずモデルパスを選択してください"
   }
 }

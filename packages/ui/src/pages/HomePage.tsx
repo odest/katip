@@ -1,6 +1,6 @@
 import { useTranslations } from "@workspace/i18n";
 import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
-import { FileUploadCard } from "@workspace/ui/components/common/file-upload-card";
+import { AudioSelectCard } from "@workspace/ui/components/common/audio-select-card";
 import { ModelSelectCard } from "@workspace/ui/components/common/model-select-card";
 
 export function HomePage() {
@@ -16,7 +16,7 @@ export function HomePage() {
               {t("description")}
             </p>
           </div>
-          <FileUploadCard />
+          <AudioSelectCard />
           <ModelSelectCard />
         </div>
       </div>

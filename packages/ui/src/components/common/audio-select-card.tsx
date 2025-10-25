@@ -1,8 +1,14 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useState } from "react";
 import { Button } from "@workspace/ui/components/button";
-import { Card, CardContent } from "@workspace/ui/components/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@workspace/ui/components/card";
 import {
   FileUpload,
   FileUploadDropzone,
@@ -14,56 +20,27 @@ import {
   FileUploadTrigger,
 } from "@workspace/ui/components/file-upload";
 import { useTranslations } from "@workspace/i18n";
+import { useFileSelect } from "@workspace/ui/hooks/use-file-select";
 import { Upload, X } from "lucide-react";
-import { toast } from "sonner";
 
-export function FileUploadCard() {
-  const t = useTranslations("FileUploadCard");
+export function AudioSelectCard() {
+  const t = useTranslations("AudioSelectCard");
   const [files, setFiles] = useState<File[]>([]);
-  const previousFilesRef = useRef<File[]>([]);
 
-  const handleValueChange = useCallback(
-    (newFiles: File[]) => {
-      const effectiveFiles =
-        newFiles.length > 1
-          ? ([newFiles[newFiles.length - 1]].filter(Boolean) as File[])
-          : newFiles;
+  const { handleValueChange: onValueChange, handleFileReject } =
+    useFileSelect(t);
 
-      setFiles(effectiveFiles);
-
-      if (effectiveFiles.length > 0 && effectiveFiles[0]) {
-        const newFile = effectiveFiles[0];
-        const previousFiles = previousFilesRef.current;
-
-        if (previousFiles.length === 0 || previousFiles[0] !== newFile) {
-          const fileName = newFile.name;
-          toast.success(t("fileUploaded"), {
-            description: `"${
-              fileName.length > 30 ? `${fileName.slice(0, 30)}...` : fileName
-            }"`,
-          });
-        }
-      }
-
-      previousFilesRef.current = effectiveFiles;
-    },
-    [t]
-  );
-
-  const handleFileReject = useCallback(
-    (file: File, message: string) => {
-      const fileName = file.name;
-      toast.warning(t("fileRejected"), {
-        description: `"${
-          fileName.length > 30 ? `${fileName.slice(0, 30)}...` : fileName
-        }" - ${message}`,
-      });
-    },
-    [t]
-  );
+  const handleValueChange = (newFiles: File[]) => {
+    const effectiveFiles = onValueChange(newFiles);
+    setFiles(effectiveFiles);
+  };
 
   return (
     <Card>
+      <CardHeader>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
+      </CardHeader>
       <CardContent>
         <FileUpload
           value={files}

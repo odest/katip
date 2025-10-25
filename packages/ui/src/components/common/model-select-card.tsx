@@ -20,13 +20,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@workspace/ui/components/select";
+import {
+  FileUpload,
+  FileUploadDropzone,
+  FileUploadItem,
+  FileUploadItemDelete,
+  FileUploadItemMetadata,
+  FileUploadItemPreview,
+  FileUploadList,
+  FileUploadTrigger,
+} from "@workspace/ui/components/file-upload";
 import { useTranslations } from "@workspace/i18n";
-import { FolderOpen, FileCode2 } from "lucide-react";
+import { useFileSelect } from "@workspace/ui/hooks/use-file-select";
+import { FolderOpen, FileCode2, Upload, X } from "lucide-react";
 import { toast } from "sonner";
 
 interface ModelFile {
   name: string;
   path: string;
+  webFile?: File;
 }
 
 export function ModelSelectCard() {
@@ -36,6 +48,28 @@ export function ModelSelectCard() {
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [isTauriApp, setIsTauriApp] = useState(false);
+  const [webFiles, setWebFiles] = useState<File[]>([]);
+
+  const { handleValueChange: onValueChange, handleFileReject } = useFileSelect(
+    t,
+    {
+      onFileSelect: (file) => {
+        setSelectedModel(file.name);
+        setModelFiles([
+          {
+            name: file.name,
+            path: file.name,
+            webFile: file,
+          },
+        ]);
+      },
+    }
+  );
+
+  const handleValueChange = (newFiles: File[]) => {
+    const effectiveFiles = onValueChange(newFiles);
+    setWebFiles(effectiveFiles);
+  };
 
   useEffect(() => {
     setIsTauriApp(isTauri());
@@ -99,10 +133,6 @@ export function ModelSelectCard() {
     }
   };
 
-  if (!isTauriApp) {
-    return null;
-  }
-
   return (
     <Card>
       <CardHeader>
@@ -110,32 +140,36 @@ export function ModelSelectCard() {
         <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="model-path" className="flex items-center gap-2">
-            <FolderOpen className="size-4" />
-            {t("modelPath")}
-          </Label>
-          <div className="flex gap-2">
-            <Button
-              onClick={handleSelectModelPath}
-              variant="outline"
-              className="flex-1"
-            >
-              {modelPath ? (
-                <span className="truncate">{modelPath}</span>
-              ) : (
-                t("selectModelPath")
-              )}
-            </Button>
+        {/* Desktop: Model Path Selection */}
+        {isTauriApp && (
+          <div className="space-y-2">
+            <Label htmlFor="model-path" className="flex items-center gap-2">
+              <FolderOpen className="size-4" />
+              {t("modelPath")}
+            </Label>
+            <div className="flex gap-2">
+              <Button
+                onClick={handleSelectModelPath}
+                variant="outline"
+                className="flex-1"
+              >
+                {modelPath ? (
+                  <span className="truncate">{modelPath}</span>
+                ) : (
+                  t("selectModelPath")
+                )}
+              </Button>
+            </div>
+            {!modelPath && (
+              <p className="text-muted-foreground text-xs">
+                {t("modelPathPlaceholder")}
+              </p>
+            )}
           </div>
-          {!modelPath && (
-            <p className="text-muted-foreground text-xs">
-              {t("modelPathPlaceholder")}
-            </p>
-          )}
-        </div>
+        )}
 
-        {modelPath && (
+        {/* Desktop: Model File Dropdown */}
+        {isTauriApp && modelPath && (
           <div className="space-y-2">
             <Label htmlFor="model-select" className="flex items-center gap-2">
               <FileCode2 className="size-4" />
@@ -166,7 +200,48 @@ export function ModelSelectCard() {
           </div>
         )}
 
-        {selectedModel && (
+        {/* Web: Drag & Drop File Selection */}
+        {!isTauriApp && (
+          <FileUpload
+            value={webFiles}
+            onValueChange={handleValueChange}
+            onFileReject={handleFileReject}
+            accept=".bin"
+          >
+            <FileUploadDropzone>
+              <div className="flex flex-col items-center gap-1">
+                <div className="flex items-center justify-center rounded-full border p-2.5">
+                  <Upload className="size-6 text-muted-foreground" />
+                </div>
+                <p className="font-medium text-sm">{t("dragAndDrop")}</p>
+                <p className="text-muted-foreground text-xs">
+                  {t("orClickToBrowse")}
+                </p>
+              </div>
+              <FileUploadTrigger asChild>
+                <Button variant="outline" size="sm" className="mt-2 w-fit">
+                  {t("browseFiles")}
+                </Button>
+              </FileUploadTrigger>
+            </FileUploadDropzone>
+            <FileUploadList>
+              {webFiles.map((file, index) => (
+                <FileUploadItem key={index} value={file}>
+                  <FileUploadItemPreview />
+                  <FileUploadItemMetadata />
+                  <FileUploadItemDelete asChild>
+                    <Button variant="ghost" size="icon" className="size-7">
+                      <X />
+                    </Button>
+                  </FileUploadItemDelete>
+                </FileUploadItem>
+              ))}
+            </FileUploadList>
+          </FileUpload>
+        )}
+
+        {/* Selected Model Display */}
+        {isTauriApp && selectedModel && (
           <div className="p-3 rounded-lg bg-muted/50 space-y-1">
             <p className="text-xs font-medium text-muted-foreground">
               {t("modelSelected")}

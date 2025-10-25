@@ -84,7 +84,9 @@
     "label": "Whisper Modeli Seç",
     "chooseModel": "Model Seç (.bin)"
   },
-  "FileUploadCard": {
+  "AudioSelectCard": {
+    "title": "Ses Dosyası Seçimi",
+    "description": "Döküm için bir ses dosyası seçin",
     "dragAndDrop": "Dosyaları buraya sürükleyip bırakın",
     "orClickToBrowse": "Veya göz atmak için tıklayın",
     "browseFiles": "Dosyalara göz at",
@@ -101,6 +103,11 @@
     "selectModelPlaceholder": ".bin uzantılı bir model dosyası seçin",
     "noModelsFound": "Seçilen yolda .bin modeli bulunamadı",
     "modelSelected": "Model seçildi",
-    "pathRequired": "Lütfen önce model yolunu seçin"
+    "pathRequired": "Lütfen önce model yolunu seçin",
+    "dragAndDrop": "Model dosyasını buraya sürükleyip bırakın",
+    "orClickToBrowse": "Veya göz atmak için tıklayın",
+    "browseFiles": "Dosyalara göz at",
+    "fileUploaded": "Dosya başarıyla yüklendi",
+    "fileRejected": "Dosya reddedildi"
   }
 }

@@ -84,7 +84,9 @@
     "label": "Seleccionar modelo Whisper",
     "chooseModel": "Elegir modelo (.bin)"
   },
-  "FileUploadCard": {
+  "AudioSelectCard": {
+    "title": "Selección de archivo de audio",
+    "description": "Seleccione un archivo de audio para la transcripción",
     "dragAndDrop": "Arrastra y suelta archivos aquí",
     "orClickToBrowse": "O haz clic para explorar",
     "browseFiles": "Explorar archivos",
@@ -101,6 +103,11 @@
     "selectModelPlaceholder": "Elige un archivo de modelo .bin",
     "noModelsFound": "No se encontraron modelos .bin en la ruta seleccionada",
     "modelSelected": "Modelo seleccionado",
-    "pathRequired": "Por favor, selecciona primero la ruta del modelo"
+    "pathRequired": "Por favor, selecciona primero la ruta del modelo",
+    "dragAndDrop": "Arrastra y suelta el archivo de modelo aquí",
+    "orClickToBrowse": "O haz clic para explorar",
+    "browseFiles": "Explorar archivos",
+    "fileUploaded": "Archivo subido exitosamente",
+    "fileRejected": "Archivo rechazado"
   }
 }

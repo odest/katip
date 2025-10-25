@@ -84,7 +84,9 @@
     "label": "选择Whisper模型",
     "chooseModel": "选择模型 (.bin)"
   },
-  "FileUploadCard": {
+  "AudioSelectCard": {
+    "title": "音频文件选择",
+    "description": "选择用于转录的音频文件",
     "dragAndDrop": "将文件拖放到此处",
     "orClickToBrowse": "或点击浏览",
     "browseFiles": "浏览文件",
@@ -101,6 +103,11 @@
     "selectModelPlaceholder": "选择一个.bin模型文件",
     "noModelsFound": "在所选路径中未找到.bin模型",
     "modelSelected": "模型已选择",
-    "pathRequired": "请先选择模型路径"
+    "pathRequired": "请先选择模型路径",
+    "dragAndDrop": "将模型文件拖放到此处",
+    "orClickToBrowse": "或点击浏览",
+    "browseFiles": "浏览文件",
+    "fileUploaded": "文件上传成功",
+    "fileRejected": "文件被拒绝"
   }
 }

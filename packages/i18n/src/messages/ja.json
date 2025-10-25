@@ -84,7 +84,9 @@
     "label": "Whisperモデルを選択",
     "chooseModel": "モデルを選択 (.bin)"
   },
-  "FileUploadCard": {
+  "AudioSelectCard": {
+    "title": "音声ファイルの選択",
+    "description": "文字起こし用の音声ファイルを選択してください",
     "dragAndDrop": "ファイルをここにドラッグ＆ドロップ",
     "orClickToBrowse": "またはクリックして参照",
     "browseFiles": "ファイルを参照",
@@ -101,6 +103,11 @@
     "selectModelPlaceholder": ".binモデルファイルを選択してください",
     "noModelsFound": "選択されたパスに.binモデルが見つかりません",
     "modelSelected": "モデルが選択されました",
-    "pathRequired": "まずモデルパスを選択してください"
+    "pathRequired": "まずモデルパスを選択してください",
+    "dragAndDrop": "モデルファイルをここにドラッグ＆ドロップ",
+    "orClickToBrowse": "またはクリックして参照",
+    "browseFiles": "ファイルを参照",
+    "fileUploaded": "ファイルが正常にアップロードされました",
+    "fileRejected": "ファイルが拒否されました"
   }
 }

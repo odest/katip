@@ -48,7 +48,7 @@ export function AudioSelectCard() {
           onFileReject={handleFileReject}
           accept="audio/*,.m4a,.wav,.mp3,.flac,.aac,.ogg,.wma,.aiff,.ape,.opus"
         >
-          <FileUploadDropzone>
+          <FileUploadDropzone className="cursor-pointer">
             <div className="flex flex-col items-center gap-1">
               <div className="flex items-center justify-center rounded-full border p-2.5">
                 <Upload className="size-6 text-muted-foreground" />
@@ -58,7 +58,7 @@ export function AudioSelectCard() {
                 {t("orClickToBrowse")}
               </p>
             </div>
-            <FileUploadTrigger asChild>
+            <FileUploadTrigger className="cursor-pointer" asChild>
               <Button variant="outline" size="sm" className="mt-2 w-fit">
                 {t("browseFiles")}
               </Button>
@@ -70,7 +70,11 @@ export function AudioSelectCard() {
                 <FileUploadItemPreview />
                 <FileUploadItemMetadata />
                 <FileUploadItemDelete asChild>
-                  <Button variant="ghost" size="icon" className="size-7">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="size-7 cursor-pointer"
+                  >
                     <X />
                   </Button>
                 </FileUploadItemDelete>

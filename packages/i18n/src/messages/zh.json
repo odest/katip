@@ -1,7 +1,12 @@
 {
   "HomePage": {
     "title": "使用Whisper语音转文字",
-    "description": "将您的音频转换为准确的文本转录"
+    "description": "将您的音频转换为准确的文本转录",
+    "startTranscription": "开始转录"
+  },
+  "TranscribePage": {
+    "title": "转录",
+    "description": "将您的音频文件转换为文本"
   },
   "SettingsPage": {
     "title": "设置",
@@ -38,6 +43,7 @@
   },
   "Navigation": {
     "home": "主页",
+    "transcribe": "转录",
     "settings": "设置",
     "platform": "平台"
   },

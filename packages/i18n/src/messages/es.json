@@ -1,7 +1,12 @@
 {
   "HomePage": {
     "title": "Voz a Texto con Whisper",
-    "description": "Transforma tu audio en transcripciones de texto precisas"
+    "description": "Transforma tu audio en transcripciones de texto precisas",
+    "startTranscription": "Iniciar transcripción"
+  },
+  "TranscribePage": {
+    "title": "Transcribir",
+    "description": "Convierte tus archivos de audio en texto"
   },
   "SettingsPage": {
     "title": "Configuración",
@@ -38,6 +43,7 @@
   },
   "Navigation": {
     "home": "Inicio",
+    "transcribe": "Transcribir",
     "settings": "Configuración",
     "platform": "Plataforma"
   },

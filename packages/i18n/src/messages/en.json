@@ -1,7 +1,12 @@
 {
   "HomePage": {
     "title": "Speech-to-Text with Whisper",
-    "description": "Transform your audio into accurate text transcriptions"
+    "description": "Transform your audio into accurate text transcriptions",
+    "startTranscription": "Start Transcription"
+  },
+  "TranscribePage": {
+    "title": "Transcribe",
+    "description": "Convert your audio files into text"
   },
   "SettingsPage": {
     "title": "Settings",
@@ -38,6 +43,7 @@
   },
   "Navigation": {
     "home": "Home",
+    "transcribe": "Transcribe",
     "settings": "Settings",
     "platform": "Platform"
   },

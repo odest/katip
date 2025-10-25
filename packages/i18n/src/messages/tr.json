@@ -1,7 +1,12 @@
 {
   "HomePage": {
     "title": "Whisper ile Konuşmadan Metne",
-    "description": "Ses dosyalarınızı doğru metin dökümlerine dönüştürün"
+    "description": "Ses dosyalarınızı doğru metin transkriptlerine dönüştürün",
+    "startTranscription": "Transkripti Başlat"
+  },
+  "TranscribePage": {
+    "title": "Transkript",
+    "description": "Ses dosyalarınızı metne dönüştürün"
   },
   "SettingsPage": {
     "title": "Ayarlar",
@@ -38,23 +43,24 @@
   },
   "Navigation": {
     "home": "Ana Sayfa",
+    "transcribe": "Transkript",
     "settings": "Ayarlar",
     "platform": "Platform"
   },
   "TranscriptionPanel": {
-    "title": "Ses Dökümü",
+    "title": "Ses Transkripti",
     "description": "Whisper AI kullanarak ses dosyalarınızı metne dönüştürün",
     "audioFile": "Ses Dosyası",
     "whisperModel": "Whisper Modeli",
     "selectedFile": "Seçilen Dosya",
     "selectedModel": "Seçilen Model",
-    "startTranscription": "Dökümü Başlat",
-    "transcribing": "Döküm Yapılıyor...",
+    "startTranscription": "Transkripti Başlat",
+    "transcribing": "Transkript Yapılıyor...",
     "loadingWhisper": "Whisper Yükleniyor...",
     "error": "Hata",
     "androidPlatformTitle": "Android Platformu Algılandı",
     "androidPlatformMessage": "Konuşmadan metne dönüştürme henüz Android'de kullanılamıyor. Bu özellik şu anda yalnızca masaüstü platformlarda desteklenmektedir.",
-    "transcriptionResults": "Döküm Sonuçları",
+    "transcriptionResults": "Transkript Sonuçları",
     "segmentsFound": "segment",
     "segmentsFoundPlural": "segment",
     "found": "bulundu",
@@ -74,7 +80,7 @@
     "sharedArrayBuffer": "Paylaşımlı Bellek",
     "audioContext": "Ses İşleme",
     "offlineAudioContext": "Çevrimdışı Ses İşleme",
-    "unsupportedMessage": "Tarayıcınız optimal döküm için gerekli tüm özellikleri desteklemiyor."
+    "unsupportedMessage": "Tarayıcınız optimal transkript için gerekli tüm özellikleri desteklemiyor."
   },
   "AudioFilePicker": {
     "label": "Ses Dosyası Seç",
@@ -86,7 +92,7 @@
   },
   "AudioSelectCard": {
     "title": "Ses Dosyası Seçimi",
-    "description": "Döküm için bir ses dosyası seçin",
+    "description": "Transkript için bir ses dosyası seçin",
     "dragAndDrop": "Dosyaları buraya sürükleyip bırakın",
     "orClickToBrowse": "Veya göz atmak için tıklayın",
     "browseFiles": "Dosyalara göz at",
@@ -95,7 +101,7 @@
   },
   "ModelSelectCard": {
     "title": "Whisper Model Seçimi",
-    "description": "Döküm için kullanılacak Whisper modelini seçin",
+    "description": "Transkript için kullanılacak Whisper modelini seçin",
     "modelPath": "Model Yolu",
     "selectModelPath": "Model Yolu Seç",
     "modelPathPlaceholder": "Model yolu seçilmedi",

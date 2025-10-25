@@ -1,7 +1,12 @@
 {
   "HomePage": {
     "title": "Речь в Текст с Whisper",
-    "description": "Превратите ваше аудио в точные текстовые расшифровки"
+    "description": "Превратите ваше аудио в точные текстовые расшифровки",
+    "startTranscription": "Начать расшифровку"
+  },
+  "TranscribePage": {
+    "title": "Транскрибировать",
+    "description": "Преобразуйте ваши аудиофайлы в текст"
   },
   "SettingsPage": {
     "title": "Настройки",
@@ -38,6 +43,7 @@
   },
   "Navigation": {
     "home": "Главная",
+    "transcribe": "Транскрибировать",
     "settings": "Настройки",
     "platform": "Платформа"
   },

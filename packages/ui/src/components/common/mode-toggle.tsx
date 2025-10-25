@@ -19,7 +19,7 @@ export function ModeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" className="cursor-pointer">
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
         </Button>
@@ -27,7 +27,7 @@ export function ModeToggle() {
       <DropdownMenuContent align="end">
         <DropdownMenuItem
           onClick={(e) => handleThemeChange("light", e)}
-          className={cn(theme === "light" && "bg-accent")}
+          className={cn("cursor-pointer", theme === "light" && "bg-accent")}
         >
           <Sun className="mr-2 h-3 w-3" />
           {t("light")}
@@ -35,7 +35,7 @@ export function ModeToggle() {
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={(e) => handleThemeChange("dark", e)}
-          className={cn(theme === "dark" && "bg-accent")}
+          className={cn("cursor-pointer", theme === "dark" && "bg-accent")}
         >
           <Moon className="mr-2 h-3 w-3" />
           {t("dark")}
@@ -43,7 +43,7 @@ export function ModeToggle() {
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={(e) => handleThemeChange("system", e)}
-          className={cn(theme === "system" && "bg-accent")}
+          className={cn("cursor-pointer", theme === "system" && "bg-accent")}
         >
           <Laptop className="mr-2 h-3 w-3" />
           {t("system")}

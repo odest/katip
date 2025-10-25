@@ -18,7 +18,7 @@ export function LanguageToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" className="cursor-pointer">
           <Languages className="h-[1.2rem] w-[1.2rem]" />
         </Button>
       </DropdownMenuTrigger>
@@ -30,7 +30,7 @@ export function LanguageToggle() {
             <DropdownMenuItem
               key={loc}
               onClick={() => changeLanguage(loc)}
-              className={cn(isSelected && "bg-accent")}
+              className={cn("cursor-pointer", isSelected && "bg-accent")}
               disabled={isPending}
             >
               <span className="mr-2 text-base">{config.flag}</span>

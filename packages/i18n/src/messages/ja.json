@@ -1,7 +1,12 @@
 {
   "HomePage": {
     "title": "Whisperで音声からテキストへ",
-    "description": "音声を正確なテキスト文字起こしに変換"
+    "description": "音声を正確なテキスト文字起こしに変換",
+    "startTranscription": "文字起こしを開始"
+  },
+  "TranscribePage": {
+    "title": "文字起こし",
+    "description": "音声ファイルをテキストに変換します"
   },
   "SettingsPage": {
     "title": "設定",
@@ -38,6 +43,7 @@
   },
   "Navigation": {
     "home": "ホーム",
+    "transcribe": "文字起こし",
     "settings": "設定",
     "platform": "プラットフォーム"
   },

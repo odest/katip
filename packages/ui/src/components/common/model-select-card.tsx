@@ -151,10 +151,12 @@ export function ModelSelectCard() {
               <Button
                 onClick={handleSelectModelPath}
                 variant="outline"
-                className="flex-1"
+                className="flex-1 cursor-pointer"
               >
                 {modelPath ? (
-                  <span className="truncate">{modelPath}</span>
+                  <span className="truncate">
+                    {modelPath.split(/[\\/]/).pop()}
+                  </span>
                 ) : (
                   t("selectModelPath")
                 )}
@@ -181,12 +183,16 @@ export function ModelSelectCard() {
               </div>
             ) : modelFiles.length > 0 ? (
               <Select value={selectedModel} onValueChange={handleModelSelect}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full cursor-pointer">
                   <SelectValue placeholder={t("selectModelPlaceholder")} />
                 </SelectTrigger>
                 <SelectContent>
                   {modelFiles.map((model) => (
-                    <SelectItem key={model.path} value={model.name}>
+                    <SelectItem
+                      key={model.path}
+                      value={model.name}
+                      className="cursor-pointer"
+                    >
                       {model.name}
                     </SelectItem>
                   ))}
@@ -208,7 +214,7 @@ export function ModelSelectCard() {
             onFileReject={handleFileReject}
             accept=".bin"
           >
-            <FileUploadDropzone>
+            <FileUploadDropzone className="cursor-pointer">
               <div className="flex flex-col items-center gap-1">
                 <div className="flex items-center justify-center rounded-full border p-2.5">
                   <Upload className="size-6 text-muted-foreground" />
@@ -218,7 +224,7 @@ export function ModelSelectCard() {
                   {t("orClickToBrowse")}
                 </p>
               </div>
-              <FileUploadTrigger asChild>
+              <FileUploadTrigger className="cursor-pointer" asChild>
                 <Button variant="outline" size="sm" className="mt-2 w-fit">
                   {t("browseFiles")}
                 </Button>
@@ -230,7 +236,11 @@ export function ModelSelectCard() {
                   <FileUploadItemPreview />
                   <FileUploadItemMetadata />
                   <FileUploadItemDelete asChild>
-                    <Button variant="ghost" size="icon" className="size-7">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="size-7 cursor-pointer"
+                    >
                       <X />
                     </Button>
                   </FileUploadItemDelete>

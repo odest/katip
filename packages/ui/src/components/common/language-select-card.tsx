@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import {
   Card,
   CardContent,
@@ -23,10 +23,11 @@ import { Languages, Globe } from "lucide-react";
 import { useTranslations } from "@workspace/i18n";
 import { cn } from "@workspace/ui/lib/utils";
 import { LANGUAGE_KEYS } from "@workspace/ui/config/languages";
+import { useLanguageStore } from "@workspace/ui/stores/language-store";
 
 export function LanguageSelectCard() {
-  const [language, setLanguage] = useState<string>("auto");
-  const [translateToEnglish, setTranslateToEnglish] = useState(false);
+  const { language, translateToEnglish, setLanguage, setTranslateToEnglish } =
+    useLanguageStore();
   const tLanguages = useTranslations("Languages");
   const t = useTranslations("LanguageSelectCard");
 

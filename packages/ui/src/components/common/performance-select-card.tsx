@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -13,10 +12,11 @@ import { Switch } from "@workspace/ui/components/switch";
 import { Slider } from "@workspace/ui/components/slider";
 import { Cpu, Zap } from "lucide-react";
 import { useTranslations } from "@workspace/i18n";
+import { usePerformanceStore } from "@workspace/ui/stores/performance-store";
 
 export function PerformanceSelectCard() {
-  const [useGPU, setUseGPU] = useState(true);
-  const [threadCount, setThreadCount] = useState(4);
+  const { useGPU, threadCount, setUseGPU, setThreadCount } =
+    usePerformanceStore();
   const t = useTranslations("PerformanceSelectCard");
 
   return (

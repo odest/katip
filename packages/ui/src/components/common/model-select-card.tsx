@@ -32,43 +32,44 @@ import {
 } from "@workspace/ui/components/file-upload";
 import { useTranslations } from "@workspace/i18n";
 import { useFileSelect } from "@workspace/ui/hooks/use-file-select";
+import { useModelStore } from "@workspace/ui/stores/model-store";
 import { FolderOpen, FileCode2, Upload, X } from "lucide-react";
 import { toast } from "sonner";
 
 interface ModelFile {
   name: string;
   path: string;
-  webFile?: File;
 }
 
 export function ModelSelectCard() {
   const t = useTranslations("ModelSelectCard");
-  const [modelPath, setModelPath] = useState<string>("");
+  const {
+    modelFile,
+    modelPath,
+    selectedModelName,
+    setModelFile,
+    setModelPath,
+    setSelectedModelName,
+  } = useModelStore();
+
   const [modelFiles, setModelFiles] = useState<ModelFile[]>([]);
-  const [selectedModel, setSelectedModel] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [isTauriApp, setIsTauriApp] = useState(false);
-  const [webFiles, setWebFiles] = useState<File[]>([]);
 
   const { handleValueChange: onValueChange, handleFileReject } = useFileSelect(
     t,
     {
       onFileSelect: (file) => {
-        setSelectedModel(file.name);
-        setModelFiles([
-          {
-            name: file.name,
-            path: file.name,
-            webFile: file,
-          },
-        ]);
+        setSelectedModelName(file.name);
+        setModelFile(file);
       },
     }
   );
 
   const handleValueChange = (newFiles: File[]) => {
     const effectiveFiles = onValueChange(newFiles);
-    setWebFiles(effectiveFiles);
+    const selectedFile = effectiveFiles[0] || null;
+    setModelFile(selectedFile);
   };
 
   useEffect(() => {
@@ -89,7 +90,7 @@ export function ModelSelectCard() {
 
       if (typeof selected === "string") {
         setModelPath(selected);
-        setSelectedModel("");
+        setSelectedModelName("");
         await loadModelsFromPath(selected);
       }
     } catch (err) {
@@ -124,7 +125,7 @@ export function ModelSelectCard() {
   };
 
   const handleModelSelect = (modelName: string) => {
-    setSelectedModel(modelName);
+    setSelectedModelName(modelName);
     const selectedFile = modelFiles.find((m) => m.name === modelName);
     if (selectedFile) {
       toast.success(t("modelSelected"), {
@@ -182,7 +183,10 @@ export function ModelSelectCard() {
                 <div className="animate-spin rounded-full border-4 border-primary border-t-transparent size-6" />
               </div>
             ) : modelFiles.length > 0 ? (
-              <Select value={selectedModel} onValueChange={handleModelSelect}>
+              <Select
+                value={selectedModelName}
+                onValueChange={handleModelSelect}
+              >
                 <SelectTrigger className="w-full cursor-pointer">
                   <SelectValue placeholder={t("selectModelPlaceholder")} />
                 </SelectTrigger>
@@ -209,7 +213,7 @@ export function ModelSelectCard() {
         {/* Web: Drag & Drop File Selection */}
         {!isTauriApp && (
           <FileUpload
-            value={webFiles}
+            value={modelFile ? [modelFile] : []}
             onValueChange={handleValueChange}
             onFileReject={handleFileReject}
             accept=".bin"
@@ -231,8 +235,8 @@ export function ModelSelectCard() {
               </FileUploadTrigger>
             </FileUploadDropzone>
             <FileUploadList>
-              {webFiles.map((file, index) => (
-                <FileUploadItem key={index} value={file}>
+              {modelFile && (
+                <FileUploadItem value={modelFile}>
                   <FileUploadItemPreview />
                   <FileUploadItemMetadata />
                   <FileUploadItemDelete asChild>
@@ -245,18 +249,18 @@ export function ModelSelectCard() {
                     </Button>
                   </FileUploadItemDelete>
                 </FileUploadItem>
-              ))}
+              )}
             </FileUploadList>
           </FileUpload>
         )}
 
         {/* Selected Model Display */}
-        {isTauriApp && selectedModel && (
+        {isTauriApp && selectedModelName && (
           <div className="p-3 rounded-lg bg-muted/50 space-y-1">
             <p className="text-xs font-medium text-muted-foreground">
               {t("modelSelected")}
             </p>
-            <p className="text-sm font-mono break-all">{selectedModel}</p>
+            <p className="text-sm font-mono break-all">{selectedModelName}</p>
           </div>
         )}
       </CardContent>

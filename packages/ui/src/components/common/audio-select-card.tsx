@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@workspace/ui/components/button";
 import {
   Card,
@@ -21,18 +20,20 @@ import {
 } from "@workspace/ui/components/file-upload";
 import { useTranslations } from "@workspace/i18n";
 import { useFileSelect } from "@workspace/ui/hooks/use-file-select";
+import { useAudioStore } from "@workspace/ui/stores/audio-store";
 import { Upload, X } from "lucide-react";
 
 export function AudioSelectCard() {
   const t = useTranslations("AudioSelectCard");
-  const [files, setFiles] = useState<File[]>([]);
+  const { audioFile, setAudioFile } = useAudioStore();
 
   const { handleValueChange: onValueChange, handleFileReject } =
     useFileSelect(t);
 
   const handleValueChange = (newFiles: File[]) => {
     const effectiveFiles = onValueChange(newFiles);
-    setFiles(effectiveFiles);
+    const selectedFile = effectiveFiles[0] || null;
+    setAudioFile(selectedFile);
   };
 
   return (
@@ -43,7 +44,7 @@ export function AudioSelectCard() {
       </CardHeader>
       <CardContent>
         <FileUpload
-          value={files}
+          value={audioFile ? [audioFile] : []}
           onValueChange={handleValueChange}
           onFileReject={handleFileReject}
           accept="audio/*,.m4a,.wav,.mp3,.flac,.aac,.ogg,.wma,.aiff,.ape,.opus"
@@ -65,8 +66,8 @@ export function AudioSelectCard() {
             </FileUploadTrigger>
           </FileUploadDropzone>
           <FileUploadList>
-            {files.map((file, index) => (
-              <FileUploadItem key={index} value={file}>
+            {audioFile && (
+              <FileUploadItem value={audioFile}>
                 <FileUploadItemPreview />
                 <FileUploadItemMetadata />
                 <FileUploadItemDelete asChild>
@@ -79,7 +80,7 @@ export function AudioSelectCard() {
                   </Button>
                 </FileUploadItemDelete>
               </FileUploadItem>
-            ))}
+            )}
           </FileUploadList>
         </FileUpload>
       </CardContent>

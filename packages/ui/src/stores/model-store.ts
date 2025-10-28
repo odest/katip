@@ -1,22 +1,31 @@
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 interface ModelState {
-  modelFile: File | null;
+  selectedModel: File | string | null;
   modelPath: string;
-  selectedModelName: string;
-  setModelFile: (file: File | null) => void;
+  setSelectedModel: (model: File | string | null) => void;
   setModelPath: (path: string) => void;
-  setSelectedModelName: (name: string) => void;
-  clearModel: () => void;
+  clearModelFile: () => void;
 }
 
-export const useModelStore = create<ModelState>((set) => ({
-  modelFile: null,
-  modelPath: "",
-  selectedModelName: "",
-  setModelFile: (file) => set({ modelFile: file }),
-  setModelPath: (path) => set({ modelPath: path }),
-  setSelectedModelName: (name) => set({ selectedModelName: name }),
-  clearModel: () =>
-    set({ modelFile: null, modelPath: "", selectedModelName: "" }),
-}));
+export const useModelStore = create<ModelState>()(
+  persist(
+    (set) => ({
+      selectedModel: null,
+      modelPath: "",
+      setSelectedModel: (model) => set({ selectedModel: model }),
+      setModelPath: (path) => set({ modelPath: path }),
+      clearModelFile: () => set({ selectedModel: null, modelPath: "" }),
+    }),
+    {
+      name: "model-storage",
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        modelPath: state.modelPath,
+        selectedModel:
+          typeof state.selectedModel === "string" ? state.selectedModel : null,
+      }),
+    }
+  )
+);

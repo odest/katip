@@ -1,7 +1,14 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+
 #[tauri::command]
-fn greet(name: &str) -> String {
-  format!("Hello, {}! You've been greeted from Tauri!", name)
+async fn add_fs_scope(app: tauri::AppHandle, path: String) -> Result<(), String> {
+  use tauri_plugin_fs::FsExt;
+  // Get the file system scope and add the path
+  let scope = app.fs_scope();
+  scope.allow_directory(&path, true)
+    .map_err(|e| format!("Failed to add path to scope: {}", e))?;
+  
+  Ok(())
 }
 
 #[derive(Clone, serde::Serialize)]
@@ -141,7 +148,7 @@ pub fn run() {
     .plugin(tauri_plugin_fs::init())
     .plugin(tauri_plugin_dialog::init())
     .plugin(tauri_plugin_opener::init())
-    .invoke_handler(tauri::generate_handler![greet, transcribe_audio])
+    .invoke_handler(tauri::generate_handler![transcribe_audio, add_fs_scope])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }

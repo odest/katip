@@ -1,13 +1,13 @@
 import { create } from "zustand";
 
 interface AudioState {
-  audioFile: File | null;
-  setAudioFile: (file: File | null) => void;
+  selectedAudio: File | string | null;
+  setSelectedAudio: (file: File | string | null) => void;
   clearAudioFile: () => void;
 }
 
 export const useAudioStore = create<AudioState>((set) => ({
-  audioFile: null,
-  setAudioFile: (file) => set({ audioFile: file }),
-  clearAudioFile: () => set({ audioFile: null }),
+  selectedAudio: null,
+  setSelectedAudio: (file) => set({ selectedAudio: file }),
+  clearAudioFile: () => set({ selectedAudio: null }),
 }));

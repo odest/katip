@@ -10,28 +10,24 @@ import { usePerformanceStore } from "@workspace/ui/stores/performance-store";
 
 export function TranscribePage() {
   const t = useTranslations("TranscribePage");
-  const { audioFile } = useAudioStore();
-  const { modelFile, modelPath, selectedModelName } = useModelStore();
+  const { selectedAudio } = useAudioStore();
+  const { selectedModel } = useModelStore();
   const { language, translateToEnglish } = useLanguageStore();
   const { useGPU, threadCount } = usePerformanceStore();
 
   // Debugging: Log selected settings whenever they change
   useEffect(() => {
     console.log("=== Transcribe Page - Selected Settings ===");
-    console.log("Audio File:", audioFile);
-    console.log("Model File (Web):", modelFile);
-    console.log("Model Path (Desktop):", modelPath);
-    console.log("Selected Model Name:", selectedModelName);
+    console.log("Audio File:", selectedAudio);
+    console.log("Model File:", selectedModel);
     console.log("Language:", language);
     console.log("Translate to English:", translateToEnglish);
     console.log("Use GPU:", useGPU);
     console.log("Thread Count:", threadCount);
     console.log("==========================================");
   }, [
-    audioFile,
-    modelFile,
-    modelPath,
-    selectedModelName,
+    selectedAudio,
+    selectedModel,
     language,
     translateToEnglish,
     useGPU,

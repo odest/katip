@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { isTauri } from "@tauri-apps/api/core";
+import { useState, useEffect, useCallback } from "react";
+import { isTauri, invoke } from "@tauri-apps/api/core";
 import { open } from "@tauri-apps/plugin-dialog";
 import { readDir } from "@tauri-apps/plugin-fs";
 import { Button } from "@workspace/ui/components/button";
@@ -43,14 +43,8 @@ interface ModelFile {
 
 export function ModelSelectCard() {
   const t = useTranslations("ModelSelectCard");
-  const {
-    modelFile,
-    modelPath,
-    selectedModelName,
-    setModelFile,
-    setModelPath,
-    setSelectedModelName,
-  } = useModelStore();
+  const { selectedModel, modelPath, setSelectedModel, setModelPath } =
+    useModelStore();
 
   const [modelFiles, setModelFiles] = useState<ModelFile[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,8 +54,7 @@ export function ModelSelectCard() {
     t,
     {
       onFileSelect: (file) => {
-        setSelectedModelName(file.name);
-        setModelFile(file);
+        setSelectedModel(file);
       },
     }
   );
@@ -69,12 +62,69 @@ export function ModelSelectCard() {
   const handleValueChange = (newFiles: File[]) => {
     const effectiveFiles = onValueChange(newFiles);
     const selectedFile = effectiveFiles[0] || null;
-    setModelFile(selectedFile);
+    setSelectedModel(selectedFile);
   };
+
+  const loadModelsFromPath = useCallback(
+    async (path: string) => {
+      setIsLoading(true);
+      try {
+        if (!path) {
+          throw new Error("No path provided");
+        }
+
+        // Add path to Tauri's file system scope
+        if (isTauriApp) {
+          try {
+            await invoke("add_fs_scope", { path });
+          } catch (scopeErr) {
+            console.warn("Failed to add path to scope:", scopeErr);
+            // Continue anyway as the path might already be in scope
+          }
+        }
+
+        const entries = await readDir(path);
+        const binFiles = entries
+          .filter((entry) => entry.isFile && entry.name.endsWith(".bin"))
+          .map((entry) => ({
+            name: entry.name,
+            path: `${path}/${entry.name}`,
+          }));
+
+        setModelFiles(binFiles);
+
+        if (binFiles.length === 0) {
+          toast.warning(t("noModelsFound"));
+        }
+      } catch (err) {
+        console.error("Error loading models:", err);
+        // Clear stored path if it's no longer accessible
+        if (err instanceof Error && err.message.includes("forbidden")) {
+          toast.error(
+            "Model path is no longer accessible. Please select a new path."
+          );
+          setModelPath("");
+          setSelectedModel(null);
+        } else {
+          toast.error("Failed to load models from path");
+        }
+        setModelFiles([]);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [t, setModelPath, setSelectedModel, isTauriApp]
+  );
 
   useEffect(() => {
     setIsTauriApp(isTauri());
   }, []);
+
+  useEffect(() => {
+    if (isTauriApp && modelPath) {
+      loadModelsFromPath(modelPath);
+    }
+  }, [isTauriApp, modelPath, loadModelsFromPath]);
 
   const handleSelectModelPath = async () => {
     if (!isTauriApp) {
@@ -90,7 +140,7 @@ export function ModelSelectCard() {
 
       if (typeof selected === "string") {
         setModelPath(selected);
-        setSelectedModelName("");
+        setSelectedModel("");
         await loadModelsFromPath(selected);
       }
     } catch (err) {
@@ -99,37 +149,12 @@ export function ModelSelectCard() {
     }
   };
 
-  const loadModelsFromPath = async (path: string) => {
-    setIsLoading(true);
-    try {
-      const entries = await readDir(path);
-      const binFiles = entries
-        .filter((entry) => entry.isFile && entry.name.endsWith(".bin"))
-        .map((entry) => ({
-          name: entry.name,
-          path: `${path}/${entry.name}`,
-        }));
-
-      setModelFiles(binFiles);
-
-      if (binFiles.length === 0) {
-        toast.warning(t("noModelsFound"));
-      }
-    } catch (err) {
-      console.error("Error loading models:", err);
-      toast.error("Failed to load models from path");
-      setModelFiles([]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleModelSelect = (modelName: string) => {
-    setSelectedModelName(modelName);
-    const selectedFile = modelFiles.find((m) => m.name === modelName);
+  const handleModelSelect = (modelPath: string) => {
+    setSelectedModel(modelPath);
+    const selectedFile = modelFiles.find((m) => m.path === modelPath);
     if (selectedFile) {
       toast.success(t("modelSelected"), {
-        description: modelName,
+        description: selectedFile.name,
       });
     }
   };
@@ -163,11 +188,6 @@ export function ModelSelectCard() {
                 )}
               </Button>
             </div>
-            {!modelPath && (
-              <p className="text-muted-foreground text-xs">
-                {t("modelPathPlaceholder")}
-              </p>
-            )}
           </div>
         )}
 
@@ -184,7 +204,9 @@ export function ModelSelectCard() {
               </div>
             ) : modelFiles.length > 0 ? (
               <Select
-                value={selectedModelName}
+                value={
+                  typeof selectedModel === "string" ? selectedModel : undefined
+                }
                 onValueChange={handleModelSelect}
               >
                 <SelectTrigger className="w-full cursor-pointer">
@@ -193,8 +215,8 @@ export function ModelSelectCard() {
                 <SelectContent>
                   {modelFiles.map((model) => (
                     <SelectItem
-                      key={model.path}
-                      value={model.name}
+                      key={model.name}
+                      value={model.path}
                       className="cursor-pointer"
                     >
                       {model.name}
@@ -213,7 +235,7 @@ export function ModelSelectCard() {
         {/* Web: Drag & Drop File Selection */}
         {!isTauriApp && (
           <FileUpload
-            value={modelFile ? [modelFile] : []}
+            value={selectedModel instanceof File ? [selectedModel] : []}
             onValueChange={handleValueChange}
             onFileReject={handleFileReject}
             accept=".bin"
@@ -235,8 +257,8 @@ export function ModelSelectCard() {
               </FileUploadTrigger>
             </FileUploadDropzone>
             <FileUploadList>
-              {modelFile && (
-                <FileUploadItem value={modelFile}>
+              {selectedModel instanceof File && (
+                <FileUploadItem value={selectedModel}>
                   <FileUploadItemPreview />
                   <FileUploadItemMetadata />
                   <FileUploadItemDelete asChild>
@@ -254,13 +276,14 @@ export function ModelSelectCard() {
           </FileUpload>
         )}
 
-        {/* Selected Model Display */}
-        {isTauriApp && selectedModelName && (
-          <div className="p-3 rounded-lg bg-muted/50 space-y-1">
+        {isTauriApp && typeof selectedModel === "string" && selectedModel && (
+          <div className="p-3 rounded-lg border bg-muted/50 space-y-1">
             <p className="text-xs font-medium text-muted-foreground">
-              {t("modelSelected")}
+              {t("selectedModelFile")}
             </p>
-            <p className="text-sm font-mono break-all">{selectedModelName}</p>
+            <p className="text-sm font-mono break-all">
+              {selectedModel.split(/[\\/]/).pop()}
+            </p>
           </div>
         )}
       </CardContent>

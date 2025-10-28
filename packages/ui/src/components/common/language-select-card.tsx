@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import {
   Card,
   CardContent,
@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@workspace/ui/components/select";
-import { Languages, Globe } from "lucide-react";
+import { Languages, Globe, ChevronRight, ChevronDown } from "lucide-react";
 import { useTranslations } from "@workspace/i18n";
 import { cn } from "@workspace/ui/lib/utils";
 import { LANGUAGE_KEYS } from "@workspace/ui/config/languages";
@@ -30,6 +30,7 @@ export function LanguageSelectCard() {
     useLanguageStore();
   const tLanguages = useTranslations("Languages");
   const t = useTranslations("LanguageSelectCard");
+  const [isCardExpanded, setIsCardExpanded] = useState(false);
 
   // Popular language codes
   const popularLanguageCodes = [
@@ -69,98 +70,112 @@ export function LanguageSelectCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>{t("title")}</CardTitle>
-        <CardDescription>{t("description")}</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        {/* Language Selection */}
-        <div className="flex items-start justify-between gap-4">
-          <div className="space-y-1 flex-1">
-            <Label className="flex items-center gap-2">
-              <Globe className="size-4" />
-              {t("audioLanguage")}
-            </Label>
-            <p className="text-muted-foreground text-xs">
-              {t("audioLanguageDescription")}
-            </p>
-          </div>
-          <Select value={language} onValueChange={setLanguage}>
-            <SelectTrigger id="language-select" className="cursor-pointer">
-              <SelectValue placeholder={t("selectLanguagePlaceholder")} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>{t("popularLanguages")}</SelectLabel>
-                {popularLanguages.map((lang) => {
-                  const isSelected = language === lang.value;
-                  return (
-                    <SelectItem
-                      key={lang.value}
-                      value={lang.value}
-                      className={cn(
-                        "cursor-pointer",
-                        isSelected && "bg-accent"
-                      )}
-                    >
-                      {lang.label}
-                    </SelectItem>
-                  );
-                })}
-              </SelectGroup>
-              <SelectGroup>
-                <SelectLabel>{t("allLanguages")}</SelectLabel>
-                {otherLanguages.map((lang) => {
-                  const isSelected = language === lang.value;
-                  return (
-                    <SelectItem
-                      key={lang.value}
-                      value={lang.value}
-                      className={cn(
-                        "cursor-pointer",
-                        isSelected && "bg-accent"
-                      )}
-                    >
-                      {lang.label}
-                    </SelectItem>
-                  );
-                })}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+      <CardHeader
+        className="flex items-center justify-between cursor-pointer"
+        onClick={() => setIsCardExpanded(!isCardExpanded)}
+        role="button"
+        tabIndex={0}
+      >
+        <div>
+          <CardTitle>{t("title")}</CardTitle>
+          <CardDescription>{t("description")}</CardDescription>
         </div>
-
-        {/* Translate to English */}
-        <div className="flex items-start justify-between gap-4">
-          <div className="space-y-1 flex-1">
-            <Label className="flex items-center gap-2">
-              <Languages className="size-4" />
-              {t("translateToEnglish")}
-            </Label>
-            <p className="text-muted-foreground text-xs">
-              {t("translateToEnglishDescription")}
-            </p>
-          </div>
-          <Switch
-            id="translate-toggle"
-            checked={translateToEnglish}
-            onCheckedChange={setTranslateToEnglish}
-            className="cursor-pointer"
-          />
-        </div>
-
-        {/* Selected Language Display */}
-        {language && language !== "auto" && (
-          <div className="p-3 rounded-lg bg-muted/50 space-y-1">
-            <p className="text-xs font-medium text-muted-foreground">
-              {t("selectedLanguage")}
-            </p>
-            <p className="text-sm font-medium">
-              {languages.find((l) => l.value === language)?.label}
-            </p>
-          </div>
+        {isCardExpanded ? (
+          <ChevronDown className="h-5 w-5 text-muted-foreground shrink-0" />
+        ) : (
+          <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
         )}
-      </CardContent>
+      </CardHeader>
+      {isCardExpanded && (
+        <CardContent className="space-y-6">
+          {/* Language Selection */}
+          <div className="flex items-start justify-between gap-4">
+            <div className="space-y-1 flex-1">
+              <Label className="flex items-center gap-2">
+                <Globe className="size-4" />
+                {t("audioLanguage")}
+              </Label>
+              <p className="text-muted-foreground text-xs">
+                {t("audioLanguageDescription")}
+              </p>
+            </div>
+            <Select value={language} onValueChange={setLanguage}>
+              <SelectTrigger id="language-select" className="cursor-pointer">
+                <SelectValue placeholder={t("selectLanguagePlaceholder")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>{t("popularLanguages")}</SelectLabel>
+                  {popularLanguages.map((lang) => {
+                    const isSelected = language === lang.value;
+                    return (
+                      <SelectItem
+                        key={lang.value}
+                        value={lang.value}
+                        className={cn(
+                          "cursor-pointer",
+                          isSelected && "bg-accent"
+                        )}
+                      >
+                        {lang.label}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectGroup>
+                <SelectGroup>
+                  <SelectLabel>{t("allLanguages")}</SelectLabel>
+                  {otherLanguages.map((lang) => {
+                    const isSelected = language === lang.value;
+                    return (
+                      <SelectItem
+                        key={lang.value}
+                        value={lang.value}
+                        className={cn(
+                          "cursor-pointer",
+                          isSelected && "bg-accent"
+                        )}
+                      >
+                        {lang.label}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Translate to English */}
+          <div className="flex items-start justify-between gap-4">
+            <div className="space-y-1 flex-1">
+              <Label className="flex items-center gap-2">
+                <Languages className="size-4" />
+                {t("translateToEnglish")}
+              </Label>
+              <p className="text-muted-foreground text-xs">
+                {t("translateToEnglishDescription")}
+              </p>
+            </div>
+            <Switch
+              id="translate-toggle"
+              checked={translateToEnglish}
+              onCheckedChange={setTranslateToEnglish}
+              className="cursor-pointer"
+            />
+          </div>
+
+          {/* Selected Language Display */}
+          {language && (
+            <div className="p-3 rounded-lg border bg-muted/50 space-y-1">
+              <p className="text-xs font-medium text-muted-foreground">
+                {t("selectedLanguage")}
+              </p>
+              <p className="text-sm font-medium">
+                {languages.find((l) => l.value === language)?.label}
+              </p>
+            </div>
+          )}
+        </CardContent>
+      )}
     </Card>
   );
 }

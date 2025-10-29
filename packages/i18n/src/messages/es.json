@@ -6,7 +6,16 @@
   },
   "TranscribePage": {
     "title": "Transcribir",
-    "description": "Convierte tus archivos de audio en texto"
+    "description": "Convierte tus archivos de audio en texto",
+    "configurationRequiredTitle": "Configuración Requerida",
+    "configurationRequiredDesc": "Por favor seleccione tanto un archivo de audio como un modelo Whisper desde la página de inicio para proceder con la transcripción.",
+    "returnToHome": "Volver al Inicio",
+    "webSupportComingSoonTitle": "Soporte Web Muy Pronto",
+    "webSupportComingSoonDesc": "La transcripción actualmente solo está disponible en plataformas de escritorio. El soporte web estará disponible en una actualización futura.",
+    "androidSupportComingSoonTitle": "Soporte Android Muy Pronto",
+    "androidSupportComingSoonDesc": "La transcripción actualmente solo está disponible en plataformas de escritorio. El soporte Android estará disponible en una actualización futura.",
+    "readyToTranscribeTitle": "Listo para Transcribir",
+    "readyToTranscribeDesc": "La interfaz de transcripción se implementará aquí."
   },
   "SettingsPage": {
     "title": "Configuración",
@@ -47,49 +56,6 @@
     "settings": "Configuración",
     "platform": "Plataforma"
   },
-  "TranscriptionPanel": {
-    "title": "Transcripción de audio",
-    "description": "Convierte tus archivos de audio a texto usando Whisper AI",
-    "audioFile": "Archivo de audio",
-    "whisperModel": "Modelo Whisper",
-    "selectedFile": "Archivo seleccionado",
-    "selectedModel": "Modelo seleccionado",
-    "startTranscription": "Iniciar transcripción",
-    "transcribing": "Transcribiendo...",
-    "loadingWhisper": "Cargando Whisper...",
-    "error": "Error",
-    "androidPlatformTitle": "Plataforma Android detectada",
-    "androidPlatformMessage": "La transcripción de voz a texto aún no está disponible en Android. Esta función actualmente solo es compatible con plataformas de escritorio.",
-    "transcriptionResults": "Resultados de transcripción",
-    "segmentsFound": "segmento",
-    "segmentsFoundPlural": "segmentos",
-    "found": "encontrado",
-    "errorSelectAudio": "Por favor seleccione un archivo de audio",
-    "errorSelectModel": "Por favor seleccione un archivo de modelo"
-  },
-  "BrowserCapabilities": {
-    "checking": "Comprobando...",
-    "excellent": "Excelente",
-    "good": "Bueno",
-    "limited": "Limitado",
-    "unsupported": "No compatible",
-    "browserCapabilities": "Capacidades del navegador",
-    "webAssembly": "Web Assembly",
-    "simd": "SIMD (Procesamiento Paralelo)",
-    "threads": "Multiproceso",
-    "sharedArrayBuffer": "Memoria Compartida",
-    "audioContext": "Procesamiento de Audio",
-    "offlineAudioContext": "Procesamiento de Audio Offline",
-    "unsupportedMessage": "Su navegador no admite todas las funciones necesarias para una transcripción óptima."
-  },
-  "AudioFilePicker": {
-    "label": "Seleccionar archivo de audio",
-    "chooseFile": "Elegir archivo"
-  },
-  "ModelFilePicker": {
-    "label": "Seleccionar modelo Whisper",
-    "chooseModel": "Elegir modelo (.bin)"
-  },
   "AudioSelectCard": {
     "title": "Selección de archivo de audio",
     "description": "Seleccione un archivo de audio para la transcripción",
@@ -121,8 +87,8 @@
     "fileUploaded": "Archivo subido exitosamente",
     "fileRejected": "Archivo rechazado"
   },
-  "LanguageSelectCard": {
-    "title": "Configuración de idioma",
+  "LanguageOptionsCard": {
+    "title": "Opciones de Idioma",
     "description": "Selecciona el idioma del audio y las opciones de traducción",
     "audioLanguage": "Idioma del audio",
     "audioLanguageDescription": "Elige el idioma de tu archivo de audio o deja que Whisper lo detecte automáticamente",
@@ -133,17 +99,54 @@
     "popularLanguages": "Popular",
     "allLanguages": "Todos los idiomas"
   },
-  "PerformanceSelectCard": {
-    "title": "Configuración de rendimiento",
+  "PerformanceOptionsCard": {
+    "title": "Opciones de Rendimiento",
     "description": "Configura el rendimiento de procesamiento y la aceleración por hardware",
     "gpuAcceleration": "Aceleración por GPU",
     "gpuAccelerationDescription": "Usar GPU para una transcripción más rápida (requiere soporte Vulkan)",
+    "gpuMacosWarning": "La aceleración por GPU aún no está disponible en macOS. Esta función requiere la aplicación de escritorio que se ejecuta en Windows o Linux.",
+    "gpuWebWarning": "La aceleración por GPU aún no está disponible en los navegadores web. Esta función requiere la aplicación de escritorio que se ejecuta en Windows o Linux.",
+    "gpuAndroidWarning": "La aceleración por GPU aún no está disponible en Android. Esta función requiere la aplicación de escritorio que se ejecuta en Windows o Linux.",
     "cpuThreads": "Hilos de CPU",
     "cpuThreadsDescription": "Número de hilos de CPU para usar en el procesamiento de transcripción",
     "performanceMode": "Modo de rendimiento",
     "gpuEnabled": "GPU activada",
     "thread": "Hilo",
     "threads": "Hilos"
+  },
+  "AdvancedOptionsCard": {
+    "title": "Opciones Avanzadas",
+    "description": "Ajusta el comportamiento de la transcripción para mayor precisión y rendimiento.",
+    "samplingStrategy": "Estrategia de Muestreo",
+    "samplingStrategyDescription": "Greedy es más rápido, mientras que Beam Search puede ser más preciso pero es más lento.",
+    "greedy": "Codicioso",
+    "beamSearch": "Búsqueda por Haz",
+    "bestOf": "Mejor de",
+    "bestOfDescription": "Número de candidatos a considerar. Valores más altos aumentan la precisión a costa del rendimiento.",
+    "beamSize": "Tamaño del Haz",
+    "beamSizeDescription": "Número de haces a utilizar. Valores más altos aumentan la precisión a costa del rendimiento.",
+    "patience": "Paciencia",
+    "patienceDescription": "Controla el criterio de parada para la búsqueda por haz. Valores más altos pueden mejorar la precisión pero aumentan el tiempo.",
+    "lengthPenalty": "Penalización de Longitud",
+    "lengthPenaltyDescription": "Penaliza las transcripciones más largas. <1.0 favorece resultados más cortos, >1.0 favorece resultados más largos.",
+    "temperature": "Temperatura",
+    "temperatureDescription": "Controla la aleatoriedad. Valores más bajos son más deterministas, valores más altos son más creativos.",
+    "maxSegmentLength": "Longitud Máxima del Segmento",
+    "maxSegmentLengthDescription": "Número máximo de caracteres por segmento. 0 significa sin límite.",
+    "auto": "Automático",
+    "initialPrompt": "Indicación Inicial (Opcional)",
+    "initialPromptDescription": "Proporcione una indicación para guiar al modelo y mejorar la precisión para palabras o contextos específicos.",
+    "initialPromptPlaceholder": "p.ej., El orador menciona Züstand y Tauri...",
+    "suppressNonSpeechTokens": "Suprimir Tokens No Hablados",
+    "suppressNonSpeechTokensDescription": "Evita que tokens especiales como [Música] o [Aplausos] aparezcan en la salida.",
+    "tokenTimestamps": "Marcas de Tiempo de Token",
+    "tokenTimestampsDescription": "Genera marcas de tiempo para cada token. Útil para subtítulos.",
+    "splitOnWord": "Dividir por Palabra",
+    "splitOnWordDescription": "Divide los segmentos en los límites de las palabras en lugar de los caracteres.",
+    "suppressBlank": "Suprimir Espacios en Blanco",
+    "suppressBlankDescription": "Suprime las salidas en blanco al principio de la transcripción.",
+    "gpuDeviceIndex": "Índice de Dispositivo GPU",
+    "gpuDeviceIndexDescription": "Si tiene varias GPU, especifique el índice de la que desea usar (p. ej., 0, 1)."
   },
   "Languages": {
     "afrikaans": "Afrikáans",

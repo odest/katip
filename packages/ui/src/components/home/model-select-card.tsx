@@ -169,7 +169,7 @@ export function ModelSelectCard() {
         {/* Desktop: Model Path Selection */}
         {isTauriApp && (
           <div className="space-y-2">
-            <Label htmlFor="model-path" className="flex items-center gap-2">
+            <Label className="flex items-center gap-2">
               <FolderOpen className="size-4" />
               {t("modelPath")}
             </Label>
@@ -194,7 +194,7 @@ export function ModelSelectCard() {
         {/* Desktop: Model File Dropdown */}
         {isTauriApp && modelPath && (
           <div className="space-y-2">
-            <Label htmlFor="model-select" className="flex items-center gap-2">
+            <Label className="flex items-center gap-2">
               <FileCode2 className="size-4" />
               {t("selectModel")}
             </Label>

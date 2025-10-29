@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { isTauri } from "@tauri-apps/api/core";
+import { platform } from "@tauri-apps/plugin-os";
 import {
   Card,
   CardContent,
@@ -11,15 +13,41 @@ import {
 import { Label } from "@workspace/ui/components/label";
 import { Switch } from "@workspace/ui/components/switch";
 import { Slider } from "@workspace/ui/components/slider";
-import { Cpu, Zap, ChevronRight, ChevronDown } from "lucide-react";
+import { Cpu, Zap, ChevronRight, ChevronDown, Info } from "lucide-react";
 import { useTranslations } from "@workspace/i18n";
 import { usePerformanceStore } from "@workspace/ui/stores/performance-store";
 
-export function PerformanceSelectCard() {
+export function PerformanceOptionsCard() {
   const { useGPU, threadCount, setUseGPU, setThreadCount } =
     usePerformanceStore();
-  const t = useTranslations("PerformanceSelectCard");
+  const t = useTranslations("PerformanceOptionsCard");
   const [isCardExpanded, setIsCardExpanded] = useState(false);
+  const [isGPUEnabled, setIsGPUEnabled] = useState(true);
+  const [platformType, setPlatformType] = useState<string | null>(null);
+
+  useEffect(() => {
+    const checkPlatform = async () => {
+      if (isTauri()) {
+        try {
+          const platformType = await platform();
+          setPlatformType(platformType);
+          setIsGPUEnabled(
+            platformType === "windows" || platformType === "linux"
+          );
+          setUseGPU(platformType === "windows" || platformType === "linux");
+        } catch (err) {
+          console.error("Error detecting platform:", err);
+          setIsGPUEnabled(false);
+          setUseGPU(false);
+        }
+      } else {
+        setIsGPUEnabled(false);
+        setPlatformType("web");
+        setUseGPU(false);
+      }
+    };
+    checkPlatform();
+  }, []);
 
   return (
     <Card>
@@ -42,22 +70,39 @@ export function PerformanceSelectCard() {
       {isCardExpanded && (
         <CardContent className="space-y-6">
           {/* GPU Acceleration */}
-          <div className="flex items-start justify-between gap-4">
-            <div className="space-y-1 flex-1">
-              <Label className="flex items-center gap-2">
-                <Zap className="size-4" />
-                {t("gpuAcceleration")}
-              </Label>
-              <p className="text-muted-foreground text-xs">
-                {t("gpuAccelerationDescription")}
-              </p>
+          <div className="space-y-3">
+            <div className="flex items-start justify-between gap-4">
+              <div className="space-y-1 flex-1">
+                <Label className="flex items-center gap-2">
+                  <Zap className="size-4" />
+                  {t("gpuAcceleration")}
+                </Label>
+                <p className="text-muted-foreground text-xs">
+                  {t("gpuAccelerationDescription")}
+                </p>
+              </div>
+              <Switch
+                id="gpu-toggle"
+                checked={useGPU}
+                onCheckedChange={setUseGPU}
+                disabled={!isGPUEnabled}
+                className={
+                  isGPUEnabled ? "cursor-pointer" : "cursor-not-allowed"
+                }
+              />
             </div>
-            <Switch
-              id="gpu-toggle"
-              checked={useGPU}
-              onCheckedChange={setUseGPU}
-              className="cursor-pointer"
-            />
+            {!isGPUEnabled && (
+              <div className="flex items-start gap-2 p-2 rounded-md bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-900">
+                <Info className="size-4 text-yellow-600 dark:text-yellow-500 shrink-0 mt-0.5" />
+                <p className="text-xs text-yellow-800 dark:text-yellow-300">
+                  {platformType === "macos"
+                    ? t("gpuMacosWarning")
+                    : platformType === "android"
+                      ? t("gpuAndroidWarning")
+                      : t("gpuWebWarning")}
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Thread Count */}

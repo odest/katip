@@ -6,7 +6,16 @@
   },
   "TranscribePage": {
     "title": "Транскрибировать",
-    "description": "Преобразуйте ваши аудиофайлы в текст"
+    "description": "Преобразуйте ваши аудиофайлы в текст",
+    "configurationRequiredTitle": "Требуется Настройка",
+    "configurationRequiredDesc": "Пожалуйста, выберите как аудиофайл, так и модель Whisper на главной странице для продолжения транскрипции.",
+    "returnToHome": "Вернуться на главную",
+    "webSupportComingSoonTitle": "Поддержка Веб Скоро",
+    "webSupportComingSoonDesc": "Транскрипция в настоящее время доступна только на настольных платформах. Поддержка веб будет доступна в будущем обновлении.",
+    "androidSupportComingSoonTitle": "Поддержка Android Скоро",
+    "androidSupportComingSoonDesc": "Транскрипция в настоящее время доступна только на настольных платформах. Поддержка Android будет доступна в будущем обновлении.",
+    "readyToTranscribeTitle": "Готов к Транскрипции",
+    "readyToTranscribeDesc": "Интерфейс транскрипции будет реализован здесь."
   },
   "SettingsPage": {
     "title": "Настройки",
@@ -47,49 +56,6 @@
     "settings": "Настройки",
     "platform": "Платформа"
   },
-  "TranscriptionPanel": {
-    "title": "Расшифровка аудио",
-    "description": "Преобразуйте ваши аудиофайлы в текст с помощью Whisper AI",
-    "audioFile": "Аудиофайл",
-    "whisperModel": "Модель Whisper",
-    "selectedFile": "Выбранный файл",
-    "selectedModel": "Выбранная модель",
-    "startTranscription": "Начать расшифровку",
-    "transcribing": "Расшифровка...",
-    "loadingWhisper": "Загрузка Whisper...",
-    "error": "Ошибка",
-    "androidPlatformTitle": "Обнаружена платформа Android",
-    "androidPlatformMessage": "Расшифровка речи в текст пока недоступна на Android. Эта функция в настоящее время поддерживается только на настольных платформах.",
-    "transcriptionResults": "Результаты расшифровки",
-    "segmentsFound": "сегмент",
-    "segmentsFoundPlural": "сегментов",
-    "found": "найдено",
-    "errorSelectAudio": "Пожалуйста, выберите аудиофайл",
-    "errorSelectModel": "Пожалуйста, выберите файл модели"
-  },
-  "BrowserCapabilities": {
-    "checking": "Проверка...",
-    "excellent": "Отлично",
-    "good": "Хорошо",
-    "limited": "Ограниченно",
-    "unsupported": "Не поддерживается",
-    "browserCapabilities": "Возможности браузера",
-    "webAssembly": "Web Assembly",
-    "simd": "SIMD (Параллельная Обработка)",
-    "threads": "Многопоточность",
-    "sharedArrayBuffer": "Общая Память",
-    "audioContext": "Обработка Аудио",
-    "offlineAudioContext": "Офлайн Обработка Аудио",
-    "unsupportedMessage": "Ваш браузер не поддерживает все необходимые функции для оптимальной расшифровки."
-  },
-  "AudioFilePicker": {
-    "label": "Выбрать аудиофайл",
-    "chooseFile": "Выбрать файл"
-  },
-  "ModelFilePicker": {
-    "label": "Выбрать модель Whisper",
-    "chooseModel": "Выбрать модель (.bin)"
-  },
   "AudioSelectCard": {
     "title": "Выбор аудиофайла",
     "description": "Выберите аудиофайл для транскрипции",
@@ -121,8 +87,8 @@
     "fileUploaded": "Файл успешно загружен",
     "fileRejected": "Файл отклонен"
   },
-  "LanguageSelectCard": {
-    "title": "Настройки языка",
+  "LanguageOptionsCard": {
+    "title": "Опции Языка",
     "description": "Выберите язык аудио и параметры перевода",
     "audioLanguage": "Язык аудио",
     "audioLanguageDescription": "Выберите язык вашего аудиофайла или позвольте Whisper определить его автоматически",
@@ -133,17 +99,54 @@
     "popularLanguages": "Популярные",
     "allLanguages": "Все языки"
   },
-  "PerformanceSelectCard": {
-    "title": "Настройки производительности",
+  "PerformanceOptionsCard": {
+    "title": "Параметры Производительности",
     "description": "Настройте производительность обработки и аппаратное ускорение",
     "gpuAcceleration": "Ускорение GPU",
     "gpuAccelerationDescription": "Использовать GPU для более быстрой транскрипции (требуется поддержка Vulkan)",
+    "gpuMacosWarning": "Ускорение GPU пока недоступно на macOS. Эта функция требует запуска настольного приложения на Windows или Linux.",
+    "gpuWebWarning": "Ускорение GPU пока недоступно в веб-браузерах. Эта функция требует запуска настольного приложения на Windows или Linux.",
+    "gpuAndroidWarning": "Ускорение GPU пока недоступно на Android. Эта функция требует запуска настольного приложения на Windows или Linux.",
     "cpuThreads": "Потоки CPU",
     "cpuThreadsDescription": "Количество потоков CPU для использования при обработке транскрипции",
     "performanceMode": "Режим производительности",
     "gpuEnabled": "GPU включен",
     "thread": "Поток",
     "threads": "Потоков"
+  },
+  "AdvancedOptionsCard": {
+    "title": "Расширенные Опции",
+    "description": "Точная настройка поведения транскрипции для точности и производительности.",
+    "samplingStrategy": "Стратегия выборки",
+    "samplingStrategyDescription": "Greedy работает быстрее, в то время как Beam Search может быть точнее, но медленнее.",
+    "greedy": "Жадный",
+    "beamSearch": "Лучевой поиск",
+    "bestOf": "Лучший из",
+    "bestOfDescription": "Количество кандидатов для рассмотрения. Более высокие значения повышают точность за счет производительности.",
+    "beamSize": "Размер луча",
+    "beamSizeDescription": "Количество лучей для использования. Более высокие значения повышают точность за счет производительности.",
+    "patience": "Терпение",
+    "patienceDescription": "Управляет критерием остановки для лучевого поиска. Более высокие значения могут улучшить точность, но увеличивают время.",
+    "lengthPenalty": "Штраф за длину",
+    "lengthPenaltyDescription": "Штрафует более длинные транскрипции. <1.0 предпочитает более короткие результаты, >1.0 предпочитает более длинные.",
+    "temperature": "Температура",
+    "temperatureDescription": "Контролирует случайность. Более низкие значения более детерминированы, более высокие — более креативны.",
+    "maxSegmentLength": "Максимальная длина сегмента",
+    "maxSegmentLengthDescription": "Максимальное количество символов в сегменте. 0 означает без ограничений.",
+    "auto": "Авто",
+    "initialPrompt": "Начальная подсказка (необязательно)",
+    "initialPromptDescription": "Предоставьте подсказку, чтобы направить модель и повысить точность для определенных слов или контекста.",
+    "initialPromptPlaceholder": "например, Докладчик упоминает Züstand и Tauri...",
+    "suppressNonSpeechTokens": "Подавлять неречевые токены",
+    "suppressNonSpeechTokensDescription": "Предотвращает появление в выводе специальных токенов, таких как [Музыка] или [Аплодисменты].",
+    "tokenTimestamps": "Временные метки токенов",
+    "tokenTimestampsDescription": "Генерировать временные метки для каждого токена. Полезно для субтитров.",
+    "splitOnWord": "Разделять по слову",
+    "splitOnWordDescription": "Разделять сегменты по границам слов, а не по символам.",
+    "suppressBlank": "Подавлять пустые",
+    "suppressBlankDescription": "Подавлять пустые выводы в начале транскрипции.",
+    "gpuDeviceIndex": "Индекс устройства GPU",
+    "gpuDeviceIndexDescription": "Если у вас несколько графических процессоров, укажите индекс того, который нужно использовать (например, 0, 1)."
   },
   "Languages": {
     "afrikaans": "Африкаанс",

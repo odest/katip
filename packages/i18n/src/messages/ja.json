@@ -6,7 +6,16 @@
   },
   "TranscribePage": {
     "title": "文字起こし",
-    "description": "音声ファイルをテキストに変換します"
+    "description": "音声ファイルをテキストに変換します",
+    "configurationRequiredTitle": "設定が必要です",
+    "configurationRequiredDesc": "文字起こしを続行するには、ホームページから音声ファイルとWhisperモデルの両方を選択してください。",
+    "returnToHome": "ホームに戻る",
+    "webSupportComingSoonTitle": "Webサポート近日公開",
+    "webSupportComingSoonDesc": "文字起こしは現在、デスクトッププラットフォームでのみ利用できます。Webサポートは今後のアップデートで利用可能になります。",
+    "androidSupportComingSoonTitle": "Androidサポート近日公開",
+    "androidSupportComingSoonDesc": "文字起こしは現在、デスクトッププラットフォームでのみ利用できます。Androidサポートは今後のアップデートで利用可能になります。",
+    "readyToTranscribeTitle": "文字起こし準備完了",
+    "readyToTranscribeDesc": "文字起こしインターフェースはここに実装されます。"
   },
   "SettingsPage": {
     "title": "設定",
@@ -47,49 +56,6 @@
     "settings": "設定",
     "platform": "プラットフォーム"
   },
-  "TranscriptionPanel": {
-    "title": "音声文字起こし",
-    "description": "Whisper AIを使用して音声ファイルをテキストに変換します",
-    "audioFile": "音声ファイル",
-    "whisperModel": "Whisperモデル",
-    "selectedFile": "選択されたファイル",
-    "selectedModel": "選択されたモデル",
-    "startTranscription": "文字起こしを開始",
-    "transcribing": "文字起こし中...",
-    "loadingWhisper": "Whisperを読み込んでいます...",
-    "error": "エラー",
-    "androidPlatformTitle": "Androidプラットフォームが検出されました",
-    "androidPlatformMessage": "音声からテキストへの文字起こしはAndroidではまだ利用できません。この機能は現在、デスクトッププラットフォームでのみサポートされています。",
-    "transcriptionResults": "文字起こし結果",
-    "segmentsFound": "セグメント",
-    "segmentsFoundPlural": "セグメント",
-    "found": "が見つかりました",
-    "errorSelectAudio": "音声ファイルを選択してください",
-    "errorSelectModel": "モデルファイルを選択してください"
-  },
-  "BrowserCapabilities": {
-    "checking": "確認中...",
-    "excellent": "優秀",
-    "good": "良好",
-    "limited": "限定的",
-    "unsupported": "未対応",
-    "browserCapabilities": "ブラウザの機能",
-    "webAssembly": "Web Assembly",
-    "simd": "SIMD（並列処理）",
-    "threads": "マルチスレッド",
-    "sharedArrayBuffer": "共有メモリ",
-    "audioContext": "音声処理",
-    "offlineAudioContext": "オフライン音声処理",
-    "unsupportedMessage": "お使いのブラウザは最適な文字起こしに必要なすべての機能をサポートしていません。"
-  },
-  "AudioFilePicker": {
-    "label": "音声ファイルを選択",
-    "chooseFile": "ファイルを選択"
-  },
-  "ModelFilePicker": {
-    "label": "Whisperモデルを選択",
-    "chooseModel": "モデルを選択 (.bin)"
-  },
   "AudioSelectCard": {
     "title": "音声ファイルの選択",
     "description": "文字起こし用の音声ファイルを選択してください",
@@ -121,8 +87,8 @@
     "fileUploaded": "ファイルが正常にアップロードされました",
     "fileRejected": "ファイルが拒否されました"
   },
-  "LanguageSelectCard": {
-    "title": "言語設定",
+  "LanguageOptionsCard": {
+    "title": "言語オプション",
     "description": "音声言語と翻訳オプションを選択してください",
     "audioLanguage": "音声言語",
     "audioLanguageDescription": "音声ファイルの言語を選択するか、Whisperに自動検出させてください",
@@ -133,17 +99,54 @@
     "popularLanguages": "人気",
     "allLanguages": "すべての言語"
   },
-  "PerformanceSelectCard": {
-    "title": "パフォーマンス設定",
+  "PerformanceOptionsCard": {
+    "title": "パフォーマンスオプション",
     "description": "処理パフォーマンスとハードウェアアクセラレーションを設定してください",
     "gpuAcceleration": "GPUアクセラレーション",
     "gpuAccelerationDescription": "より高速な文字起こしのためにGPUを使用します（Vulkanサポートが必要）",
+    "gpuMacosWarning": "GPUアクセラレーションはmacOSではまだ利用できません。この機能はWindowsまたはLinuxで実行されているデスクトップアプリケーションが必要です。",
+    "gpuWebWarning": "GPUアクセラレーションはWebブラウザではまだ利用できません。この機能はWindowsまたはLinuxで実行されているデスクトップアプリケーションが必要です。",
+    "gpuAndroidWarning": "GPUアクセラレーションはAndroidではまだ利用できません。この機能はWindowsまたはLinuxで実行されているデスクトップアプリケーションが必要です。",
     "cpuThreads": "CPUスレッド",
     "cpuThreadsDescription": "文字起こし処理に使用するCPUスレッド数",
     "performanceMode": "パフォーマンスモード",
     "gpuEnabled": "GPU有効",
     "thread": "スレッド",
     "threads": "スレッド"
+  },
+  "AdvancedOptionsCard": {
+    "title": "高度なオプション",
+    "description": "精度とパフォーマンスのために文字起こしの動作を微調整します。",
+    "samplingStrategy": "サンプリング戦略",
+    "samplingStrategyDescription": "Greedyは高速ですが、Beam Searchはより正確ですが低速です。",
+    "greedy": "貪欲",
+    "beamSearch": "ビームサーチ",
+    "bestOf": "ベストオブ",
+    "bestOfDescription": "考慮する候補の数。値が高いほど、パフォーマンスを犠牲にして精度が向上します。",
+    "beamSize": "ビームサイズ",
+    "beamSizeDescription": "使用するビームの数。値が高いほど、パフォーマンスを犠牲にして精度が向上します。",
+    "patience": "忍耐",
+    "patienceDescription": "ビームサーチの停止基準を制御します。値が高いほど精度が向上する可能性がありますが、時間が増加します。",
+    "lengthPenalty": "長さペナルティ",
+    "lengthPenaltyDescription": "長い文字起こしにペナルティを課します。<1.0は短い結果を、>1.0は長い結果を優先します。",
+    "temperature": "温度",
+    "temperatureDescription": "ランダム性を制御します。低い値はより決定的であり、高い値はより創造的です。",
+    "maxSegmentLength": "最大セグメント長",
+    "maxSegmentLengthDescription": "セグメントあたりの最大文字数。0は制限なしを意味します。",
+    "auto": "自動",
+    "initialPrompt": "初期プロンプト（オプション）",
+    "initialPromptDescription": "モデルをガイドし、特定の単語や文脈の精度を向上させるためのプロンプトを提供します。",
+    "initialPromptPlaceholder": "例：スピーカーがZüstandとTauriについて言及しています...",
+    "suppressNonSpeechTokens": "非音声トークンを抑制",
+    "suppressNonSpeechTokensDescription": "出力に[音楽]や[拍手]などの特殊なトークンが表示されないようにします。",
+    "tokenTimestamps": "トークンタイムスタンプ",
+    "tokenTimestampsDescription": "各トークンのタイムスタンプを生成します。字幕に便利です。",
+    "splitOnWord": "単語で分割",
+    "splitOnWordDescription": "セグメントを文字ではなく単語の境界で分割します。",
+    "suppressBlank": "空白を抑制",
+    "suppressBlankDescription": "文字起こしの開始時に空白の出力を抑制します。",
+    "gpuDeviceIndex": "GPUデバイスインデックス",
+    "gpuDeviceIndexDescription": "複数のGPUがある場合は、使用するGPUのインデックスを指定します（例：0、1）。"
   },
   "Languages": {
     "afrikaans": "アフリカーンス語",

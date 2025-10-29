@@ -26,7 +26,7 @@ import {
   ArrowDownAZ,
 } from "lucide-react";
 import { themes } from "@workspace/ui/config/themes";
-import { ThemeCard } from "@workspace/ui/components/common/theme-card";
+import { ThemeCard } from "@workspace/ui/components/settings/theme-card";
 import { useThemeStore } from "@workspace/ui/stores/theme-store";
 import { useMounted } from "@workspace/ui/hooks/use-mounted";
 import { useTranslations } from "@workspace/i18n";

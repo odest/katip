@@ -6,7 +6,16 @@
   },
   "TranscribePage": {
     "title": "转录",
-    "description": "将您的音频文件转换为文本"
+    "description": "将您的音频文件转换为文本",
+    "configurationRequiredTitle": "需要配置",
+    "configurationRequiredDesc": "请从主页选择一个音频文件和一个Whisper模型以继续转录。",
+    "returnToHome": "返回主页",
+    "webSupportComingSoonTitle": "即将推出Web支持",
+    "webSupportComingSoonDesc": "转录目前仅在桌面平台上可用。Web支持将在未来的更新中提供。",
+    "androidSupportComingSoonTitle": "即将推出Android支持",
+    "androidSupportComingSoonDesc": "转录目前仅在桌面平台上可用。Android支持将在未来的更新中提供。",
+    "readyToTranscribeTitle": "准备转录",
+    "readyToTranscribeDesc": "转录界面将在这里实现。"
   },
   "SettingsPage": {
     "title": "设置",
@@ -47,49 +56,6 @@
     "settings": "设置",
     "platform": "平台"
   },
-  "TranscriptionPanel": {
-    "title": "音频转录",
-    "description": "使用Whisper AI将您的音频文件转换为文本",
-    "audioFile": "音频文件",
-    "whisperModel": "Whisper模型",
-    "selectedFile": "选定的文件",
-    "selectedModel": "选定的模型",
-    "startTranscription": "开始转录",
-    "transcribing": "正在转录...",
-    "loadingWhisper": "正在加载Whisper...",
-    "error": "错误",
-    "androidPlatformTitle": "检测到Android平台",
-    "androidPlatformMessage": "语音转文本转录在Android上尚未可用。此功能目前仅在桌面平台上受支持。",
-    "transcriptionResults": "转录结果",
-    "segmentsFound": "段",
-    "segmentsFoundPlural": "段",
-    "found": "找到",
-    "errorSelectAudio": "请选择音频文件",
-    "errorSelectModel": "请选择模型文件"
-  },
-  "BrowserCapabilities": {
-    "checking": "检查中...",
-    "excellent": "优秀",
-    "good": "良好",
-    "limited": "有限",
-    "unsupported": "不支持",
-    "browserCapabilities": "浏览器功能",
-    "webAssembly": "Web Assembly",
-    "simd": "SIMD（并行处理）",
-    "threads": "多线程",
-    "sharedArrayBuffer": "共享内存",
-    "audioContext": "音频处理",
-    "offlineAudioContext": "离线音频处理",
-    "unsupportedMessage": "您的浏览器不支持所有必需的功能以实现最佳转录。"
-  },
-  "AudioFilePicker": {
-    "label": "选择音频文件",
-    "chooseFile": "选择文件"
-  },
-  "ModelFilePicker": {
-    "label": "选择Whisper模型",
-    "chooseModel": "选择模型 (.bin)"
-  },
   "AudioSelectCard": {
     "title": "音频文件选择",
     "description": "选择用于转录的音频文件",
@@ -121,8 +87,8 @@
     "fileUploaded": "文件上传成功",
     "fileRejected": "文件被拒绝"
   },
-  "LanguageSelectCard": {
-    "title": "语言设置",
+  "LanguageOptionsCard": {
+    "title": "语言选项",
     "description": "选择音频语言和翻译选项",
     "audioLanguage": "音频语言",
     "audioLanguageDescription": "选择您的音频文件语言或让Whisper自动检测",
@@ -133,17 +99,54 @@
     "popularLanguages": "热门",
     "allLanguages": "所有语言"
   },
-  "PerformanceSelectCard": {
-    "title": "性能设置",
+  "PerformanceOptionsCard": {
+    "title": "性能选项",
     "description": "配置处理性能和硬件加速",
     "gpuAcceleration": "GPU加速",
     "gpuAccelerationDescription": "使用GPU进行更快的转录（需要Vulkan支持）",
+    "gpuMacosWarning": "GPU加速在macOS上尚不可用。此功能需要在Windows或Linux上运行的桌面应用程序。",
+    "gpuWebWarning": "GPU加速在Web浏览器上尚不可用。此功能需要在Windows或Linux上运行的桌面应用程序。",
+    "gpuAndroidWarning": "GPU加速在Android上尚不可用。此功能需要在Windows或Linux上运行的桌面应用程序。",
     "cpuThreads": "CPU线程",
     "cpuThreadsDescription": "用于转录处理的CPU线程数",
     "performanceMode": "性能模式",
     "gpuEnabled": "GPU已启用",
     "thread": "线程",
     "threads": "线程"
+  },
+  "AdvancedOptionsCard": {
+    "title": "高级选项",
+    "description": "微调转录行为以提高准确性和性能。",
+    "samplingStrategy": "抽样策略",
+    "samplingStrategyDescription": "Greedy 速度更快，而 Beam Search 可能更准确但速度较慢。",
+    "greedy": "贪婪",
+    "beamSearch": "束搜索",
+    "bestOf": "最佳",
+    "bestOfDescription": "要考虑的候选数量。较高的值会以牺牲性能为代价来提高准确性。",
+    "beamSize": "束大小",
+    "beamSizeDescription": "要使用的束数。较高的值会以牺牲性能为代价来提高准确性。",
+    "patience": "耐心",
+    "patienceDescription": "控制束搜索的停止标准。较高的值可以提高准确性但会增加时间。",
+    "lengthPenalty": "长度惩罚",
+    "lengthPenaltyDescription": "对较长的转录进行惩罚。<1.0 有利于较短的结果，>1.0 有利于较长的结果。",
+    "temperature": "温度",
+    "temperatureDescription": "控制随机性。较低的值更具确定性，较高的值更具创造性。",
+    "maxSegmentLength": "最大段长度",
+    "maxSegmentLengthDescription": "每段的最大字符数。0 表示没有限制。",
+    "auto": "自动",
+    "initialPrompt": "初始提示（可选）",
+    "initialPromptDescription": "提供提示以指导模型并提高特定单词或上下文的准确性。",
+    "initialPromptPlaceholder": "例如，演讲者提到了 Züstand 和 Tauri...",
+    "suppressNonSpeechTokens": "抑制非语音令牌",
+    "suppressNonSpeechTokensDescription": "防止像 [音乐] 或 [掌声] 这样的特殊令牌出现在输出中。",
+    "tokenTimestamps": "令牌时间戳",
+    "tokenTimestampsDescription": "为每个令牌生成时间戳。对字幕很有用。",
+    "splitOnWord": "按词分割",
+    "splitOnWordDescription": "在单词边界而不是字符处分割段。",
+    "suppressBlank": "抑制空白",
+    "suppressBlankDescription": "抑制转录开始时的空白输出。",
+    "gpuDeviceIndex": "GPU 设备索引",
+    "gpuDeviceIndexDescription": "如果您有多个 GPU，请指定要使用的 GPU 的索引（例如 0, 1）。"
   },
   "Languages": {
     "afrikaans": "南非荷兰语",

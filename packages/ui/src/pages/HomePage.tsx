@@ -3,14 +3,20 @@ import { useRouter } from "@workspace/i18n/navigation";
 import { Button } from "@workspace/ui/components/button";
 import { AppFooter } from "@workspace/ui/components/layout/app-footer";
 import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
-import { AudioSelectCard } from "@workspace/ui/components/common/audio-select-card";
-import { ModelSelectCard } from "@workspace/ui/components/common/model-select-card";
-import { LanguageSelectCard } from "@workspace/ui/components/common/language-select-card";
-import { PerformanceSelectCard } from "@workspace/ui/components/common/performance-select-card";
+import { AudioSelectCard } from "@workspace/ui/components/home/audio-select-card";
+import { ModelSelectCard } from "@workspace/ui/components/home/model-select-card";
+import { LanguageOptionsCard } from "@workspace/ui/components/home/language-options-card";
+import { PerformanceOptionsCard } from "@workspace/ui/components/home/performance-options-card";
+import { AdvancedOptionsCard } from "@workspace/ui/components/home/advanced-options-card";
+import { useAudioStore } from "@workspace/ui/stores/audio-store";
+import { useModelStore } from "@workspace/ui/stores/model-store";
 
 export function HomePage() {
   const t = useTranslations("HomePage");
   const router = useRouter();
+  const { selectedAudio } = useAudioStore();
+  const { selectedModel } = useModelStore();
+  const isButtonDisabled = !selectedAudio || !selectedModel;
 
   return (
     <>
@@ -25,8 +31,9 @@ export function HomePage() {
             </div>
             <AudioSelectCard />
             <ModelSelectCard />
-            <LanguageSelectCard />
-            <PerformanceSelectCard />
+            <LanguageOptionsCard />
+            <PerformanceOptionsCard />
+            <AdvancedOptionsCard />
           </div>
         </div>
         <ScrollBar orientation="vertical" />
@@ -34,8 +41,9 @@ export function HomePage() {
       <AppFooter>
         <Button
           size="lg"
-          className="max-w-3xl mx-auto w-full shadow-lg cursor-pointer"
+          className="max-w-3xl mx-auto w-full shadow-lg"
           onClick={() => router.push("/transcribe")}
+          disabled={isButtonDisabled}
         >
           {t("startTranscription")}
         </Button>

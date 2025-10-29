@@ -1,52 +1,79 @@
 "use client";
 
-import { useEffect } from "react";
-import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
+import { useEffect, useState } from "react";
+import { isTauri } from "@tauri-apps/api/core";
+import { platform } from "@tauri-apps/plugin-os";
 import { useTranslations } from "@workspace/i18n";
 import { useAudioStore } from "@workspace/ui/stores/audio-store";
 import { useModelStore } from "@workspace/ui/stores/model-store";
-import { useLanguageStore } from "@workspace/ui/stores/language-store";
-import { usePerformanceStore } from "@workspace/ui/stores/performance-store";
+import { StatusMessage } from "@workspace/ui/components/common/status-message";
 
 export function TranscribePage() {
   const t = useTranslations("TranscribePage");
   const { selectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
-  const { language, translateToEnglish } = useLanguageStore();
-  const { useGPU, threadCount } = usePerformanceStore();
+  const [isAndroid, setIsAndroid] = useState(false);
 
-  // Debugging: Log selected settings whenever they change
+  const selectionsMissing = !selectedAudio || !selectedModel;
+
   useEffect(() => {
-    console.log("=== Transcribe Page - Selected Settings ===");
-    console.log("Audio File:", selectedAudio);
-    console.log("Model File:", selectedModel);
-    console.log("Language:", language);
-    console.log("Translate to English:", translateToEnglish);
-    console.log("Use GPU:", useGPU);
-    console.log("Thread Count:", threadCount);
-    console.log("==========================================");
-  }, [
-    selectedAudio,
-    selectedModel,
-    language,
-    translateToEnglish,
-    useGPU,
-    threadCount,
-  ]);
+    if (isTauri()) {
+      const checkPlatform = async () => {
+        try {
+          const platformType = await platform();
+          setIsAndroid(platformType === "android");
+        } catch (err) {
+          console.error("Error detecting platform:", err);
+        }
+      };
+      checkPlatform();
+    }
+  }, []);
 
+  // Show message if selections are missing
+  if (selectionsMissing) {
+    return (
+      <StatusMessage
+        title={t("configurationRequiredTitle")}
+        description={t("configurationRequiredDesc")}
+        buttonText={t("returnToHome")}
+      />
+    );
+  }
+
+  // Show message if running on web browser
+  if (!isTauri()) {
+    return (
+      <StatusMessage
+        title={t("webSupportComingSoonTitle")}
+        description={t("webSupportComingSoonDesc")}
+        buttonText={t("returnToHome")}
+      />
+    );
+  }
+
+  // Show message if running on Android
+  if (isAndroid) {
+    return (
+      <StatusMessage
+        title={t("androidSupportComingSoonTitle")}
+        description={t("androidSupportComingSoonDesc")}
+        buttonText={t("returnToHome")}
+      />
+    );
+  }
+
+  // Show the actual transcription interface
   return (
-    <ScrollArea className="overflow-y-auto w-full">
-      <div className="flex flex-1 flex-col gap-6 p-6">
-        <div className="max-w-3xl mx-auto w-full flex flex-col gap-6">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold text-center">{t("title")}</h1>
-            <p className="text-muted-foreground text-center">
-              {t("description")}
-            </p>
-          </div>
-        </div>
+    <div className="flex flex-1 flex-col justify-center gap-6 p-6">
+      <div className="flex flex-col items-center text-center gap-6">
+        <h1 className="text-2xl leading-none font-semibold text-center">
+          {t("readyToTranscribeTitle")}
+        </h1>
+        <p className="max-w-lg text-muted-foreground text-center">
+          {t("readyToTranscribeDesc")}
+        </p>
       </div>
-      <ScrollBar orientation="vertical" />
-    </ScrollArea>
+    </div>
   );
 }

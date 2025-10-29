@@ -6,7 +6,16 @@
   },
   "TranscribePage": {
     "title": "Transkript",
-    "description": "Ses dosyalarınızı metne dönüştürün"
+    "description": "Ses dosyalarınızı metne dönüştürün",
+    "configurationRequiredTitle": "Yapılandırma Gerekli",
+    "configurationRequiredDesc": "Transkript işlemini devam ettirmek için lütfen ana sayfadan hem bir ses dosyası hem de bir Whisper modeli seçin.",
+    "returnToHome": "Ana Sayfaya Dön",
+    "webSupportComingSoonTitle": "Web Desteği Yakında",
+    "webSupportComingSoonDesc": "Transkript şu anda yalnızca masaüstü platformlarda mevcuttur. Web desteği gelecek bir güncellemede mevcut olacaktır.",
+    "androidSupportComingSoonTitle": "Android Desteği Yakında",
+    "androidSupportComingSoonDesc": "Transkript şu anda yalnızca masaüstü platformlarda mevcuttur. Android desteği gelecek bir güncellemede mevcut olacaktır.",
+    "readyToTranscribeTitle": "Transkript İçin Hazır",
+    "readyToTranscribeDesc": "Transkript arayüzü burada uygulanacaktır."
   },
   "SettingsPage": {
     "title": "Ayarlar",
@@ -47,49 +56,6 @@
     "settings": "Ayarlar",
     "platform": "Platform"
   },
-  "TranscriptionPanel": {
-    "title": "Ses Transkripti",
-    "description": "Whisper AI kullanarak ses dosyalarınızı metne dönüştürün",
-    "audioFile": "Ses Dosyası",
-    "whisperModel": "Whisper Modeli",
-    "selectedFile": "Seçilen Dosya",
-    "selectedModel": "Seçilen Model",
-    "startTranscription": "Transkripti Başlat",
-    "transcribing": "Transkript Yapılıyor...",
-    "loadingWhisper": "Whisper Yükleniyor...",
-    "error": "Hata",
-    "androidPlatformTitle": "Android Platformu Algılandı",
-    "androidPlatformMessage": "Konuşmadan metne dönüştürme henüz Android'de kullanılamıyor. Bu özellik şu anda yalnızca masaüstü platformlarda desteklenmektedir.",
-    "transcriptionResults": "Transkript Sonuçları",
-    "segmentsFound": "segment",
-    "segmentsFoundPlural": "segment",
-    "found": "bulundu",
-    "errorSelectAudio": "Lütfen bir ses dosyası seçin",
-    "errorSelectModel": "Lütfen bir model dosyası seçin"
-  },
-  "BrowserCapabilities": {
-    "checking": "Kontrol ediliyor...",
-    "excellent": "Mükemmel",
-    "good": "İyi",
-    "limited": "Sınırlı",
-    "unsupported": "Desteklenmiyor",
-    "browserCapabilities": "Tarayıcı Yetenekleri",
-    "webAssembly": "Web Assembly",
-    "simd": "SIMD (Paralel İşlem)",
-    "threads": "Çoklu İş Parçacığı",
-    "sharedArrayBuffer": "Paylaşımlı Bellek",
-    "audioContext": "Ses İşleme",
-    "offlineAudioContext": "Çevrimdışı Ses İşleme",
-    "unsupportedMessage": "Tarayıcınız optimal transkript için gerekli tüm özellikleri desteklemiyor."
-  },
-  "AudioFilePicker": {
-    "label": "Ses Dosyası Seç",
-    "chooseFile": "Dosya Seç"
-  },
-  "ModelFilePicker": {
-    "label": "Whisper Modeli Seç",
-    "chooseModel": "Model Seç (.bin)"
-  },
   "AudioSelectCard": {
     "title": "Ses Dosyası Seçimi",
     "description": "Transkript için bir ses dosyası seçin",
@@ -121,8 +87,8 @@
     "fileUploaded": "Dosya başarıyla yüklendi",
     "fileRejected": "Dosya reddedildi"
   },
-  "LanguageSelectCard": {
-    "title": "Dil Ayarları",
+  "LanguageOptionsCard": {
+    "title": "Dil Seçenekleri",
     "description": "Ses dilini ve çeviri seçeneklerini belirleyin",
     "audioLanguage": "Ses Dili",
     "audioLanguageDescription": "Ses dosyanızın dilini seçin veya Whisper'ın otomatik algılamasını sağlayın",
@@ -133,17 +99,54 @@
     "popularLanguages": "Popüler",
     "allLanguages": "Tüm Diller"
   },
-  "PerformanceSelectCard": {
-    "title": "Performans Ayarları",
+  "PerformanceOptionsCard": {
+    "title": "Performans Seçenekleri",
     "description": "İşlem performansını ve donanım hızlandırmayı yapılandırın",
     "gpuAcceleration": "GPU Hızlandırma",
     "gpuAccelerationDescription": "Daha hızlı transkript için GPU kullan (Vulkan desteği gerektirir)",
+    "gpuMacosWarning": "GPU hızlandırma henüz macOS'ta mevcut değil. Bu özellik, Windows veya Linux'ta çalışan masaüstü uygulamasını gerektirir.",
+    "gpuWebWarning": "GPU hızlandırma henüz web tarayıcılarında mevcut değil. Bu özellik, Windows veya Linux'ta çalışan masaüstü uygulamasını gerektirir.",
+    "gpuAndroidWarning": "GPU hızlandırma henüz Android'de mevcut değil. Bu özellik, Windows veya Linux'ta çalışan masaüstü uygulamasını gerektirir.",
     "cpuThreads": "CPU İş Parçacıkları",
     "cpuThreadsDescription": "Transkript işleme için kullanılacak CPU iş parçacığı sayısı",
     "performanceMode": "Performans Modu",
     "gpuEnabled": "GPU Etkin",
     "thread": "İş Parçacığı",
     "threads": "İş Parçacığı"
+  },
+  "AdvancedOptionsCard": {
+    "title": "Gelişmiş Seçenekler",
+    "description": "Doğruluk ve performans için transkripsiyon davranışını hassas şekilde ayarlayın.",
+    "samplingStrategy": "Örnekleme Stratejisi",
+    "samplingStrategyDescription": "Greedy daha hızlıdır, Beam Search ise daha doğru olabilir ancak daha yavaştır.",
+    "greedy": "Greedy",
+    "beamSearch": "Beam Search",
+    "bestOf": "En İyisi",
+    "bestOfDescription": "Dikkate alınacak aday sayısı. Yüksek değerler performans pahasına doğruluğu artırır.",
+    "beamSize": "Işın Boyutu",
+    "beamSizeDescription": "Kullanılacak ışın sayısı. Yüksek değerler performans pahasına doğruluğu artırır.",
+    "patience": "Sabır",
+    "patienceDescription": "Işın araması için durma kriterini kontrol eder. Yüksek değerler doğruluğu artırabilir ancak süreyi uzatır.",
+    "lengthPenalty": "Uzunluk Cezası",
+    "lengthPenaltyDescription": "Daha uzun transkripsiyonları cezalandırır. <1.0 daha kısa, >1.0 daha uzun sonuçları tercih eder.",
+    "temperature": "Sıcaklık",
+    "temperatureDescription": "Rastgeleliği kontrol eder. Düşük değerler daha deterministik, yüksek değerler daha yaratıcıdır.",
+    "maxSegmentLength": "Maksimum Segment Uzunluğu",
+    "maxSegmentLengthDescription": "Segment başına maksimum karakter sayısı. 0, sınır olmadığı anlamına gelir.",
+    "auto": "Otomatik",
+    "initialPrompt": "Başlangıç Metni (İsteğe Bağlı)",
+    "initialPromptDescription": "Modeli yönlendirmek ve belirli kelimeler veya bağlamlar için doğruluğu artırmak üzere bir başlangıç metni sağlayın.",
+    "initialPromptPlaceholder": "örn., Konuşmacı Züstand ve Tauri'den bahsediyor...",
+    "suppressNonSpeechTokens": "Konuşma Dışı Tokenları Gizle",
+    "suppressNonSpeechTokensDescription": "Çıktıda [Müzik] veya [Alkış] gibi özel tokenların görünmesini engelleyin.",
+    "tokenTimestamps": "Token Zaman Damgaları",
+    "tokenTimestampsDescription": "Her bir token için zaman damgaları oluşturun. Altyazılar için kullanışlıdır.",
+    "splitOnWord": "Kelimeye Göre Böl",
+    "splitOnWordDescription": "Segmentleri karakterler yerine kelime sınırlarına göre bölün.",
+    "suppressBlank": "Boşlukları Gizle",
+    "suppressBlankDescription": "Transkripsiyonun başındaki boş çıktıları gizleyin.",
+    "gpuDeviceIndex": "GPU Cihaz İndeksi",
+    "gpuDeviceIndexDescription": "Birden fazla GPU'nuz varsa, kullanılacak olanın indeksini belirtin (örn. 0, 1)."
   },
   "Languages": {
     "afrikaans": "Afrikanca",

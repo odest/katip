@@ -25,11 +25,11 @@ import { cn } from "@workspace/ui/lib/utils";
 import { LANGUAGE_KEYS } from "@workspace/ui/config/languages";
 import { useLanguageStore } from "@workspace/ui/stores/language-store";
 
-export function LanguageSelectCard() {
+export function LanguageOptionsCard() {
   const { language, translateToEnglish, setLanguage, setTranslateToEnglish } =
     useLanguageStore();
   const tLanguages = useTranslations("Languages");
-  const t = useTranslations("LanguageSelectCard");
+  const t = useTranslations("LanguageOptionsCard");
   const [isCardExpanded, setIsCardExpanded] = useState(false);
 
   // Popular language codes

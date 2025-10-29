@@ -1,8 +1,8 @@
 import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
-import { LanguageCard } from "@workspace/ui/components/common/language-card";
-import { ModeCard } from "@workspace/ui/components/common/mode-card";
-import { SidebarVariantCard } from "@workspace/ui/components/common/sidebar-variant-card";
-import { ThemesList } from "@workspace/ui/components/common/themes-list";
+import { LanguageCard } from "@workspace/ui/components/settings/language-card";
+import { ModeCard } from "@workspace/ui/components/settings/mode-card";
+import { SidebarVariantCard } from "@workspace/ui/components/settings/sidebar-variant-card";
+import { ThemesList } from "@workspace/ui/components/settings/themes-list";
 import { useTranslations } from "@workspace/i18n";
 
 export function SettingsPage() {

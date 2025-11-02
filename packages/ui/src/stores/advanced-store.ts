@@ -11,7 +11,6 @@ interface AdvancedState {
   initialPrompt: string;
   suppressNonSpeechTokens: boolean;
   patience: number;
-  lengthPenalty: number;
   suppressBlank: boolean;
   tokenTimestamps: boolean;
   gpuDevice: number;
@@ -24,7 +23,6 @@ interface AdvancedState {
   setInitialPrompt: (initialPrompt: string) => void;
   setSuppressNonSpeechTokens: (suppressNonSpeechTokens: boolean) => void;
   setPatience: (patience: number) => void;
-  setLengthPenalty: (lengthPenalty: number) => void;
   setSuppressBlank: (suppressBlank: boolean) => void;
   setTokenTimestamps: (tokenTimestamps: boolean) => void;
   setGpuDevice: (gpuDevice: number) => void;
@@ -42,7 +40,6 @@ export const useAdvancedStore = create<AdvancedState>()(
       initialPrompt: "",
       suppressNonSpeechTokens: false,
       patience: 1.0,
-      lengthPenalty: 1.0,
       suppressBlank: true,
       tokenTimestamps: false,
       gpuDevice: 0,
@@ -56,7 +53,6 @@ export const useAdvancedStore = create<AdvancedState>()(
       setSuppressNonSpeechTokens: (suppressNonSpeechTokens) =>
         set({ suppressNonSpeechTokens }),
       setPatience: (patience) => set({ patience }),
-      setLengthPenalty: (lengthPenalty) => set({ lengthPenalty }),
       setSuppressBlank: (suppressBlank) => set({ suppressBlank }),
       setTokenTimestamps: (tokenTimestamps) => set({ tokenTimestamps }),
       setGpuDevice: (gpuDevice) => set({ gpuDevice }),

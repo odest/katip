@@ -134,6 +134,7 @@
     "englishOnly": "英語のみのモデル",
     "distilled": "蒸留モデル",
     "selectWebModelPlaceholder": "Whisperモデルを選択",
+    "cached": "キャッシュ済み",
     "modelsCached": "モデルは一度ダウンロードされ、ブラウザにキャッシュされます",
     "selectedModel": "選択されたモデル (CDN)",
     "useQuantizedModels": "量子化モデルを使用",

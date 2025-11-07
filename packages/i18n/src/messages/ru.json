@@ -134,6 +134,7 @@
     "englishOnly": "Только англоязычные модели",
     "distilled": "Дистиллированные модели",
     "selectWebModelPlaceholder": "Выберите модель whisper",
+    "cached": "В кеше",
     "modelsCached": "Модели загружаются один раз, затем кэшируются в браузере",
     "selectedModel": "Выбранная модель (CDN)",
     "useQuantizedModels": "Использовать квантованные модели",

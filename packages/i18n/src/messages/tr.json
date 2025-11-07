@@ -134,6 +134,7 @@
     "englishOnly": "Sadece İngilizce Modeller",
     "distilled": "Damıtılmış Modeller",
     "selectWebModelPlaceholder": "Bir whisper modeli seçin",
+    "cached": "Önbellekte",
     "modelsCached": "Modeller bir kez indirilir, ardından tarayıcıda önbelleğe alınır",
     "selectedModel": "Seçilen Model (CDN)",
     "useQuantizedModels": "Kuantize Modelleri Kullan",

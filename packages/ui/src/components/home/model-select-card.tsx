@@ -30,6 +30,7 @@ import {
   getModelById,
   CATEGORY_LABELS,
 } from "@workspace/ui/config/models";
+import { getCachedModels } from "@workspace/ui/lib/utils";
 
 interface ModelFile {
   name: string;
@@ -50,6 +51,7 @@ export function ModelSelectCard() {
   const [modelFiles, setModelFiles] = useState<ModelFile[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isTauriApp, setIsTauriApp] = useState(false);
+  const [cachedModels, setCachedModels] = useState<Set<string>>(new Set());
 
   const loadModelsFromPath = useCallback(
     async (path: string) => {
@@ -105,6 +107,16 @@ export function ModelSelectCard() {
   useEffect(() => {
     setIsTauriApp(isTauri());
   }, []);
+
+  const checkCachedModels = useCallback(async () => {
+    if (isTauriApp) return;
+    const models = await getCachedModels();
+    setCachedModels(models);
+  }, [isTauriApp]);
+
+  useEffect(() => {
+    checkCachedModels();
+  }, [checkCachedModels]);
 
   useEffect(() => {
     if (isTauriApp && modelPath) {
@@ -262,6 +274,14 @@ export function ModelSelectCard() {
                       <div className="flex flex-col items-start">
                         <span className="font-medium">{model.name}</span>
                         <span className="text-xs text-muted-foreground">
+                          {cachedModels.has(model.id) && (
+                            <>
+                              <span className="text-xs text-green-500 font-semibold">
+                                {t("cached")}
+                              </span>
+                              {" • "}
+                            </>
+                          )}
                           {useQuantized ? model.quantizedSize : model.size} •{" "}
                           {t(model.description)}
                         </span>
@@ -282,6 +302,14 @@ export function ModelSelectCard() {
                       <div className="flex flex-col items-start">
                         <span className="font-medium">{model.name}</span>
                         <span className="text-xs text-muted-foreground">
+                          {cachedModels.has(model.id) && (
+                            <>
+                              <span className="text-xs text-green-500 font-semibold">
+                                {t("cached")}
+                              </span>
+                              {" • "}
+                            </>
+                          )}
                           {useQuantized ? model.quantizedSize : model.size} •{" "}
                           {t(model.description)}
                         </span>
@@ -302,6 +330,14 @@ export function ModelSelectCard() {
                       <div className="flex flex-col items-start">
                         <span className="font-medium">{model.name}</span>
                         <span className="text-xs text-muted-foreground">
+                          {cachedModels.has(model.id) && (
+                            <>
+                              <span className="text-xs text-green-500 font-semibold">
+                                {t("cached")}
+                              </span>
+                              {" • "}
+                            </>
+                          )}
                           {useQuantized ? model.quantizedSize : model.size} •{" "}
                           {t(model.description)}
                         </span>
@@ -352,6 +388,14 @@ export function ModelSelectCard() {
                 selectedModel.split("/").pop()}
             </p>
             <p className="text-xs text-muted-foreground">
+              {cachedModels.has(selectedModel) && (
+                <>
+                  <span className="text-xs text-green-500 font-semibold">
+                    {t("cached")}
+                  </span>
+                  {" • "}
+                </>
+              )}
               {useQuantized
                 ? getModelById(selectedModel)?.quantizedSize +
                   " • " +

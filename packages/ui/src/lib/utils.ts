@@ -40,3 +40,40 @@ export function formatSegmentsToText(
     })
     .join("\n\n");
 }
+
+export async function getCachedModels(): Promise<Set<string>> {
+  if (typeof window === "undefined" || !window.caches) {
+    console.log("Cache Storage not supported.");
+    return new Set();
+  }
+
+  try {
+    const cacheNames = await window.caches.keys();
+    const cacheName = cacheNames.find((name) =>
+      name.startsWith("transformers-cache")
+    );
+
+    if (!cacheName) {
+      console.log("Transformers cache not found.");
+      return new Set();
+    }
+
+    const cache = await window.caches.open(cacheName);
+    const keys = await cache.keys();
+    const cachedUrls = new Set<string>();
+    const modelIdRegex = /^\/([^/]+\/[^/]+)\//;
+
+    for (const request of keys) {
+      const pathname = new URL(request.url).pathname;
+      const match = pathname.match(modelIdRegex);
+      if (match && match[1]) {
+        cachedUrls.add(match[1]);
+      }
+    }
+
+    return cachedUrls;
+  } catch (error) {
+    console.error("Error accessing Cache Storage:", error);
+    return new Set();
+  }
+}

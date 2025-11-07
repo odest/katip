@@ -134,6 +134,7 @@
     "englishOnly": "Modèles Uniquement en Anglais",
     "distilled": "Modèles Distillés",
     "selectWebModelPlaceholder": "Choisissez un modèle whisper",
+    "cached": "En cache",
     "modelsCached": "Modèles téléchargés une fois, puis mis en cache dans le navigateur",
     "selectedModel": "Modèle sélectionné (CDN)",
     "useQuantizedModels": "Utiliser des Modèles Quantifiés",

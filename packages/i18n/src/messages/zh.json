@@ -134,6 +134,7 @@
     "englishOnly": "仅限英语模型",
     "distilled": "蒸馏模型",
     "selectWebModelPlaceholder": "选择一个whisper模型",
+    "cached": "已缓存",
     "modelsCached": "模型下载一次后，缓存在浏览器中",
     "selectedModel": "已选模型 (CDN)",
     "useQuantizedModels": "使用量化模型",

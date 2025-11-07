@@ -11,9 +11,13 @@ import {
   TranscriptionStatus,
 } from "@workspace/ui/stores/transcription-store";
 import {
-  TranscriptionView,
-  TranscriptionViewHandle,
-} from "@workspace/ui/components/transcription/transcription-view";
+  NativeTranscriptionView,
+  NativeTranscriptionViewHandle,
+} from "@workspace/ui/components/transcription/native-transcription-view";
+import {
+  WebTranscriptionView,
+  WebTranscriptionViewHandle,
+} from "@workspace/ui/components/transcription/web-transcription-view";
 import { EmptyState } from "@workspace/ui/components/common/empty-state";
 import { AppFooter } from "@workspace/ui/components/layout/app-footer";
 import { Button } from "@workspace/ui/components/button";
@@ -38,8 +42,11 @@ export function TranscribePage() {
   const [isAndroid, setIsAndroid] = useState(false);
   const [currentStatus, setCurrentStatus] =
     useState<TranscriptionStatus | null>(null);
+  const [webStatus, setWebStatus] = useState<TranscriptionStatus | null>(null);
 
-  const transcriptionViewRef = useRef<TranscriptionViewHandle>(null);
+  const nativeTranscriptionViewRef =
+    useRef<NativeTranscriptionViewHandle>(null);
+  const webTranscriptionViewRef = useRef<WebTranscriptionViewHandle>(null);
 
   const selectionsMissing = !selectedAudio || !selectedModel;
 
@@ -55,6 +62,9 @@ export function TranscribePage() {
       (transcriptionState?.status === "loadingModel" ||
         transcriptionState?.status === "transcribing"));
 
+  const isWebProcessing =
+    webStatus === "loadingModel" || webStatus === "transcribing";
+
   const handleNewTranscription = () => {
     clearTranscriptionState();
     router.push("/");
@@ -62,14 +72,18 @@ export function TranscribePage() {
 
   const handleRetry = () => {
     clearTranscriptionState();
-    if (transcriptionViewRef.current) {
-      transcriptionViewRef.current.retryTranscription();
+    if (!isTauri() && webTranscriptionViewRef.current) {
+      webTranscriptionViewRef.current.retryTranscription();
+    } else if (nativeTranscriptionViewRef.current) {
+      nativeTranscriptionViewRef.current.retryTranscription();
     }
   };
 
   const handleCancel = async () => {
-    if (transcriptionViewRef.current) {
-      await transcriptionViewRef.current.cancelTranscription();
+    if (!isTauri() && webTranscriptionViewRef.current) {
+      await webTranscriptionViewRef.current.cancelTranscription();
+    } else if (nativeTranscriptionViewRef.current) {
+      await nativeTranscriptionViewRef.current.cancelTranscription();
     }
   };
 
@@ -104,23 +118,6 @@ export function TranscribePage() {
     );
   }
 
-  // Show message if running on web browser
-  if (!isTauri()) {
-    return (
-      <div className="flex flex-1 justify-center items-center p-6">
-        <EmptyState
-          title={t("webSupportComingSoonTitle")}
-          description={t("webSupportComingSoonDesc")}
-          icons={[Laptop, Earth, Computer]}
-          action={{
-            label: t("returnToHome"),
-            onClick: () => router.push("/"),
-          }}
-        />
-      </div>
-    );
-  }
-
   // Show message if running on Android
   if (isAndroid) {
     return (
@@ -138,12 +135,55 @@ export function TranscribePage() {
     );
   }
 
-  // Show the actual transcription interface
+  if (!isTauri()) {
+    return (
+      <>
+        <div className="w-full h-full flex flex-col p-6 gap-4 overflow-y-auto">
+          <WebTranscriptionView
+            ref={webTranscriptionViewRef}
+            onStatusChange={setWebStatus}
+          />
+        </div>
+
+        <AppFooter>
+          {isWebProcessing ? (
+            <Button
+              size="lg"
+              variant="destructive"
+              className="max-w-3xl mx-auto w-full shadow-lg"
+              onClick={handleCancel}
+            >
+              {t("cancelTranscription")}
+            </Button>
+          ) : (
+            <div className="max-w-3xl mx-auto w-full flex gap-3">
+              <Button
+                size="lg"
+                variant="outline"
+                className="flex-1 shadow-lg"
+                onClick={handleNewTranscription}
+              >
+                {t("newTranscription")}
+              </Button>
+              <Button
+                size="lg"
+                className="flex-1 shadow-lg"
+                onClick={handleRetry}
+              >
+                {t("retryTranscription")}
+              </Button>
+            </div>
+          )}
+        </AppFooter>
+      </>
+    );
+  }
+
   return (
     <>
       <div className="w-full h-full flex flex-col p-6 gap-4 overflow-y-auto">
-        <TranscriptionView
-          ref={transcriptionViewRef}
+        <NativeTranscriptionView
+          ref={nativeTranscriptionViewRef}
           onStatusChange={setCurrentStatus}
         />
       </div>

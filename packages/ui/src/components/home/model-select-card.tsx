@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card";
 import { Label } from "@workspace/ui/components/label";
+import { Switch } from "@workspace/ui/components/switch";
 import {
   Select,
   SelectContent,
@@ -20,21 +21,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@workspace/ui/components/select";
-import {
-  FileUpload,
-  FileUploadDropzone,
-  FileUploadItem,
-  FileUploadItemDelete,
-  FileUploadItemMetadata,
-  FileUploadItemPreview,
-  FileUploadList,
-  FileUploadTrigger,
-} from "@workspace/ui/components/file-upload";
 import { useTranslations } from "@workspace/i18n";
-import { useFileSelect } from "@workspace/ui/hooks/use-file-select";
 import { useModelStore } from "@workspace/ui/stores/model-store";
-import { FolderOpen, FileCode2, Upload, X } from "lucide-react";
+import { FolderOpen, FileCode2, Zap } from "lucide-react";
 import { toast } from "sonner";
+import {
+  getModelsByCategory,
+  getModelById,
+  CATEGORY_LABELS,
+} from "@workspace/ui/config/models";
 
 interface ModelFile {
   name: string;
@@ -43,27 +38,18 @@ interface ModelFile {
 
 export function ModelSelectCard() {
   const t = useTranslations("ModelSelectCard");
-  const { selectedModel, modelPath, setSelectedModel, setModelPath } =
-    useModelStore();
+  const {
+    selectedModel,
+    modelPath,
+    useQuantized,
+    setSelectedModel,
+    setModelPath,
+    setUseQuantized,
+  } = useModelStore();
 
   const [modelFiles, setModelFiles] = useState<ModelFile[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isTauriApp, setIsTauriApp] = useState(false);
-
-  const { handleValueChange: onValueChange, handleFileReject } = useFileSelect(
-    t,
-    {
-      onFileSelect: (file) => {
-        setSelectedModel(file);
-      },
-    }
-  );
-
-  const handleValueChange = (newFiles: File[]) => {
-    const effectiveFiles = onValueChange(newFiles);
-    const selectedFile = effectiveFiles[0] || null;
-    setSelectedModel(selectedFile);
-  };
 
   const loadModelsFromPath = useCallback(
     async (path: string) => {
@@ -232,48 +218,117 @@ export function ModelSelectCard() {
           </div>
         )}
 
-        {/* Web: Drag & Drop File Selection */}
+        {/* Web: Model Selection (Transformers.js CDN) */}
         {!isTauriApp && (
-          <FileUpload
-            value={selectedModel instanceof File ? [selectedModel] : []}
-            onValueChange={handleValueChange}
-            onFileReject={handleFileReject}
-            accept=".bin"
-          >
-            <FileUploadDropzone className="cursor-pointer">
-              <div className="flex flex-col items-center gap-1">
-                <div className="flex items-center justify-center rounded-full border p-2.5">
-                  <Upload className="size-6 text-muted-foreground" />
-                </div>
-                <p className="font-medium text-sm">{t("dragAndDrop")}</p>
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <Label className="flex items-center gap-2">
+                <FileCode2 className="size-4" />
+                {t("selectModel")}
+              </Label>
+              <p className="text-xs text-muted-foreground">
+                {t("modelsCached")}
+              </p>
+              <Select
+                value={typeof selectedModel === "string" ? selectedModel : ""}
+                onValueChange={(value) => {
+                  setSelectedModel(value);
+                  const modelInfo = getModelById(value);
+                  toast.success(t("modelSelected"), {
+                    description: modelInfo?.name || value,
+                  });
+                }}
+              >
+                <SelectTrigger className="w-full cursor-pointer">
+                  <SelectValue placeholder={t("selectWebModelPlaceholder")}>
+                    {typeof selectedModel === "string" && selectedModel && (
+                      <span>
+                        {getModelById(selectedModel)?.name || selectedModel}
+                      </span>
+                    )}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {/* Multilingual Models */}
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+                    {t(CATEGORY_LABELS.multilingual)}
+                  </div>
+                  {getModelsByCategory("multilingual").map((model) => (
+                    <SelectItem
+                      key={model.id}
+                      value={model.id}
+                      className="cursor-pointer"
+                    >
+                      <div className="flex flex-col items-start">
+                        <span className="font-medium">{model.name}</span>
+                        <span className="text-xs text-muted-foreground">
+                          {useQuantized ? model.quantizedSize : model.size} •{" "}
+                          {t(model.description)}
+                        </span>
+                      </div>
+                    </SelectItem>
+                  ))}
+
+                  {/* englishOnly Models */}
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground mt-2">
+                    {t(CATEGORY_LABELS["englishOnly"])}
+                  </div>
+                  {getModelsByCategory("englishOnly").map((model) => (
+                    <SelectItem
+                      key={model.id}
+                      value={model.id}
+                      className="cursor-pointer"
+                    >
+                      <div className="flex flex-col items-start">
+                        <span className="font-medium">{model.name}</span>
+                        <span className="text-xs text-muted-foreground">
+                          {useQuantized ? model.quantizedSize : model.size} •{" "}
+                          {t(model.description)}
+                        </span>
+                      </div>
+                    </SelectItem>
+                  ))}
+
+                  {/* Distilled Models */}
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground mt-2">
+                    {t(CATEGORY_LABELS.distilled)}
+                  </div>
+                  {getModelsByCategory("distilled").map((model) => (
+                    <SelectItem
+                      key={model.id}
+                      value={model.id}
+                      className="cursor-pointer"
+                    >
+                      <div className="flex flex-col items-start">
+                        <span className="font-medium">{model.name}</span>
+                        <span className="text-xs text-muted-foreground">
+                          {useQuantized ? model.quantizedSize : model.size} •{" "}
+                          {t(model.description)}
+                        </span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex items-start justify-between gap-4">
+              <div className="space-y-1 flex-1">
+                <Label className="flex items-center gap-2">
+                  <Zap className="size-4" />
+                  {t("useQuantizedModels")}
+                </Label>
                 <p className="text-muted-foreground text-xs">
-                  {t("orClickToBrowse")}
+                  {t("useQuantizedModelsDescription")}
                 </p>
               </div>
-              <FileUploadTrigger className="cursor-pointer" asChild>
-                <Button variant="outline" size="sm" className="mt-2 w-fit">
-                  {t("browseFiles")}
-                </Button>
-              </FileUploadTrigger>
-            </FileUploadDropzone>
-            <FileUploadList>
-              {selectedModel instanceof File && (
-                <FileUploadItem value={selectedModel}>
-                  <FileUploadItemPreview />
-                  <FileUploadItemMetadata />
-                  <FileUploadItemDelete asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="size-7 cursor-pointer"
-                    >
-                      <X />
-                    </Button>
-                  </FileUploadItemDelete>
-                </FileUploadItem>
-              )}
-            </FileUploadList>
-          </FileUpload>
+              <Switch
+                checked={useQuantized}
+                onCheckedChange={setUseQuantized}
+                className="ml-2"
+              />
+            </div>
+          </div>
         )}
 
         {isTauriApp && typeof selectedModel === "string" && selectedModel && (
@@ -283,6 +338,26 @@ export function ModelSelectCard() {
             </p>
             <p className="text-sm font-mono break-all">
               {selectedModel.split(/[\\/]/).pop()}
+            </p>
+          </div>
+        )}
+
+        {!isTauriApp && typeof selectedModel === "string" && selectedModel && (
+          <div className="p-3 rounded-lg border bg-muted/50 space-y-1">
+            <p className="text-xs font-medium text-muted-foreground">
+              {t("selectedModel")}
+            </p>
+            <p className="text-sm font-medium">
+              {getModelById(selectedModel)?.name ||
+                selectedModel.split("/").pop()}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {useQuantized
+                ? getModelById(selectedModel)?.quantizedSize +
+                  " • " +
+                  t("quantized")
+                : getModelById(selectedModel)?.size}{" "}
+              • {t(getModelById(selectedModel)?.description || "")}
             </p>
           </div>
         )}

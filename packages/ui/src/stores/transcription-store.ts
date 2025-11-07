@@ -10,6 +10,7 @@ export interface Segment {
 export type TranscriptionStatus =
   | "loadingModel"
   | "transcribing"
+  | "cancelled"
   | "done"
   | "error";
 

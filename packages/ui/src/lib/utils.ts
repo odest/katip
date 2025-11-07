@@ -21,13 +21,22 @@ export function formatTimestamp(seconds: number): string {
   return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
 }
 
+type Segment = { start: number; end: number; text: string };
+type TargetPlatform = "desktop" | "web";
+
 export function formatSegmentsToText(
-  segments: Array<{ start: number; end: number; text: string }>
+  segments: Segment[],
+  targetPlatform: TargetPlatform
 ): string {
   return segments
-    .map(
-      (s) =>
-        `[${formatTimestamp(s.start / 100)}] --> [${formatTimestamp(s.end / 100)}]\n${s.text}`
-    )
+    .map((s) => {
+      if (targetPlatform === "desktop") {
+        return `[${formatTimestamp(s.start / 100)}] --> [${formatTimestamp(
+          s.end / 100
+        )}]\n${s.text}`;
+      } else {
+        return `[${s.start}] --> [${s.end}]\n${s.text}`;
+      }
+    })
     .join("\n\n");
 }

@@ -20,21 +20,21 @@ import { Textarea } from "@workspace/ui/components/textarea";
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import { EmptyState } from "@workspace/ui/components/common/empty-state";
 import { Ban, AlertCircle, Bug } from "lucide-react";
-import { useTranscriptionProcess } from "@workspace/ui/hooks/use-transcription-process";
+import { useTranscriptionProcess } from "@workspace/ui/hooks/use-native-transcription";
 import { formatSegmentsToText } from "@workspace/ui/lib/utils";
 
-interface TranscriptionViewProps {
+interface NativeTranscriptionViewProps {
   onStatusChange?: (status: TranscriptionStatus) => void;
 }
 
-export interface TranscriptionViewHandle {
+export interface NativeTranscriptionViewHandle {
   cancelTranscription: () => Promise<void>;
   retryTranscription: () => void;
 }
 
-export const TranscriptionView = forwardRef<
-  TranscriptionViewHandle,
-  TranscriptionViewProps
+export const NativeTranscriptionView = forwardRef<
+  NativeTranscriptionViewHandle,
+  NativeTranscriptionViewProps
 >(({ onStatusChange }, ref) => {
   const t = useTranslations("TranscriptionView");
 
@@ -65,7 +65,7 @@ export const TranscriptionView = forwardRef<
   const [editableTranscription, setEditableTranscription] = useState("");
 
   const fullTranscription = useMemo(
-    () => formatSegmentsToText(segments),
+    () => formatSegmentsToText(segments, "desktop"),
     [segments]
   );
 
@@ -195,4 +195,4 @@ export const TranscriptionView = forwardRef<
   );
 });
 
-TranscriptionView.displayName = "TranscriptionView";
+NativeTranscriptionView.displayName = "NativeTranscriptionView";

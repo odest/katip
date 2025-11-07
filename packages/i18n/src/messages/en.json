@@ -32,6 +32,8 @@
     "loadingModel": "Loading Model",
     "preparingModel": "Preparing the AI model for transcription...",
     "loading": "Loading...",
+    "done": "Done",
+    "overall": "Overall Progress",
     "transcribingAudio": "Transcribing Audio",
     "segmentsAppearRealtime": "Segments will appear below in real-time",
     "segment": "segment",

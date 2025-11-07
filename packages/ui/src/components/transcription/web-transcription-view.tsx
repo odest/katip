@@ -20,7 +20,7 @@ import { useWebTranscription } from "@workspace/ui/hooks/use-web-transcription";
 import { formatSegmentsToText } from "@workspace/ui/lib/utils";
 import { Progress } from "@workspace/ui/components/progress";
 import { Textarea } from "@workspace/ui/components/textarea";
-import { ScrollArea } from "@workspace/ui/components/scroll-area";
+import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
 import { EmptyState } from "@workspace/ui/components/common/empty-state";
 import { Ban, AlertCircle, Bug } from "lucide-react";
 
@@ -64,6 +64,9 @@ export const WebTranscriptionView = forwardRef<
     initialState?.error || null
   );
   const [editableTranscription, setEditableTranscription] = useState("");
+  const [downloadingFiles, setDownloadingFiles] = useState<
+    Array<{ name: string; progress: number; status: "loading" | "done" }>
+  >([]);
 
   const fullTranscription = useMemo(
     () => formatSegmentsToText(segments, "web"),
@@ -77,6 +80,7 @@ export const WebTranscriptionView = forwardRef<
     setSegments,
     setError,
     setTranscriptionState,
+    setDownloadingFiles,
   });
 
   const handleCancel = useCallback(() => {
@@ -195,12 +199,36 @@ export const WebTranscriptionView = forwardRef<
               {t("downloadingFromCDN")}
             </p>
           </div>
-          <div className="w-full space-y-2">
+          <div className="w-full space-y-4">
             <Progress value={progress} className="h-2" />
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">{t("loading")}</span>
+            <div className="flex items-center justify-between text-sm mb-2">
+              <span className="text-muted-foreground">{t("overall")}</span>
               <span className="font-medium">{progress.toFixed(0)}%</span>
             </div>
+            <ScrollArea className="h-[200px] w-full rounded-md border">
+              <div className="space-y-2 p-2">
+                {downloadingFiles.map((file, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between text-sm p-2 rounded-md bg-muted/50"
+                  >
+                    <span className="text-muted-foreground truncate flex-1 mr-2">
+                      {file.name}
+                    </span>
+                    <span
+                      className={`font-medium whitespace-nowrap ${
+                        file.status === "done" ? "text-green-500" : ""
+                      }`}
+                    >
+                      {file.status === "done"
+                        ? t("done")
+                        : `${t("loading")} ${file.progress.toFixed(0)}%`}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <ScrollBar orientation="vertical" />
+            </ScrollArea>
           </div>
         </div>
       </div>

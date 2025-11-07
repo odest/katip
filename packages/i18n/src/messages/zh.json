@@ -32,6 +32,8 @@
     "loadingModel": "加载模型",
     "preparingModel": "正在为转录准备AI模型...",
     "loading": "加载中...",
+    "done": "完成",
+    "overall": "整体进度",
     "transcribingAudio": "正在转录音频",
     "segmentsAppearRealtime": "片段将实时显示在下方",
     "segment": "片段",

@@ -32,6 +32,8 @@
     "loadingModel": "Chargement du modèle",
     "preparingModel": "Préparation du modèle IA pour la transcription...",
     "loading": "Chargement...",
+    "done": "Fini",
+    "overall": "Progrès global",
     "transcribingAudio": "Transcription audio",
     "segmentsAppearRealtime": "Les segments apparaîtront ci-dessous en temps réel",
     "segment": "segment",

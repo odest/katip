@@ -23,6 +23,11 @@ interface UseWebTranscriptionParams {
   setSegments: Dispatch<SetStateAction<Segment[]>>;
   setError: Dispatch<SetStateAction<string | null>>;
   setTranscriptionState: (state: TranscriptionState) => void;
+  setDownloadingFiles: Dispatch<
+    SetStateAction<
+      Array<{ name: string; progress: number; status: "loading" | "done" }>
+    >
+  >;
 }
 
 interface ProgressItem {
@@ -51,6 +56,7 @@ export function useWebTranscription({
   setSegments,
   setError,
   setTranscriptionState,
+  setDownloadingFiles,
 }: UseWebTranscriptionParams) {
   const workerRef = useRef<Worker | null>(null);
   const progressItemsRef = useRef<ProgressItem[]>([]);
@@ -72,6 +78,7 @@ export function useWebTranscription({
     setSegments([]);
     setProgress(0);
     setStatus("loadingModel");
+    setDownloadingFiles([]);
 
     workerRef.current = new Worker(
       new URL("@workspace/ui/lib/whisper-worker.ts", import.meta.url),
@@ -89,14 +96,24 @@ export function useWebTranscription({
         case "initiate":
           setStatus("loadingModel");
           if (message.file) {
-            progressItemsRef.current.push({
+            const newItem = {
               file: message.file,
               loaded: message.loaded || 0,
               progress: message.progress || 0,
               total: message.total || 0,
               name: message.name || "",
               status: message.status,
-            });
+            };
+            progressItemsRef.current.push(newItem);
+            
+            setDownloadingFiles((prev) => [
+              ...prev,
+              {
+                name: message.file || "Unknown file",
+                progress: message.progress || 0,
+                status: "loading",
+              },
+            ]);
           }
           setTranscriptionState({
             file: selectedAudio as string,
@@ -117,6 +134,14 @@ export function useWebTranscription({
               return item;
             });
 
+            setDownloadingFiles((prev) =>
+              prev.map((file) =>
+                file.name === message.file
+                  ? { ...file, progress: message.progress || 0 }
+                  : file
+              )
+            );
+
             const totalProgress =
               progressItemsRef.current.reduce(
                 (sum, item) => sum + item.progress,
@@ -128,6 +153,14 @@ export function useWebTranscription({
 
         case "done":
           if (message.file) {
+            setDownloadingFiles((prev) =>
+              prev.map((file) =>
+                file.name === message.file
+                  ? { ...file, progress: 100, status: "done" }
+                  : file
+              )
+            );
+            
             progressItemsRef.current = progressItemsRef.current.filter(
               (item) => item.file !== message.file
             );

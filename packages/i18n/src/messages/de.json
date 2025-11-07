@@ -32,6 +32,8 @@
     "loadingModel": "Modell wird geladen",
     "preparingModel": "KI-Modell wird für die Transkription vorbereitet...",
     "loading": "Laden...",
+    "done": "Fertig",
+    "overall": "Insgesamt",
     "transcribingAudio": "Audio wird transkribiert",
     "segmentsAppearRealtime": "Segmente werden unten in Echtzeit angezeigt",
     "segment": "Segment",

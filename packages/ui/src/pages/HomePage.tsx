@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react";
+import { isTauri } from "@tauri-apps/api/core";
+import { platform } from "@tauri-apps/plugin-os";
 import { useTranslations } from "@workspace/i18n";
 import { useRouter } from "@workspace/i18n/navigation";
 import { Button } from "@workspace/ui/components/button";
@@ -17,6 +20,25 @@ export function HomePage() {
   const { selectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
   const isButtonDisabled = !selectedAudio || !selectedModel;
+  const [platformType, setPlatformType] = useState<string | null>(null);
+  const isDesktop =
+    platformType && platformType !== "web" && platformType !== "android";
+
+  useEffect(() => {
+    const checkPlatform = async () => {
+      if (isTauri()) {
+        try {
+          const platformType = await platform();
+          setPlatformType(platformType);
+        } catch (err) {
+          console.error("Error detecting platform:", err);
+        }
+      } else {
+        setPlatformType("web");
+      }
+    };
+    checkPlatform();
+  }, []);
 
   return (
     <>
@@ -32,8 +54,8 @@ export function HomePage() {
             <AudioSelectCard />
             <ModelSelectCard />
             <LanguageOptionsCard />
-            <PerformanceOptionsCard />
-            <AdvancedOptionsCard />
+            {isDesktop && <PerformanceOptionsCard />}
+            {isDesktop && <AdvancedOptionsCard />}
           </div>
         </div>
         <ScrollBar orientation="vertical" />

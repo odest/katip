@@ -49,7 +49,6 @@ export function AdvancedOptionsCard() {
     initialPrompt,
     suppressNonSpeechTokens,
     patience,
-    lengthPenalty,
     suppressBlank,
     tokenTimestamps,
     gpuDevice,
@@ -62,7 +61,6 @@ export function AdvancedOptionsCard() {
     setInitialPrompt,
     setSuppressNonSpeechTokens,
     setPatience,
-    setLengthPenalty,
     setSuppressBlank,
     setTokenTimestamps,
     setGpuDevice,
@@ -182,31 +180,6 @@ export function AdvancedOptionsCard() {
                   id="patience-slider"
                   value={[patience]}
                   onValueChange={(value) => setPatience(value[0] ?? 0)}
-                  min={0}
-                  max={2}
-                  step={0.1}
-                />
-              </div>
-              {/* Length Penalty */}
-              <div className="space-y-3">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="space-y-1 flex-1">
-                    <Label className="flex items-center gap-2">
-                      <PenTool className="size-4" />
-                      {t("lengthPenalty")}
-                    </Label>
-                    <p className="text-muted-foreground text-xs">
-                      {t("lengthPenaltyDescription")}
-                    </p>
-                  </div>
-                  <span className="text-md font-medium tabular-nums">
-                    {lengthPenalty.toFixed(1)}
-                  </span>
-                </div>
-                <Slider
-                  id="length-penalty-slider"
-                  value={[lengthPenalty]}
-                  onValueChange={(value) => setLengthPenalty(value[0] ?? 0)}
                   min={0}
                   max={2}
                   step={0.1}

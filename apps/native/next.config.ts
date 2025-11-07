@@ -5,7 +5,7 @@ import createNextIntlPlugin from "@workspace/i18n/plugin";
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false, // Tauri currently has issues with Strict Mode
   output: "export",
   trailingSlash: true,
   images: {

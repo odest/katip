@@ -1,20 +1,91 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { isTauri } from "@tauri-apps/api/core";
 import { platform } from "@tauri-apps/plugin-os";
 import { useTranslations } from "@workspace/i18n";
 import { useAudioStore } from "@workspace/ui/stores/audio-store";
 import { useModelStore } from "@workspace/ui/stores/model-store";
-import { StatusMessage } from "@workspace/ui/components/common/status-message";
+import {
+  useTranscriptionStore,
+  TranscriptionStatus,
+} from "@workspace/ui/stores/transcription-store";
+import {
+  NativeTranscriptionView,
+  NativeTranscriptionViewHandle,
+} from "@workspace/ui/components/transcription/native-transcription-view";
+import {
+  WebTranscriptionView,
+  WebTranscriptionViewHandle,
+} from "@workspace/ui/components/transcription/web-transcription-view";
+import { EmptyState } from "@workspace/ui/components/common/empty-state";
+import { AppFooter } from "@workspace/ui/components/layout/app-footer";
+import { Button } from "@workspace/ui/components/button";
+import {
+  Earth,
+  Laptop,
+  Upload,
+  Computer,
+  Smartphone,
+  FileCodeIcon,
+  FileAudioIcon,
+} from "lucide-react";
+import { useRouter } from "@workspace/i18n/navigation";
 
 export function TranscribePage() {
+  const router = useRouter();
   const t = useTranslations("TranscribePage");
   const { selectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
+  const { checkTranscriptionMatch, clearTranscriptionState } =
+    useTranscriptionStore();
   const [isAndroid, setIsAndroid] = useState(false);
+  const [currentStatus, setCurrentStatus] =
+    useState<TranscriptionStatus | null>(null);
+  const [webStatus, setWebStatus] = useState<TranscriptionStatus | null>(null);
+
+  const nativeTranscriptionViewRef =
+    useRef<NativeTranscriptionViewHandle>(null);
+  const webTranscriptionViewRef = useRef<WebTranscriptionViewHandle>(null);
 
   const selectionsMissing = !selectedAudio || !selectedModel;
+
+  const transcriptionState = checkTranscriptionMatch(
+    selectedAudio as string,
+    selectedModel as string
+  );
+
+  const isProcessing =
+    currentStatus === "loadingModel" ||
+    currentStatus === "transcribing" ||
+    (!currentStatus &&
+      (transcriptionState?.status === "loadingModel" ||
+        transcriptionState?.status === "transcribing"));
+
+  const isWebProcessing =
+    webStatus === "loadingModel" || webStatus === "transcribing";
+
+  const handleNewTranscription = () => {
+    clearTranscriptionState();
+    router.push("/");
+  };
+
+  const handleRetry = () => {
+    clearTranscriptionState();
+    if (!isTauri() && webTranscriptionViewRef.current) {
+      webTranscriptionViewRef.current.retryTranscription();
+    } else if (nativeTranscriptionViewRef.current) {
+      nativeTranscriptionViewRef.current.retryTranscription();
+    }
+  };
+
+  const handleCancel = async () => {
+    if (!isTauri() && webTranscriptionViewRef.current) {
+      await webTranscriptionViewRef.current.cancelTranscription();
+    } else if (nativeTranscriptionViewRef.current) {
+      await nativeTranscriptionViewRef.current.cancelTranscription();
+    }
+  };
 
   useEffect(() => {
     if (isTauri()) {
@@ -33,47 +104,120 @@ export function TranscribePage() {
   // Show message if selections are missing
   if (selectionsMissing) {
     return (
-      <StatusMessage
-        title={t("configurationRequiredTitle")}
-        description={t("configurationRequiredDesc")}
-        buttonText={t("returnToHome")}
-      />
-    );
-  }
-
-  // Show message if running on web browser
-  if (!isTauri()) {
-    return (
-      <StatusMessage
-        title={t("webSupportComingSoonTitle")}
-        description={t("webSupportComingSoonDesc")}
-        buttonText={t("returnToHome")}
-      />
+      <div className="flex flex-1 justify-center items-center p-6">
+        <EmptyState
+          title={t("configurationRequiredTitle")}
+          description={t("configurationRequiredDesc")}
+          icons={[FileAudioIcon, Upload, FileCodeIcon]}
+          action={{
+            label: t("returnToHome"),
+            onClick: () => router.push("/"),
+          }}
+        />
+      </div>
     );
   }
 
   // Show message if running on Android
   if (isAndroid) {
     return (
-      <StatusMessage
-        title={t("androidSupportComingSoonTitle")}
-        description={t("androidSupportComingSoonDesc")}
-        buttonText={t("returnToHome")}
-      />
+      <div className="flex flex-1 justify-center items-center p-6">
+        <EmptyState
+          title={t("androidSupportComingSoonTitle")}
+          description={t("androidSupportComingSoonDesc")}
+          icons={[Laptop, Smartphone, Computer]}
+          action={{
+            label: t("returnToHome"),
+            onClick: () => router.push("/"),
+          }}
+        />
+      </div>
     );
   }
 
-  // Show the actual transcription interface
+  if (!isTauri()) {
+    return (
+      <>
+        <div className="w-full h-full flex flex-col p-6 gap-4 overflow-y-auto">
+          <WebTranscriptionView
+            ref={webTranscriptionViewRef}
+            onStatusChange={setWebStatus}
+          />
+        </div>
+
+        <AppFooter>
+          {isWebProcessing ? (
+            <Button
+              size="lg"
+              variant="destructive"
+              className="max-w-3xl mx-auto w-full shadow-lg"
+              onClick={handleCancel}
+            >
+              {t("cancelTranscription")}
+            </Button>
+          ) : (
+            <div className="max-w-3xl mx-auto w-full flex gap-3">
+              <Button
+                size="lg"
+                variant="outline"
+                className="flex-1 shadow-lg"
+                onClick={handleNewTranscription}
+              >
+                {t("newTranscription")}
+              </Button>
+              <Button
+                size="lg"
+                className="flex-1 shadow-lg"
+                onClick={handleRetry}
+              >
+                {t("retryTranscription")}
+              </Button>
+            </div>
+          )}
+        </AppFooter>
+      </>
+    );
+  }
+
   return (
-    <div className="flex flex-1 flex-col justify-center gap-6 p-6">
-      <div className="flex flex-col items-center text-center gap-6">
-        <h1 className="text-2xl leading-none font-semibold text-center">
-          {t("readyToTranscribeTitle")}
-        </h1>
-        <p className="max-w-lg text-muted-foreground text-center">
-          {t("readyToTranscribeDesc")}
-        </p>
+    <>
+      <div className="w-full h-full flex flex-col p-6 gap-4 overflow-y-auto">
+        <NativeTranscriptionView
+          ref={nativeTranscriptionViewRef}
+          onStatusChange={setCurrentStatus}
+        />
       </div>
-    </div>
+
+      <AppFooter>
+        {isProcessing ? (
+          <Button
+            size="lg"
+            variant="destructive"
+            className="max-w-3xl mx-auto w-full shadow-lg"
+            onClick={handleCancel}
+          >
+            {t("cancelTranscription")}
+          </Button>
+        ) : (
+          <div className="max-w-3xl mx-auto w-full flex gap-3">
+            <Button
+              size="lg"
+              variant="outline"
+              className="flex-1 shadow-lg"
+              onClick={handleNewTranscription}
+            >
+              {t("newTranscription")}
+            </Button>
+            <Button
+              size="lg"
+              className="flex-1 shadow-lg"
+              onClick={handleRetry}
+            >
+              {t("retryTranscription")}
+            </Button>
+          </div>
+        )}
+      </AppFooter>
+    </>
   );
 }

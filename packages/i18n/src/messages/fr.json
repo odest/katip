@@ -48,7 +48,27 @@
   },
   "SettingsPage": {
     "title": "Paramètres",
-    "description": "Gérez les préférences de votre application et personnalisez votre expérience."
+    "description": "Gérez les préférences de votre application et personnalisez votre expérience.",
+    "general": "Général",
+    "models": "Modèles"
+  },
+  "CachedModelsCard": {
+    "title": "Modèles en Cache",
+    "description": "Gérez vos modèles Whisper en cache pour libérer de l'espace de stockage",
+    "deleteAll": "Tout Supprimer",
+    "delete": "Supprimer",
+    "cancel": "Annuler",
+    "totalModels": "Total des Modèles en Cache : {count}",
+    "noModelsCachedTitle": "Aucun Modèle en Cache",
+    "noModelsCachedDescription": "Les modèles apparaîtront ici après que vous les ayez téléchargés et utilisés pour la transcription.",
+    "deleteModelTitle": "Supprimer le Modèle en Cache",
+    "deleteModelDescription": "Êtes-vous sûr de vouloir supprimer {modelName} ? Cette action ne peut pas être annulée.",
+    "deleteModelDescriptionGeneric": "Êtes-vous sûr de vouloir supprimer ce modèle ? Cette action ne peut pas être annulée.",
+    "deleteAllTitle": "Supprimer Tous les Modèles en Cache",
+    "deleteAllDescription": "Êtes-vous sûr de vouloir supprimer tous les {count} modèles en cache ? Cela libérera de l'espace de stockage, mais vous devrez re-télécharger les modèles lorsque vous les utiliserez à nouveau. Cette action ne peut pas être annulée.",
+    "modelDeleted": "Modèle {modelName} supprimé du cache.",
+    "allModelsDeleted": "Tous les modèles en cache ont été supprimés.",
+    "noCacheToDelete": "Aucun modèle en cache à supprimer."
   },
   "LanguageCard": {
     "title": "Langue",

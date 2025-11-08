@@ -48,7 +48,27 @@
   },
   "SettingsPage": {
     "title": "Settings",
-    "description": "Manage your application preferences and customize your experience."
+    "description": "Manage your application preferences and customize your experience.",
+    "general": "General",
+    "models": "Models"
+  },
+  "CachedModelsCard": {
+    "title": "Cached Models",
+    "description": "Manage your cached Whisper models to free up storage space",
+    "deleteAll": "Delete All",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "totalModels": "Total Cached Models: {count}",
+    "noModelsCachedTitle": "No Cached Models",
+    "noModelsCachedDescription": "Models will appear here after you download and use them for transcription.",
+    "deleteModelTitle": "Delete Cached Model",
+    "deleteModelDescription": "Are you sure you want to delete {modelName}? This action cannot be undone.",
+    "deleteModelDescriptionGeneric": "Are you sure you want to delete this model? This action cannot be undone.",
+    "deleteAllTitle": "Delete All Cached Models",
+    "deleteAllDescription": "Are you sure you want to delete all {count} cached model(s)? This will free up storage space but you'll need to re-download models when you use them again. This action cannot be undone.",
+    "modelDeleted": "Model {modelName} deleted from cache.",
+    "allModelsDeleted": "All cached models have been deleted.",
+    "noCacheToDelete": "No cached models to delete."
   },
   "LanguageCard": {
     "title": "Language",

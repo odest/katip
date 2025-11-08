@@ -77,3 +77,60 @@ export async function getCachedModels(): Promise<Set<string>> {
     return new Set();
   }
 }
+
+export async function deleteCachedModel(modelId: string): Promise<boolean> {
+  if (typeof window === "undefined" || !window.caches) {
+    throw new Error("Cache Storage not supported.");
+  }
+
+  try {
+    const cacheNames = await window.caches.keys();
+    const cacheName = cacheNames.find((name) =>
+      name.startsWith("transformers-cache")
+    );
+
+    if (!cacheName) {
+      throw new Error("Transformers cache not found.");
+    }
+
+    const cache = await window.caches.open(cacheName);
+    const keys = await cache.keys();
+    let deleted = false;
+
+    const modelIdPath = `/${modelId}/`;
+    for (const request of keys) {
+      if (new URL(request.url).pathname.includes(modelIdPath)) {
+        await cache.delete(request);
+        deleted = true;
+      }
+    }
+
+    return deleted;
+  } catch (error) {
+    console.error("Error deleting model from cache:", error);
+    throw error;
+  }
+}
+
+export async function deleteAllCachedModels(): Promise<boolean> {
+  if (typeof window === "undefined" || !window.caches) {
+    throw new Error("Cache Storage not supported.");
+  }
+
+  try {
+    const cacheNames = await window.caches.keys();
+    const cacheName = cacheNames.find((name) =>
+      name.startsWith("transformers-cache")
+    );
+
+    if (!cacheName) {
+      return false;
+    }
+
+    const success = await window.caches.delete(cacheName);
+    return success;
+  } catch (error) {
+    console.error("Error deleting all models from cache:", error);
+    throw error;
+  }
+}

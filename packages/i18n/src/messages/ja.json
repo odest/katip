@@ -48,7 +48,27 @@
   },
   "SettingsPage": {
     "title": "設定",
-    "description": "アプリケーションの設定を管理し、体験をカスタマイズします。"
+    "description": "アプリケーションの設定を管理し、体験をカスタマイズします。",
+    "general": "一般",
+    "models": "モデル"
+  },
+  "CachedModelsCard": {
+    "title": "キャッシュされたモデル",
+    "description": "キャッシュされたWhisperモデルを管理して、ストレージスペースを解放します",
+    "deleteAll": "すべて削除",
+    "delete": "削除",
+    "cancel": "キャンセル",
+    "totalModels": "キャッシュされたモデルの合計: {count}",
+    "noModelsCachedTitle": "キャッシュされたモデルはありません",
+    "noModelsCachedDescription": "モデルは、ダウンロードして文字起こしに使用した後にここに表示されます。",
+    "deleteModelTitle": "キャッシュされたモデルを削除",
+    "deleteModelDescription": "本当に{modelName}を削除してもよろしいですか？この操作は元に戻せません。",
+    "deleteModelDescriptionGeneric": "本当にこのモデルを削除してもよろしいですか？この操作は元に戻せません。",
+    "deleteAllTitle": "すべてのキャッシュされたモデルを削除",
+    "deleteAllDescription": "本当にすべての {count} 個のキャッシュされたモデルを削除しますか？ストレージスペースは解放されますが、再度使用する際にモデルを再ダウンロードする必要があります。この操作は元に戻せません。",
+    "modelDeleted": "モデル {modelName} がキャッシュから削除されました。",
+    "allModelsDeleted": "すべてのキャッシュされたモデルが削除されました。",
+    "noCacheToDelete": "削除するキャッシュされたモデルがありません。"
   },
   "LanguageCard": {
     "title": "言語",

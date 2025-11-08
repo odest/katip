@@ -48,7 +48,27 @@
   },
   "SettingsPage": {
     "title": "Ayarlar",
-    "description": "Uygulama tercihlerinizi yönetin ve deneyiminizi özelleştirin."
+    "description": "Uygulama tercihlerinizi yönetin ve deneyiminizi özelleştirin.",
+    "general": "Genel",
+    "models": "Modeller"
+  },
+  "CachedModelsCard": {
+    "title": "Önbelleğe Alınan Modeller",
+    "description": "Önbelleğe alınan Whisper modellerinizi yöneterek depolama alanı açın",
+    "deleteAll": "Hepsini Sil",
+    "delete": "Sil",
+    "cancel": "İptal",
+    "totalModels": "Toplam Önbelleğe Alınan Modeller: {count}",
+    "noModelsCachedTitle": "Önbelleğe Alınan Model Yok",
+    "noModelsCachedDescription": "Modeller, indirip transkripsiyon için kullandıktan sonra burada görünecektir.",
+    "deleteModelTitle": "Önbelleğe Alınan Modeli Sil",
+    "deleteModelDescription": "{modelName} modelini silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+    "deleteModelDescriptionGeneric": "Bu modeli silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+    "deleteAllTitle": "Tüm Önbelleğe Alınan Modelleri Sil",
+    "deleteAllDescription": "Tüm {count} önbelleğe alınmış modeli silmek istediğinizden emin misiniz? Bu işlem depolama alanını boşaltacaktır ancak modelleri tekrar kullandığınızda yeniden indirmeniz gerekecektir. Bu işlem geri alınamaz.",
+    "modelDeleted": "{modelName} modeli önbellekten silindi.",
+    "allModelsDeleted": "Tüm önbelleğe alınan modeller silindi.",
+    "noCacheToDelete": "Silinecek önbelleğe alınan model yok."
   },
   "LanguageCard": {
     "title": "Dil",

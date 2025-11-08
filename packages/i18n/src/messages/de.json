@@ -48,7 +48,27 @@
   },
   "SettingsPage": {
     "title": "Einstellungen",
-    "description": "Verwalten Sie Ihre Anwendungseinstellungen und passen Sie Ihre Erfahrung an."
+    "description": "Verwalten Sie Ihre Anwendungseinstellungen und passen Sie Ihre Erfahrung an.",
+    "general": "Allgemein",
+    "models": "Modelle"
+  },
+  "CachedModelsCard": {
+    "title": "Zwischengespeicherte Modelle",
+    "description": "Verwalten Sie Ihre zwischengespeicherten Whisper-Modelle, um Speicherplatz freizugeben",
+    "deleteAll": "Alle löschen",
+    "delete": "Löschen",
+    "cancel": "Abbrechen",
+    "totalModels": "Gesamtmodelle: {count}",
+    "noModelsCachedTitle": "Keine zwischengespeicherten Modelle",
+    "noModelsCachedDescription": "Modelle werden hier angezeigt, nachdem Sie sie heruntergeladen und für die Transkription verwendet haben.",
+    "deleteModelTitle": "Zwischengespeichertes Modell löschen",
+    "deleteModelDescription": "Sind Sie sicher, dass Sie {modelName} löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "deleteModelDescriptionGeneric": "Sind Sie sicher, dass Sie dieses Modell löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "deleteAllTitle": "Alle zwischengespeicherten Modelle löschen",
+    "deleteAllDescription": "Sind Sie sicher, dass Sie alle {count} zwischengespeicherten Modelle löschen möchten? Dies wird Speicherplatz freigeben, aber Sie müssen die Modelle erneut herunterladen, wenn Sie sie wieder verwenden. Diese Aktion kann nicht rückgängig gemacht werden.",
+    "modelDeleted": "Modell {modelName} aus dem Cache gelöscht.",
+    "allModelsDeleted": "Alle zwischengespeicherten Modelle wurden gelöscht.",
+    "noCacheToDelete": "Keine zwischengespeicherten Modelle zum Löschen."
   },
   "LanguageCard": {
     "title": "Sprache",

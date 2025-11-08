@@ -1,4 +1,12 @@
+import { isTauri } from "@tauri-apps/api/core";
 import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@workspace/ui/components/tabs";
+import { CachedModelsCard } from "@workspace/ui/components/settings/cached-models-card";
 import { LanguageCard } from "@workspace/ui/components/settings/language-card";
 import { ModeCard } from "@workspace/ui/components/settings/mode-card";
 import { SidebarVariantCard } from "@workspace/ui/components/settings/sidebar-variant-card";
@@ -17,12 +25,36 @@ export function SettingsPage() {
             <p className="text-muted-foreground">{t("description")}</p>
           </div>
 
-          <div className="grid gap-6">
-            <LanguageCard />
-            <ModeCard />
-            <SidebarVariantCard />
-            <ThemesList />
-          </div>
+          {isTauri() && (
+            <div className="grid gap-6">
+              <LanguageCard />
+              <ModeCard />
+              <SidebarVariantCard />
+              <ThemesList />
+            </div>
+          )}
+
+          {!isTauri() && (
+            <Tabs defaultValue="general">
+              <TabsList className="w-full max-w-3xl mb-4">
+                <TabsTrigger value="general">{t("general")}</TabsTrigger>
+                <TabsTrigger value="models">{t("models")}</TabsTrigger>
+              </TabsList>
+              <TabsContent value="general">
+                <div className="grid gap-6">
+                  <LanguageCard />
+                  <ModeCard />
+                  <SidebarVariantCard />
+                  <ThemesList />
+                </div>
+              </TabsContent>
+              <TabsContent value="models">
+                <div className="grid gap-6">
+                  <CachedModelsCard />
+                </div>
+              </TabsContent>
+            </Tabs>
+          )}
         </div>
       </div>
       <ScrollBar orientation="vertical" />

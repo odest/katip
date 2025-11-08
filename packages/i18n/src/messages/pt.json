@@ -48,7 +48,27 @@
   },
   "SettingsPage": {
     "title": "Configurações",
-    "description": "Gerencie as preferências do seu aplicativo e personalize sua experiência."
+    "description": "Gerencie as preferências do seu aplicativo e personalize sua experiência.",
+    "general": "Geral",
+    "models": "Modelos"
+  },
+  "CachedModelsCard": {
+    "title": "Modelos em Cache",
+    "description": "Gerencie seus modelos Whisper em cache para liberar espaço de armazenamento",
+    "deleteAll": "Excluir Todos",
+    "delete": "Excluir",
+    "cancel": "Cancelar",
+    "totalModels": "Total de Modelos em Cache: {count}",
+    "noModelsCachedTitle": "Nenhum Modelo em Cache",
+    "noModelsCachedDescription": "Os modelos aparecerão aqui após você baixá-los e usá-los para transcrição.",
+    "deleteModelTitle": "Excluir Modelo em Cache",
+    "deleteModelDescription": "Tem certeza de que deseja excluir {modelName}? Esta ação não pode ser desfeita.",
+    "deleteModelDescriptionGeneric": "Tem certeza de que deseja excluir este modelo? Esta ação não pode ser desfeita.",
+    "deleteAllTitle": "Excluir Todos os Modelos em Cache",
+    "deleteAllDescription": "Tem certeza de que deseja excluir todos os {count} modelos em cache? Isso liberará espaço de armazenamento, mas você precisará baixar os modelos novamente quando usá-los novamente. Esta ação não pode ser desfeita.",
+    "modelDeleted": "Modelo {modelName} excluído do cache.",
+    "allModelsDeleted": "Todos os modelos em cache foram excluídos.",
+    "noCacheToDelete": "Nenhum modelo em cache para excluir."
   },
   "LanguageCard": {
     "title": "Idioma",

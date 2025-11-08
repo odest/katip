@@ -48,7 +48,27 @@
   },
   "SettingsPage": {
     "title": "Impostazioni",
-    "description": "Gestisci le preferenze della tua applicazione e personalizza la tua esperienza."
+    "description": "Gestisci le preferenze della tua applicazione e personalizza la tua esperienza.",
+    "general": "Generale",
+    "models": "Modelli"
+  },
+  "CachedModelsCard": {
+    "title": "Modelli in Cache",
+    "description": "Gestisci i tuoi modelli Whisper in cache per liberare spazio di archiviazione",
+    "deleteAll": "Elimina Tutto",
+    "delete": "Elimina",
+    "cancel": "Annulla",
+    "totalModels": "Totale Modelli in Cache: {count}",
+    "noModelsCachedTitle": "Nessun Modello in Cache",
+    "noModelsCachedDescription": "I modelli appariranno qui dopo averli scaricati e utilizzati per la trascrizione.",
+    "deleteModelTitle": "Elimina Modello in Cache",
+    "deleteModelDescription": "Sei sicuro di voler eliminare {modelName}? Questa azione non può essere annullata.",
+    "deleteModelDescriptionGeneric": "Sei sicuro di voler eliminare questo modello? Questa azione non può essere annullata.",
+    "deleteAllTitle": "Elimina Tutti i Modelli in Cache",
+    "deleteAllDescription": "Sei sicuro di voler eliminare tutti i {count} modelli in cache? Questo libererà spazio di archiviazione, ma dovrai scaricare nuovamente i modelli quando li utilizzerai di nuovo. Questa azione non può essere annullata.",
+    "modelDeleted": "Modello {modelName} eliminato dalla cache.",
+    "allModelsDeleted": "Tutti i modelli in cache sono stati eliminati.",
+    "noCacheToDelete": "Nessun modello in cache da eliminare."
   },
   "LanguageCard": {
     "title": "Lingua",

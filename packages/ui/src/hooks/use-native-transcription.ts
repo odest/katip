@@ -202,6 +202,14 @@ export function useTranscriptionProcess({
         toast.error(t("transcriptionFailed"), {
           description: errorMessage,
         });
+        setTranscriptionState({
+          file: selectedAudio as string,
+          model: selectedModel as string,
+          status: "error",
+          progress: 0,
+          segments: [],
+          error: null,
+        });
       }
     };
 

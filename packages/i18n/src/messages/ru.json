@@ -46,6 +46,14 @@
     "transcriptionCancelled": "Транскрипция отменена",
     "transcriptionCancelledDesc": "Процесс транскрипции был остановлен. Показаны частичные результаты."
   },
+  "TranscriptionToolbar": {
+    "cancel": "Отменить",
+    "new": "Новый",
+    "retry": "Повторить",
+    "summarize": "Подвести итоги",
+    "copy": "Копировать",
+    "export": "Экспортировать"
+  },
   "SettingsPage": {
     "title": "Настройки",
     "description": "Управляйте настройками приложения и настраивайте свой опыт.",

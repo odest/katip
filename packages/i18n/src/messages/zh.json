@@ -46,6 +46,14 @@
     "transcriptionCancelled": "转录已取消",
     "transcriptionCancelledDesc": "转录过程已停止。显示部分结果。"
   },
+  "TranscriptionToolbar": {
+    "cancel": "取消",
+    "new": "新建",
+    "retry": "重试",
+    "summarize": "总结",
+    "copy": "复制",
+    "export": "导出"
+  },
   "SettingsPage": {
     "title": "设置",
     "description": "管理您的应用程序首选项并自定义您的体验。",

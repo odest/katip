@@ -46,6 +46,14 @@
     "transcriptionCancelled": "Transkription abgebrochen",
     "transcriptionCancelledDesc": "Der Transkriptionsprozess wurde gestoppt. Teilergebnisse werden angezeigt."
   },
+  "TranscriptionToolbar": {
+    "cancel": "Abbrechen",
+    "new": "Neu",
+    "retry": "Wiederholen",
+    "summarize": "Zusammenfassen",
+    "copy": "Kopieren",
+    "export": "Exportieren"
+  },
   "SettingsPage": {
     "title": "Einstellungen",
     "description": "Verwalten Sie Ihre Anwendungseinstellungen und passen Sie Ihre Erfahrung an.",

@@ -46,6 +46,14 @@
     "transcriptionCancelled": "文字起こしがキャンセルされました",
     "transcriptionCancelledDesc": "文字起こしプロセスが停止されました。部分的な結果が表示されます。"
   },
+  "TranscriptionToolbar": {
+    "cancel": "キャンセル",
+    "new": "新規",
+    "retry": "再試行",
+    "summarize": "要約",
+    "copy": "コピー",
+    "export": "エクスポート"
+  },
   "SettingsPage": {
     "title": "設定",
     "description": "アプリケーションの設定を管理し、体験をカスタマイズします。",

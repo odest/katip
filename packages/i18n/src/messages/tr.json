@@ -46,6 +46,14 @@
     "transcriptionCancelled": "Transkript İptal Edildi",
     "transcriptionCancelledDesc": "Transkript işlemi durduruldu. Kısmi sonuçlar gösteriliyor."
   },
+  "TranscriptionToolbar": {
+    "cancel": "İptal Et",
+    "new": "Yeni",
+    "retry": "Tekrarla",
+    "summarize": "Özetle",
+    "copy": "Kopyala",
+    "export": "Dışa Aktar"
+  },
   "SettingsPage": {
     "title": "Ayarlar",
     "description": "Uygulama tercihlerinizi yönetin ve deneyiminizi özelleştirin.",

@@ -46,6 +46,14 @@
     "transcriptionCancelled": "Transcription Cancelled",
     "transcriptionCancelledDesc": "The transcription process was stopped. Partial results are shown."
   },
+  "TranscriptionToolbar": {
+    "cancel": "Cancel",
+    "new": "New",
+    "retry": "Retry",
+    "summarize": "Summarize",
+    "copy": "Copy",
+    "export": "Export"
+  },
   "SettingsPage": {
     "title": "Settings",
     "description": "Manage your application preferences and customize your experience.",

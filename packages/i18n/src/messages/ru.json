@@ -44,7 +44,9 @@
     "transcriptionPlaceholderRealtime": "Транскрипция появится здесь в реальном времени...",
     "transcriptionPlaceholder": "Транскрипция появится здесь...",
     "transcriptionCancelled": "Транскрипция отменена",
-    "transcriptionCancelledDesc": "Процесс транскрипции был остановлен. Показаны частичные результаты."
+    "transcriptionCancelledDesc": "Процесс транскрипции был остановлен. Показаны частичные результаты.",
+    "copiedToClipboard": "Скопировано в буфер обмена",
+    "failedToCopyToClipboard": "Не удалось скопировать в буфер обмена"
   },
   "TranscriptionToolbar": {
     "cancel": "Отменить",

@@ -1,15 +1,19 @@
-use std::sync::{Arc, Mutex};
-use std::sync::atomic::{AtomicBool, Ordering};
-use tauri::{AppHandle, State, Emitter, Listener};
-use tokio::sync::Mutex as TokioMutex;
-use whisper_rs::{FullParams, SamplingStrategy, WhisperContext, WhisperContextParameters, SegmentCallbackData};
 use once_cell::sync::Lazy;
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::{Arc, Mutex};
+use tauri::{AppHandle, Emitter, Listener, State};
+use tokio::sync::Mutex as TokioMutex;
+use whisper_rs::{
+    FullParams, SamplingStrategy, SegmentCallbackData, WhisperContext, WhisperContextParameters,
+};
 
 pub struct TranscriptionState(pub Arc<TokioMutex<Option<WhisperContext>>>);
 
 static CANCEL_FLAG: Lazy<Arc<AtomicBool>> = Lazy::new(|| Arc::new(AtomicBool::new(false)));
-static PROGRESS_CALLBACK: Lazy<Mutex<Option<Box<dyn Fn(i32) + Send + Sync>>>> = Lazy::new(|| Mutex::new(None));
-static NEW_SEGMENT_CALLBACK: Lazy<Mutex<Option<Box<dyn Fn(SegmentPayload) + Send + Sync>>>> = Lazy::new(|| Mutex::new(None));
+static PROGRESS_CALLBACK: Lazy<Mutex<Option<Box<dyn Fn(i32) + Send + Sync>>>> =
+    Lazy::new(|| Mutex::new(None));
+static NEW_SEGMENT_CALLBACK: Lazy<Mutex<Option<Box<dyn Fn(SegmentPayload) + Send + Sync>>>> =
+    Lazy::new(|| Mutex::new(None));
 
 #[derive(serde::Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -85,16 +89,21 @@ pub async fn transcribe(
             .as_ref()
             .ok_or("Model not loaded. Please load a model first.")
             .map_err(|e| {
-                app_handle_cloned.emit("transcribe_error", e.to_string()).unwrap();
+                app_handle_cloned
+                    .emit("transcribe_error", e.to_string())
+                    .unwrap();
                 e.to_string()
             })?;
 
-        let mut whisper_state = context
-            .create_state()
-            .map_err(|e| {
-                app_handle_cloned.emit("transcribe_error", format!("Failed to create state: {:?}", e)).unwrap();
-                format!("Failed to create state: {:?}", e)
-            })?;
+        let mut whisper_state = context.create_state().map_err(|e| {
+            app_handle_cloned
+                .emit(
+                    "transcribe_error",
+                    format!("Failed to create state: {:?}", e),
+                )
+                .unwrap();
+            format!("Failed to create state: {:?}", e)
+        })?;
 
         let mut params = match options.strategy.as_str() {
             "beamSearch" => FullParams::new(SamplingStrategy::BeamSearch {
@@ -140,10 +149,7 @@ pub async fn transcribe(
         let app_handle_segment = app_handle_cloned.clone();
         let new_segment_closure = move |segment_data: SegmentPayload| {
             app_handle_segment
-                .emit(
-                    "new_segment",
-                    segment_data,
-                )
+                .emit("new_segment", segment_data)
                 .unwrap();
         };
         *NEW_SEGMENT_CALLBACK.lock().unwrap() = Some(Box::new(new_segment_closure));
@@ -158,16 +164,14 @@ pub async fn transcribe(
             }
         });
 
-        params.set_abort_callback_safe(|| {
-            CANCEL_FLAG.load(Ordering::SeqCst)
-        });
+        params.set_abort_callback_safe(|| CANCEL_FLAG.load(Ordering::SeqCst));
 
         let audio_path = options.audio_path;
 
         let mut reader = match hound::WavReader::open(&audio_path) {
             Ok(r) => r,
             Err(e) => {
-                app_handle_cloned 
+                app_handle_cloned
                     .emit(
                         "transcribe_error",
                         format!("Failed to open audio file '{}': {}", audio_path, e),
@@ -208,6 +212,8 @@ pub async fn transcribe(
 
 #[tauri::command]
 pub async fn cancel_transcription(app_handle: AppHandle) -> Result<(), String> {
-    app_handle.emit("abort_transcribe", ()).map_err(|e| e.to_string())?;
+    app_handle
+        .emit("abort_transcribe", ())
+        .map_err(|e| e.to_string())?;
     Ok(())
 }

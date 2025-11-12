@@ -44,7 +44,9 @@
     "transcriptionPlaceholderRealtime": "Transkript burada gerçek zamanlı olarak görünecek...",
     "transcriptionPlaceholder": "Transkript burada görünecek...",
     "transcriptionCancelled": "Transkript İptal Edildi",
-    "transcriptionCancelledDesc": "Transkript işlemi durduruldu. Kısmi sonuçlar gösteriliyor."
+    "transcriptionCancelledDesc": "Transkript işlemi durduruldu. Kısmi sonuçlar gösteriliyor.",
+    "copiedToClipboard": "Panoya kopyalandı",
+    "failedToCopyToClipboard": "Panoya kopyalama başarısız oldu"
   },
   "TranscriptionToolbar": {
     "cancel": "İptal Et",

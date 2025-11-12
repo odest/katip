@@ -44,7 +44,9 @@
     "transcriptionPlaceholderRealtime": "Transcription will appear here in real-time...",
     "transcriptionPlaceholder": "Transcription will appear here...",
     "transcriptionCancelled": "Transcription Cancelled",
-    "transcriptionCancelledDesc": "The transcription process was stopped. Partial results are shown."
+    "transcriptionCancelledDesc": "The transcription process was stopped. Partial results are shown.",
+    "copiedToClipboard": "Copied to clipboard",
+    "failedToCopyToClipboard": "Failed to copy to clipboard"
   },
   "TranscriptionToolbar": {
     "cancel": "Cancel",

@@ -44,7 +44,9 @@
     "transcriptionPlaceholderRealtime": "转录将实时显示在这里...",
     "transcriptionPlaceholder": "转录将显示在这里...",
     "transcriptionCancelled": "转录已取消",
-    "transcriptionCancelledDesc": "转录过程已停止。显示部分结果。"
+    "transcriptionCancelledDesc": "转录过程已停止。显示部分结果。",
+    "copiedToClipboard": "已复制到剪贴板",
+    "failedToCopyToClipboard": "复制到剪贴板失败"
   },
   "TranscriptionToolbar": {
     "cancel": "取消",

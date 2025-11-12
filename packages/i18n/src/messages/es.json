@@ -44,7 +44,9 @@
     "transcriptionPlaceholderRealtime": "La transcripción aparecerá aquí en tiempo real...",
     "transcriptionPlaceholder": "La transcripción aparecerá aquí...",
     "transcriptionCancelled": "Transcripción Cancelada",
-    "transcriptionCancelledDesc": "El proceso de transcripción fue detenido. Se muestran resultados parciales."
+    "transcriptionCancelledDesc": "El proceso de transcripción fue detenido. Se muestran resultados parciales.",
+    "copiedToClipboard": "Copiado en el portapapeles",
+    "failedToCopyToClipboard": "Error al copiar en el portapapeles"
   },
   "TranscriptionToolbar": {
     "cancel": "Cancelar",

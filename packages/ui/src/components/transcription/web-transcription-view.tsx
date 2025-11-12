@@ -63,6 +63,17 @@ export const WebTranscriptionView = () => {
     transcribe();
   };
 
+  const handleCopy = async () => {
+    try {
+      const text = segments.map((segment) => segment.text).join("\n");
+      await navigator.clipboard.writeText(text);
+      toast.success(t("copiedToClipboard"));
+    } catch (err) {
+      console.error("Failed to copy:", err);
+      toast.error(t("failedToCopyToClipboard"));
+    }
+  };
+
   const { cancel: terminateWorker, transcribe } = useWebTranscription({
     initialState,
     setStatus,
@@ -233,6 +244,7 @@ export const WebTranscriptionView = () => {
             onNew={handleNewTranscription}
             onRetry={handleRetry}
             onCancel={handleCancel}
+            onCopy={handleCopy}
           />
 
           <ScrollArea className="flex-1 min-h-0 w-full rounded-md border">

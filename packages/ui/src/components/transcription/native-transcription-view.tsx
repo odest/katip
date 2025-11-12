@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 import { toast } from "sonner";
 import { useTranslations } from "@workspace/i18n";
 import { useAudioStore } from "@workspace/ui/stores/audio-store";
@@ -67,6 +68,17 @@ export const NativeTranscriptionView = () => {
     } catch (err) {
       console.error("Failed to cancel transcription:", err);
       toast.error(t("failedToCancel"));
+    }
+  };
+
+  const handleCopy = async () => {
+    try {
+      const text = segments.map((segment) => segment.text).join("\n");
+      await writeText(text);
+      toast.success(t("copiedToClipboard"));
+    } catch (err) {
+      console.error("Failed to copy:", err);
+      toast.error(t("failedToCopyToClipboard"));
     }
   };
 
@@ -148,6 +160,7 @@ export const NativeTranscriptionView = () => {
             onNew={handleNewTranscription}
             onRetry={handleRetry}
             onCancel={handleCancel}
+            onCopy={handleCopy}
           />
 
           <ScrollArea className="flex-1 min-h-0 w-full rounded-md border">

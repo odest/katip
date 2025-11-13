@@ -46,7 +46,9 @@
     "transcriptionCancelled": "Transkription abgebrochen",
     "transcriptionCancelledDesc": "Der Transkriptionsprozess wurde gestoppt. Teilergebnisse werden angezeigt.",
     "copiedToClipboard": "In die Zwischenablage kopiert",
-    "failedToCopyToClipboard": "Kopieren in die Zwischenablage fehlgeschlagen"
+    "failedToCopyToClipboard": "Kopieren in die Zwischenablage fehlgeschlagen",
+    "exportedSuccessfully": "Erfolgreich exportiert",
+    "failedToExport": "Export der Transkription fehlgeschlagen"
   },
   "TranscriptionToolbar": {
     "cancel": "Abbrechen",

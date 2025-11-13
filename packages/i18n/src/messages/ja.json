@@ -46,7 +46,9 @@
     "transcriptionCancelled": "文字起こしがキャンセルされました",
     "transcriptionCancelledDesc": "文字起こしプロセスが停止されました。部分的な結果が表示されます。",
     "copiedToClipboard": "クリップボードにコピーされました",
-    "failedToCopyToClipboard": "クリップボードへのコピーに失敗しました"
+    "failedToCopyToClipboard": "クリップボードへのコピーに失敗しました",
+    "exportedSuccessfully": "正常にエクスポートされました",
+    "failedToExport": "文字起こしのエクスポートに失敗しました"
   },
   "TranscriptionToolbar": {
     "cancel": "キャンセル",

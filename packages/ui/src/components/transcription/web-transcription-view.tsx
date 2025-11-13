@@ -53,6 +53,14 @@ export const WebTranscriptionView = () => {
   >([]);
   const isTranscribing = status === "transcribing";
 
+  const handleSegmentChange = (index: number, newText: string) => {
+    setSegments((prevSegments) => {
+      const newSegments = [...prevSegments];
+      newSegments[index] = { ...newSegments[index]!, text: newText };
+      return newSegments;
+    });
+  };
+
   const handleNewTranscription = () => {
     clearTranscriptionState();
     router.push("/");
@@ -71,6 +79,25 @@ export const WebTranscriptionView = () => {
     } catch (err) {
       console.error("Failed to copy:", err);
       toast.error(t("failedToCopyToClipboard"));
+    }
+  };
+
+  const handleExport = () => {
+    try {
+      const text = segments.map((segment) => segment.text).join("\n");
+      const blob = new Blob([text], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "transcription.txt";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      toast.success(t("exportedSuccessfully"));
+    } catch (err) {
+      console.error("Failed to export:", err);
+      toast.error(t("failedToExport"));
     }
   };
 
@@ -245,6 +272,7 @@ export const WebTranscriptionView = () => {
             onRetry={handleRetry}
             onCancel={handleCancel}
             onCopy={handleCopy}
+            onExport={handleExport}
           />
 
           <ScrollArea className="flex-1 min-h-0 w-full rounded-md border">
@@ -257,6 +285,7 @@ export const WebTranscriptionView = () => {
                     : t("transcriptionPlaceholder")
                 }
                 isCentiseconds={false}
+                onSegmentChange={handleSegmentChange}
               />
             </div>
           </ScrollArea>

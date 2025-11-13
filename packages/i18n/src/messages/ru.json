@@ -46,7 +46,9 @@
     "transcriptionCancelled": "Транскрипция отменена",
     "transcriptionCancelledDesc": "Процесс транскрипции был остановлен. Показаны частичные результаты.",
     "copiedToClipboard": "Скопировано в буфер обмена",
-    "failedToCopyToClipboard": "Не удалось скопировать в буфер обмена"
+    "failedToCopyToClipboard": "Не удалось скопировать в буфер обмена",
+    "exportedSuccessfully": "Успешно экспортировано",
+    "failedToExport": "Не удалось экспортировать транскрипцию"
   },
   "TranscriptionToolbar": {
     "cancel": "Отменить",

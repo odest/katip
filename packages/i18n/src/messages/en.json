@@ -46,7 +46,9 @@
     "transcriptionCancelled": "Transcription Cancelled",
     "transcriptionCancelledDesc": "The transcription process was stopped. Partial results are shown.",
     "copiedToClipboard": "Copied to clipboard",
-    "failedToCopyToClipboard": "Failed to copy to clipboard"
+    "failedToCopyToClipboard": "Failed to copy to clipboard",
+    "exportedSuccessfully": "Exported successfully",
+    "failedToExport": "Failed to export transcription"
   },
   "TranscriptionToolbar": {
     "cancel": "Cancel",

@@ -5,12 +5,14 @@ interface SegmentListProps {
   segments: Segment[];
   emptyMessage: string;
   isCentiseconds: boolean;
+  onSegmentChange: (index: number, newText: string) => void;
 }
 
 export const SegmentList = ({
   segments,
   emptyMessage,
   isCentiseconds,
+  onSegmentChange,
 }: SegmentListProps) => {
   if (segments.length === 0) {
     return (
@@ -19,6 +21,16 @@ export const SegmentList = ({
       </div>
     );
   }
+
+  const handleSegmentChange = (
+    index: number,
+    e: React.FocusEvent<HTMLDivElement>
+  ) => {
+    const newText = e.currentTarget.innerText;
+    if (segments[index]?.text !== newText) {
+      onSegmentChange(index, newText);
+    }
+  };
 
   return (
     <>
@@ -36,6 +48,7 @@ export const SegmentList = ({
             className="flex-1 text-sm leading-relaxed"
             contentEditable="true"
             suppressContentEditableWarning={true}
+            onBlur={(e) => handleSegmentChange(index, e)}
           >
             {segment.text}
           </div>

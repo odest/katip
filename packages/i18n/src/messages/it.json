@@ -46,7 +46,9 @@
     "transcriptionCancelled": "Trascrizione annullata",
     "transcriptionCancelledDesc": "Il processo di trascrizione è stato interrotto. Vengono mostrati risultati parziali.",
     "copiedToClipboard": "Copiato negli appunti",
-    "failedToCopyToClipboard": "Impossibile copiare negli appunti"
+    "failedToCopyToClipboard": "Impossibile copiare negli appunti",
+    "exportedSuccessfully": "Esportato con successo",
+    "failedToExport": "Impossibile esportare la trascrizione"
   },
   "TranscriptionToolbar": {
     "cancel": "Annulla",

@@ -11,6 +11,7 @@
     "fs:allow-stat",
     "fs:allow-read-dir",
     "fs:allow-read-file",
+    "fs:allow-write-text-file",
     "os:default",
     "clipboard-manager:allow-write-text"
   ]

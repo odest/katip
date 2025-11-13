@@ -46,7 +46,9 @@
     "transcriptionCancelled": "Transcripción Cancelada",
     "transcriptionCancelledDesc": "El proceso de transcripción fue detenido. Se muestran resultados parciales.",
     "copiedToClipboard": "Copiado en el portapapeles",
-    "failedToCopyToClipboard": "Error al copiar en el portapapeles"
+    "failedToCopyToClipboard": "Error al copiar en el portapapeles",
+    "exportedSuccessfully": "Exportado exitosamente",
+    "failedToExport": "Error al exportar la transcripción"
   },
   "TranscriptionToolbar": {
     "cancel": "Cancelar",

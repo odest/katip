@@ -1,5 +1,7 @@
 import { useState, useMemo } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { save } from "@tauri-apps/plugin-dialog";
+import { writeTextFile } from "@tauri-apps/plugin-fs";
 import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 import { toast } from "sonner";
 import { useTranslations } from "@workspace/i18n";
@@ -51,6 +53,14 @@ export const NativeTranscriptionView = () => {
     initialState?.error || null
   );
 
+  const handleSegmentChange = (index: number, newText: string) => {
+    setSegments((prevSegments) => {
+      const newSegments = [...prevSegments];
+      newSegments[index] = { ...newSegments[index]!, text: newText };
+      return newSegments;
+    });
+  };
+
   const handleNewTranscription = () => {
     clearTranscriptionState();
     router.push("/");
@@ -79,6 +89,22 @@ export const NativeTranscriptionView = () => {
     } catch (err) {
       console.error("Failed to copy:", err);
       toast.error(t("failedToCopyToClipboard"));
+    }
+  };
+
+  const handleExport = async () => {
+    try {
+      const text = segments.map((segment) => segment.text).join("\n");
+      const filePath = await save({
+        defaultPath: "transcription.txt",
+        filters: [{ name: "text/plain", extensions: ["txt"] }],
+      });
+      if (!filePath) return;
+      await writeTextFile(filePath, text);
+      toast.success(t("exportedSuccessfully"));
+    } catch (err) {
+      console.error("Failed to export:", err);
+      toast.error(t("failedToExport"));
     }
   };
 
@@ -161,6 +187,7 @@ export const NativeTranscriptionView = () => {
             onRetry={handleRetry}
             onCancel={handleCancel}
             onCopy={handleCopy}
+            onExport={handleExport}
           />
 
           <ScrollArea className="flex-1 min-h-0 w-full rounded-md border">
@@ -173,6 +200,7 @@ export const NativeTranscriptionView = () => {
                     : t("transcriptionPlaceholder")
                 }
                 isCentiseconds={true}
+                onSegmentChange={handleSegmentChange}
               />
             </div>
           </ScrollArea>

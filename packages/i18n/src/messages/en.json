@@ -44,7 +44,19 @@
     "transcriptionPlaceholderRealtime": "Transcription will appear here in real-time...",
     "transcriptionPlaceholder": "Transcription will appear here...",
     "transcriptionCancelled": "Transcription Cancelled",
-    "transcriptionCancelledDesc": "The transcription process was stopped. Partial results are shown."
+    "transcriptionCancelledDesc": "The transcription process was stopped. Partial results are shown.",
+    "copiedToClipboard": "Copied to clipboard",
+    "failedToCopyToClipboard": "Failed to copy to clipboard",
+    "exportedSuccessfully": "Exported successfully",
+    "failedToExport": "Failed to export transcription"
+  },
+  "TranscriptionToolbar": {
+    "cancel": "Cancel",
+    "new": "New",
+    "retry": "Retry",
+    "summarize": "Summarize",
+    "copy": "Copy",
+    "export": "Export"
   },
   "SettingsPage": {
     "title": "Settings",

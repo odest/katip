@@ -44,7 +44,19 @@
     "transcriptionPlaceholderRealtime": "La trascrizione apparirà qui in tempo reale...",
     "transcriptionPlaceholder": "La trascrizione apparirà qui...",
     "transcriptionCancelled": "Trascrizione annullata",
-    "transcriptionCancelledDesc": "Il processo di trascrizione è stato interrotto. Vengono mostrati risultati parziali."
+    "transcriptionCancelledDesc": "Il processo di trascrizione è stato interrotto. Vengono mostrati risultati parziali.",
+    "copiedToClipboard": "Copiato negli appunti",
+    "failedToCopyToClipboard": "Impossibile copiare negli appunti",
+    "exportedSuccessfully": "Esportato con successo",
+    "failedToExport": "Impossibile esportare la trascrizione"
+  },
+  "TranscriptionToolbar": {
+    "cancel": "Annulla",
+    "new": "Nuovo",
+    "retry": "Riprova",
+    "summarize": "Riassumere",
+    "copy": "Copia",
+    "export": "Esporta"
   },
   "SettingsPage": {
     "title": "Impostazioni",

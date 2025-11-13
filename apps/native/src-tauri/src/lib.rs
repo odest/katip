@@ -11,8 +11,8 @@ async fn add_fs_scope(app: tauri::AppHandle, path: String) -> Result<(), String>
 
     let scope = app.fs_scope();
     scope
-    .allow_directory(&path, true)
-    .map_err(|e| format!("Failed to add path to scope: {}", e))?;
+        .allow_directory(&path, true)
+        .map_err(|e| format!("Failed to add path to scope: {}", e))?;
 
     Ok(())
 }
@@ -21,6 +21,7 @@ async fn add_fs_scope(app: tauri::AppHandle, path: String) -> Result<(), String>
 pub fn run() {
     tauri::Builder::default()
         .manage(TranscriptionState(Arc::new(Mutex::new(None))))
+        .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_dialog::init())

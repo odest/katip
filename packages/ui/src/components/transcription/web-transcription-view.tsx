@@ -1,12 +1,4 @@
-import {
-  useEffect,
-  useState,
-  useMemo,
-  useCallback,
-  useImperativeHandle,
-  forwardRef,
-  useRef,
-} from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { toast } from "sonner";
 import { useTranslations } from "@workspace/i18n";
 import { useAudioStore } from "@workspace/ui/stores/audio-store";
@@ -17,32 +9,25 @@ import {
   Segment,
 } from "@workspace/ui/stores/transcription-store";
 import { useWebTranscription } from "@workspace/ui/hooks/use-web-transcription";
-import { formatSegmentsToText } from "@workspace/ui/lib/utils";
 import { Progress } from "@workspace/ui/components/progress";
-import { Textarea } from "@workspace/ui/components/textarea";
 import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
 import { EmptyState } from "@workspace/ui/components/common/empty-state";
 import { Ban, AlertCircle, Bug } from "lucide-react";
+import { TranscriptionToolbar } from "@workspace/ui/components/transcription/transcription-toolbar";
+import { SegmentList } from "@workspace/ui/components/transcription/segment-list";
+import { useRouter } from "@workspace/i18n/navigation";
 
-interface WebTranscriptionViewProps {
-  onStatusChange?: (status: TranscriptionStatus) => void;
-}
-
-export interface WebTranscriptionViewHandle {
-  cancelTranscription: () => Promise<void>;
-  retryTranscription: () => void;
-}
-
-export const WebTranscriptionView = forwardRef<
-  WebTranscriptionViewHandle,
-  WebTranscriptionViewProps
->(({ onStatusChange }, ref) => {
+export const WebTranscriptionView = () => {
+  const router = useRouter();
   const t = useTranslations("TranscriptionView");
 
   const { selectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
-  const { checkTranscriptionMatch, setTranscriptionState } =
-    useTranscriptionStore();
+  const {
+    checkTranscriptionMatch,
+    setTranscriptionState,
+    clearTranscriptionState,
+  } = useTranscriptionStore();
 
   const initialState = useMemo(
     () =>
@@ -63,15 +48,58 @@ export const WebTranscriptionView = forwardRef<
   const [error, setError] = useState<string | null>(
     initialState?.error || null
   );
-  const [editableTranscription, setEditableTranscription] = useState("");
   const [downloadingFiles, setDownloadingFiles] = useState<
     Array<{ name: string; progress: number; status: "loading" | "done" }>
   >([]);
+  const isTranscribing = status === "transcribing";
 
-  const fullTranscription = useMemo(
-    () => formatSegmentsToText(segments, "web"),
-    [segments]
-  );
+  const handleSegmentChange = (index: number, newText: string) => {
+    setSegments((prevSegments) => {
+      const newSegments = [...prevSegments];
+      newSegments[index] = { ...newSegments[index]!, text: newText };
+      return newSegments;
+    });
+  };
+
+  const handleNewTranscription = () => {
+    clearTranscriptionState();
+    router.push("/");
+  };
+
+  const handleRetry = () => {
+    clearTranscriptionState();
+    transcribe();
+  };
+
+  const handleCopy = async () => {
+    try {
+      const text = segments.map((segment) => segment.text).join("\n");
+      await navigator.clipboard.writeText(text);
+      toast.success(t("copiedToClipboard"));
+    } catch (err) {
+      console.error("Failed to copy:", err);
+      toast.error(t("failedToCopyToClipboard"));
+    }
+  };
+
+  const handleExport = () => {
+    try {
+      const text = segments.map((segment) => segment.text).join("\n");
+      const blob = new Blob([text], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "transcription.txt";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      toast.success(t("exportedSuccessfully"));
+    } catch (err) {
+      console.error("Failed to export:", err);
+      toast.error(t("failedToExport"));
+    }
+  };
 
   const { cancel: terminateWorker, transcribe } = useWebTranscription({
     initialState,
@@ -110,17 +138,6 @@ export const WebTranscriptionView = forwardRef<
     t,
   ]);
 
-  const cancelRef = useRef(handleCancel);
-  cancelRef.current = handleCancel;
-
-  useEffect(() => {
-    setEditableTranscription(fullTranscription);
-  }, [fullTranscription]);
-
-  useEffect(() => {
-    onStatusChange?.(status);
-  }, [status, onStatusChange]);
-
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       if (status === "loadingModel" || status === "transcribing") {
@@ -158,19 +175,6 @@ export const WebTranscriptionView = forwardRef<
     setTranscriptionState,
   ]);
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      cancelTranscription: async () => {
-        handleCancel();
-      },
-      retryTranscription: () => {
-        transcribe();
-      },
-    }),
-    [handleCancel, transcribe]
-  );
-
   if (status === "error") {
     return (
       <div className="flex flex-1 justify-center items-center p-6">
@@ -191,7 +195,7 @@ export const WebTranscriptionView = forwardRef<
   if (status === "loadingModel") {
     return (
       <div className="flex flex-1 justify-center items-center p-6">
-        <div className="w-full max-w-md flex flex-col items-center gap-8">
+        <div className="w-full max-w-3xl flex flex-col items-center gap-8">
           <div className="text-center space-y-2">
             <h2 className="text-2xl font-bold">{t("loadingModel")}</h2>
             <p className="text-muted-foreground">{t("preparingModel")}</p>
@@ -228,6 +232,7 @@ export const WebTranscriptionView = forwardRef<
                 ))}
               </div>
               <ScrollBar orientation="vertical" />
+              <ScrollBar orientation="horizontal" />
             </ScrollArea>
           </div>
         </div>
@@ -235,14 +240,10 @@ export const WebTranscriptionView = forwardRef<
     );
   }
 
-  const isTranscribing = status === "transcribing";
-  const isDone = status === "done";
-  const isCancelled = status === "cancelled";
-
   return (
     <div className="flex flex-col h-full w-full gap-4 p-6">
       {isTranscribing && (
-        <div className="w-full max-w-2xl mx-auto space-y-3">
+        <div className="w-full max-w-3xl mx-auto space-y-3">
           <div className="text-center">
             <h2 className="text-xl font-bold">{t("transcribingAudio")}</h2>
             <p className="text-sm text-muted-foreground">
@@ -263,41 +264,33 @@ export const WebTranscriptionView = forwardRef<
         </div>
       )}
 
-      {isDone && (
-        <div className="text-center space-y-2 max-w-2xl mx-auto w-full">
-          <h2 className="text-2xl font-bold">{t("transcriptionComplete")}</h2>
-          <p className="text-muted-foreground">
-            {t("transcriptionCompleteDesc")}
-          </p>
-        </div>
-      )}
-
-      {isCancelled && (
-        <div className="text-center space-y-2 max-w-2xl mx-auto w-full">
-          <h2 className="text-2xl font-bold">{t("transcriptionCancelled")}</h2>
-          <p className="text-muted-foreground">
-            {t("transcriptionCancelledDesc")}
-          </p>
-        </div>
-      )}
-
       <div className="flex-1 min-h-0 max-w-3xl mx-auto w-full">
-        <ScrollArea className="h-full w-full rounded-md border">
-          <Textarea
-            value={editableTranscription}
-            onChange={(e) => setEditableTranscription(e.target.value)}
-            placeholder={
-              isTranscribing
-                ? t("transcriptionPlaceholderRealtime")
-                : t("transcriptionPlaceholder")
-            }
-            className="min-h-[calc(100vh-250px)] w-full p-4 focus-visible:ring-0 focus-visible:ring-offset-0 border-none shadow-none resize-none"
-            readOnly={!isDone && !isCancelled}
+        <div className="flex flex-col h-full gap-3">
+          <TranscriptionToolbar
+            status={status}
+            onNew={handleNewTranscription}
+            onRetry={handleRetry}
+            onCancel={handleCancel}
+            onCopy={handleCopy}
+            onExport={handleExport}
           />
-        </ScrollArea>
+
+          <ScrollArea className="flex-1 min-h-0 w-full rounded-md border">
+            <div className="p-4 space-y-4">
+              <SegmentList
+                segments={segments}
+                emptyMessage={
+                  status === "transcribing"
+                    ? t("transcriptionPlaceholderRealtime")
+                    : t("transcriptionPlaceholder")
+                }
+                isCentiseconds={false}
+                onSegmentChange={handleSegmentChange}
+              />
+            </div>
+          </ScrollArea>
+        </div>
       </div>
     </div>
   );
-});
-
-WebTranscriptionView.displayName = "WebTranscriptionView";
+};

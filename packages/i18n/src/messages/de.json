@@ -44,7 +44,19 @@
     "transcriptionPlaceholderRealtime": "Die Transkription wird hier in Echtzeit angezeigt...",
     "transcriptionPlaceholder": "Die Transkription wird hier angezeigt...",
     "transcriptionCancelled": "Transkription abgebrochen",
-    "transcriptionCancelledDesc": "Der Transkriptionsprozess wurde gestoppt. Teilergebnisse werden angezeigt."
+    "transcriptionCancelledDesc": "Der Transkriptionsprozess wurde gestoppt. Teilergebnisse werden angezeigt.",
+    "copiedToClipboard": "In die Zwischenablage kopiert",
+    "failedToCopyToClipboard": "Kopieren in die Zwischenablage fehlgeschlagen",
+    "exportedSuccessfully": "Erfolgreich exportiert",
+    "failedToExport": "Export der Transkription fehlgeschlagen"
+  },
+  "TranscriptionToolbar": {
+    "cancel": "Abbrechen",
+    "new": "Neu",
+    "retry": "Wiederholen",
+    "summarize": "Zusammenfassen",
+    "copy": "Kopieren",
+    "export": "Exportieren"
   },
   "SettingsPage": {
     "title": "Einstellungen",

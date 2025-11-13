@@ -18,17 +18,39 @@ import {
   FileAudioIcon,
 } from "lucide-react";
 import { useRouter } from "@workspace/i18n/navigation";
+import { useSidebar } from "@workspace/ui/components/sidebar";
+import { DesktopLayout } from "@workspace/ui/components/transcription/desktop-layout";
+import { MobileLayout } from "@workspace/ui/components/transcription/mobile-layout";
 
 export function TranscribePage() {
   const router = useRouter();
+  const isTauriApp = isTauri();
   const t = useTranslations("TranscribePage");
   const { selectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
+  const { isMobile } = useSidebar();
   const [isAndroid, setIsAndroid] = useState(false);
+  const [showSideViews, setShowSideViews] = useState(false);
+  const [animateIn, setAnimateIn] = useState(false);
+  const [activeTab, setActiveTab] = useState("transcribe");
   const selectionsMissing = !selectedAudio || !selectedModel;
+  const TranscriptionView = isTauriApp
+    ? NativeTranscriptionView
+    : WebTranscriptionView;
 
   useEffect(() => {
-    if (isTauri()) {
+    if (showSideViews) {
+      const timer = setTimeout(() => {
+        setAnimateIn(true);
+      }, 0);
+      return () => clearTimeout(timer);
+    } else {
+      setAnimateIn(false);
+    }
+  }, [showSideViews]);
+
+  useEffect(() => {
+    if (isTauriApp) {
       const checkPlatform = async () => {
         try {
           const platformType = await platform();
@@ -39,7 +61,12 @@ export function TranscribePage() {
       };
       checkPlatform();
     }
-  }, []);
+  }, [isTauriApp]);
+
+  const handleSummarize = () => {
+    setShowSideViews(true);
+    setActiveTab("summary");
+  };
 
   // Show message if selections are missing
   if (selectionsMissing) {
@@ -75,17 +102,23 @@ export function TranscribePage() {
     );
   }
 
-  if (!isTauri()) {
+  if (isMobile || !showSideViews) {
     return (
-      <div className="w-full h-full flex flex-col gap-4 overflow-y-auto">
-        <WebTranscriptionView />
-      </div>
+      <MobileLayout
+        showSideViews={showSideViews}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        TranscriptionView={TranscriptionView}
+        onSummarize={handleSummarize}
+      />
     );
   }
 
   return (
-    <div className="w-full h-full flex flex-col gap-4 overflow-y-auto">
-      <NativeTranscriptionView />
-    </div>
+    <DesktopLayout
+      animateIn={animateIn}
+      TranscriptionView={TranscriptionView}
+      onSummarize={handleSummarize}
+    />
   );
 }

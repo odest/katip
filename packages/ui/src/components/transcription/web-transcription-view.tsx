@@ -17,7 +17,13 @@ import { TranscriptionToolbar } from "@workspace/ui/components/transcription/tra
 import { SegmentList } from "@workspace/ui/components/transcription/segment-list";
 import { useRouter } from "@workspace/i18n/navigation";
 
-export const WebTranscriptionView = () => {
+interface WebTranscriptionViewProps {
+  onSummarize?: () => void;
+}
+
+export const WebTranscriptionView = ({
+  onSummarize,
+}: WebTranscriptionViewProps) => {
   const router = useRouter();
   const t = useTranslations("TranscriptionView");
 
@@ -273,6 +279,7 @@ export const WebTranscriptionView = () => {
             onCancel={handleCancel}
             onCopy={handleCopy}
             onExport={handleExport}
+            onSummarize={onSummarize}
           />
 
           <ScrollArea className="flex-1 min-h-0 w-full rounded-md border">

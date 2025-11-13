@@ -58,6 +58,17 @@
     "copy": "复制",
     "export": "导出"
   },
+  "TranscriptionTabs": {
+    "transcribe": "转录",
+    "summary": "总结",
+    "actions": "操作"
+  },
+  "SummaryView": {
+    "message": "正在生成总结..."
+  },
+  "ActionsView": {
+    "message": "正在生成操作项..."
+  },
   "SettingsPage": {
     "title": "设置",
     "description": "管理您的应用程序首选项并自定义您的体验。",

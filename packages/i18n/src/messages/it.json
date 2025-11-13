@@ -58,6 +58,17 @@
     "copy": "Copia",
     "export": "Esporta"
   },
+  "TranscriptionTabs": {
+    "transcribe": "Trascrivi",
+    "summary": "Riepilogo",
+    "actions": "Azioni"
+  },
+  "SummaryView": {
+    "message": "Generazione del riepilogo..."
+  },
+  "ActionsView": {
+    "message": "Generazione degli elementi di azione..."
+  },
   "SettingsPage": {
     "title": "Impostazioni",
     "description": "Gestisci le preferenze della tua applicazione e personalizza la tua esperienza.",

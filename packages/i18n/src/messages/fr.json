@@ -58,6 +58,17 @@
     "copy": "Copier",
     "export": "Exporter"
   },
+  "TranscriptionTabs": {
+    "transcribe": "Transcrire",
+    "summary": "Résumé",
+    "actions": "Actions"
+  },
+  "SummaryView": {
+    "message": "Génération du résumé..."
+  },
+  "ActionsView": {
+    "message": "Génération des éléments d'action..."
+  },
   "SettingsPage": {
     "title": "Paramètres",
     "description": "Gérez les préférences de votre application et personnalisez votre expérience.",

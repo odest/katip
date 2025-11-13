@@ -58,6 +58,17 @@
     "copy": "Kopyala",
     "export": "Dışa Aktar"
   },
+  "TranscriptionTabs": {
+    "transcribe": "Transkript",
+    "summary": "Özet",
+    "actions": "Eylemler"
+  },
+  "SummaryView": {
+    "message": "Özet oluşturuluyor..."
+  },
+  "ActionsView": {
+    "message": "Eylem öğeleri oluşturuluyor..."
+  },
   "SettingsPage": {
     "title": "Ayarlar",
     "description": "Uygulama tercihlerinizi yönetin ve deneyiminizi özelleştirin.",

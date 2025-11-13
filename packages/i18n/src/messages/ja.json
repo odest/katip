@@ -58,6 +58,17 @@
     "copy": "コピー",
     "export": "エクスポート"
   },
+  "TranscriptionTabs": {
+    "transcribe": "文字起こし",
+    "summary": "要約",
+    "actions": "アクション"
+  },
+  "SummaryView": {
+    "message": "要約を生成中..."
+  },
+  "ActionsView": {
+    "message": "アクション項目を生成中..."
+  },
   "SettingsPage": {
     "title": "設定",
     "description": "アプリケーションの設定を管理し、体験をカスタマイズします。",

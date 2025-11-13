@@ -58,6 +58,17 @@
     "copy": "Копировать",
     "export": "Экспортировать"
   },
+  "TranscriptionTabs": {
+    "transcribe": "Транскрибировать",
+    "summary": "Резюме",
+    "actions": "Действия"
+  },
+  "SummaryView": {
+    "message": "Генерация резюме..."
+  },
+  "ActionsView": {
+    "message": "Генерация элементов действий..."
+  },
   "SettingsPage": {
     "title": "Настройки",
     "description": "Управляйте настройками приложения и настраивайте свой опыт.",

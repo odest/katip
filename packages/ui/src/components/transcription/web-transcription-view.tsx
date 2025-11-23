@@ -8,6 +8,7 @@ import {
   TranscriptionStatus,
   Segment,
 } from "@workspace/ui/stores/transcription-store";
+import { useSummaryStore } from "@workspace/ui/stores/summary-store";
 import { useWebTranscription } from "@workspace/ui/hooks/use-web-transcription";
 import { Progress } from "@workspace/ui/components/progress";
 import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
@@ -34,6 +35,7 @@ export const WebTranscriptionView = ({
     setTranscriptionState,
     clearTranscriptionState,
   } = useTranscriptionStore();
+  const { resetSummary } = useSummaryStore();
 
   const initialState = useMemo(
     () =>
@@ -69,11 +71,13 @@ export const WebTranscriptionView = ({
 
   const handleNewTranscription = () => {
     clearTranscriptionState();
+    resetSummary();
     router.push("/");
   };
 
   const handleRetry = () => {
     clearTranscriptionState();
+    resetSummary();
     transcribe();
   };
 
@@ -282,7 +286,7 @@ export const WebTranscriptionView = ({
             onSummarize={onSummarize}
           />
 
-          <ScrollArea className="flex-1 min-h-0 w-full rounded-md border">
+          <ScrollArea className="flex-1 min-h-0 w-full rounded-md border bg-card">
             <div className="p-4 space-y-4">
               <SegmentList
                 segments={segments}

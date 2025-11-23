@@ -18,7 +18,12 @@
     "readyToTranscribeDesc": "La interfaz de transcripción se implementará aquí.",
     "cancelTranscription": "Cancelar Transcripción",
     "newTranscription": "Nueva Transcripción",
-    "retryTranscription": "Reintentar Transcripción"
+    "retryTranscription": "Reintentar Transcripción",
+    "noTextToSummarize": "No hay texto de transcripción para resumir.",
+    "summarySuccess": "¡Resumen generado con éxito!",
+    "summaryFailed": "Error al generar el resumen",
+    "summaryFailedCheckConnection": "Error al generar el resumen. Por favor, verifique su conexión de IA.",
+    "summaryFailedOllamaCORS": "Error de conexión. Si está utilizando Ollama en la web, asegúrese de que se esté ejecutando con OLLAMA_ORIGINS=\"*\"."
   },
   "TranscriptionView": {
     "cancellingTranscription": "Cancelando transcripción...",
@@ -56,7 +61,21 @@
     "retry": "Reintentar",
     "summarize": "Resumir",
     "copy": "Copiar",
-    "export": "Exportar"
+    "export": "Exportar",
+    "summarizing": "Resumiendo...",
+    "tryAgain": "Intentar de nuevo",
+    "resummarize": "Volver a resumir",
+    "configureAI": "Configurar IA",
+    "aiConfiguration": "Configuración de IA",
+    "checking": "Comprobando...",
+    "connected": "Conectado",
+    "disconnected": "Desconectado",
+    "provider": "Proveedor",
+    "selectProvider": "Seleccionar proveedor",
+    "model": "Modelo",
+    "selectModel": "Seleccionar modelo",
+    "checkConnection": "Comprobar conexión",
+    "url": "URL"
   },
   "TranscriptionTabs": {
     "transcribe": "Transcribir",
@@ -64,10 +83,14 @@
     "actions": "Acciones"
   },
   "SummaryView": {
-    "message": "Generando resumen..."
+    "message": "Generando resumen...",
+    "title": "Resumen",
+    "noSummaryAvailable": "No hay resumen disponible"
   },
   "ActionsView": {
-    "message": "Generando puntos de acción..."
+    "message": "Generando puntos de acción...",
+    "title": "Acciones",
+    "noActionsAvailable": "No hay elementos de acción disponibles"
   },
   "SettingsPage": {
     "title": "Configuración",

@@ -18,7 +18,12 @@
     "readyToTranscribeDesc": "L'interfaccia di trascrizione sarà implementata qui.",
     "cancelTranscription": "Annulla trascrizione",
     "newTranscription": "Nuova trascrizione",
-    "retryTranscription": "Riprova trascrizione"
+    "retryTranscription": "Riprova trascrizione",
+    "noTextToSummarize": "Nessun testo di trascrizione da riassumere.",
+    "summarySuccess": "Riassunto generato con successo!",
+    "summaryFailed": "Impossibile generare il riassunto",
+    "summaryFailedCheckConnection": "Impossibile generare il riassunto. Controlla la tua connessione AI.",
+    "summaryFailedOllamaCORS": "Connessione fallita. Se stai usando Ollama sul Web, assicurati che sia in esecuzione con OLLAMA_ORIGINS=\"*\"."
   },
   "TranscriptionView": {
     "cancellingTranscription": "Annullamento trascrizione...",
@@ -56,7 +61,21 @@
     "retry": "Riprova",
     "summarize": "Riassumere",
     "copy": "Copia",
-    "export": "Esporta"
+    "export": "Esporta",
+    "summarizing": "Riassumendo...",
+    "tryAgain": "Riprova",
+    "resummarize": "Riassumi di nuovo",
+    "configureAI": "Configura AI",
+    "aiConfiguration": "Configurazione AI",
+    "checking": "Verifica in corso...",
+    "connected": "Connesso",
+    "disconnected": "Disconnesso",
+    "provider": "Fornitore",
+    "selectProvider": "Seleziona fornitore",
+    "model": "Modello",
+    "selectModel": "Seleziona modello",
+    "checkConnection": "Verifica connessione",
+    "url": "URL"
   },
   "TranscriptionTabs": {
     "transcribe": "Trascrivi",
@@ -64,10 +83,14 @@
     "actions": "Azioni"
   },
   "SummaryView": {
-    "message": "Generazione del riepilogo..."
+    "message": "Generazione del riepilogo...",
+    "title": "Riassunto",
+    "noSummaryAvailable": "Nessun riassunto disponibile"
   },
   "ActionsView": {
-    "message": "Generazione degli elementi di azione..."
+    "message": "Generazione degli elementi di azione...",
+    "title": "Azioni",
+    "noActionsAvailable": "Nessuna azione disponibile"
   },
   "SettingsPage": {
     "title": "Impostazioni",

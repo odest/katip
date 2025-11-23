@@ -18,7 +18,12 @@
     "readyToTranscribeDesc": "A interface de transcrição será implementada aqui.",
     "cancelTranscription": "Cancelar transcrição",
     "newTranscription": "Nova transcrição",
-    "retryTranscription": "Tentar novamente"
+    "retryTranscription": "Tentar novamente",
+    "noTextToSummarize": "Nenhum texto de transcrição para resumir.",
+    "summarySuccess": "Resumo gerado com sucesso!",
+    "summaryFailed": "Falha ao gerar resumo",
+    "summaryFailedCheckConnection": "Falha ao gerar resumo. Verifique sua conexão de IA.",
+    "summaryFailedOllamaCORS": "Falha na conexão. Se estiver usando Ollama na Web, certifique-se de que está sendo executado com OLLAMA_ORIGINS=\"*\"."
   },
   "TranscriptionView": {
     "cancellingTranscription": "Cancelando transcrição...",
@@ -56,7 +61,21 @@
     "retry": "Tentar Novamente",
     "summarize": "Resumir",
     "copy": "Copiar",
-    "export": "Exportar"
+    "export": "Exportar",
+    "summarizing": "Resumindo...",
+    "tryAgain": "Tentar novamente",
+    "resummarize": "Resumir novamente",
+    "configureAI": "Configurar IA",
+    "aiConfiguration": "Configuração de IA",
+    "checking": "Verificando...",
+    "connected": "Conectado",
+    "disconnected": "Desconectado",
+    "provider": "Provedor",
+    "selectProvider": "Selecionar provedor",
+    "model": "Modelo",
+    "selectModel": "Selecionar modelo",
+    "checkConnection": "Verificar conexão",
+    "url": "URL"
   },
   "TranscriptionTabs": {
     "transcribe": "Transcrever",
@@ -64,10 +83,14 @@
     "actions": "Ações"
   },
   "SummaryView": {
-    "message": "Gerando resumo..."
+    "message": "Gerando resumo...",
+    "title": "Resumo",
+    "noSummaryAvailable": "Nenhum resumo disponível"
   },
   "ActionsView": {
-    "message": "Gerando itens de ações..."
+    "message": "Gerando itens de ações...",
+    "title": "Ações",
+    "noActionsAvailable": "Nenhum item de ação disponível"
   },
   "SettingsPage": {
     "title": "Configurações",

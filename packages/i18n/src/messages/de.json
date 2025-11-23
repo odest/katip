@@ -18,7 +18,12 @@
     "readyToTranscribeDesc": "Die Transkriptionsoberfläche wird hier implementiert.",
     "cancelTranscription": "Transkription abbrechen",
     "newTranscription": "Neue Transkription",
-    "retryTranscription": "Transkription wiederholen"
+    "retryTranscription": "Transkription wiederholen",
+    "noTextToSummarize": "Kein Transkriptionstext zum Zusammenfassen.",
+    "summarySuccess": "Zusammenfassung erfolgreich erstellt!",
+    "summaryFailed": "Zusammenfassung fehlgeschlagen",
+    "summaryFailedCheckConnection": "Zusammenfassung fehlgeschlagen. Bitte überprüfen Sie Ihre KI-Verbindung.",
+    "summaryFailedOllamaCORS": "Verbindung fehlgeschlagen. Wenn Sie Ollama im Web verwenden, stellen Sie sicher, dass es mit OLLAMA_ORIGINS=\"*\" ausgeführt wird."
   },
   "TranscriptionView": {
     "cancellingTranscription": "Transkription wird abgebrochen...",
@@ -56,7 +61,21 @@
     "retry": "Wiederholen",
     "summarize": "Zusammenfassen",
     "copy": "Kopieren",
-    "export": "Exportieren"
+    "export": "Exportieren",
+    "summarizing": "Zusammenfassen...",
+    "tryAgain": "Erneut versuchen",
+    "resummarize": "Erneut zusammenfassen",
+    "configureAI": "KI konfigurieren",
+    "aiConfiguration": "KI-Konfiguration",
+    "checking": "Prüfen...",
+    "connected": "Verbunden",
+    "disconnected": "Getrennt",
+    "provider": "Anbieter",
+    "selectProvider": "Anbieter auswählen",
+    "model": "Modell",
+    "selectModel": "Modell auswählen",
+    "checkConnection": "Verbindung prüfen",
+    "url": "URL"
   },
   "TranscriptionTabs": {
     "transcribe": "Transkribieren",
@@ -64,10 +83,14 @@
     "actions": "Aktionen"
   },
   "SummaryView": {
-    "message": "Zusammenfassung wird erstellt..."
+    "message": "Zusammenfassung wird erstellt...",
+    "title": "Zusammenfassung",
+    "noSummaryAvailable": "Keine Zusammenfassung verfügbar"
   },
   "ActionsView": {
-    "message": "Aktionspunkte werden erstellt..."
+    "message": "Aktionspunkte werden erstellt...",
+    "title": "Aktionen",
+    "noActionsAvailable": "Keine Aktionselemente verfügbar"
   },
   "SettingsPage": {
     "title": "Einstellungen",

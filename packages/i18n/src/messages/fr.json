@@ -18,7 +18,12 @@
     "readyToTranscribeDesc": "L'interface de transcription sera implémentée ici.",
     "cancelTranscription": "Annuler la transcription",
     "newTranscription": "Nouvelle transcription",
-    "retryTranscription": "Réessayer la transcription"
+    "retryTranscription": "Réessayer la transcription",
+    "noTextToSummarize": "Aucun texte de transcription à résumer.",
+    "summarySuccess": "Résumé généré avec succès !",
+    "summaryFailed": "Échec de la génération du résumé",
+    "summaryFailedCheckConnection": "Échec de la génération du résumé. Veuillez vérifier votre connexion IA.",
+    "summaryFailedOllamaCORS": "Échec de la connexion. Si vous utilisez Ollama sur le Web, assurez-vous qu'il fonctionne avec OLLAMA_ORIGINS=\"*\"."
   },
   "TranscriptionView": {
     "cancellingTranscription": "Annulation de la transcription...",
@@ -56,7 +61,36 @@
     "retry": "Réessayer",
     "summarize": "Résumer",
     "copy": "Copier",
-    "export": "Exporter"
+    "export": "Exporter",
+    "summarizing": "Résumé en cours...",
+    "tryAgain": "Réessayer",
+    "resummarize": "Résumer à nouveau",
+    "configureAI": "Configurer l'IA",
+    "aiConfiguration": "Configuration de l'IA",
+    "checking": "Vérification...",
+    "connected": "Connecté",
+    "disconnected": "Déconnecté",
+    "provider": "Fournisseur",
+    "selectProvider": "Sélectionner un fournisseur",
+    "model": "Modèle",
+    "selectModel": "Sélectionner un modèle",
+    "checkConnection": "Vérifier la connexion",
+    "url": "URL"
+  },
+  "TranscriptionTabs": {
+    "transcribe": "Transcrire",
+    "summary": "Résumé",
+    "actions": "Actions"
+  },
+  "SummaryView": {
+    "message": "Génération du résumé...",
+    "title": "Résumé",
+    "noSummaryAvailable": "Aucun résumé disponible"
+  },
+  "ActionsView": {
+    "message": "Génération des éléments d'action...",
+    "title": "Actions",
+    "noActionsAvailable": "Aucun élément d'action disponible"
   },
   "SettingsPage": {
     "title": "Paramètres",

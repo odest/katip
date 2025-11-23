@@ -18,7 +18,12 @@
     "readyToTranscribeDesc": "文字起こしインターフェースはここに実装されます。",
     "cancelTranscription": "文字起こしをキャンセル",
     "newTranscription": "新しい文字起こし",
-    "retryTranscription": "文字起こしを再試行"
+    "retryTranscription": "文字起こしを再試行",
+    "noTextToSummarize": "要約する文字起こしテキストがありません。",
+    "summarySuccess": "要約が正常に生成されました！",
+    "summaryFailed": "要約の生成に失敗しました",
+    "summaryFailedCheckConnection": "要約の生成に失敗しました。AI接続を確認してください。",
+    "summaryFailedOllamaCORS": "接続に失敗しました。WebでOllamaを使用している場合は、OLLAMA_ORIGINS=\"*\"で実行されていることを確認してください。"
   },
   "TranscriptionView": {
     "cancellingTranscription": "文字起こしをキャンセル中...",
@@ -56,7 +61,36 @@
     "retry": "再試行",
     "summarize": "要約",
     "copy": "コピー",
-    "export": "エクスポート"
+    "export": "エクスポート",
+    "summarizing": "要約中...",
+    "tryAgain": "再試行",
+    "resummarize": "再要約",
+    "configureAI": "AI設定",
+    "aiConfiguration": "AI設定",
+    "checking": "確認中...",
+    "connected": "接続済み",
+    "disconnected": "切断",
+    "provider": "プロバイダー",
+    "selectProvider": "プロバイダーを選択",
+    "model": "モデル",
+    "selectModel": "モデルを選択",
+    "checkConnection": "接続を確認",
+    "url": "URL"
+  },
+  "TranscriptionTabs": {
+    "transcribe": "文字起こし",
+    "summary": "要約",
+    "actions": "アクション"
+  },
+  "SummaryView": {
+    "message": "要約を生成中...",
+    "title": "要約",
+    "noSummaryAvailable": "要約はありません"
+  },
+  "ActionsView": {
+    "message": "アクション項目を生成中...",
+    "title": "アクション",
+    "noActionsAvailable": "アクションアイテムはありません"
   },
   "SettingsPage": {
     "title": "設定",

@@ -33,6 +33,7 @@ Available as a web app, desktop app (Windows, macOS, Linux), and mobile app (And
 
 - 🎙️ **Audio Transcription** - Convert speech to text with Whisper
 - 📝 **Smart Summaries** - Get structured summaries of main topics and decisions
+- 🤖 **Local LLM Support** - Use Ollama, LM Studio, or Llama.cpp for private, offline summarization
 - ✅ **Task Extraction** - Automatically identify and list action items
 - 🌍 **Multi-language** - Support for 10 languages
 - 💻 **Cross-platform** - Web, desktop, and mobile apps
@@ -100,6 +101,20 @@ pnpm tauri build -- --features vulkan
 2. **Transcription** - Whisper converts speech to text
 3. **AI Processing** - LLM analyzes the transcript
 4. **Get Results** - View summary and action items
+
+### Local LLM Configuration (Web)
+
+If you are using the Web version and want to connect to a local LLM provider like Ollama, you need to configure CORS to allow requests from the browser.
+
+For **Ollama**, set the `OLLAMA_ORIGINS` environment variable before starting the server:
+
+```bash
+# Windows (PowerShell)
+$env:OLLAMA_ORIGINS="*"; ollama serve
+
+# Mac/Linux
+OLLAMA_ORIGINS="*" ollama serve
+```
 
 ## Tech Stack
 

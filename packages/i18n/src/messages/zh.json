@@ -18,7 +18,12 @@
     "readyToTranscribeDesc": "转录界面将在这里实现。",
     "cancelTranscription": "取消转录",
     "newTranscription": "新转录",
-    "retryTranscription": "重试转录"
+    "retryTranscription": "重试转录",
+    "noTextToSummarize": "没有可总结的转录文本。",
+    "summarySuccess": "摘要生成成功！",
+    "summaryFailed": "生成摘要失败",
+    "summaryFailedCheckConnection": "生成摘要失败。请检查您的 AI 连接。",
+    "summaryFailedOllamaCORS": "连接失败。如果在网页上使用 Ollama，请确保其以 OLLAMA_ORIGINS=\"*\" 运行。"
   },
   "TranscriptionView": {
     "cancellingTranscription": "正在取消转录...",
@@ -56,7 +61,36 @@
     "retry": "重试",
     "summarize": "总结",
     "copy": "复制",
-    "export": "导出"
+    "export": "导出",
+    "summarizing": "正在总结...",
+    "tryAgain": "重试",
+    "resummarize": "重新总结",
+    "configureAI": "配置 AI",
+    "aiConfiguration": "AI 配置",
+    "checking": "正在检查...",
+    "connected": "已连接",
+    "disconnected": "已断开",
+    "provider": "提供商",
+    "selectProvider": "选择提供商",
+    "model": "模型",
+    "selectModel": "选择模型",
+    "checkConnection": "检查连接",
+    "url": "URL"
+  },
+  "TranscriptionTabs": {
+    "transcribe": "转录",
+    "summary": "总结",
+    "actions": "操作"
+  },
+  "SummaryView": {
+    "message": "正在生成总结...",
+    "title": "摘要",
+    "noSummaryAvailable": "无可用摘要"
+  },
+  "ActionsView": {
+    "message": "正在生成操作项...",
+    "title": "操作",
+    "noActionsAvailable": "无可用操作项"
   },
   "SettingsPage": {
     "title": "设置",

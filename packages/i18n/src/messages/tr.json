@@ -18,7 +18,12 @@
     "readyToTranscribeDesc": "Transkript arayüzü burada uygulanacaktır.",
     "cancelTranscription": "Transkripti İptal Et",
     "newTranscription": "Yeni Transkript",
-    "retryTranscription": "Transkripti Tekrarla"
+    "retryTranscription": "Transkripti Tekrarla",
+    "noTextToSummarize": "Özetlenecek transkripsiyon metni yok.",
+    "summarySuccess": "Özet başarıyla oluşturuldu!",
+    "summaryFailed": "Özet oluşturulamadı",
+    "summaryFailedCheckConnection": "Özet oluşturulamadı. Lütfen yapay zeka bağlantınızı kontrol edin.",
+    "summaryFailedOllamaCORS": "Bağlantı başarısız. Web üzerinde Ollama kullanıyorsanız, OLLAMA_ORIGINS=\"*\" ile çalıştığından emin olun."
   },
   "TranscriptionView": {
     "cancellingTranscription": "Transkript iptal ediliyor...",
@@ -56,7 +61,36 @@
     "retry": "Tekrarla",
     "summarize": "Özetle",
     "copy": "Kopyala",
-    "export": "Dışa Aktar"
+    "export": "Dışa Aktar",
+    "summarizing": "Özetleniyor...",
+    "tryAgain": "Tekrar Dene",
+    "resummarize": "Tekrar Özetle",
+    "configureAI": "YZ Yapılandır",
+    "aiConfiguration": "YZ Yapılandırması",
+    "checking": "Kontrol ediliyor...",
+    "connected": "Bağlandı",
+    "disconnected": "Bağlantı Kesildi",
+    "provider": "Sağlayıcı",
+    "selectProvider": "Sağlayıcı seç",
+    "model": "Model",
+    "selectModel": "Model seç",
+    "checkConnection": "Bağlantıyı Kontrol Et",
+    "url": "URL"
+  },
+  "TranscriptionTabs": {
+    "transcribe": "Transkript",
+    "summary": "Özet",
+    "actions": "Eylemler"
+  },
+  "SummaryView": {
+    "message": "Özet oluşturuluyor...",
+    "title": "Özet",
+    "noSummaryAvailable": "Özet mevcut değil"
+  },
+  "ActionsView": {
+    "message": "Eylem öğeleri oluşturuluyor...",
+    "title": "Eylemler",
+    "noActionsAvailable": "Eylem öğesi mevcut değil"
   },
   "SettingsPage": {
     "title": "Ayarlar",

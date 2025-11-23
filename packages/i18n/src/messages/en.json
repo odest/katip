@@ -18,7 +18,12 @@
     "readyToTranscribeDesc": "Transcription interface will be implemented here.",
     "cancelTranscription": "Cancel Transcription",
     "newTranscription": "New Transcription",
-    "retryTranscription": "Retry Transcription"
+    "retryTranscription": "Retry Transcription",
+    "noTextToSummarize": "No transcription text to summarize.",
+    "summarySuccess": "Summary generated successfully!",
+    "summaryFailed": "Failed to generate summary",
+    "summaryFailedCheckConnection": "Failed to generate summary. Please check your AI connection.",
+    "summaryFailedOllamaCORS": "Connection failed. If using Ollama on Web, ensure it's running with OLLAMA_ORIGINS=\"*\"."
   },
   "TranscriptionView": {
     "cancellingTranscription": "Cancelling transcription...",
@@ -56,7 +61,36 @@
     "retry": "Retry",
     "summarize": "Summarize",
     "copy": "Copy",
-    "export": "Export"
+    "export": "Export",
+    "summarizing": "Summarizing...",
+    "tryAgain": "Try Again",
+    "resummarize": "Resummarize",
+    "configureAI": "Configure AI",
+    "aiConfiguration": "AI Configuration",
+    "checking": "Checking...",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "provider": "Provider",
+    "selectProvider": "Select provider",
+    "model": "Model",
+    "selectModel": "Select model",
+    "checkConnection": "Check Connection",
+    "url": "URL"
+  },
+  "TranscriptionTabs": {
+    "transcribe": "Transcribe",
+    "summary": "Summary",
+    "actions": "Actions"
+  },
+  "SummaryView": {
+    "message": "Generating summary...",
+    "title": "Summary",
+    "noSummaryAvailable": "No summary available"
+  },
+  "ActionsView": {
+    "message": "Generating actions items...",
+    "title": "Actions",
+    "noActionsAvailable": "No action items available"
   },
   "SettingsPage": {
     "title": "Settings",

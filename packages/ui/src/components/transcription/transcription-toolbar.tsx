@@ -1,20 +1,44 @@
-import { Button } from "@workspace/ui/components/button";
-import { ButtonGroup } from "@workspace/ui/components/button-group";
+import { useEffect, useState } from "react";
+import {
+  Copy,
+  XCircle,
+  Download,
+  FilePlus,
+  Sparkles,
+  RefreshCw,
+  ChevronDownIcon,
+} from "lucide-react";
+import { useTranslations } from "@workspace/i18n";
+import { cn } from "@workspace/ui/lib/utils";
+import { getBadgeStyles } from "@workspace/ui/lib/utils";
+import { useAI } from "@workspace/ui/hooks/use-ai";
+import { AI_PROVIDERS } from "@workspace/ui/lib/ai-client";
+import { useSummaryStore } from "@workspace/ui/stores/summary-store";
+import { TranscriptionStatus } from "@workspace/ui/stores/transcription-store";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@workspace/ui/components/popover";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
+  TooltipProvider,
 } from "@workspace/ui/components/tooltip";
 import {
-  Copy,
-  Download,
-  FilePlus,
-  RotateCw,
-  Sparkles,
-  XCircle,
-} from "lucide-react";
-import { useTranslations } from "@workspace/i18n";
-import { TranscriptionStatus } from "@workspace/ui/stores/transcription-store";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@workspace/ui/components/select";
+import { Input } from "@workspace/ui/components/input";
+import { Label } from "@workspace/ui/components/label";
+import { Badge } from "@workspace/ui/components/badge";
+import { Spinner } from "@workspace/ui/components/spinner";
+import { Button } from "@workspace/ui/components/button";
+import { ButtonGroup } from "@workspace/ui/components/button-group";
 
 interface TranscriptionToolbarProps {
   onNew?: () => void;
@@ -36,14 +60,50 @@ export function TranscriptionToolbar({
   status,
 }: TranscriptionToolbarProps) {
   const t = useTranslations("TranscriptionToolbar");
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const { isChecking, isConnected, availableModels, checkConnection } = useAI();
+  const {
+    isSummarizing,
+    summaryResult,
+    provider,
+    model,
+    url,
+    setSettings,
+    error,
+  } = useSummaryStore();
   const isProcessing = status === "loadingModel" || status === "transcribing";
   const isDone = status === "done" || status === "cancelled";
 
+  useEffect(() => {
+    checkConnection(url);
+  }, [url]);
+
+  useEffect(() => {
+    if (availableModels.length > 0 && !availableModels.includes(model)) {
+      setSettings({ provider, url, model: availableModels[0]! });
+    }
+  }, [availableModels, model, provider, url, setSettings]);
+
+  const handleSummarizeClick = () => {
+    if (!model || !url || !isConnected) {
+      setIsPopoverOpen(true);
+      if (!isConnected) {
+        checkConnection(url);
+      }
+    } else {
+      onSummarize?.();
+    }
+  };
+
   return (
-    <div className="relative flex items-center justify-between p-1 border rounded-md bg-background">
-      <div className="flex items-center gap-1">
+    <div className="relative flex items-center justify-between p-1 border rounded-md bg-card">
+      <div className="flex items-center gap-2">
         {isProcessing && (
-          <Button variant="destructive" onClick={onCancel}>
+          <Button
+            variant="destructive"
+            onClick={onCancel}
+            className="cursor-pointer"
+          >
             <XCircle className="h-4 w-4" />
             <span>{t("cancel")}</span>
           </Button>
@@ -53,7 +113,11 @@ export function TranscriptionToolbar({
           <ButtonGroup>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="outline" onClick={onNew}>
+                <Button
+                  variant="outline"
+                  onClick={onNew}
+                  className="cursor-pointer"
+                >
                   <FilePlus className="h-4 w-4" />
                   <span className="hidden sm:inline">{t("new")}</span>
                 </Button>
@@ -65,8 +129,12 @@ export function TranscriptionToolbar({
 
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="outline" onClick={onRetry}>
-                  <RotateCw className="h-4 w-4" />
+                <Button
+                  variant="outline"
+                  onClick={onRetry}
+                  className="cursor-pointer"
+                >
+                  <RefreshCw className="h-4 w-4" />
                   <span className="hidden sm:inline">{t("retry")}</span>
                 </Button>
               </TooltipTrigger>
@@ -77,10 +145,176 @@ export function TranscriptionToolbar({
           </ButtonGroup>
         )}
 
-        <Button onClick={onSummarize} disabled={isProcessing && !isDone}>
-          <Sparkles className="h-4 w-4" />
-          <span>{t("summarize")}</span>
-        </Button>
+        <ButtonGroup>
+          <Button
+            onClick={handleSummarizeClick}
+            disabled={(isProcessing && !isDone) || isSummarizing}
+            className="rounded-r-none border-r border-white/20 dark:border-black/20 cursor-pointer"
+          >
+            {isSummarizing ? (
+              <>
+                <Spinner />
+                <span>{t("summarizing")}</span>
+              </>
+            ) : (
+              <>
+                <Sparkles />
+                <span>
+                  {error
+                    ? t("tryAgain")
+                    : summaryResult
+                      ? t("resummarize")
+                      : t("summarize")}
+                </span>
+              </>
+            )}
+          </Button>
+
+          <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <PopoverTrigger asChild>
+                    <Button
+                      size="icon"
+                      disabled={(isProcessing && !isDone) || isSummarizing}
+                      className="rounded-l-none border-l-0 px-2 cursor-pointer"
+                    >
+                      <ChevronDownIcon className="h-4 w-4" />
+                    </Button>
+                  </PopoverTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{t("configureAI")}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <PopoverContent
+              align="center"
+              className="w-80 p-0 bg-card"
+              sideOffset={10}
+            >
+              <div className="flex items-center justify-between border-b px-4 py-3">
+                <div className="font-semibold">{t("aiConfiguration")}</div>
+                <Badge
+                  variant="outline"
+                  className={cn(
+                    `${
+                      isChecking
+                        ? getBadgeStyles("checking")
+                        : isConnected
+                          ? getBadgeStyles("connected")
+                          : getBadgeStyles("disconnected")
+                    } font-mono`
+                  )}
+                >
+                  {isChecking
+                    ? t("checking")
+                    : isConnected
+                      ? t("connected")
+                      : t("disconnected")}
+                </Badge>
+              </div>
+
+              <div className="grid gap-4 p-4">
+                <div className="grid grid-cols-[80px_1fr] items-center gap-3">
+                  <Label className="text-right">{t("provider")}</Label>
+                  <Select
+                    value={provider}
+                    onValueChange={(val) => {
+                      const selectedProvider = AI_PROVIDERS.find(
+                        (p) => p.id === val
+                      );
+                      const newUrl = selectedProvider?.defaultUrl ?? url;
+                      setSettings({ provider: val, model, url: newUrl });
+                    }}
+                  >
+                    <SelectTrigger className="w-full cursor-pointer">
+                      <SelectValue placeholder={t("selectProvider")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {AI_PROVIDERS.map((p) => (
+                        <SelectItem key={p.id} value={p.id}>
+                          {p.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="grid grid-cols-[80px_1fr] items-center gap-3">
+                  <Label className="text-right">{t("model")}</Label>
+                  <div className="flex gap-2 min-w-0">
+                    <div className="flex-1 min-w-0">
+                      {isConnected && availableModels.length > 0 ? (
+                        <Select
+                          value={model}
+                          onValueChange={(val) =>
+                            setSettings({ provider, model: val, url })
+                          }
+                        >
+                          <SelectTrigger className="w-full cursor-pointer [&>span]:truncate">
+                            <SelectValue placeholder={t("selectModel")} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {availableModels.map((m) => (
+                              <SelectItem key={m} value={m}>
+                                {m}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      ) : (
+                        <Input
+                          value={model}
+                          onChange={(e) =>
+                            setSettings({
+                              provider,
+                              model: e.target.value,
+                              url,
+                            })
+                          }
+                          placeholder="e.g. Llama3"
+                          className="w-full"
+                        />
+                      )}
+                    </div>
+
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          className="cursor-pointer shrink-0"
+                          onClick={() => checkConnection(url)}
+                          disabled={isChecking}
+                        >
+                          {isChecking ? <Spinner /> : <RefreshCw />}
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{isConnected ? t("retry") : t("checkConnection")}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-[80px_1fr] items-center gap-3">
+                  <Label className="text-right">{t("url")}</Label>
+                  <Input
+                    id="url"
+                    value={url}
+                    onChange={(e) =>
+                      setSettings({ provider, model, url: e.target.value })
+                    }
+                    className="w-full"
+                  />
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
+        </ButtonGroup>
       </div>
 
       <div className="flex items-center gap-1">
@@ -91,6 +325,7 @@ export function TranscriptionToolbar({
               size="icon"
               onClick={onCopy}
               disabled={isProcessing && !isDone}
+              className="cursor-pointer"
             >
               <Copy className="h-4 w-4" />
             </Button>
@@ -107,6 +342,7 @@ export function TranscriptionToolbar({
               size="icon"
               onClick={onExport}
               disabled={isProcessing && !isDone}
+              className="cursor-pointer"
             >
               <Download className="h-4 w-4" />
             </Button>

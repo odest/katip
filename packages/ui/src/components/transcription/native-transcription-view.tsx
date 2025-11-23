@@ -12,6 +12,7 @@ import {
   TranscriptionStatus,
   Segment,
 } from "@workspace/ui/stores/transcription-store";
+import { useSummaryStore } from "@workspace/ui/stores/summary-store";
 import { Progress } from "@workspace/ui/components/progress";
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import { EmptyState } from "@workspace/ui/components/common/empty-state";
@@ -21,7 +22,13 @@ import { TranscriptionToolbar } from "@workspace/ui/components/transcription/tra
 import { SegmentList } from "@workspace/ui/components/transcription/segment-list";
 import { useRouter } from "@workspace/i18n/navigation";
 
-export const NativeTranscriptionView = () => {
+interface NativeTranscriptionViewProps {
+  onSummarize?: () => void;
+}
+
+export const NativeTranscriptionView = ({
+  onSummarize,
+}: NativeTranscriptionViewProps) => {
   const router = useRouter();
   const t = useTranslations("TranscriptionView");
 
@@ -32,6 +39,7 @@ export const NativeTranscriptionView = () => {
     setTranscriptionState,
     clearTranscriptionState,
   } = useTranscriptionStore();
+  const { resetSummary } = useSummaryStore();
 
   const initialState = useMemo(
     () =>
@@ -63,11 +71,13 @@ export const NativeTranscriptionView = () => {
 
   const handleNewTranscription = () => {
     clearTranscriptionState();
+    resetSummary();
     router.push("/");
   };
 
   const handleRetry = () => {
     clearTranscriptionState();
+    resetSummary();
     window.location.reload();
   };
 
@@ -188,9 +198,10 @@ export const NativeTranscriptionView = () => {
             onCancel={handleCancel}
             onCopy={handleCopy}
             onExport={handleExport}
+            onSummarize={onSummarize}
           />
 
-          <ScrollArea className="flex-1 min-h-0 w-full rounded-md border">
+          <ScrollArea className="flex-1 min-h-0 w-full rounded-md border bg-card">
             <div className="p-4 space-y-4">
               <SegmentList
                 segments={segments}

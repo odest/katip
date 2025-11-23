@@ -18,7 +18,12 @@
     "readyToTranscribeDesc": "Интерфейс транскрипции будет реализован здесь.",
     "cancelTranscription": "Отменить транскрипцию",
     "newTranscription": "Новая транскрипция",
-    "retryTranscription": "Повторить транскрипцию"
+    "retryTranscription": "Повторить транскрипцию",
+    "noTextToSummarize": "Нет текста транскрипции для обобщения.",
+    "summarySuccess": "Сводка успешно создана!",
+    "summaryFailed": "Не удалось создать сводку",
+    "summaryFailedCheckConnection": "Не удалось создать сводку. Пожалуйста, проверьте подключение к ИИ.",
+    "summaryFailedOllamaCORS": "Не удалось подключиться. Если вы используете Ollama в вебе, убедитесь, что он запущен с OLLAMA_ORIGINS=\"*\"."
   },
   "TranscriptionView": {
     "cancellingTranscription": "Отмена транскрипции...",
@@ -56,7 +61,36 @@
     "retry": "Повторить",
     "summarize": "Подвести итоги",
     "copy": "Копировать",
-    "export": "Экспортировать"
+    "export": "Экспортировать",
+    "summarizing": "Обобщение...",
+    "tryAgain": "Попробовать снова",
+    "resummarize": "Обобщить снова",
+    "configureAI": "Настроить ИИ",
+    "aiConfiguration": "Конфигурация ИИ",
+    "checking": "Проверка...",
+    "connected": "Подключено",
+    "disconnected": "Отключено",
+    "provider": "Провайдер",
+    "selectProvider": "Выберите провайдера",
+    "model": "Модель",
+    "selectModel": "Выберите модель",
+    "checkConnection": "Проверить подключение",
+    "url": "URL"
+  },
+  "TranscriptionTabs": {
+    "transcribe": "Транскрибировать",
+    "summary": "Резюме",
+    "actions": "Действия"
+  },
+  "SummaryView": {
+    "message": "Генерация резюме...",
+    "title": "Сводка",
+    "noSummaryAvailable": "Сводка недоступна"
+  },
+  "ActionsView": {
+    "message": "Генерация элементов действий...",
+    "title": "Действия",
+    "noActionsAvailable": "Нет доступных действий"
   },
   "SettingsPage": {
     "title": "Настройки",

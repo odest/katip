@@ -98,6 +98,20 @@
     "general": "常规",
     "models": "模型"
   },
+  "AIProviderCard": {
+    "title": "AI 提供商",
+    "description": "配置用于摘要的本地 LLM 提供商",
+    "provider": "提供商",
+    "model": "模型",
+    "url": "URL",
+    "selectProvider": "选择提供商",
+    "selectModel": "选择模型",
+    "checkConnection": "检查连接",
+    "checking": "正在检查...",
+    "connected": "已连接",
+    "disconnected": "已断开",
+    "retry": "重试"
+  },
   "CachedModelsCard": {
     "title": "缓存的模型",
     "description": "管理您的缓存Whisper模型以释放存储空间",

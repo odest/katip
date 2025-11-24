@@ -98,6 +98,20 @@
     "general": "Общие",
     "models": "Модели"
   },
+  "AIProviderCard": {
+    "title": "Провайдер ИИ",
+    "description": "Настройте локального провайдера LLM для суммаризации",
+    "provider": "Провайдер",
+    "model": "Модель",
+    "url": "URL",
+    "selectProvider": "Выберите провайдера",
+    "selectModel": "Выберите модель",
+    "checkConnection": "Проверить соединение",
+    "checking": "Проверка...",
+    "connected": "Подключено",
+    "disconnected": "Отключено",
+    "retry": "Повторить"
+  },
   "CachedModelsCard": {
     "title": "Кэшированные Модели",
     "description": "Управляйте своими кэшированными моделями Whisper, чтобы освободить место для хранения",

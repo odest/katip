@@ -98,6 +98,20 @@
     "general": "Genel",
     "models": "Modeller"
   },
+  "AIProviderCard": {
+    "title": "Yapay Zeka Sağlayıcısı",
+    "description": "Özetleme için yerel LLM sağlayıcınızı yapılandırın",
+    "provider": "Sağlayıcı",
+    "model": "Model",
+    "url": "URL",
+    "selectProvider": "Bir sağlayıcı seçin",
+    "selectModel": "Bir model seçin",
+    "checkConnection": "Bağlantıyı Kontrol Et",
+    "checking": "Kontrol ediliyor...",
+    "connected": "Bağlı",
+    "disconnected": "Bağlantı Yok",
+    "retry": "Tekrar Dene"
+  },
   "CachedModelsCard": {
     "title": "Önbelleğe Alınan Modeller",
     "description": "Önbelleğe alınan Whisper modellerinizi yöneterek depolama alanı açın",

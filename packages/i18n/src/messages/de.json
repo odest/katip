@@ -98,6 +98,20 @@
     "general": "Allgemein",
     "models": "Modelle"
   },
+  "AIProviderCard": {
+    "title": "KI-Anbieter",
+    "description": "Konfigurieren Sie Ihren lokalen LLM-Anbieter für die Zusammenfassung",
+    "provider": "Anbieter",
+    "model": "Modell",
+    "url": "URL",
+    "selectProvider": "Wählen Sie einen Anbieter",
+    "selectModel": "Wählen Sie ein Modell",
+    "checkConnection": "Verbindung prüfen",
+    "checking": "Prüfen...",
+    "connected": "Verbunden",
+    "disconnected": "Getrennt",
+    "retry": "Wiederholen"
+  },
   "CachedModelsCard": {
     "title": "Zwischengespeicherte Modelle",
     "description": "Verwalten Sie Ihre zwischengespeicherten Whisper-Modelle, um Speicherplatz freizugeben",

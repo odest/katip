@@ -98,6 +98,20 @@
     "general": "General",
     "models": "Modelos"
   },
+  "AIProviderCard": {
+    "title": "Proveedor de IA",
+    "description": "Configure su proveedor LLM local para resúmenes",
+    "provider": "Proveedor",
+    "model": "Modelo",
+    "url": "URL",
+    "selectProvider": "Seleccione un proveedor",
+    "selectModel": "Seleccione un modelo",
+    "checkConnection": "Comprobar conexión",
+    "checking": "Comprobando...",
+    "connected": "Conectado",
+    "disconnected": "Desconectado",
+    "retry": "Reintentar"
+  },
   "CachedModelsCard": {
     "title": "Modelos en caché",
     "description": "Administre sus modelos Whisper en caché para liberar espacio de almacenamiento",

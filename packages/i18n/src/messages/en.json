@@ -98,6 +98,20 @@
     "general": "General",
     "models": "Models"
   },
+  "AIProviderCard": {
+    "title": "AI Provider",
+    "description": "Configure your local LLM provider for summarization",
+    "provider": "Provider",
+    "model": "Model",
+    "url": "URL",
+    "selectProvider": "Select a provider",
+    "selectModel": "Select a model",
+    "checkConnection": "Check Connection",
+    "checking": "Checking...",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "retry": "Retry"
+  },
   "CachedModelsCard": {
     "title": "Cached Models",
     "description": "Manage your cached Whisper models to free up storage space",

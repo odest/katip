@@ -98,6 +98,20 @@
     "general": "一般",
     "models": "モデル"
   },
+  "AIProviderCard": {
+    "title": "AIプロバイダー",
+    "description": "要約用のローカルLLMプロバイダーを構成する",
+    "provider": "プロバイダー",
+    "model": "モデル",
+    "url": "URL",
+    "selectProvider": "プロバイダーを選択",
+    "selectModel": "モデルを選択",
+    "checkConnection": "接続を確認",
+    "checking": "確認中...",
+    "connected": "接続済み",
+    "disconnected": "切断",
+    "retry": "再試行"
+  },
   "CachedModelsCard": {
     "title": "キャッシュされたモデル",
     "description": "キャッシュされたWhisperモデルを管理して、ストレージスペースを解放します",

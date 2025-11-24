@@ -7,6 +7,7 @@ import {
   TabsTrigger,
 } from "@workspace/ui/components/tabs";
 import { CachedModelsCard } from "@workspace/ui/components/settings/cached-models-card";
+import { AIProviderCard } from "@workspace/ui/components/settings/ai-provider-card";
 import { LanguageCard } from "@workspace/ui/components/settings/language-card";
 import { ModeCard } from "@workspace/ui/components/settings/mode-card";
 import { SidebarVariantCard } from "@workspace/ui/components/settings/sidebar-variant-card";
@@ -24,37 +25,26 @@ export function SettingsPage() {
             <h1 className="text-3xl font-bold">{t("title")}</h1>
             <p className="text-muted-foreground">{t("description")}</p>
           </div>
-
-          {isTauri() && (
-            <div className="grid gap-6">
-              <LanguageCard />
-              <ModeCard />
-              <SidebarVariantCard />
-              <ThemesList />
-            </div>
-          )}
-
-          {!isTauri() && (
-            <Tabs defaultValue="general">
-              <TabsList className="w-full max-w-3xl mb-4">
-                <TabsTrigger value="general">{t("general")}</TabsTrigger>
-                <TabsTrigger value="models">{t("models")}</TabsTrigger>
-              </TabsList>
-              <TabsContent value="general">
-                <div className="grid gap-6">
-                  <LanguageCard />
-                  <ModeCard />
-                  <SidebarVariantCard />
-                  <ThemesList />
-                </div>
-              </TabsContent>
-              <TabsContent value="models">
-                <div className="grid gap-6">
-                  <CachedModelsCard />
-                </div>
-              </TabsContent>
-            </Tabs>
-          )}
+          <Tabs defaultValue="general">
+            <TabsList className="w-full max-w-3xl mb-4">
+              <TabsTrigger value="general">{t("general")}</TabsTrigger>
+              <TabsTrigger value="models">{t("models")}</TabsTrigger>
+            </TabsList>
+            <TabsContent value="general">
+              <div className="grid gap-6">
+                <LanguageCard />
+                <ModeCard />
+                <SidebarVariantCard />
+                <ThemesList />
+              </div>
+            </TabsContent>
+            <TabsContent value="models">
+              <div className="grid gap-6">
+                <AIProviderCard />
+                {!isTauri() && <CachedModelsCard />}
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
       <ScrollBar orientation="vertical" />

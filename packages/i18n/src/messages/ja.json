@@ -163,7 +163,36 @@
     "home": "ホーム",
     "transcribe": "文字起こし",
     "settings": "設定",
-    "platform": "プラットフォーム"
+    "platform": "プラットフォーム",
+    "name": "ゲストユーザー",
+    "email": "サインインしていません",
+    "signIn": "サインイン"
+  },
+  "SignInForm": {
+    "title": "おかえりなさい",
+    "description": "アカウントにログインするには、以下にメールアドレスを入力してください",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "forgotPassword": "パスワードをお忘れですか？",
+    "signIn": "サインイン",
+    "orContinueWith": "または次で続行",
+    "signinWithGitHub": "GitHubでサインイン",
+    "noAccount": "アカウントをお持ちではありませんか？",
+    "signUp": "サインアップ"
+  },
+  "SignUpForm": {
+    "title": "アカウントを作成",
+    "description": "アカウントを作成するには、以下にメールアドレスを入力してください",
+    "fullName": "氏名",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "confirmPassword": "パスワード（確認）",
+    "passwordRequirement": "8文字以上である必要があります。",
+    "createAccount": "アカウント作成",
+    "orContinueWith": "または次で続行",
+    "signUpWithGitHub": "GitHubでサインアップ",
+    "alreadyHaveAccount": "すでにアカウントをお持ちですか？",
+    "signIn": "サインイン"
   },
   "AudioSelectCard": {
     "title": "音声ファイルの選択",

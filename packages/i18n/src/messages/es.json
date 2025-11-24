@@ -163,7 +163,36 @@
     "home": "Inicio",
     "transcribe": "Transcribir",
     "settings": "Configuración",
-    "platform": "Plataforma"
+    "platform": "Plataforma",
+    "name": "Usuario invitado",
+    "email": "No ha iniciado sesión",
+    "signIn": "Iniciar sesión"
+  },
+  "SignInForm": {
+    "title": "Bienvenido de nuevo",
+    "description": "Ingrese su correo electrónico a continuación para iniciar sesión en su cuenta",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "forgotPassword": "¿Olvidó su contraseña?",
+    "signIn": "Iniciar sesión",
+    "orContinueWith": "O continuar con",
+    "signinWithGitHub": "Iniciar sesión con GitHub",
+    "noAccount": "¿No tiene una cuenta?",
+    "signUp": "Registrarse"
+  },
+  "SignUpForm": {
+    "title": "Cree su cuenta",
+    "description": "Ingrese su correo electrónico a continuación para crear su cuenta",
+    "fullName": "Nombre completo",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "passwordRequirement": "Debe tener al menos 8 caracteres.",
+    "createAccount": "Crear cuenta",
+    "orContinueWith": "O continuar con",
+    "signUpWithGitHub": "Registrarse con GitHub",
+    "alreadyHaveAccount": "¿Ya tiene una cuenta?",
+    "signIn": "Iniciar sesión"
   },
   "AudioSelectCard": {
     "title": "Selección de archivo de audio",

@@ -7,6 +7,7 @@ import { Biohazard } from "lucide-react";
 
 import { MainNav } from "@workspace/ui/components/navigation/main-nav";
 import { SecondaryNav } from "@workspace/ui/components/navigation/secondary-nav";
+import { UserNav } from "@workspace/ui/components/navigation/user-nav";
 import {
   Sidebar,
   SidebarContent,
@@ -14,6 +15,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarFooter,
   useSidebar,
 } from "@workspace/ui/components/sidebar";
 import { navigationData } from "@workspace/ui/config/navigation";
@@ -79,6 +81,9 @@ export function AppSidebar({
           className="mt-auto"
         />
       </SidebarContent>
+      <SidebarFooter>
+        <UserNav user={navigationData.navUser} />
+      </SidebarFooter>
     </Sidebar>
   );
 }

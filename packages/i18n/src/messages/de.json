@@ -163,7 +163,36 @@
     "home": "Startseite",
     "settings": "Einstellungen",
     "transcribe": "Transkribieren",
-    "platform": "Plattform"
+    "platform": "Plattform",
+    "name": "Gastbenutzer",
+    "email": "Nicht angemeldet",
+    "signIn": "Anmelden"
+  },
+  "SignInForm": {
+    "title": "Willkommen zurück",
+    "description": "Geben Sie unten Ihre E-Mail-Adresse ein, um sich in Ihr Konto einzuloggen",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "forgotPassword": "Passwort vergessen?",
+    "signIn": "Anmelden",
+    "orContinueWith": "Oder weiter mit",
+    "signinWithGitHub": "Mit GitHub anmelden",
+    "noAccount": "Sie haben kein Konto?",
+    "signUp": "Registrieren"
+  },
+  "SignUpForm": {
+    "title": "Erstellen Sie Ihr Konto",
+    "description": "Geben Sie unten Ihre E-Mail-Adresse ein, um Ihr Konto zu erstellen",
+    "fullName": "Vollständiger Name",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "passwordRequirement": "Muss mindestens 8 Zeichen lang sein.",
+    "createAccount": "Konto erstellen",
+    "orContinueWith": "Oder weiter mit",
+    "signUpWithGitHub": "Mit GitHub registrieren",
+    "alreadyHaveAccount": "Haben Sie bereits ein Konto?",
+    "signIn": "Anmelden"
   },
   "AudioSelectCard": {
     "title": "Audiodatei-Auswahl",

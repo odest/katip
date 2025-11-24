@@ -163,7 +163,36 @@
     "home": "主页",
     "transcribe": "转录",
     "settings": "设置",
-    "platform": "平台"
+    "platform": "平台",
+    "name": "访客用户",
+    "email": "未登录",
+    "signIn": "登录"
+  },
+  "SignInForm": {
+    "title": "欢迎回来",
+    "description": "在下方输入您的电子邮件以登录您的帐户",
+    "email": "电子邮件",
+    "password": "密码",
+    "forgotPassword": "忘记密码？",
+    "signIn": "登录",
+    "orContinueWith": "或继续使用",
+    "signinWithGitHub": "使用 GitHub 登录",
+    "noAccount": "没有帐户？",
+    "signUp": "注册"
+  },
+  "SignUpForm": {
+    "title": "创建您的帐户",
+    "description": "在下方输入您的电子邮件以创建您的帐户",
+    "fullName": "全名",
+    "email": "电子邮件",
+    "password": "密码",
+    "confirmPassword": "确认密码",
+    "passwordRequirement": "必须至少 8 个字符长。",
+    "createAccount": "创建帐户",
+    "orContinueWith": "或继续使用",
+    "signUpWithGitHub": "使用 GitHub 注册",
+    "alreadyHaveAccount": "已有帐户？",
+    "signIn": "登录"
   },
   "AudioSelectCard": {
     "title": "音频文件选择",

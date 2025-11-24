@@ -163,7 +163,36 @@
     "home": "Ana Sayfa",
     "transcribe": "Transkript",
     "settings": "Ayarlar",
-    "platform": "Platform"
+    "platform": "Platform",
+    "name": "Misafir Kullanıcı",
+    "email": "Giriş yapılmadı",
+    "signIn": "Giriş Yap"
+  },
+  "SignInForm": {
+    "title": "Tekrar hoş geldiniz",
+    "description": "Hesabınıza giriş yapmak için aşağıya e-postanızı girin",
+    "email": "E-posta",
+    "password": "Şifre",
+    "forgotPassword": "Şifrenizi mi unuttunuz?",
+    "signIn": "Giriş Yap",
+    "orContinueWith": "Veya şununla devam et",
+    "signinWithGitHub": "GitHub ile giriş yap",
+    "noAccount": "Hesabınız yok mu?",
+    "signUp": "Kayıt Ol"
+  },
+  "SignUpForm": {
+    "title": "Hesabınızı oluşturun",
+    "description": "Hesabınızı oluşturmak için aşağıya e-postanızı girin",
+    "fullName": "Ad Soyad",
+    "email": "E-posta",
+    "password": "Şifre",
+    "confirmPassword": "Şifreyi Onayla",
+    "passwordRequirement": "En az 8 karakter uzunluğunda olmalıdır.",
+    "createAccount": "Hesap Oluştur",
+    "orContinueWith": "Veya şununla devam et",
+    "signUpWithGitHub": "GitHub ile kayıt ol",
+    "alreadyHaveAccount": "Zaten bir hesabınız var mı?",
+    "signIn": "Giriş Yap"
   },
   "AudioSelectCard": {
     "title": "Ses Dosyası Seçimi",

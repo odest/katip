@@ -163,7 +163,36 @@
     "home": "Главная",
     "transcribe": "Транскрибировать",
     "settings": "Настройки",
-    "platform": "Платформа"
+    "platform": "Платформа",
+    "name": "Гость",
+    "email": "Не вошли в систему",
+    "signIn": "Войти"
+  },
+  "SignInForm": {
+    "title": "С возвращением",
+    "description": "Введите свой email ниже, чтобы войти в аккаунт",
+    "email": "Email",
+    "password": "Пароль",
+    "forgotPassword": "Забыли пароль?",
+    "signIn": "Войти",
+    "orContinueWith": "Или продолжить с",
+    "signinWithGitHub": "Войти через GitHub",
+    "noAccount": "Нет аккаунта?",
+    "signUp": "Зарегистрироваться"
+  },
+  "SignUpForm": {
+    "title": "Создайте аккаунт",
+    "description": "Введите свой email ниже, чтобы создать аккаунт",
+    "fullName": "Полное имя",
+    "email": "Email",
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "passwordRequirement": "Должен содержать не менее 8 символов.",
+    "createAccount": "Создать аккаунт",
+    "orContinueWith": "Или продолжить с",
+    "signUpWithGitHub": "Зарегистрироваться через GitHub",
+    "alreadyHaveAccount": "Уже есть аккаунт?",
+    "signIn": "Войти"
   },
   "AudioSelectCard": {
     "title": "Выбор аудиофайла",

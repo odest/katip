@@ -1,5 +1,10 @@
+import { useState } from "react";
+import { toast } from "sonner";
+import { LogIn } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 import { useTranslations } from "@workspace/i18n";
+import { createClient } from "@workspace/ui/lib/supabase";
+import { getAuthErrorKey } from "@workspace/ui/lib/auth-errors";
 import {
   Card,
   CardContent,
@@ -16,17 +21,48 @@ import {
 } from "@workspace/ui/components/field";
 import { Input } from "@workspace/ui/components/input";
 import { Button } from "@workspace/ui/components/button";
+import { Spinner } from "@workspace/ui/components/spinner";
+import { Alert, AlertDescription } from "@workspace/ui/components/alert";
 
 interface SigninFormProps extends React.ComponentProps<"div"> {
   onSignupClick?: () => void;
+  onSuccess?: () => void;
 }
 
 export function SigninForm({
   className,
   onSignupClick,
+  onSuccess,
   ...props
 }: SigninFormProps) {
   const t = useTranslations("SignInForm");
+  const tAuthErrors = useTranslations("AuthErrors");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const supabase = createClient();
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setError(tAuthErrors(getAuthErrorKey(error.message)));
+      setLoading(false);
+    } else {
+      toast.success(t("signInSuccess"));
+      onSuccess?.();
+      setLoading(false);
+    }
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -35,8 +71,15 @@ export function SigninForm({
           <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleLogin}>
             <FieldGroup>
+              {error && (
+                <Alert variant="destructive">
+                  <AlertDescription className="justify-center">
+                    {error}
+                  </AlertDescription>
+                </Alert>
+              )}
               <Field>
                 <FieldLabel htmlFor="email">{t("email")}</FieldLabel>
                 <Input
@@ -44,30 +87,44 @@ export function SigninForm({
                   type="email"
                   placeholder="m@example.com"
                   required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </Field>
               <Field>
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">{t("password")}</FieldLabel>
-                  <a
+                  {/* <a
                     href="#"
                     className="ml-auto text-sm underline-offset-4 hover:underline"
                   >
                     {t("forgotPassword")}
-                  </a>
+                  </a> */}
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </Field>
-              <Field>
-                <Button type="submit" className="cursor-pointer">
-                  {t("signIn")}
-                </Button>
-              </Field>
-              <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
-                {t("orContinueWith")}
-              </FieldSeparator>
               <Field>
                 <Button
+                  type="submit"
+                  className="cursor-pointer"
+                  disabled={loading}
+                >
+                  {loading ? <Spinner /> : <LogIn />}
+                  {loading ? t("SigningIn") : t("signIn")}
+                </Button>
+              </Field>
+              {/* <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
+                {t("orContinueWith")}
+              </FieldSeparator> */}
+              <FieldSeparator />
+              <Field>
+                {/* <Button
                   variant="outline"
                   type="button"
                   className="cursor-pointer"
@@ -79,7 +136,7 @@ export function SigninForm({
                     />
                   </svg>
                   {t("signinWithGitHub")}
-                </Button>
+                </Button> */}
                 <FieldDescription className="text-center">
                   {t("noAccount")}{" "}
                   <a

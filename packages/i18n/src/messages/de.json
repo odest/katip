@@ -164,9 +164,15 @@
     "settings": "Einstellungen",
     "transcribe": "Transkribieren",
     "platform": "Plattform",
-    "name": "Gastbenutzer",
-    "email": "Nicht angemeldet",
-    "signIn": "Anmelden"
+    "guest": "Gastbenutzer",
+    "guestEmail": "Nicht angemeldet",
+    "signIn": "Anmelden",
+    "signOut": "Abmelden",
+    "signOutSuccess": "Erfolgreich abgemeldet!",
+    "signOutConfirmTitle": "Möchten Sie sich wirklich abmelden?",
+    "signOutConfirmDesc": "Sie werden von Ihrem Konto abgemeldet.",
+    "cancel": "Abbrechen",
+    "confirmSignOut": "Abmelden"
   },
   "SignInForm": {
     "title": "Willkommen zurück",
@@ -175,10 +181,22 @@
     "password": "Passwort",
     "forgotPassword": "Passwort vergessen?",
     "signIn": "Anmelden",
+    "SigningIn": "Anmeldung läuft...",
     "orContinueWith": "Oder weiter mit",
     "signinWithGitHub": "Mit GitHub anmelden",
     "noAccount": "Sie haben kein Konto?",
-    "signUp": "Registrieren"
+    "signUp": "Registrieren",
+    "signInSuccess": "Erfolgreich angemeldet!"
+  },
+  "AuthErrors": {
+    "invalidCredentials": "Ungültige E-Mail oder Passwort. Bitte versuchen Sie es erneut.",
+    "userAlreadyRegistered": "Ein Benutzer mit dieser E-Mail-Adresse existiert bereits.",
+    "passwordTooShort": "Das Passwort muss mindestens 8 Zeichen lang sein.",
+    "emailNotConfirmed": "Bitte bestätigen Sie Ihre E-Mail-Adresse vor dem Anmelden.",
+    "invalidToken": "Der Bestätigungslink ist ungültig oder abgelaufen.",
+    "rateLimitExceeded": "Zu viele Anfragen. Bitte versuchen Sie es später erneut.",
+    "sessionMissing": "Sitzung abgelaufen. Bitte melden Sie sich erneut an.",
+    "defaultError": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
   },
   "SignUpForm": {
     "title": "Erstellen Sie Ihr Konto",
@@ -189,10 +207,27 @@
     "confirmPassword": "Passwort bestätigen",
     "passwordRequirement": "Muss mindestens 8 Zeichen lang sein.",
     "createAccount": "Konto erstellen",
+    "creatingAccount": "Konto wird erstellt...",
     "orContinueWith": "Oder weiter mit",
     "signUpWithGitHub": "Mit GitHub registrieren",
     "alreadyHaveAccount": "Haben Sie bereits ein Konto?",
-    "signIn": "Anmelden"
+    "signIn": "Anmelden",
+    "passwordMismatchError": "Passwörter stimmen nicht überein.",
+    "passwordMinLengthError": "Das Passwort muss mindestens 8 Zeichen lang sein.",
+    "checkYourEmailForVerification": "Bitte überprüfen Sie Ihre E-Mail zur Verifizierung."
+  },
+  "OTPForm": {
+    "title": "Bestätigungscode eingeben",
+    "description": "Wir haben einen 6-stelligen Code an Ihre E-Mail gesendet.",
+    "verificationCode": "Bestätigungscode",
+    "enterCode": "Geben Sie den 6-stelligen Code ein, der an Ihre E-Mail gesendet wurde.",
+    "verify": "Bestätigen",
+    "verifying": "Bestätigen läuft...",
+    "didntReceive": "Code nicht erhalten?",
+    "resend": "Erneut senden",
+    "resending": "Erneut senden läuft...",
+    "verificationCodeResent": "Bestätigungscode erneut gesendet. Bitte überprüfen Sie Ihre E-Mail.",
+    "signUpSuccess": "Verifizierung abgeschlossen! Konto erfolgreich erstellt."
   },
   "AudioSelectCard": {
     "title": "Audiodatei-Auswahl",

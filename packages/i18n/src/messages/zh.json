@@ -164,9 +164,15 @@
     "transcribe": "转录",
     "settings": "设置",
     "platform": "平台",
-    "name": "访客用户",
-    "email": "未登录",
-    "signIn": "登录"
+    "guest": "访客用户",
+    "guestEmail": "未登录",
+    "signIn": "登录",
+    "signOut": "退出",
+    "signOutSuccess": "成功退出登录！",
+    "signOutConfirmTitle": "您确定要退出吗？",
+    "signOutConfirmDesc": "您将退出您的帐户。",
+    "cancel": "取消",
+    "confirmSignOut": "退出"
   },
   "SignInForm": {
     "title": "欢迎回来",
@@ -175,10 +181,22 @@
     "password": "密码",
     "forgotPassword": "忘记密码？",
     "signIn": "登录",
+    "SigningIn": "正在登录...",
     "orContinueWith": "或继续使用",
     "signinWithGitHub": "使用 GitHub 登录",
     "noAccount": "没有帐户？",
-    "signUp": "注册"
+    "signUp": "注册",
+    "signInSuccess": "登录成功！"
+  },
+  "AuthErrors": {
+    "invalidCredentials": "电子邮件或密码无效。请重试。",
+    "userAlreadyRegistered": "具有此电子邮件地址的用户已存在。",
+    "passwordTooShort": "密码至少应为 8 个字符。",
+    "emailNotConfirmed": "请在登录前验证您的电子邮件地址。",
+    "invalidToken": "验证链接无效或已过期。",
+    "rateLimitExceeded": "请求过多。请稍后再试。",
+    "sessionMissing": "会话已过期。请重新登录。",
+    "defaultError": "发生意外错误。请重试。"
   },
   "SignUpForm": {
     "title": "创建您的帐户",
@@ -189,10 +207,27 @@
     "confirmPassword": "确认密码",
     "passwordRequirement": "必须至少 8 个字符长。",
     "createAccount": "创建帐户",
+    "creatingAccount": "正在创建帐户...",
     "orContinueWith": "或继续使用",
     "signUpWithGitHub": "使用 GitHub 注册",
     "alreadyHaveAccount": "已有帐户？",
-    "signIn": "登录"
+    "signIn": "登录",
+    "passwordMismatchError": "密码不匹配。",
+    "passwordMinLengthError": "密码必须至少包含8个字符。",
+    "checkYourEmailForVerification": "请检查您的电子邮件以进行验证。"
+  },
+  "OTPForm": {
+    "title": "输入验证码",
+    "description": "我们已向您的邮箱发送了一个6位数的验证码。",
+    "verificationCode": "验证码",
+    "enterCode": "请输入发送到您邮箱的6位数验证码。",
+    "verify": "验证",
+    "verifying": "正在验证...",
+    "didntReceive": "没收到验证码？",
+    "resend": "重新发送",
+    "resending": "正在重新发送...",
+    "verificationCodeResent": "验证码已重新发送。请检查您的电子邮件。",
+    "signUpSuccess": "验证完成！帐户已成功创建。"
   },
   "AudioSelectCard": {
     "title": "音频文件选择",

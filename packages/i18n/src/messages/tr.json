@@ -164,9 +164,15 @@
     "transcribe": "Transkript",
     "settings": "Ayarlar",
     "platform": "Platform",
-    "name": "Misafir Kullanıcı",
-    "email": "Giriş yapılmadı",
-    "signIn": "Giriş Yap"
+    "guest": "Misafir Kullanıcı",
+    "guestEmail": "Giriş yapılmadı",
+    "signIn": "Giriş Yap",
+    "signOut": "Çıkış Yap",
+    "signOutSuccess": "Başarıyla çıkış yapıldı!",
+    "signOutConfirmTitle": "Çıkış yapmak istediğinizden emin misiniz?",
+    "signOutConfirmDesc": "Hesabınızdan çıkış yapılacaktır.",
+    "cancel": "İptal",
+    "confirmSignOut": "Çıkış Yap"
   },
   "SignInForm": {
     "title": "Tekrar hoş geldiniz",
@@ -175,10 +181,22 @@
     "password": "Şifre",
     "forgotPassword": "Şifrenizi mi unuttunuz?",
     "signIn": "Giriş Yap",
+    "SigningIn": "Giriş yapılıyor...",
     "orContinueWith": "Veya şununla devam et",
     "signinWithGitHub": "GitHub ile giriş yap",
     "noAccount": "Hesabınız yok mu?",
-    "signUp": "Kayıt Ol"
+    "signUp": "Kayıt Ol",
+    "signInSuccess": "Başarıyla giriş yapıldı!"
+  },
+  "AuthErrors": {
+    "invalidCredentials": "Geçersiz e-posta veya şifre. Lütfen tekrar deneyin.",
+    "userAlreadyRegistered": "Bu e-posta adresiyle kayıtlı bir kullanıcı zaten var.",
+    "passwordTooShort": "Şifre en az 8 karakter olmalıdır.",
+    "emailNotConfirmed": "Giriş yapmadan önce lütfen e-posta adresinizi doğrulayın.",
+    "invalidToken": "Doğrulama bağlantısı geçersiz veya süresi dolmuş.",
+    "rateLimitExceeded": "Çok fazla istek yapıldı. Lütfen daha sonra tekrar deneyin.",
+    "sessionMissing": "Oturum süresi doldu. Lütfen tekrar giriş yapın.",
+    "defaultError": "Beklenmedik bir hata oluştu. Lütfen tekrar deneyin."
   },
   "SignUpForm": {
     "title": "Hesabınızı oluşturun",
@@ -189,10 +207,27 @@
     "confirmPassword": "Şifreyi Onayla",
     "passwordRequirement": "En az 8 karakter uzunluğunda olmalıdır.",
     "createAccount": "Hesap Oluştur",
+    "creatingAccount": "Hesap oluşturuluyor...",
     "orContinueWith": "Veya şununla devam et",
     "signUpWithGitHub": "GitHub ile kayıt ol",
     "alreadyHaveAccount": "Zaten bir hesabınız var mı?",
-    "signIn": "Giriş Yap"
+    "signIn": "Giriş Yap",
+    "passwordMismatchError": "Şifreler eşleşmiyor.",
+    "passwordMinLengthError": "Şifre en az 8 karakter olmalıdır.",
+    "checkYourEmailForVerification": "Lütfen doğrulama için e-postanızı kontrol edin."
+  },
+  "OTPForm": {
+    "title": "Doğrulama kodunu girin",
+    "description": "E-postanıza 6 haneli bir kod gönderdik.",
+    "verificationCode": "Doğrulama kodu",
+    "enterCode": "E-postanıza gönderilen 6 haneli kodu girin.",
+    "verify": "Doğrula",
+    "verifying": "Doğrulanıyor...",
+    "didntReceive": "Kodu almadınız mı?",
+    "resend": "Tekrar gönder",
+    "resending": "Tekrar gönderiliyor...",
+    "verificationCodeResent": "Doğrulama kodu yeniden gönderildi. Lütfen e-postanızı kontrol edin.",
+    "signUpSuccess": "Doğrulama tamamlandı! Hesap başarıyla oluşturuldu."
   },
   "AudioSelectCard": {
     "title": "Ses Dosyası Seçimi",

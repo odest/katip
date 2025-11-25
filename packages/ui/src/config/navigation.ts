@@ -1,11 +1,5 @@
 import { Home, Settings, AudioWaveform, LucideIcon } from "lucide-react";
 
-export interface UserNavItem {
-  name: string;
-  email: string;
-  avatar: string;
-}
-
 export interface SubNavItem {
   title: string;
   url: string;
@@ -29,17 +23,11 @@ export interface SecondaryNavItem {
 }
 
 export interface NavigationData {
-  navUser: UserNavItem;
   navMain: MainNavItem[];
   navSecondary: SecondaryNavItem[];
 }
 
 export const navigationData: NavigationData = {
-  navUser: {
-    name: "name",
-    email: "email",
-    avatar: "/avatar.png",
-  },
   navMain: [
     {
       title: "Home",

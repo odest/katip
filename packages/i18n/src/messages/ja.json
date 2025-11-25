@@ -164,9 +164,15 @@
     "transcribe": "文字起こし",
     "settings": "設定",
     "platform": "プラットフォーム",
-    "name": "ゲストユーザー",
-    "email": "サインインしていません",
-    "signIn": "サインイン"
+    "guest": "ゲストユーザー",
+    "guestEmail": "サインインしていません",
+    "signIn": "サインイン",
+    "signOut": "サインアウト",
+    "signOutSuccess": "正常にサインアウトしました！",
+    "signOutConfirmTitle": "ログアウトしてもよろしいですか？",
+    "signOutConfirmDesc": "アカウントからログアウトします。",
+    "cancel": "キャンセル",
+    "confirmSignOut": "ログアウト"
   },
   "SignInForm": {
     "title": "おかえりなさい",
@@ -175,10 +181,22 @@
     "password": "パスワード",
     "forgotPassword": "パスワードをお忘れですか？",
     "signIn": "サインイン",
+    "SigningIn": "サインイン中...",
     "orContinueWith": "または次で続行",
     "signinWithGitHub": "GitHubでサインイン",
     "noAccount": "アカウントをお持ちではありませんか？",
-    "signUp": "サインアップ"
+    "signUp": "サインアップ",
+    "signInSuccess": "正常にサインインしました！"
+  },
+  "AuthErrors": {
+    "invalidCredentials": "メールアドレスまたはパスワードが無効です。もう一度お試しください。",
+    "userAlreadyRegistered": "このメールアドレスのユーザーは既に存在します。",
+    "passwordTooShort": "パスワードは8文字以上である必要があります。",
+    "emailNotConfirmed": "ログインする前にメールアドレスを確認してください。",
+    "invalidToken": "確認リンクが無効か、期限切れです。",
+    "rateLimitExceeded": "リクエストが多すぎます。後でもう一度お試しください。",
+    "sessionMissing": "セッションの有効期限が切れました。もう一度ログインしてください。",
+    "defaultError": "予期しないエラーが発生しました。もう一度お試しください。"
   },
   "SignUpForm": {
     "title": "アカウントを作成",
@@ -189,10 +207,27 @@
     "confirmPassword": "パスワード（確認）",
     "passwordRequirement": "8文字以上である必要があります。",
     "createAccount": "アカウント作成",
+    "creatingAccount": "アカウント作成中...",
     "orContinueWith": "または次で続行",
     "signUpWithGitHub": "GitHubでサインアップ",
     "alreadyHaveAccount": "すでにアカウントをお持ちですか？",
-    "signIn": "サインイン"
+    "signIn": "サインイン",
+    "passwordMismatchError": "パスワードが一致しません。",
+    "passwordMinLengthError": "パスワードは8文字以上である必要があります。",
+    "checkYourEmailForVerification": "メールの確認をしてください。"
+  },
+  "OTPForm": {
+    "title": "確認コードを入力",
+    "description": "メールに6桁のコードを送信しました。",
+    "verificationCode": "確認コード",
+    "enterCode": "メールに送信された6桁のコードを入力してください。",
+    "verify": "確認",
+    "verifying": "確認中...",
+    "didntReceive": "コードが届きませんか？",
+    "resend": "再送信",
+    "resending": "再送信中...",
+    "verificationCodeResent": "確認コードが再送信されました。メールを確認してください。",
+    "signUpSuccess": "確認完了！アカウントが正常に作成されました。"
   },
   "AudioSelectCard": {
     "title": "音声ファイルの選択",

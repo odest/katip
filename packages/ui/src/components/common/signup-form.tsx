@@ -1,5 +1,9 @@
+import { useState } from "react";
+import { toast } from "sonner";
 import { cn } from "@workspace/ui/lib/utils";
 import { useTranslations } from "@workspace/i18n";
+import { createClient } from "@workspace/ui/lib/supabase";
+import { getAuthErrorKey } from "@workspace/ui/lib/auth-errors";
 import {
   Card,
   CardContent,
@@ -16,17 +20,69 @@ import {
 } from "@workspace/ui/components/field";
 import { Input } from "@workspace/ui/components/input";
 import { Button } from "@workspace/ui/components/button";
+import { Spinner } from "@workspace/ui/components/spinner";
+import { Alert, AlertDescription } from "@workspace/ui/components/alert";
 
 interface SignupFormProps extends React.ComponentProps<"div"> {
   onSigninClick?: () => void;
+  onSuccess?: () => void;
+  onVerifyOtp?: (email: string) => void;
 }
 
 export function SignupForm({
   className,
   onSigninClick,
+  onSuccess,
+  onVerifyOtp,
   ...props
 }: SignupFormProps) {
   const t = useTranslations("SignUpForm");
+  const tAuthErrors = useTranslations("AuthErrors");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const supabase = createClient();
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      setError(t("passwordMismatchError"));
+      return;
+    }
+    if (password.length < 8) {
+      setError(t("passwordMinLengthError"));
+      return;
+    }
+    setLoading(true);
+    setError(null);
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+        },
+      },
+    });
+
+    if (error) {
+      setError(tAuthErrors(getAuthErrorKey(error.message)));
+      setLoading(false);
+    } else {
+      toast.info(t("checkYourEmailForVerification"));
+      if (data.session) {
+        onSuccess?.();
+      } else {
+        onVerifyOtp?.(email);
+      }
+      setLoading(false);
+    }
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -35,11 +91,31 @@ export function SignupForm({
           <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSignup}>
             <FieldGroup>
+              {error && (
+                <Alert
+                  variant={
+                    error.includes("Check your email")
+                      ? "default"
+                      : "destructive"
+                  }
+                >
+                  <AlertDescription className="justify-center">
+                    {error}
+                  </AlertDescription>
+                </Alert>
+              )}
               <Field>
                 <FieldLabel htmlFor="name">{t("fullName")}</FieldLabel>
-                <Input id="name" type="text" placeholder="John Doe" required />
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="John Doe"
+                  required
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
               </Field>
               <Field>
                 <FieldLabel htmlFor="email">{t("email")}</FieldLabel>
@@ -48,33 +124,55 @@ export function SignupForm({
                   type="email"
                   placeholder="m@example.com"
                   required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </Field>
               <Field>
                 <Field className="grid grid-cols-2 gap-4">
                   <Field>
                     <FieldLabel htmlFor="password">{t("password")}</FieldLabel>
-                    <Input id="password" type="password" required />
+                    <Input
+                      id="password"
+                      type="password"
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
                   </Field>
                   <Field>
                     <FieldLabel htmlFor="confirm-password">
                       {t("confirmPassword")}
                     </FieldLabel>
-                    <Input id="confirm-password" type="password" required />
+                    <Input
+                      id="confirm-password"
+                      type="password"
+                      required
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
                   </Field>
                 </Field>
-                <FieldDescription>{t("passwordRequirement")}</FieldDescription>
+                <FieldDescription className="font-mono text-xs">
+                  {t("passwordRequirement")}
+                </FieldDescription>
               </Field>
-              <Field>
-                <Button type="submit" className="cursor-pointer">
-                  {t("createAccount")}
-                </Button>
-              </Field>
-              <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
-                {t("orContinueWith")}
-              </FieldSeparator>
               <Field>
                 <Button
+                  type="submit"
+                  className="cursor-pointer"
+                  disabled={loading}
+                >
+                  {loading ? <Spinner /> : null}
+                  {loading ? t("creatingAccount") : t("createAccount")}
+                </Button>
+              </Field>
+              {/* <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
+                {t("orContinueWith")}
+              </FieldSeparator> */}
+              <FieldSeparator />
+              <Field>
+                {/* <Button
                   variant="outline"
                   type="button"
                   className="cursor-pointer"
@@ -86,7 +184,7 @@ export function SignupForm({
                     />
                   </svg>
                   {t("signUpWithGitHub")}
-                </Button>
+                </Button> */}
                 <FieldDescription className="text-center">
                   {t("alreadyHaveAccount")}{" "}
                   <a

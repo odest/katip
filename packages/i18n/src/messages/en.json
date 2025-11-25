@@ -164,9 +164,15 @@
     "transcribe": "Transcribe",
     "settings": "Settings",
     "platform": "Platform",
-    "name": "Guest User",
-    "email": "Not signed in",
-    "signIn": "Sign In"
+    "guest": "Guest User",
+    "guestEmail": "Not signed in",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "signOutSuccess": "Signed out successfully!",
+    "signOutConfirmTitle": "Are you sure you want to sign out?",
+    "signOutConfirmDesc": "You will be logged out of your account.",
+    "cancel": "Cancel",
+    "confirmSignOut": "Sign Out"
   },
   "SignInForm": {
     "title": "Welcome back",
@@ -175,10 +181,22 @@
     "password": "Password",
     "forgotPassword": "Forgot your password?",
     "signIn": "Sign In",
+    "SigningIn": "Signing in...",
     "orContinueWith": "Or continue with",
     "signinWithGitHub": "Sign in with GitHub",
     "noAccount": "Don't have an account?",
-    "signUp": "Sign Up"
+    "signUp": "Sign Up",
+    "signInSuccess": "Signed in successfully!"
+  },
+  "AuthErrors": {
+    "invalidCredentials": "Invalid email or password. Please try again.",
+    "userAlreadyRegistered": "A user with this email address already exists.",
+    "passwordTooShort": "Password should be at least 8 characters.",
+    "emailNotConfirmed": "Please verify your email address before logging in.",
+    "invalidToken": "The verification link is invalid or has expired.",
+    "rateLimitExceeded": "Too many requests. Please try again later.",
+    "sessionMissing": "Session expired. Please log in again.",
+    "defaultError": "An unexpected error occurred. Please try again."
   },
   "SignUpForm": {
     "title": "Create your account",
@@ -189,10 +207,27 @@
     "confirmPassword": "Confirm Password",
     "passwordRequirement": "Must be at least 8 characters long.",
     "createAccount": "Create Account",
+    "creatingAccount": "Creating account...",
     "orContinueWith": "Or continue with",
     "signUpWithGitHub": "Sign up with GitHub",
     "alreadyHaveAccount": "Already have an account?",
-    "signIn": "Sign In"
+    "signIn": "Sign In",
+    "passwordMismatchError": "Passwords do not match.",
+    "passwordMinLengthError": "Password must be at least 8 characters.",
+    "checkYourEmailForVerification": "Please check your email for verification."
+  },
+  "OTPForm": {
+    "title": "Enter verification code",
+    "description": "We sent a 6-digit code to your email.",
+    "verificationCode": "Verification code",
+    "enterCode": "Enter the 6-digit code sent to your email.",
+    "verify": "Verify",
+    "verifying": "Verifying...",
+    "didntReceive": "Didn't receive the code?",
+    "resend": "Resend",
+    "resending": "Resending...",
+    "verificationCodeResent": "Verification code resent. Please check your email.",
+    "signUpSuccess": "Verification complete! Account created successfully."
   },
   "AudioSelectCard": {
     "title": "Audio File Selection",

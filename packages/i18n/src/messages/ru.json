@@ -164,9 +164,15 @@
     "transcribe": "Транскрибировать",
     "settings": "Настройки",
     "platform": "Платформа",
-    "name": "Гость",
-    "email": "Не вошли в систему",
-    "signIn": "Войти"
+    "guest": "Гость",
+    "guestEmail": "Не вошли в систему",
+    "signIn": "Войти",
+    "signOut": "Выйти",
+    "signOutSuccess": "Успешный выход из системы!",
+    "signOutConfirmTitle": "Вы уверены, что хотите выйти?",
+    "signOutConfirmDesc": "Вы выйдете из своей учетной записи.",
+    "cancel": "Отмена",
+    "confirmSignOut": "Выйти"
   },
   "SignInForm": {
     "title": "С возвращением",
@@ -175,10 +181,22 @@
     "password": "Пароль",
     "forgotPassword": "Забыли пароль?",
     "signIn": "Войти",
+    "SigningIn": "Вход выполняется...",
     "orContinueWith": "Или продолжить с",
     "signinWithGitHub": "Войти через GitHub",
     "noAccount": "Нет аккаунта?",
-    "signUp": "Зарегистрироваться"
+    "signUp": "Зарегистрироваться",
+    "signInSuccess": "Успешный вход в систему!"
+  },
+  "AuthErrors": {
+    "invalidCredentials": "Неверный email или пароль. Пожалуйста, попробуйте снова.",
+    "userAlreadyRegistered": "Пользователь с таким email уже существует.",
+    "passwordTooShort": "Пароль должен содержать не менее 8 символов.",
+    "emailNotConfirmed": "Пожалуйста, подтвердите свой email перед входом.",
+    "invalidToken": "Ссылка подтверждения недействительна или истекла.",
+    "rateLimitExceeded": "Слишком много запросов. Пожалуйста, попробуйте позже.",
+    "sessionMissing": "Сессия истекла. Пожалуйста, войдите снова.",
+    "defaultError": "Произошла непредвиденная ошибка. Пожалуйста, попробуйте снова."
   },
   "SignUpForm": {
     "title": "Создайте аккаунт",
@@ -189,10 +207,27 @@
     "confirmPassword": "Подтвердите пароль",
     "passwordRequirement": "Должен содержать не менее 8 символов.",
     "createAccount": "Создать аккаунт",
+    "creatingAccount": "Создание аккаунта...",
     "orContinueWith": "Или продолжить с",
     "signUpWithGitHub": "Зарегистрироваться через GitHub",
     "alreadyHaveAccount": "Уже есть аккаунт?",
-    "signIn": "Войти"
+    "signIn": "Войти",
+    "passwordMismatchError": "Пароли не совпадают.",
+    "passwordMinLengthError": "Пароль должен содержать не менее 8 символов.",
+    "checkYourEmailForVerification": "Пожалуйста, проверьте свою электронную почту для подтверждения."
+  },
+  "OTPForm": {
+    "title": "Введите код подтверждения",
+    "description": "Мы отправили 6-значный код на вашу электронную почту.",
+    "verificationCode": "Код подтверждения",
+    "enterCode": "Введите 6-значный код, отправленный на вашу электронную почту.",
+    "verify": "Подтвердить",
+    "verifying": "Подтверждение...",
+    "didntReceive": "Не получили код?",
+    "resend": "Отправить снова",
+    "resending": "Отправка повторно...",
+    "verificationCodeResent": "Код подтверждения повторно отправлен. Пожалуйста, проверьте свою электронную почту.",
+    "signUpSuccess": "Подтверждение завершено! Аккаунт успешно создан."
   },
   "AudioSelectCard": {
     "title": "Выбор аудиофайла",

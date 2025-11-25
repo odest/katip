@@ -164,9 +164,15 @@
     "transcribe": "Transcrire",
     "settings": "Paramètres",
     "platform": "Plateforme",
-    "name": "Utilisateur invité",
-    "email": "Non connecté",
-    "signIn": "Se connecter"
+    "guest": "Utilisateur invité",
+    "guestEmail": "Non connecté",
+    "signIn": "Se connecter",
+    "signOut": "Se déconnecter",
+    "signOutSuccess": "Déconnecté avec succès !",
+    "signOutConfirmTitle": "Êtes-vous sûr de vouloir vous déconnecter ?",
+    "signOutConfirmDesc": "Vous serez déconnecté de votre compte.",
+    "cancel": "Annuler",
+    "confirmSignOut": "Se déconnecter"
   },
   "SignInForm": {
     "title": "Bon retour",
@@ -175,10 +181,22 @@
     "password": "Mot de passe",
     "forgotPassword": "Mot de passe oublié ?",
     "signIn": "Se connecter",
+    "SigningIn": "Connexion en cours...",
     "orContinueWith": "Ou continuer avec",
     "signinWithGitHub": "Se connecter avec GitHub",
     "noAccount": "Vous n'avez pas de compte ?",
-    "signUp": "S'inscrire"
+    "signUp": "S'inscrire",
+    "signInSuccess": "Connecté avec succès !"
+  },
+  "AuthErrors": {
+    "invalidCredentials": "E-mail ou mot de passe invalide. Veuillez réessayer.",
+    "userAlreadyRegistered": "Un utilisateur avec cette adresse e-mail existe déjà.",
+    "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères.",
+    "emailNotConfirmed": "Veuillez vérifier votre adresse e-mail avant de vous connecter.",
+    "invalidToken": "Le lien de vérification est invalide ou a expiré.",
+    "rateLimitExceeded": "Trop de demandes. Veuillez réessayer plus tard.",
+    "sessionMissing": "Session expirée. Veuillez vous reconnecter.",
+    "defaultError": "Une erreur inattendue s'est produite. Veuillez réessayer."
   },
   "SignUpForm": {
     "title": "Créez votre compte",
@@ -189,10 +207,27 @@
     "confirmPassword": "Confirmer le mot de passe",
     "passwordRequirement": "Doit contenir au moins 8 caractères.",
     "createAccount": "Créer un compte",
+    "creatingAccount": "Création du compte en cours...",
     "orContinueWith": "Ou continuer avec",
     "signUpWithGitHub": "S'inscrire avec GitHub",
     "alreadyHaveAccount": "Vous avez déjà un compte ?",
-    "signIn": "Se connecter"
+    "signIn": "Se connecter",
+    "passwordMismatchError": "Les mots de passe ne correspondent pas.",
+    "passwordMinLengthError": "Le mot de passe doit contenir au moins 8 caractères.",
+    "checkYourEmailForVerification": "Veuillez vérifier votre e-mail pour la vérification."
+  },
+  "OTPForm": {
+    "title": "Entrez le code de vérification",
+    "description": "Nous avons envoyé un code à 6 chiffres à votre adresse e-mail.",
+    "verificationCode": "Code de vérification",
+    "enterCode": "Entrez le code à 6 chiffres envoyé à votre adresse e-mail.",
+    "verify": "Vérifier",
+    "verifying": "Vérification en cours...",
+    "didntReceive": "Vous n'avez pas reçu le code ?",
+    "resend": "Renvoyer",
+    "resending": "Renvoyer en cours...",
+    "verificationCodeResent": "Code de vérification renvoyé. Veuillez vérifier votre e-mail.",
+    "signUpSuccess": "Vérification terminée ! Compte créé avec succès."
   },
   "AudioSelectCard": {
     "title": "Sélection de fichier audio",

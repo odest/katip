@@ -164,9 +164,15 @@
     "transcribe": "Trascrivi",
     "settings": "Impostazioni",
     "platform": "Piattaforma",
-    "name": "Utente ospite",
-    "email": "Non connesso",
-    "signIn": "Accedi"
+    "guest": "Utente ospite",
+    "guestEmail": "Non connesso",
+    "signIn": "Accedi",
+    "signOut": "Esci",
+    "signOutSuccess": "Disconnesso con successo!",
+    "signOutConfirmTitle": "Sei sicuro di voler uscire?",
+    "signOutConfirmDesc": "Verrai disconnesso dal tuo account.",
+    "cancel": "Annulla",
+    "confirmSignOut": "Esci"
   },
   "SignInForm": {
     "title": "Bentornato",
@@ -176,9 +182,21 @@
     "forgotPassword": "Password dimenticata?",
     "signIn": "Accedi",
     "orContinueWith": "O continua con",
+    "SigningIn": "Accesso in corso...",
     "signinWithGitHub": "Accedi con GitHub",
     "noAccount": "Non hai un account?",
-    "signUp": "Iscriviti"
+    "signUp": "Iscriviti",
+    "signInSuccess": "Accesso effettuato con successo!"
+  },
+  "AuthErrors": {
+    "invalidCredentials": "Email o password non validi. Riprova.",
+    "userAlreadyRegistered": "Esiste già un utente con questo indirizzo email.",
+    "passwordTooShort": "La password deve contenere almeno 8 caratteri.",
+    "emailNotConfirmed": "Verifica il tuo indirizzo email prima di accedere.",
+    "invalidToken": "Il link di verifica non è valido o è scaduto.",
+    "rateLimitExceeded": "Troppe richieste. Riprova più tardi.",
+    "sessionMissing": "Sessione scaduta. Accedi di nuovo.",
+    "defaultError": "Si è verificato un errore imprevisto. Riprova."
   },
   "SignUpForm": {
     "title": "Crea il tuo account",
@@ -189,10 +207,27 @@
     "confirmPassword": "Conferma password",
     "passwordRequirement": "Deve essere lungo almeno 8 caratteri.",
     "createAccount": "Crea account",
+    "creatingAccount": "Creazione account in corso...",
     "orContinueWith": "O continua con",
     "signUpWithGitHub": "Iscriviti con GitHub",
     "alreadyHaveAccount": "Hai già un account?",
-    "signIn": "Accedi"
+    "signIn": "Accedi",
+    "passwordMismatchError": "Le password non corrispondono.",
+    "passwordMinLengthError": "La password deve contenere almeno 8 caratteri.",
+    "checkYourEmailForVerification": "Per favore controlla la tua email per la verifica."
+  },
+  "OTPForm": {
+    "title": "Inserisci il codice di verifica",
+    "description": "Abbiamo inviato un codice a 6 cifre alla tua email.",
+    "verificationCode": "Codice di verifica",
+    "enterCode": "Inserisci il codice a 6 cifre inviato alla tua email.",
+    "verify": "Verifica",
+    "verifying": "Verifica in corso...",
+    "didntReceive": "Non hai ricevuto il codice?",
+    "resend": "Invia di nuovo",
+    "resending": "Invio in corso...",
+    "verificationCodeResent": "Codice di verifica rinviato. Per favore controlla la tua email.",
+    "signUpSuccess": "Verifica completata! Account creato con successo."
   },
   "AudioSelectCard": {
     "title": "Selezione file audio",

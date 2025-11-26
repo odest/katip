@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { LogIn } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 import { useTranslations } from "@workspace/i18n";
-import { createClient } from "@workspace/ui/lib/supabase";
-import { getAuthErrorKey } from "@workspace/ui/lib/auth-errors";
+import { useAuth } from "@workspace/ui/hooks/use-auth";
 import {
   Card,
   CardContent,
@@ -24,42 +22,46 @@ import { Button } from "@workspace/ui/components/button";
 import { Spinner } from "@workspace/ui/components/spinner";
 import { Alert, AlertDescription } from "@workspace/ui/components/alert";
 
-interface SigninFormProps extends React.ComponentProps<"div"> {
-  onSignupClick?: () => void;
+interface SignupFormProps extends React.ComponentProps<"div"> {
+  onSigninClick?: () => void;
   onSuccess?: () => void;
+  onVerifyOtp?: (email: string) => void;
 }
 
-export function SigninForm({
+export function SignupForm({
   className,
-  onSignupClick,
+  onSigninClick,
   onSuccess,
+  onVerifyOtp,
   ...props
-}: SigninFormProps) {
-  const t = useTranslations("SignInForm");
-  const tAuthErrors = useTranslations("AuthErrors");
+}: SignupFormProps) {
+  const t = useTranslations("SignUpForm");
+  const { signUp, loading, error, setError } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const supabase = createClient();
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [fullName, setFullName] = useState("");
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
+    if (password !== confirmPassword) {
+      setError(t("passwordMismatchError"));
+      return;
+    }
+    if (password.length < 8) {
+      setError(t("passwordMinLengthError"));
+      return;
+    }
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const { data, error } = await signUp(email, password, fullName);
 
-    if (error) {
-      setError(tAuthErrors(getAuthErrorKey(error.message)));
-      setLoading(false);
-    } else {
-      toast.success(t("signInSuccess"));
-      onSuccess?.();
-      setLoading(false);
+    if (!error) {
+      toast.info(t("checkYourEmailForVerification"));
+      if (data?.session) {
+        onSuccess?.();
+      } else {
+        onVerifyOtp?.(email);
+      }
     }
   };
 
@@ -71,15 +73,32 @@ export function SigninForm({
           <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleSignup}>
             <FieldGroup>
               {error && (
-                <Alert variant="destructive">
+                <Alert
+                  variant={
+                    error.includes("Check your email")
+                      ? "default"
+                      : "destructive"
+                  }
+                >
                   <AlertDescription className="justify-center">
                     {error}
                   </AlertDescription>
                 </Alert>
               )}
+              <Field>
+                <FieldLabel htmlFor="name">{t("fullName")}</FieldLabel>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="John Doe"
+                  required
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
+              </Field>
               <Field>
                 <FieldLabel htmlFor="email">{t("email")}</FieldLabel>
                 <Input
@@ -92,22 +111,33 @@ export function SigninForm({
                 />
               </Field>
               <Field>
-                <div className="flex items-center">
-                  <FieldLabel htmlFor="password">{t("password")}</FieldLabel>
-                  {/* <a
-                    href="#"
-                    className="ml-auto text-sm underline-offset-4 hover:underline"
-                  >
-                    {t("forgotPassword")}
-                  </a> */}
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                <Field className="grid grid-cols-2 gap-4">
+                  <Field>
+                    <FieldLabel htmlFor="password">{t("password")}</FieldLabel>
+                    <Input
+                      id="password"
+                      type="password"
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </Field>
+                  <Field>
+                    <FieldLabel htmlFor="confirm-password">
+                      {t("confirmPassword")}
+                    </FieldLabel>
+                    <Input
+                      id="confirm-password"
+                      type="password"
+                      required
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                  </Field>
+                </Field>
+                <FieldDescription className="font-mono text-xs">
+                  {t("passwordRequirement")}
+                </FieldDescription>
               </Field>
               <Field>
                 <Button
@@ -115,8 +145,8 @@ export function SigninForm({
                   className="cursor-pointer"
                   disabled={loading}
                 >
-                  {loading ? <Spinner /> : <LogIn />}
-                  {loading ? t("SigningIn") : t("signIn")}
+                  {loading ? <Spinner /> : null}
+                  {loading ? t("creatingAccount") : t("createAccount")}
                 </Button>
               </Field>
               {/* <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
@@ -135,18 +165,18 @@ export function SigninForm({
                       fill="currentColor"
                     />
                   </svg>
-                  {t("signinWithGitHub")}
+                  {t("signUpWithGitHub")}
                 </Button> */}
                 <FieldDescription className="text-center">
-                  {t("noAccount")}{" "}
+                  {t("alreadyHaveAccount")}{" "}
                   <a
                     href="#"
                     onClick={(e) => {
                       e.preventDefault();
-                      onSignupClick?.();
+                      onSigninClick?.();
                     }}
                   >
-                    {t("signUp")}
+                    {t("signIn")}
                   </a>
                 </FieldDescription>
               </Field>

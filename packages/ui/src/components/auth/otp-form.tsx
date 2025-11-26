@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { useTranslations } from "@workspace/i18n";
-import { createClient } from "@workspace/ui/lib/supabase";
-import { getAuthErrorKey } from "@workspace/ui/lib/auth-errors";
+import { useAuth } from "@workspace/ui/hooks/use-auth";
 import {
   Card,
   CardContent,
@@ -32,44 +31,29 @@ interface OTPFormProps extends React.ComponentProps<typeof Card> {
 
 export function OTPForm({ email, onSuccess, ...props }: OTPFormProps) {
   const t = useTranslations("OTPForm");
-  const tAuthErrors = useTranslations("AuthErrors");
+  const { verifyOtp, resendOtp, loading, error } = useAuth();
   const [otp, setOtp] = useState("");
-  const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const supabase = createClient();
 
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
 
-    const { error } = await supabase.auth.verifyOtp({
+    const { error } = await verifyOtp({
       email,
       token: otp,
       type: "signup",
     });
 
-    if (error) {
-      setError(tAuthErrors(getAuthErrorKey(error.message)));
-      setLoading(false);
-    } else {
+    if (!error) {
       toast.success(t("signUpSuccess"));
       onSuccess?.();
-      setLoading(false);
     }
   };
 
   const handleResend = async () => {
-    setError(null);
     setResending(true);
-    const { error } = await supabase.auth.resend({
-      type: "signup",
-      email,
-    });
-    if (error) {
-      setError(tAuthErrors(getAuthErrorKey(error.message)));
-    } else {
+    const { error } = await resendOtp(email, "signup");
+    if (!error) {
       toast.info(t("verificationCodeResent"));
     }
     setResending(false);

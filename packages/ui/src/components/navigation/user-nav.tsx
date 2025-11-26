@@ -35,9 +35,9 @@ import {
   DialogFooter,
 } from "@workspace/ui/components/dialog";
 import { Button } from "@workspace/ui/components/button";
-import { OTPForm } from "@workspace/ui/components/common/otp-form";
-import { SigninForm } from "@workspace/ui/components/common/signin-form";
-import { SignupForm } from "@workspace/ui/components/common/signup-form";
+import { OTPForm } from "@workspace/ui/components/auth/otp-form";
+import { SigninForm } from "@workspace/ui/components/auth/signin-form";
+import { SignupForm } from "@workspace/ui/components/auth/signup-form";
 
 export function UserNav() {
   const { isMobile } = useSidebar();

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useTranslations } from "@workspace/i18n";
 import { useAuth } from "@workspace/ui/hooks/use-auth";
+import { OtpType } from "@workspace/ui/stores/auth-store";
 import {
   Card,
   CardContent,
@@ -26,10 +27,16 @@ import { Alert, AlertDescription } from "@workspace/ui/components/alert";
 
 interface OTPFormProps extends React.ComponentProps<typeof Card> {
   email: string;
+  type?: OtpType;
   onSuccess?: () => void;
 }
 
-export function OTPForm({ email, onSuccess, ...props }: OTPFormProps) {
+export function OTPForm({
+  email,
+  type = "signup",
+  onSuccess,
+  ...props
+}: OTPFormProps) {
   const t = useTranslations("OTPForm");
   const { verifyOtp, resendOtp, loading, error } = useAuth();
   const [otp, setOtp] = useState("");
@@ -41,18 +48,20 @@ export function OTPForm({ email, onSuccess, ...props }: OTPFormProps) {
     const { error } = await verifyOtp({
       email,
       token: otp,
-      type: "signup",
+      type,
     });
 
     if (!error) {
-      toast.success(t("signUpSuccess"));
+      const successMessage =
+        type === "email_change" ? t("emailChangeSuccess") : t("signUpSuccess");
+      toast.success(successMessage);
       onSuccess?.();
     }
   };
 
   const handleResend = async () => {
     setResending(true);
-    const { error } = await resendOtp(email, "signup");
+    const { error } = await resendOtp({ email, type });
     if (!error) {
       toast.info(t("verificationCodeResent"));
     }

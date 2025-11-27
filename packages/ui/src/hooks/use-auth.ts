@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { VerifyOtpParams } from "@supabase/supabase-js";
+import { VerifyOtpParams, ResendParams } from "@supabase/supabase-js";
 import { useTranslations } from "@workspace/i18n";
 import { createClient } from "@workspace/ui/lib/supabase";
 import { getAuthErrorKey } from "@workspace/ui/lib/auth-errors";
@@ -69,12 +69,9 @@ export function useAuth() {
     return { data, error: null };
   };
 
-  const resendOtp = async (
-    email: string,
-    type: "signup" | "email_change" = "signup"
-  ) => {
+  const resendOtp = async (params: ResendParams) => {
     setError(null);
-    const { error } = await supabase.auth.resend({ type, email });
+    const { error } = await supabase.auth.resend(params);
 
     if (error) {
       const msg = tAuthErrors(getAuthErrorKey(error.message));

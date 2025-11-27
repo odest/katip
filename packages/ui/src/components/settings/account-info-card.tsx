@@ -5,6 +5,7 @@ import { Save } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "@workspace/i18n";
 import { useUser } from "@workspace/ui/hooks/use-user";
+import { useAuthStore } from "@workspace/ui/stores/auth-store";
 import {
   Card,
   CardContent,
@@ -32,7 +33,10 @@ export function AccountInfoCard() {
     fullName: userFullName,
     email: userEmail,
     updateName,
+    updateEmail,
   } = useUser();
+  const { setOtpEmail, setOtpType, setFormView, setOpenDialog } =
+    useAuthStore();
 
   const initialFullName = userFullName || "";
   const initialEmail = userEmail || "";
@@ -40,9 +44,8 @@ export function AccountInfoCard() {
   const [fullName, setFullName] = useState(initialFullName);
   const [email, setEmail] = useState(initialEmail);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-  const [pendingAction, setPendingAction] = useState<"name" | "email" | null>(
-    null
-  );
+  const [showPasswordDialog, setShowPasswordDialog] = useState(false);
+  const [password, setPassword] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
@@ -55,35 +58,49 @@ export function AccountInfoCard() {
   const isFullNameChanged = fullName !== initialFullName;
   const isEmailChanged = email !== initialEmail;
 
-  const handleUpdateName = () => {
-    setPendingAction("name");
-    setShowConfirmDialog(true);
-  };
+  const handleNameUpdate = useCallback(async () => {
+    setIsUpdating(true);
+    const result = await updateName(fullName.trim());
 
-  const handleUpdateEmail = () => {
-    setPendingAction("email");
-    setShowConfirmDialog(true);
-  };
+    if (result.success) {
+      toast.success(t("nameUpdated"));
+      setShowConfirmDialog(false);
+    } else {
+      toast.error(t("updateFailed"), { description: result.error });
+    }
+    setIsUpdating(false);
+  }, [fullName, updateName, t]);
 
-  const handleConfirm = useCallback(async () => {
-    if (pendingAction === "name") {
-      setIsUpdating(true);
-      const result = await updateName(fullName.trim());
+  const handleEmailUpdate = useCallback(async () => {
+    setIsUpdating(true);
+    const result = await updateEmail(email.trim(), password);
 
-      if (result.success) {
-        toast.success(t("nameUpdated"));
-        setShowConfirmDialog(false);
-        setPendingAction(null);
+    if (result.success) {
+      toast.success(t("verificationSent"));
+      setShowPasswordDialog(false);
+      setPassword("");
+      setOtpEmail(email.trim());
+      setOtpType("email_change");
+      setFormView("otp");
+      setOpenDialog(true);
+    } else {
+      if (result.error === "incorrectPassword") {
+        toast.error(t("incorrectPassword"));
       } else {
         toast.error(t("updateFailed"), { description: result.error });
       }
-    } else if (pendingAction === "email") {
-      // TODO: Implement update email logic
-      setShowConfirmDialog(false);
-      setPendingAction(null);
     }
     setIsUpdating(false);
-  }, [pendingAction, fullName, updateName, t]);
+  }, [
+    email,
+    password,
+    updateEmail,
+    t,
+    setOtpEmail,
+    setOtpType,
+    setFormView,
+    setOpenDialog,
+  ]);
 
   return (
     <>
@@ -107,7 +124,9 @@ export function AccountInfoCard() {
                   <Button
                     disabled={!isFullNameChanged}
                     className="cursor-pointer"
-                    onClick={handleUpdateName}
+                    onClick={() => {
+                      setShowConfirmDialog(true);
+                    }}
                   >
                     <Save />
                     {t("updateName")}
@@ -128,7 +147,9 @@ export function AccountInfoCard() {
                   <Button
                     disabled={!isEmailChanged}
                     className="cursor-pointer"
-                    onClick={handleUpdateEmail}
+                    onClick={() => {
+                      setShowPasswordDialog(true);
+                    }}
                   >
                     <Save />
                     {t("updateEmail")}
@@ -143,16 +164,8 @@ export function AccountInfoCard() {
       <Dialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>
-              {pendingAction === "name"
-                ? t("confirmNameTitle")
-                : t("confirmEmailTitle")}
-            </DialogTitle>
-            <DialogDescription>
-              {pendingAction === "name"
-                ? t("confirmNameDescription")
-                : t("confirmEmailDescription")}
-            </DialogDescription>
+            <DialogTitle>{t("confirmNameTitle")}</DialogTitle>
+            <DialogDescription>{t("confirmNameDescription")}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button
@@ -166,12 +179,74 @@ export function AccountInfoCard() {
             <Button
               className="cursor-pointer"
               disabled={isUpdating}
-              onClick={handleConfirm}
+              onClick={handleNameUpdate}
             >
               {isUpdating && <Spinner />}
               {isUpdating ? t("updating") : t("confirm")}
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={showPasswordDialog}
+        onOpenChange={(open) => {
+          setShowPasswordDialog(open);
+          if (!open) {
+            setPassword("");
+          }
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("confirmEmailTitle")}</DialogTitle>
+            <DialogDescription>
+              {t("passwordRequiredDescription")}
+            </DialogDescription>
+          </DialogHeader>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleEmailUpdate();
+            }}
+          >
+            <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <Label htmlFor="currentPassword">{t("currentPassword")}</Label>
+                <Input
+                  id="currentPassword"
+                  type="password"
+                  autoComplete="current-password"
+                  placeholder={t("currentPasswordPlaceholder")}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                className="cursor-pointer"
+                disabled={isUpdating}
+                onClick={() => {
+                  setShowPasswordDialog(false);
+                  setPassword("");
+                }}
+              >
+                {t("cancel")}
+              </Button>
+              <Button
+                type="submit"
+                className="cursor-pointer"
+                disabled={isUpdating || !password}
+              >
+                {isUpdating && <Spinner />}
+                {isUpdating ? t("updating") : t("confirm")}
+              </Button>
+            </DialogFooter>
+          </form>
         </DialogContent>
       </Dialog>
     </>

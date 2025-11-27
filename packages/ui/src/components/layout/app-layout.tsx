@@ -53,6 +53,8 @@ export function AppLayout({
     setOpenLogoutDialog,
     otpEmail,
     setOtpEmail,
+    otpType,
+    setOtpType,
   } = useAuthStore();
 
   const handleConfirmLogout = async () => {
@@ -76,7 +78,13 @@ export function AppLayout({
           <AppHeader pathname={pathname} LinkComponent={LinkComponent} />
           {children}
         </SidebarInset>
-        <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <Dialog
+          open={openDialog}
+          onOpenChange={(open) => {
+            if (formView === "otp" && !open) return;
+            setOpenDialog(open);
+          }}
+        >
           <DialogContent className="sm:max-w-[425px] p-0 rounded-xl border-none shadow-none">
             <VisuallyHidden asChild>
               <DialogTitle />
@@ -102,8 +110,10 @@ export function AppLayout({
             ) : (
               <OTPForm
                 email={otpEmail}
+                type={otpType}
                 onSuccess={() => {
                   setOtpEmail("");
+                  setOtpType("signup");
                   setOpenDialog(false);
                   setFormView("signin");
                 }}

@@ -128,6 +128,11 @@
     "confirmNameDescription": "氏名を更新してもよろしいですか？",
     "confirmEmailTitle": "メールを更新しますか？",
     "confirmEmailDescription": "メールアドレスを更新してもよろしいですか？新しいアドレスに確認メールが送信されます。",
+    "passwordRequiredDescription": "セキュリティのため、メールを更新するには現在のパスワードを入力してください。",
+    "verificationSent": "新しいメールアドレスに確認コードを送信しました。",
+    "incorrectPassword": "パスワードが間違っています。もう一度お試しください。",
+    "currentPassword": "現在のパスワード",
+    "currentPasswordPlaceholder": "現在のパスワードを入力",
     "cancel": "キャンセル",
     "confirm": "更新",
     "updating": "更新中...",
@@ -317,7 +322,8 @@
     "resend": "再送信",
     "resending": "再送信中...",
     "verificationCodeResent": "確認コードが再送信されました。メールを確認してください。",
-    "signUpSuccess": "確認完了！アカウントが正常に作成されました。"
+    "signUpSuccess": "確認完了！アカウントが正常に作成されました。",
+    "emailChangeSuccess": "メールが正常に更新されました！"
   },
   "AudioSelectCard": {
     "title": "音声ファイルの選択",

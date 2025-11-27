@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 export type FormViews = "signin" | "signup" | "otp";
+export type OtpType = "signup" | "email_change";
 
 interface AuthState {
   formView: FormViews;
@@ -12,6 +13,8 @@ interface AuthState {
   setOpenLogoutDialog: (openLogoutDialog: boolean) => void;
   otpEmail: string;
   setOtpEmail: (otpEmail: string) => void;
+  otpType: OtpType;
+  setOtpType: (otpType: OtpType) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -36,12 +39,18 @@ export const useAuthStore = create<AuthState>()(
       setOtpEmail: (otpEmail: string) => {
         set({ otpEmail });
       },
+
+      otpType: "signup",
+      setOtpType: (otpType: OtpType) => {
+        set({ otpType });
+      },
     }),
     {
       name: "auth-storage",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         otpEmail: state.otpEmail,
+        otpType: state.otpType,
         formView: state.formView,
       }),
     }

@@ -128,6 +128,11 @@
     "confirmNameDescription": "Tem certeza de que deseja atualizar seu nome?",
     "confirmEmailTitle": "Atualizar email?",
     "confirmEmailDescription": "Tem certeza de que deseja atualizar seu endereço de e-mail? Um e-mail de verificação será enviado para o novo endereço.",
+    "passwordRequiredDescription": "Por segurança, digite sua senha atual para atualizar seu e-mail.",
+    "verificationSent": "Código de verificação enviado para seu novo endereço de e-mail.",
+    "incorrectPassword": "Senha incorreta. Por favor, tente novamente.",
+    "currentPassword": "Senha Atual",
+    "currentPasswordPlaceholder": "Digite sua senha atual",
     "cancel": "Cancelar",
     "confirm": "Atualizar",
     "updating": "Atualizando...",
@@ -317,7 +322,8 @@
     "resend": "Reenviar",
     "resending": "Reenviando...",
     "verificationCodeResent": "Código de verificação reenviado. Por favor, verifique seu e-mail.",
-    "signUpSuccess": "Verificação concluída! Conta criada com sucesso."
+    "signUpSuccess": "Verificação concluída! Conta criada com sucesso.",
+    "emailChangeSuccess": "E-mail atualizado com sucesso!"
   },
   "AudioSelectCard": {
     "title": "Seleção de arquivo de áudio",

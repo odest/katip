@@ -157,6 +157,44 @@ export function useUser() {
     [user]
   );
 
+  const updateEmail = useCallback(
+    async (
+      newEmail: string,
+      currentPassword: string
+    ): Promise<{ success: boolean; error?: string }> => {
+      if (!user || !user.email) {
+        return { success: false, error: "User not authenticated" };
+      }
+
+      try {
+        const { error: verifyError } = await supabase.auth.signInWithPassword({
+          email: user.email,
+          password: currentPassword,
+        });
+
+        if (verifyError) {
+          return { success: false, error: "incorrectPassword" };
+        }
+
+        const { error: updateError } = await supabase.auth.updateUser({
+          email: newEmail,
+        });
+
+        if (updateError) {
+          return { success: false, error: updateError.message };
+        }
+
+        return { success: true };
+      } catch (error) {
+        return {
+          success: false,
+          error: error instanceof Error ? error.message : "Email update failed",
+        };
+      }
+    },
+    [user]
+  );
+
   const changePassword = useCallback(
     async (
       currentPassword: string,
@@ -263,6 +301,7 @@ export function useUser() {
     uploadAvatar,
     removeAvatar,
     updateName,
+    updateEmail,
     changePassword,
     deleteAccount,
     fullName,

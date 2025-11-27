@@ -128,6 +128,11 @@
     "confirmNameDescription": "Adınızı ve soyadınızı güncellemek istediğinizden emin misiniz?",
     "confirmEmailTitle": "E-posta Güncellensin mi?",
     "confirmEmailDescription": "E-posta adresinizi güncellemek istediğinizden emin misiniz? Yeni adrese bir doğrulama e-postası gönderilecektir.",
+    "passwordRequiredDescription": "Güvenlik için lütfen e-postanızı güncellemek için mevcut şifrenizi girin.",
+    "verificationSent": "Yeni e-posta adresinize doğrulama kodu gönderildi.",
+    "incorrectPassword": "Yanlış şifre. Lütfen tekrar deneyin.",
+    "currentPassword": "Mevcut Şifre",
+    "currentPasswordPlaceholder": "Mevcut şifrenizi girin",
     "cancel": "İptal",
     "confirm": "Güncelle",
     "updating": "Güncelleniyor...",
@@ -317,7 +322,8 @@
     "resend": "Tekrar gönder",
     "resending": "Tekrar gönderiliyor...",
     "verificationCodeResent": "Doğrulama kodu yeniden gönderildi. Lütfen e-postanızı kontrol edin.",
-    "signUpSuccess": "Doğrulama tamamlandı! Hesap başarıyla oluşturuldu."
+    "signUpSuccess": "Doğrulama tamamlandı! Hesap başarıyla oluşturuldu.",
+    "emailChangeSuccess": "E-posta başarıyla güncellendi!"
   },
   "AudioSelectCard": {
     "title": "Ses Dosyası Seçimi",

@@ -128,6 +128,11 @@
     "confirmNameDescription": "Are you sure you want to update your name?",
     "confirmEmailTitle": "Update Email?",
     "confirmEmailDescription": "Are you sure you want to update your email address? A verification email will be sent to the new address.",
+    "passwordRequiredDescription": "For security, please enter your current password to update your email.",
+    "verificationSent": "Verification code sent to your new email address.",
+    "incorrectPassword": "Incorrect password. Please try again.",
+    "currentPassword": "Current Password",
+    "currentPasswordPlaceholder": "Enter your current password",
     "cancel": "Cancel",
     "confirm": "Update",
     "updating": "Updating...",
@@ -317,7 +322,8 @@
     "resend": "Resend",
     "resending": "Resending...",
     "verificationCodeResent": "Verification code resent. Please check your email.",
-    "signUpSuccess": "Verification complete! Account created successfully."
+    "signUpSuccess": "Verification complete! Account created successfully.",
+    "emailChangeSuccess": "Email updated successfully!"
   },
   "AudioSelectCard": {
     "title": "Audio File Selection",

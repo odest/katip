@@ -96,7 +96,80 @@
     "title": "Paramètres",
     "description": "Gérez les préférences de votre application et personnalisez votre expérience.",
     "general": "Général",
-    "models": "Modèles"
+    "models": "Modèles",
+    "account": "Compte"
+  },
+  "ProfileImageCard": {
+    "title": "Photo de Profil",
+    "description": "Téléchargez et gérez votre photo de profil",
+    "uploadAvatar": "Télécharger l'avatar",
+    "changeAvatar": "Changer l'avatar",
+    "removeAvatar": "Supprimer l'avatar",
+    "avatarUpdated": "Avatar mis à jour avec succès !",
+    "avatarRemoved": "Avatar supprimé avec succès !",
+    "formatInfo": "Format JPG, PNG ou WebP",
+    "sizeInfo": "Taille maximale : 1 Mo",
+    "resizeInfo": "L'image sera redimensionnée à 256x256 pixels"
+  },
+  "AccountInfoCard": {
+    "title": "Informations du Compte",
+    "description": "Gérez vos informations personnelles",
+    "fullName": "Nom Complet",
+    "fullNamePlaceholder": "Entrez votre nom complet",
+    "email": "E-mail",
+    "emailPlaceholder": "Entrez votre e-mail",
+    "updateName": "Mettre à jour le nom",
+    "updateEmail": "Mettre à jour l'email",
+    "confirmNameTitle": "Mettre à jour le nom ?",
+    "confirmNameDescription": "Êtes-vous sûr de vouloir mettre à jour votre nom ?",
+    "confirmEmailTitle": "Mettre à jour l'email ?",
+    "confirmEmailDescription": "Êtes-vous sûr de vouloir mettre à jour votre adresse e-mail ? Un e-mail de vérification sera envoyé à la nouvelle adresse.",
+    "cancel": "Annuler",
+    "confirm": "Mettre à jour"
+  },
+  "ChangePasswordCard": {
+    "title": "Changer le Mot de Passe",
+    "description": "Mettez à jour votre mot de passe pour sécuriser votre compte",
+    "currentPassword": "Mot de Passe Actuel",
+    "currentPasswordPlaceholder": "Entrez votre mot de passe actuel",
+    "newPassword": "Nouveau Mot de Passe",
+    "newPasswordPlaceholder": "Entrez votre nouveau mot de passe",
+    "confirmPassword": "Confirmer le Mot de Passe",
+    "confirmPasswordPlaceholder": "Confirmez votre nouveau mot de passe",
+    "updatePassword": "Mettre à Jour le Mot de Passe",
+    "confirmTitle": "Mettre à jour le mot de passe ?",
+    "confirmDescription": "Êtes-vous sûr de vouloir mettre à jour votre mot de passe ?",
+    "cancel": "Annuler",
+    "confirm": "Mettre à jour"
+  },
+  "DangerZoneCard": {
+    "title": "Zone de Danger",
+    "description": "Actions irréversibles et destructives",
+    "warningMessage": "Une fois votre compte supprimé, il n'y a pas de retour en arrière. Veuillez en être certain.",
+    "deleteAccount": "Supprimer le Compte",
+    "confirmTitle": "Supprimer le Compte",
+    "confirmDescription": "Cette action ne peut pas être annulée. Votre compte sera définitivement supprimé et toutes vos données seront supprimées de nos serveurs.",
+    "typeToConfirm": "Tapez SUPPRIMER pour confirmer",
+    "cancel": "Annuler",
+    "confirmDelete": "Supprimer le Compte"
+  },
+  "GuestCard": {
+    "title": "Compte",
+    "description": "Connectez-vous pour accéder aux paramètres de votre compte",
+    "welcomeTitle": "Bienvenue, Invité !",
+    "welcomeMessage": "Connectez-vous ou créez un compte pour personnaliser votre expérience et synchroniser vos paramètres sur tous vos appareils.",
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire"
+  },
+  "ImageCropper": {
+    "cropTitle": "Recadrer l'image",
+    "cropDescription": "Ajustez la zone de recadrage pour sélectionner votre image.",
+    "crop": "Recadrer",
+    "cancel": "Annuler",
+    "invalidFileType": "Type de fichier invalide. Veuillez sélectionner une image JPG, PNG ou WebP.",
+    "fileTooLarge": "Le fichier est trop volumineux. La taille maximale est de 1 Mo.",
+    "cropSuccess": "Image recadrée avec succès !",
+    "imagePreview": "Aperçu de l'image"
   },
   "AIProviderCard": {
     "title": "Fournisseur d'IA",

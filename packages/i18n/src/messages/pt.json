@@ -96,7 +96,80 @@
     "title": "Configurações",
     "description": "Gerencie as preferências do seu aplicativo e personalize sua experiência.",
     "general": "Geral",
-    "models": "Modelos"
+    "models": "Modelos",
+    "account": "Conta"
+  },
+  "ProfileImageCard": {
+    "title": "Foto de Perfil",
+    "description": "Carregue e gerencie sua foto de perfil",
+    "uploadAvatar": "Carregar Avatar",
+    "changeAvatar": "Alterar Avatar",
+    "removeAvatar": "Remover Avatar",
+    "avatarUpdated": "Avatar atualizado com sucesso!",
+    "avatarRemoved": "Avatar removido com sucesso!",
+    "formatInfo": "Formato JPG, PNG ou WebP",
+    "sizeInfo": "Tamanho máximo: 1MB",
+    "resizeInfo": "A imagem será redimensionada para 256x256 pixels"
+  },
+  "AccountInfoCard": {
+    "title": "Informações da Conta",
+    "description": "Gerencie suas informações pessoais",
+    "fullName": "Nome Completo",
+    "fullNamePlaceholder": "Digite seu nome completo",
+    "email": "E-mail",
+    "emailPlaceholder": "Digite seu e-mail",
+    "updateName": "Atualizar Nome",
+    "updateEmail": "Atualizar Email",
+    "confirmNameTitle": "Atualizar nome?",
+    "confirmNameDescription": "Tem certeza de que deseja atualizar seu nome?",
+    "confirmEmailTitle": "Atualizar email?",
+    "confirmEmailDescription": "Tem certeza de que deseja atualizar seu endereço de e-mail? Um e-mail de verificação será enviado para o novo endereço.",
+    "cancel": "Cancelar",
+    "confirm": "Atualizar"
+  },
+  "ChangePasswordCard": {
+    "title": "Alterar Senha",
+    "description": "Atualize sua senha para manter sua conta segura",
+    "currentPassword": "Senha Atual",
+    "currentPasswordPlaceholder": "Digite sua senha atual",
+    "newPassword": "Nova Senha",
+    "newPasswordPlaceholder": "Digite sua nova senha",
+    "confirmPassword": "Confirmar Senha",
+    "confirmPasswordPlaceholder": "Confirme sua nova senha",
+    "updatePassword": "Atualizar Senha",
+    "confirmTitle": "Atualizar senha?",
+    "confirmDescription": "Tem certeza de que deseja atualizar sua senha?",
+    "cancel": "Cancelar",
+    "confirm": "Atualizar"
+  },
+  "DangerZoneCard": {
+    "title": "Zona de Perigo",
+    "description": "Ações irreversíveis e destrutivas",
+    "warningMessage": "Uma vez que você exclua sua conta, não há volta. Por favor, tenha certeza.",
+    "deleteAccount": "Excluir Conta",
+    "confirmTitle": "Excluir Conta",
+    "confirmDescription": "Esta ação não pode ser desfeita. Sua conta será permanentemente excluída e todos os seus dados serão removidos de nossos servidores.",
+    "typeToConfirm": "Digite EXCLUIR para confirmar",
+    "cancel": "Cancelar",
+    "confirmDelete": "Excluir Conta"
+  },
+  "GuestCard": {
+    "title": "Conta",
+    "description": "Faça login para acessar as configurações da sua conta",
+    "welcomeTitle": "Bem-vindo, Convidado!",
+    "welcomeMessage": "Faça login ou crie uma conta para personalizar sua experiência e sincronizar suas configurações entre dispositivos.",
+    "signIn": "Entrar",
+    "signUp": "Cadastrar"
+  },
+  "ImageCropper": {
+    "cropTitle": "Recortar Imagem",
+    "cropDescription": "Ajuste a área de recorte para selecionar sua imagem.",
+    "crop": "Recortar",
+    "cancel": "Cancelar",
+    "invalidFileType": "Tipo de arquivo inválido. Por favor, selecione uma imagem JPG, PNG ou WebP.",
+    "fileTooLarge": "O arquivo é muito grande. O tamanho máximo é 1MB.",
+    "cropSuccess": "Imagem recortada com sucesso!",
+    "imagePreview": "Pré-visualização da imagem"
   },
   "AIProviderCard": {
     "title": "Provedor de IA",

@@ -1,4 +1,8 @@
+"use client";
+
 import { isTauri } from "@tauri-apps/api/core";
+import { useTranslations } from "@workspace/i18n";
+import { useUser } from "@workspace/ui/hooks/use-user";
 import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
 import {
   Tabs,
@@ -6,16 +10,25 @@ import {
   TabsList,
   TabsTrigger,
 } from "@workspace/ui/components/tabs";
+import {
+  AccountTabSkeleton,
+  GuestCardSkeleton,
+} from "@workspace/ui/components/settings/settings-card-skeleton";
 import { CachedModelsCard } from "@workspace/ui/components/settings/cached-models-card";
 import { AIProviderCard } from "@workspace/ui/components/settings/ai-provider-card";
 import { LanguageCard } from "@workspace/ui/components/settings/language-card";
 import { ModeCard } from "@workspace/ui/components/settings/mode-card";
+import { ProfileImageCard } from "@workspace/ui/components/settings/profile-image-card";
+import { AccountInfoCard } from "@workspace/ui/components/settings/account-info-card";
+import { ChangePasswordCard } from "@workspace/ui/components/settings/change-password-card";
+import { DangerZoneCard } from "@workspace/ui/components/settings/danger-zone-card";
+import { GuestCard } from "@workspace/ui/components/settings/guest-card";
 import { SidebarVariantCard } from "@workspace/ui/components/settings/sidebar-variant-card";
 import { ThemesList } from "@workspace/ui/components/settings/themes-list";
-import { useTranslations } from "@workspace/i18n";
 
 export function SettingsPage() {
   const t = useTranslations("SettingsPage");
+  const { loading, user } = useUser();
 
   return (
     <ScrollArea className="overflow-y-auto w-full">
@@ -29,6 +42,7 @@ export function SettingsPage() {
             <TabsList className="w-full max-w-3xl mb-4">
               <TabsTrigger value="general">{t("general")}</TabsTrigger>
               <TabsTrigger value="models">{t("models")}</TabsTrigger>
+              <TabsTrigger value="account">{t("account")}</TabsTrigger>
             </TabsList>
             <TabsContent value="general">
               <div className="grid gap-6">
@@ -42,6 +56,26 @@ export function SettingsPage() {
               <div className="grid gap-6">
                 <AIProviderCard />
                 {!isTauri() && <CachedModelsCard />}
+              </div>
+            </TabsContent>
+            <TabsContent value="account">
+              <div className="grid gap-6">
+                {loading ? (
+                  user ? (
+                    <AccountTabSkeleton />
+                  ) : (
+                    <GuestCardSkeleton />
+                  )
+                ) : user ? (
+                  <>
+                    <ProfileImageCard />
+                    <AccountInfoCard />
+                    <ChangePasswordCard />
+                    <DangerZoneCard />
+                  </>
+                ) : (
+                  <GuestCard />
+                )}
               </div>
             </TabsContent>
           </Tabs>

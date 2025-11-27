@@ -96,7 +96,80 @@
     "title": "Настройки",
     "description": "Управляйте настройками приложения и настраивайте свой опыт.",
     "general": "Общие",
-    "models": "Модели"
+    "models": "Модели",
+    "account": "Аккаунт"
+  },
+  "ProfileImageCard": {
+    "title": "Фото профиля",
+    "description": "Загрузите и управляйте своим фото профиля",
+    "uploadAvatar": "Загрузить аватар",
+    "changeAvatar": "Изменить аватар",
+    "removeAvatar": "Удалить аватар",
+    "avatarUpdated": "Аватар успешно обновлен!",
+    "avatarRemoved": "Аватар успешно удален!",
+    "formatInfo": "Формат JPG, PNG или WebP",
+    "sizeInfo": "Максимальный размер: 1МБ",
+    "resizeInfo": "Изображение будет изменено до 256x256 пикселей"
+  },
+  "AccountInfoCard": {
+    "title": "Информация об аккаунте",
+    "description": "Управляйте своей личной информацией",
+    "fullName": "Полное имя",
+    "fullNamePlaceholder": "Введите ваше полное имя",
+    "email": "Электронная почта",
+    "emailPlaceholder": "Введите вашу электронную почту",
+    "updateName": "Обновить имя",
+    "updateEmail": "Обновить email",
+    "confirmNameTitle": "Обновить имя?",
+    "confirmNameDescription": "Вы уверены, что хотите обновить ваше имя?",
+    "confirmEmailTitle": "Обновить email?",
+    "confirmEmailDescription": "Вы уверены, что хотите обновить ваш адрес электронной почты? На новый адрес будет отправлено письмо с подтверждением.",
+    "cancel": "Отмена",
+    "confirm": "Обновить"
+  },
+  "ChangePasswordCard": {
+    "title": "Изменить пароль",
+    "description": "Обновите пароль для безопасности вашего аккаунта",
+    "currentPassword": "Текущий пароль",
+    "currentPasswordPlaceholder": "Введите текущий пароль",
+    "newPassword": "Новый пароль",
+    "newPasswordPlaceholder": "Введите новый пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "confirmPasswordPlaceholder": "Подтвердите новый пароль",
+    "updatePassword": "Обновить пароль",
+    "confirmTitle": "Обновить пароль?",
+    "confirmDescription": "Вы уверены, что хотите обновить свой пароль?",
+    "cancel": "Отмена",
+    "confirm": "Обновить"
+  },
+  "DangerZoneCard": {
+    "title": "Опасная зона",
+    "description": "Необратимые и деструктивные действия",
+    "warningMessage": "После удаления аккаунта пути назад нет. Пожалуйста, будьте уверены.",
+    "deleteAccount": "Удалить аккаунт",
+    "confirmTitle": "Удалить аккаунт",
+    "confirmDescription": "Это действие нельзя отменить. Ваш аккаунт будет навсегда удалён, и все ваши данные будут удалены с наших серверов.",
+    "typeToConfirm": "Введите УДАЛИТЬ для подтверждения",
+    "cancel": "Отмена",
+    "confirmDelete": "Удалить аккаунт"
+  },
+  "GuestCard": {
+    "title": "Аккаунт",
+    "description": "Войдите для доступа к настройкам аккаунта",
+    "welcomeTitle": "Добро пожаловать, Гость!",
+    "welcomeMessage": "Войдите или создайте аккаунт, чтобы персонализировать свой опыт и синхронизировать настройки между устройствами.",
+    "signIn": "Войти",
+    "signUp": "Регистрация"
+  },
+  "ImageCropper": {
+    "cropTitle": "Обрезать изображение",
+    "cropDescription": "Настройте область обрезки, чтобы выбрать изображение.",
+    "crop": "Обрезать",
+    "cancel": "Отмена",
+    "invalidFileType": "Недопустимый тип файла. Пожалуйста, выберите изображение JPG, PNG или WebP.",
+    "fileTooLarge": "Файл слишком большой. Максимальный размер 1МБ.",
+    "cropSuccess": "Изображение успешно обрезано!",
+    "imagePreview": "Предпросмотр изображения"
   },
   "AIProviderCard": {
     "title": "Провайдер ИИ",

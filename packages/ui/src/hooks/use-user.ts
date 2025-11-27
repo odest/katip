@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { User } from "@supabase/supabase-js";
 import { createClient } from "@workspace/ui/lib/supabase";
+
+const supabase = createClient();
 
 export function useUser() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
 
   useEffect(() => {
     const getUser = async () => {
@@ -30,9 +31,39 @@ export function useUser() {
     };
   }, []);
 
-  const signOut = async () => {
+  const signOut = useCallback(async () => {
     await supabase.auth.signOut();
-  };
+  }, []);
 
-  return { user, loading, signOut };
+  const fullName = useMemo(() => {
+    return user?.user_metadata?.full_name || null;
+  }, [user?.user_metadata?.full_name]);
+
+  const email = useMemo(() => {
+    return user?.email || null;
+  }, [user?.email]);
+
+  const avatarUrl = useMemo(() => {
+    return user?.user_metadata?.avatar_url || null;
+  }, [user?.user_metadata?.avatar_url]);
+
+  const avatarFallback = useMemo(() => {
+    if (user?.user_metadata?.full_name) {
+      return user.user_metadata.full_name.substring(0, 2).toUpperCase();
+    }
+    if (user?.email) {
+      return user.email.substring(0, 2).toUpperCase();
+    }
+    return null;
+  }, [user?.user_metadata?.full_name, user?.email]);
+
+  return {
+    user,
+    loading,
+    signOut,
+    fullName,
+    email,
+    avatarUrl,
+    avatarFallback,
+  };
 }

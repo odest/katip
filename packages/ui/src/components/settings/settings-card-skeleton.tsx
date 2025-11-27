@@ -1,15 +1,15 @@
 import { Card, CardContent, CardHeader } from "@workspace/ui/components/card";
 import { Skeleton } from "@workspace/ui/components/skeleton";
 
-interface SettingsCardSkeletonProps {
+interface ThemesCardSkeletonProps {
   gridClasses: string;
   itemCount?: number;
 }
 
-export const SettingsCardSkeleton = ({
+export const ThemesCardSkeleton = ({
   gridClasses,
   itemCount = 3,
-}: SettingsCardSkeletonProps) => {
+}: ThemesCardSkeletonProps) => {
   return (
     <Card>
       <CardHeader>
@@ -26,6 +26,140 @@ export const SettingsCardSkeleton = ({
             </div>
           </div>
         ))}
+      </CardContent>
+    </Card>
+  );
+};
+
+export const ProfileImageCardSkeleton = () => {
+  return (
+    <Card>
+      <CardHeader>
+        <Skeleton className="h-6 w-32" />
+        <Skeleton className="h-4 w-56" />
+      </CardHeader>
+      <CardContent>
+        <div className="flex items-center gap-4">
+          <Skeleton className="h-20 w-20 rounded-full" />
+          <div className="flex flex-col gap-0.5 flex-1">
+            <Skeleton className="h-3 w-48" />
+            <Skeleton className="h-3 w-40" />
+            <Skeleton className="h-3 w-52" />
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <Skeleton className="h-9 w-36" />
+            <Skeleton className="h-9 w-36" />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export const AccountInfoCardSkeleton = () => {
+  return (
+    <Card>
+      <CardHeader>
+        <Skeleton className="h-6 w-40" />
+        <Skeleton className="h-4 w-64" />
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-col gap-6">
+          <div className="grid gap-4">
+            <div className="flex flex-col gap-2">
+              <Skeleton className="h-4 w-20" />
+              <div className="flex gap-2">
+                <Skeleton className="h-9 flex-1" />
+                <Skeleton className="h-9 w-24" />
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Skeleton className="h-4 w-16" />
+              <div className="flex gap-2">
+                <Skeleton className="h-9 flex-1" />
+                <Skeleton className="h-9 w-24" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export const ChangePasswordCardSkeleton = () => {
+  return (
+    <Card>
+      <CardHeader>
+        <Skeleton className="h-6 w-36" />
+        <Skeleton className="h-4 w-56" />
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <Skeleton className="h-4 w-28" />
+            <Skeleton className="h-9 w-full" />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-9 w-full" />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Skeleton className="h-4 w-32" />
+            <Skeleton className="h-9 w-full" />
+          </div>
+          <Skeleton className="h-9 w-full mt-2" />
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export const DangerZoneCardSkeleton = () => {
+  return (
+    <Card className="border-destructive/50">
+      <CardHeader>
+        <Skeleton className="h-6 w-36" />
+        <Skeleton className="h-4 w-56" />
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-col gap-4">
+          <Skeleton className="h-4 w-3/4" />
+          <Skeleton className="h-9 w-full" />
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export const AccountTabSkeleton = () => {
+  return (
+    <div className="grid gap-6">
+      <ProfileImageCardSkeleton />
+      <AccountInfoCardSkeleton />
+      <ChangePasswordCardSkeleton />
+      <DangerZoneCardSkeleton />
+    </div>
+  );
+};
+
+export const GuestCardSkeleton = () => {
+  return (
+    <Card>
+      <CardHeader className="text-center">
+        <Skeleton className="h-6 w-36" />
+        <Skeleton className="h-4 w-56" />
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-col items-center justify-center text-center py-12 border-2 border-dashed rounded-lg">
+          <Skeleton className="h-20 w-20 rounded-full mx-auto mb-2" />
+          <Skeleton className="h-6 w-40 mx-auto mb-2" />
+          <Skeleton className="h-4 w-72 mx-auto" />
+          <div className="flex gap-3 pt-6">
+            <Skeleton className="h-9 w-40" />
+            <Skeleton className="h-9 w-40" />
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

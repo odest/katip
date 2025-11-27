@@ -96,7 +96,80 @@
     "title": "Settings",
     "description": "Manage your application preferences and customize your experience.",
     "general": "General",
-    "models": "Models"
+    "models": "Models",
+    "account": "Account"
+  },
+  "ProfileImageCard": {
+    "title": "Profile Picture",
+    "description": "Upload and manage your profile picture",
+    "uploadAvatar": "Upload Avatar",
+    "changeAvatar": "Change Avatar",
+    "removeAvatar": "Remove Avatar",
+    "avatarUpdated": "Avatar updated successfully!",
+    "avatarRemoved": "Avatar removed successfully!",
+    "formatInfo": "JPG, PNG or WebP format",
+    "sizeInfo": "Maximum size: 1MB",
+    "resizeInfo": "Image will be resized to 256x256 pixels"
+  },
+  "AccountInfoCard": {
+    "title": "Account Information",
+    "description": "Manage your personal information",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Enter your full name",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "updateName": "Update Name",
+    "updateEmail": "Update Email",
+    "confirmNameTitle": "Update Name?",
+    "confirmNameDescription": "Are you sure you want to update your name?",
+    "confirmEmailTitle": "Update Email?",
+    "confirmEmailDescription": "Are you sure you want to update your email address? A verification email will be sent to the new address.",
+    "cancel": "Cancel",
+    "confirm": "Update"
+  },
+  "ChangePasswordCard": {
+    "title": "Change Password",
+    "description": "Update your password to keep your account secure",
+    "currentPassword": "Current Password",
+    "currentPasswordPlaceholder": "Enter your current password",
+    "newPassword": "New Password",
+    "newPasswordPlaceholder": "Enter your new password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm your new password",
+    "updatePassword": "Update Password",
+    "confirmTitle": "Update Password?",
+    "confirmDescription": "Are you sure you want to update your password?",
+    "cancel": "Cancel",
+    "confirm": "Update"
+  },
+  "DangerZoneCard": {
+    "title": "Danger Zone",
+    "description": "Irreversible and destructive actions",
+    "warningMessage": "Once you delete your account, there is no going back. Please be certain.",
+    "deleteAccount": "Delete Account",
+    "confirmTitle": "Delete Account",
+    "confirmDescription": "This action cannot be undone. This will permanently delete your account and remove all your data from our servers.",
+    "typeToConfirm": "Type DELETE to confirm",
+    "cancel": "Cancel",
+    "confirmDelete": "Delete Account"
+  },
+  "GuestCard": {
+    "title": "Account",
+    "description": "Sign in to access your account settings",
+    "welcomeTitle": "Welcome, Guest!",
+    "welcomeMessage": "Sign in or create an account to personalize your experience and sync your settings across devices.",
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
+  "ImageCropper": {
+    "cropTitle": "Crop Image",
+    "cropDescription": "Adjust the crop area to select your image.",
+    "crop": "Crop",
+    "cancel": "Cancel",
+    "invalidFileType": "Invalid file type. Please select a JPG, PNG, or WebP image.",
+    "fileTooLarge": "File is too large. Maximum size is 1MB.",
+    "cropSuccess": "Image cropped successfully!",
+    "imagePreview": "Image preview"
   },
   "AIProviderCard": {
     "title": "AI Provider",

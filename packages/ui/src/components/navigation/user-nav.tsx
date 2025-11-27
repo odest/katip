@@ -28,41 +28,37 @@ import {
 export function UserNav() {
   const { isMobile } = useSidebar();
   const t = useTranslations("Navigation");
-  const { user, loading } = useUser();
+  const { user, loading, fullName, email, avatarUrl, avatarFallback } =
+    useUser();
   const { setOpenDialog, formView, setFormView, setOpenLogoutDialog } =
     useAuthStore();
 
+  const displayName = fullName || t("guest");
+  const displayEmail = email || t("guestEmail");
+  const displayFallback =
+    avatarFallback || t("guest").substring(0, 2).toUpperCase();
+
   return (
     <SidebarMenu>
-      <SidebarMenuItem>
+      <SidebarMenuItem className={cn(loading && "cursor-wait")}>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger asChild disabled={loading}>
             <SidebarMenuButton
               size="lg"
-              disabled={loading}
               className={cn(
-                "data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground",
-                loading ? "!cursor-wait !pointer-events-auto" : "cursor-pointer"
+                "data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer",
+                loading && "pointer-events-none"
               )}
             >
               <Avatar className="h-8 w-8 rounded-lg items-center justify-center">
-                <AvatarImage
-                  src={user?.user_metadata?.avatar_url}
-                  alt={user?.user_metadata?.full_name || user?.email}
-                />
+                <AvatarImage src={avatarUrl} alt={displayName} />
                 <AvatarFallback className="rounded-lg">
-                  {user?.user_metadata?.full_name
-                    .substring(0, 2)
-                    .toUpperCase() || t("guest").substring(0, 1).toUpperCase()}
+                  {displayFallback}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">
-                  {user?.user_metadata?.full_name || user?.email || t("guest")}
-                </span>
-                <span className="truncate text-xs">
-                  {user?.email || t("guestEmail")}
-                </span>
+                <span className="truncate font-medium">{displayName}</span>
+                <span className="truncate text-xs">{displayEmail}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -76,26 +72,14 @@ export function UserNav() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg items-center justify-center">
-                  <AvatarImage
-                    src={user?.user_metadata?.avatar_url}
-                    alt={user?.user_metadata?.full_name || user?.email}
-                  />
+                  <AvatarImage src={avatarUrl} alt={displayName} />
                   <AvatarFallback className="rounded-lg">
-                    {user?.user_metadata?.full_name
-                      .substring(0, 2)
-                      .toUpperCase() ||
-                      t("guest").substring(0, 1).toUpperCase()}
+                    {displayFallback}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">
-                    {user?.user_metadata?.full_name ||
-                      user?.email ||
-                      t("guest")}
-                  </span>
-                  <span className="truncate text-xs">
-                    {user?.email || t("guestEmail")}
-                  </span>
+                  <span className="truncate font-medium">{displayName}</span>
+                  <span className="truncate text-xs">{displayEmail}</span>
                 </div>
               </div>
             </DropdownMenuLabel>

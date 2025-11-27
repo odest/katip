@@ -96,7 +96,80 @@
     "title": "Configuración",
     "description": "Administre las preferencias de su aplicación y personalice su experiencia.",
     "general": "General",
-    "models": "Modelos"
+    "models": "Modelos",
+    "account": "Cuenta"
+  },
+  "ProfileImageCard": {
+    "title": "Foto de Perfil",
+    "description": "Sube y gestiona tu foto de perfil",
+    "uploadAvatar": "Subir Avatar",
+    "changeAvatar": "Cambiar Avatar",
+    "removeAvatar": "Eliminar Avatar",
+    "avatarUpdated": "¡Avatar actualizado con éxito!",
+    "avatarRemoved": "¡Avatar eliminado con éxito!",
+    "formatInfo": "Formato JPG, PNG o WebP",
+    "sizeInfo": "Tamaño máximo: 1MB",
+    "resizeInfo": "La imagen se redimensionará a 256x256 píxeles"
+  },
+  "AccountInfoCard": {
+    "title": "Información de la Cuenta",
+    "description": "Gestiona tu información personal",
+    "fullName": "Nombre Completo",
+    "fullNamePlaceholder": "Ingrese su nombre completo",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "Ingrese su correo electrónico",
+    "updateName": "Actualizar Nombre",
+    "updateEmail": "Actualizar Email",
+    "confirmNameTitle": "¿Actualizar nombre?",
+    "confirmNameDescription": "¿Está seguro de que desea actualizar su nombre?",
+    "confirmEmailTitle": "¿Actualizar email?",
+    "confirmEmailDescription": "¿Está seguro de que desea actualizar su dirección de correo electrónico? Se enviará un correo de verificación a la nueva dirección.",
+    "cancel": "Cancelar",
+    "confirm": "Actualizar"
+  },
+  "ChangePasswordCard": {
+    "title": "Cambiar Contraseña",
+    "description": "Actualiza tu contraseña para mantener tu cuenta segura",
+    "currentPassword": "Contraseña Actual",
+    "currentPasswordPlaceholder": "Ingrese su contraseña actual",
+    "newPassword": "Nueva Contraseña",
+    "newPasswordPlaceholder": "Ingrese su nueva contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "confirmPasswordPlaceholder": "Confirme su nueva contraseña",
+    "updatePassword": "Actualizar Contraseña",
+    "confirmTitle": "¿Actualizar contraseña?",
+    "confirmDescription": "¿Está seguro de que desea actualizar su contraseña?",
+    "cancel": "Cancelar",
+    "confirm": "Actualizar"
+  },
+  "DangerZoneCard": {
+    "title": "Zona de Peligro",
+    "description": "Acciones irreversibles y destructivas",
+    "warningMessage": "Una vez que elimines tu cuenta, no hay vuelta atrás. Por favor, asegúrate.",
+    "deleteAccount": "Eliminar Cuenta",
+    "confirmTitle": "Eliminar Cuenta",
+    "confirmDescription": "Esta acción no se puede deshacer. Tu cuenta se eliminará permanentemente y todos tus datos se eliminarán de nuestros servidores.",
+    "typeToConfirm": "Escribe ELIMINAR para confirmar",
+    "cancel": "Cancelar",
+    "confirmDelete": "Eliminar Cuenta"
+  },
+  "GuestCard": {
+    "title": "Cuenta",
+    "description": "Inicia sesión para acceder a la configuración de tu cuenta",
+    "welcomeTitle": "¡Bienvenido, Invitado!",
+    "welcomeMessage": "Inicia sesión o crea una cuenta para personalizar tu experiencia y sincronizar tu configuración entre dispositivos.",
+    "signIn": "Iniciar Sesión",
+    "signUp": "Registrarse"
+  },
+  "ImageCropper": {
+    "cropTitle": "Recortar Imagen",
+    "cropDescription": "Ajuste el área de recorte para seleccionar su imagen.",
+    "crop": "Recortar",
+    "cancel": "Cancelar",
+    "invalidFileType": "Tipo de archivo inválido. Por favor seleccione una imagen JPG, PNG o WebP.",
+    "fileTooLarge": "El archivo es demasiado grande. El tamaño máximo es 1MB.",
+    "cropSuccess": "¡Imagen recortada exitosamente!",
+    "imagePreview": "Vista previa de imagen"
   },
   "AIProviderCard": {
     "title": "Proveedor de IA",

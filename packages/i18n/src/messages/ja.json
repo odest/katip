@@ -96,7 +96,80 @@
     "title": "設定",
     "description": "アプリケーションの設定を管理し、体験をカスタマイズします。",
     "general": "一般",
-    "models": "モデル"
+    "models": "モデル",
+    "account": "アカウント"
+  },
+  "ProfileImageCard": {
+    "title": "プロフィール画像",
+    "description": "プロフィール画像をアップロードして管理します",
+    "uploadAvatar": "アバターをアップロード",
+    "changeAvatar": "アバターを変更",
+    "removeAvatar": "アバターを削除",
+    "avatarUpdated": "アバターが正常に更新されました！",
+    "avatarRemoved": "アバターが正常に削除されました！",
+    "formatInfo": "JPG、PNGまたはWebP形式",
+    "sizeInfo": "最大サイズ: 1MB",
+    "resizeInfo": "画像は256x256ピクセルにリサイズされます"
+  },
+  "AccountInfoCard": {
+    "title": "アカウント情報",
+    "description": "個人情報を管理します",
+    "fullName": "氏名",
+    "fullNamePlaceholder": "氏名を入力してください",
+    "email": "メール",
+    "emailPlaceholder": "メールアドレスを入力してください",
+    "updateName": "名前を更新",
+    "updateEmail": "メールを更新",
+    "confirmNameTitle": "氏名を更新しますか？",
+    "confirmNameDescription": "氏名を更新してもよろしいですか？",
+    "confirmEmailTitle": "メールを更新しますか？",
+    "confirmEmailDescription": "メールアドレスを更新してもよろしいですか？新しいアドレスに確認メールが送信されます。",
+    "cancel": "キャンセル",
+    "confirm": "更新"
+  },
+  "ChangePasswordCard": {
+    "title": "パスワードを変更",
+    "description": "アカウントを安全に保つためにパスワードを更新してください",
+    "currentPassword": "現在のパスワード",
+    "currentPasswordPlaceholder": "現在のパスワードを入力してください",
+    "newPassword": "新しいパスワード",
+    "newPasswordPlaceholder": "新しいパスワードを入力してください",
+    "confirmPassword": "パスワードを確認",
+    "confirmPasswordPlaceholder": "新しいパスワードを確認してください",
+    "updatePassword": "パスワードを更新",
+    "confirmTitle": "パスワードを更新しますか？",
+    "confirmDescription": "パスワードを更新してもよろしいですか？",
+    "cancel": "キャンセル",
+    "confirm": "更新"
+  },
+  "DangerZoneCard": {
+    "title": "危険ゾーン",
+    "description": "取り消し不可能で破壊的なアクション",
+    "warningMessage": "アカウントを削除すると、元に戻すことはできません。よく確認してください。",
+    "deleteAccount": "アカウントを削除",
+    "confirmTitle": "アカウントを削除",
+    "confirmDescription": "この操作は取り消せません。アカウントは完全に削除され、すべてのデータがサーバーから削除されます。",
+    "typeToConfirm": "確認するにはDELETEと入力してください",
+    "cancel": "キャンセル",
+    "confirmDelete": "アカウントを削除"
+  },
+  "GuestCard": {
+    "title": "アカウント",
+    "description": "アカウント設定にアクセスするにはサインインしてください",
+    "welcomeTitle": "ようこそ、ゲストさん！",
+    "welcomeMessage": "サインインまたはアカウントを作成して、体験をパーソナライズし、デバイス間で設定を同期しましょう。",
+    "signIn": "サインイン",
+    "signUp": "サインアップ"
+  },
+  "ImageCropper": {
+    "cropTitle": "画像を切り取り",
+    "cropDescription": "画像を選択するために切り取り領域を調整してください。",
+    "crop": "切り取り",
+    "cancel": "キャンセル",
+    "invalidFileType": "無効なファイル形式です。JPG、PNG、またはWebP画像を選択してください。",
+    "fileTooLarge": "ファイルが大きすぎます。最大サイズは1MBです。",
+    "cropSuccess": "画像が正常に切り取られました！",
+    "imagePreview": "画像プレビュー"
   },
   "AIProviderCard": {
     "title": "AIプロバイダー",

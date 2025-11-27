@@ -12,7 +12,7 @@ import { Label } from "@workspace/ui/components/label";
 import { useSidebar } from "@workspace/ui/components/sidebar";
 import { useMounted } from "@workspace/ui/hooks/use-mounted";
 import { useSidebarStore } from "@workspace/ui/stores/sidebar-store";
-import { SettingsCardSkeleton } from "@workspace/ui/components/settings/settings-card-skeleton";
+import { ThemesCardSkeleton } from "@workspace/ui/components/settings/settings-card-skeleton";
 import { useTranslations } from "@workspace/i18n";
 
 export const SidebarVariantCard = () => {
@@ -30,7 +30,7 @@ export const SidebarVariantCard = () => {
     [state]
   );
 
-  if (!mounted) return <SettingsCardSkeleton gridClasses={gridClasses} />;
+  if (!mounted) return <ThemesCardSkeleton gridClasses={gridClasses} />;
 
   return (
     <Card>

@@ -96,7 +96,80 @@
     "title": "Ayarlar",
     "description": "Uygulama tercihlerinizi yönetin ve deneyiminizi özelleştirin.",
     "general": "Genel",
-    "models": "Modeller"
+    "models": "Modeller",
+    "account": "Hesap"
+  },
+  "ProfileImageCard": {
+    "title": "Profil Fotoğrafı",
+    "description": "Profil fotoğrafınızı yükleyin ve yönetin",
+    "uploadAvatar": "Avatar Yükle",
+    "changeAvatar": "Avatarı Değiştir",
+    "removeAvatar": "Avatarı Kaldır",
+    "avatarUpdated": "Avatar başarıyla güncellendi!",
+    "avatarRemoved": "Avatar başarıyla kaldırıldı!",
+    "formatInfo": "JPG, PNG veya WebP formatı",
+    "sizeInfo": "Maksimum boyut: 1MB",
+    "resizeInfo": "Resim 256x256 piksel olarak yeniden boyutlandırılacak"
+  },
+  "AccountInfoCard": {
+    "title": "Hesap Bilgileri",
+    "description": "Kişisel bilgilerinizi yönetin",
+    "fullName": "Ad Soyad",
+    "fullNamePlaceholder": "Adınızı ve soyadınızı girin",
+    "email": "E-posta",
+    "emailPlaceholder": "E-posta adresinizi girin",
+    "updateName": "Adı Güncelle",
+    "updateEmail": "E-postayı Güncelle",
+    "confirmNameTitle": "Ad Soyad Güncellensin mi?",
+    "confirmNameDescription": "Adınızı ve soyadınızı güncellemek istediğinizden emin misiniz?",
+    "confirmEmailTitle": "E-posta Güncellensin mi?",
+    "confirmEmailDescription": "E-posta adresinizi güncellemek istediğinizden emin misiniz? Yeni adrese bir doğrulama e-postası gönderilecektir.",
+    "cancel": "İptal",
+    "confirm": "Güncelle"
+  },
+  "ChangePasswordCard": {
+    "title": "Şifre Değiştir",
+    "description": "Hesabınızı güvende tutmak için şifrenizi güncelleyin",
+    "currentPassword": "Mevcut Şifre",
+    "currentPasswordPlaceholder": "Mevcut şifrenizi girin",
+    "newPassword": "Yeni Şifre",
+    "newPasswordPlaceholder": "Yeni şifrenizi girin",
+    "confirmPassword": "Şifreyi Onayla",
+    "confirmPasswordPlaceholder": "Yeni şifrenizi onaylayın",
+    "updatePassword": "Şifreyi Güncelle",
+    "confirmTitle": "Şifre Güncellensin mi?",
+    "confirmDescription": "Şifrenizi güncellemek istediğinizden emin misiniz?",
+    "cancel": "İptal",
+    "confirm": "Güncelle"
+  },
+  "DangerZoneCard": {
+    "title": "Tehlikeli Bölge",
+    "description": "Geri alınamaz ve yıkıcı işlemler",
+    "warningMessage": "Hesabınızı sildiğinizde geri dönüşü yoktur. Lütfen emin olun.",
+    "deleteAccount": "Hesabı Sil",
+    "confirmTitle": "Hesabı Sil",
+    "confirmDescription": "Bu işlem geri alınamaz. Hesabınız kalıcı olarak silinecek ve tüm verileriniz sunucularımızdan kaldırılacaktır.",
+    "typeToConfirm": "Onaylamak için SİL yazın",
+    "cancel": "İptal",
+    "confirmDelete": "Hesabı Sil"
+  },
+  "GuestCard": {
+    "title": "Hesap",
+    "description": "Hesap ayarlarınıza erişmek için giriş yapın",
+    "welcomeTitle": "Hoş Geldiniz, Misafir!",
+    "welcomeMessage": "Deneyiminizi kişiselleştirmek ve ayarlarınızı cihazlar arasında senkronize etmek için giriş yapın veya hesap oluşturun.",
+    "signIn": "Giriş Yap",
+    "signUp": "Kayıt Ol"
+  },
+  "ImageCropper": {
+    "cropTitle": "Resmi Kırp",
+    "cropDescription": "Resminizi seçmek için kırpma alanını ayarlayın.",
+    "crop": "Kırp",
+    "cancel": "İptal",
+    "invalidFileType": "Geçersiz dosya türü. Lütfen JPG, PNG veya WebP resim seçin.",
+    "fileTooLarge": "Dosya çok büyük. Maksimum boyut 1MB.",
+    "cropSuccess": "Resim başarıyla kırpıldı!",
+    "imagePreview": "Resim önizleme"
   },
   "AIProviderCard": {
     "title": "Yapay Zeka Sağlayıcısı",

@@ -153,14 +153,17 @@
   },
   "DangerZoneCard": {
     "title": "危险区域",
-    "description": "不可逆转和破坏性的操作",
-    "warningMessage": "一旦您删除账户，将无法恢复。请确认。",
+    "description": "不可逆转的破坏性操作",
+    "warningMessage": "删除账户后无法恢复。请确认。",
     "deleteAccount": "删除账户",
     "confirmTitle": "删除账户",
     "confirmDescription": "此操作无法撤消。您的账户将被永久删除，所有数据将从我们的服务器中移除。",
-    "typeToConfirm": "输入 DELETE 以确认",
+    "typeToConfirm": "输入 DELETE 确认",
     "cancel": "取消",
-    "confirmDelete": "删除账户"
+    "confirmDelete": "删除账户",
+    "deleting": "删除中...",
+    "accountDeleted": "账户删除成功",
+    "deleteFailed": "删除账户失败"
   },
   "GuestCard": {
     "title": "账户",

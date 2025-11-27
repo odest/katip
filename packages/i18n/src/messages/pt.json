@@ -154,13 +154,16 @@
   "DangerZoneCard": {
     "title": "Zona de Perigo",
     "description": "Ações irreversíveis e destrutivas",
-    "warningMessage": "Uma vez que você exclua sua conta, não há volta. Por favor, tenha certeza.",
+    "warningMessage": "Depois de excluir sua conta, não há volta. Por favor, tenha certeza.",
     "deleteAccount": "Excluir Conta",
     "confirmTitle": "Excluir Conta",
-    "confirmDescription": "Esta ação não pode ser desfeita. Sua conta será permanentemente excluída e todos os seus dados serão removidos de nossos servidores.",
-    "typeToConfirm": "Digite EXCLUIR para confirmar",
+    "confirmDescription": "Esta ação não pode ser desfeita. Sua conta será excluída permanentemente e todos os seus dados serão removidos de nossos servidores.",
+    "typeToConfirm": "Digite DELETE para confirmar",
     "cancel": "Cancelar",
-    "confirmDelete": "Excluir Conta"
+    "confirmDelete": "Excluir Conta",
+    "deleting": "Excluindo...",
+    "accountDeleted": "Conta excluída com sucesso",
+    "deleteFailed": "Falha ao excluir a conta"
   },
   "GuestCard": {
     "title": "Conta",

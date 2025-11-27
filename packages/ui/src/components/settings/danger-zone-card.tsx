@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { AlertTriangle, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import { useTranslations } from "@workspace/i18n";
+import { useUser } from "@workspace/ui/hooks/use-user";
 import {
   Card,
   CardContent,
@@ -21,19 +23,30 @@ import {
 import { Input } from "@workspace/ui/components/input";
 import { Label } from "@workspace/ui/components/label";
 import { Button } from "@workspace/ui/components/button";
+import { Spinner } from "@workspace/ui/components/spinner";
 
 export function DangerZoneCard() {
   const t = useTranslations("DangerZoneCard");
+  const { deleteAccount } = useUser();
   const [confirmText, setConfirmText] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const isDeleteEnabled = confirmText === "DELETE";
 
-  const handleDeleteAccount = () => {
-    // TODO: Implement account deletion logic
-    setDialogOpen(false);
-    setConfirmText("");
-  };
+  const handleDeleteAccount = useCallback(async () => {
+    setIsDeleting(true);
+    const result = await deleteAccount();
+
+    if (result.success) {
+      toast.success(t("accountDeleted"));
+      setDialogOpen(false);
+      setConfirmText("");
+    } else {
+      toast.error(t("deleteFailed"), { description: result.error });
+    }
+    setIsDeleting(false);
+  }, [deleteAccount, t]);
 
   return (
     <>
@@ -90,16 +103,18 @@ export function DangerZoneCard() {
                 setDialogOpen(false);
                 setConfirmText("");
               }}
+              disabled={isDeleting}
             >
               {t("cancel")}
             </Button>
             <Button
               variant="destructive"
               className="cursor-pointer"
-              disabled={!isDeleteEnabled}
+              disabled={!isDeleteEnabled || isDeleting}
               onClick={handleDeleteAccount}
             >
-              {t("confirmDelete")}
+              {isDeleting ? <Spinner /> : null}
+              {isDeleting ? t("deleting") : t("confirmDelete")}
             </Button>
           </DialogFooter>
         </DialogContent>

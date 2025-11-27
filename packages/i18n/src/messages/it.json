@@ -152,15 +152,18 @@
     "updateFailed": "Impossibile aggiornare la password"
   },
   "DangerZoneCard": {
-    "title": "Zona Pericolo",
+    "title": "Zona Pericolosa",
     "description": "Azioni irreversibili e distruttive",
-    "warningMessage": "Una volta eliminato il tuo account, non si può tornare indietro. Per favore, sii certo.",
+    "warningMessage": "Una volta eliminato il tuo account, non si torna indietro. Per favore, sii certo.",
     "deleteAccount": "Elimina Account",
     "confirmTitle": "Elimina Account",
-    "confirmDescription": "Questa azione non può essere annullata. Il tuo account verrà eliminato permanentemente e tutti i tuoi dati verranno rimossi dai nostri server.",
-    "typeToConfirm": "Digita ELIMINA per confermare",
+    "confirmDescription": "Questa azione non può essere annullata. Il tuo account verrà eliminato definitivamente e tutti i tuoi dati verranno rimossi dai nostri server.",
+    "typeToConfirm": "Digita DELETE per confermare",
     "cancel": "Annulla",
-    "confirmDelete": "Elimina Account"
+    "confirmDelete": "Elimina Account",
+    "deleting": "Eliminazione...",
+    "accountDeleted": "Account eliminato con successo",
+    "deleteFailed": "Impossibile eliminare l'account"
   },
   "GuestCard": {
     "title": "Account",

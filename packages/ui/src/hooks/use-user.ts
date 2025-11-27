@@ -168,6 +168,44 @@ export function useUser() {
     [user]
   );
 
+  const deleteAccount = useCallback(async (): Promise<{
+    success: boolean;
+    error?: string;
+  }> => {
+    if (!user || !user.email) {
+      return { success: false, error: "User not authenticated" };
+    }
+
+    try {
+      const { error } = await supabase.functions.invoke("delete-user", {
+        body: { userId: user.id },
+      });
+
+      if (error) {
+        return { success: false, error: error.message };
+      }
+
+      const avatarUrl = user.user_metadata?.avatar_url;
+      if (avatarUrl) {
+        const match = avatarUrl.match(/\/avatars\/(.+)$/);
+        if (match && match[1]) {
+          const filePath = decodeURIComponent(match[1]);
+          await supabase.storage.from(AVATAR_BUCKET).remove([filePath]);
+        }
+      }
+
+      await supabase.auth.signOut();
+
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Account deletion failed",
+      };
+    }
+  }, [user]);
+
   const fullName = useMemo(() => {
     return user?.user_metadata?.full_name || null;
   }, [user?.user_metadata?.full_name]);
@@ -197,6 +235,7 @@ export function useUser() {
     uploadAvatar,
     removeAvatar,
     changePassword,
+    deleteAccount,
     fullName,
     email,
     avatarUrl,

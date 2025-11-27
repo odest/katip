@@ -90,14 +90,6 @@ export function ChangePasswordCard() {
             className="flex flex-col gap-6"
           >
             <div className="grid gap-4">
-              {/* Hidden username field for accessibility */}
-              <input
-                type="text"
-                autoComplete="username"
-                className="sr-only"
-                tabIndex={-1}
-                aria-hidden="true"
-              />
               <div className="grid gap-2">
                 <Label htmlFor="currentPassword">{t("currentPassword")}</Label>
                 <InputGroup>

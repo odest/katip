@@ -160,7 +160,10 @@
     "confirmDescription": "This action cannot be undone. This will permanently delete your account and remove all your data from our servers.",
     "typeToConfirm": "Type DELETE to confirm",
     "cancel": "Cancel",
-    "confirmDelete": "Delete Account"
+    "confirmDelete": "Delete Account",
+    "deleting": "Deleting...",
+    "accountDeleted": "Account deleted successfully",
+    "deleteFailed": "Failed to delete account"
   },
   "GuestCard": {
     "title": "Account",

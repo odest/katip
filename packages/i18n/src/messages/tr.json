@@ -153,14 +153,17 @@
   },
   "DangerZoneCard": {
     "title": "Tehlikeli Bölge",
-    "description": "Geri alınamaz ve yıkıcı işlemler",
-    "warningMessage": "Hesabınızı sildiğinizde geri dönüşü yoktur. Lütfen emin olun.",
+    "description": "Geri dönüşü olmayan ve yıkıcı işlemler",
+    "warningMessage": "Hesabınızı sildiğinizde geri dönüş yoktur. Lütfen emin olun.",
     "deleteAccount": "Hesabı Sil",
     "confirmTitle": "Hesabı Sil",
     "confirmDescription": "Bu işlem geri alınamaz. Hesabınız kalıcı olarak silinecek ve tüm verileriniz sunucularımızdan kaldırılacaktır.",
-    "typeToConfirm": "Onaylamak için SİL yazın",
+    "typeToConfirm": "Onaylamak için DELETE yazın",
     "cancel": "İptal",
-    "confirmDelete": "Hesabı Sil"
+    "confirmDelete": "Hesabı Sil",
+    "deleting": "Siliniyor...",
+    "accountDeleted": "Hesap başarıyla silindi",
+    "deleteFailed": "Hesap silinemedi"
   },
   "GuestCard": {
     "title": "Hesap",

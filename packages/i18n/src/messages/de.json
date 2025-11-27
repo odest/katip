@@ -158,9 +158,12 @@
     "deleteAccount": "Konto löschen",
     "confirmTitle": "Konto löschen",
     "confirmDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Ihr Konto wird dauerhaft gelöscht und alle Ihre Daten werden von unseren Servern entfernt.",
-    "typeToConfirm": "Geben Sie LÖSCHEN ein, um zu bestätigen",
+    "typeToConfirm": "Geben Sie DELETE ein, um zu bestätigen",
     "cancel": "Abbrechen",
-    "confirmDelete": "Konto löschen"
+    "confirmDelete": "Konto löschen",
+    "deleting": "Löschen...",
+    "accountDeleted": "Konto erfolgreich gelöscht",
+    "deleteFailed": "Konto konnte nicht gelöscht werden"
   },
   "GuestCard": {
     "title": "Konto",

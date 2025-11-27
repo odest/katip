@@ -160,7 +160,10 @@
     "confirmDescription": "この操作は取り消せません。アカウントは完全に削除され、すべてのデータがサーバーから削除されます。",
     "typeToConfirm": "確認するにはDELETEと入力してください",
     "cancel": "キャンセル",
-    "confirmDelete": "アカウントを削除"
+    "confirmDelete": "アカウントを削除",
+    "deleting": "削除中...",
+    "accountDeleted": "アカウントが正常に削除されました",
+    "deleteFailed": "アカウントの削除に失敗しました"
   },
   "GuestCard": {
     "title": "アカウント",

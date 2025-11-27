@@ -158,9 +158,12 @@
     "deleteAccount": "Eliminar Cuenta",
     "confirmTitle": "Eliminar Cuenta",
     "confirmDescription": "Esta acción no se puede deshacer. Tu cuenta se eliminará permanentemente y todos tus datos se eliminarán de nuestros servidores.",
-    "typeToConfirm": "Escribe ELIMINAR para confirmar",
+    "typeToConfirm": "Escribe DELETE para confirmar",
     "cancel": "Cancelar",
-    "confirmDelete": "Eliminar Cuenta"
+    "confirmDelete": "Eliminar Cuenta",
+    "deleting": "Eliminando...",
+    "accountDeleted": "Cuenta eliminada exitosamente",
+    "deleteFailed": "Error al eliminar la cuenta"
   },
   "GuestCard": {
     "title": "Cuenta",

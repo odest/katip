@@ -152,15 +152,18 @@
     "updateFailed": "Échec de la mise à jour du mot de passe"
   },
   "DangerZoneCard": {
-    "title": "Zone de Danger",
-    "description": "Actions irréversibles et destructives",
-    "warningMessage": "Une fois votre compte supprimé, il n'y a pas de retour en arrière. Veuillez en être certain.",
-    "deleteAccount": "Supprimer le Compte",
-    "confirmTitle": "Supprimer le Compte",
+    "title": "Zone dangereuse",
+    "description": "Actions irréversibles et destructrices",
+    "warningMessage": "Une fois votre compte supprimé, il n'y a pas de retour en arrière. Soyez certain.",
+    "deleteAccount": "Supprimer le compte",
+    "confirmTitle": "Supprimer le compte",
     "confirmDescription": "Cette action ne peut pas être annulée. Votre compte sera définitivement supprimé et toutes vos données seront supprimées de nos serveurs.",
-    "typeToConfirm": "Tapez SUPPRIMER pour confirmer",
+    "typeToConfirm": "Tapez DELETE pour confirmer",
     "cancel": "Annuler",
-    "confirmDelete": "Supprimer le Compte"
+    "confirmDelete": "Supprimer le compte",
+    "deleting": "Suppression...",
+    "accountDeleted": "Compte supprimé avec succès",
+    "deleteFailed": "Échec de la suppression du compte"
   },
   "GuestCard": {
     "title": "Compte",

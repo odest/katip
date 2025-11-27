@@ -132,19 +132,24 @@
     "confirm": "更新"
   },
   "ChangePasswordCard": {
-    "title": "パスワードを変更",
+    "title": "パスワード変更",
     "description": "アカウントを安全に保つためにパスワードを更新してください",
     "currentPassword": "現在のパスワード",
-    "currentPasswordPlaceholder": "現在のパスワードを入力してください",
+    "currentPasswordPlaceholder": "現在のパスワードを入力",
     "newPassword": "新しいパスワード",
-    "newPasswordPlaceholder": "新しいパスワードを入力してください",
-    "confirmPassword": "パスワードを確認",
-    "confirmPasswordPlaceholder": "新しいパスワードを確認してください",
+    "newPasswordPlaceholder": "新しいパスワードを入力",
+    "confirmPassword": "パスワード確認",
+    "confirmPasswordPlaceholder": "新しいパスワードを確認",
     "updatePassword": "パスワードを更新",
     "confirmTitle": "パスワードを更新しますか？",
     "confirmDescription": "パスワードを更新してもよろしいですか？",
     "cancel": "キャンセル",
-    "confirm": "更新"
+    "confirm": "更新",
+    "updating": "更新中...",
+    "passwordUpdated": "パスワードが正常に更新されました！",
+    "passwordsDoNotMatch": "パスワードが一致しません",
+    "incorrectCurrentPassword": "現在のパスワードが正しくありません",
+    "updateFailed": "パスワードの更新に失敗しました"
   },
   "DangerZoneCard": {
     "title": "危険ゾーン",
@@ -268,12 +273,13 @@
   },
   "AuthErrors": {
     "invalidCredentials": "メールアドレスまたはパスワードが無効です。もう一度お試しください。",
-    "userAlreadyRegistered": "このメールアドレスのユーザーは既に存在します。",
+    "userAlreadyRegistered": "このメールアドレスのユーザーはすでに存在します。",
     "passwordTooShort": "パスワードは8文字以上である必要があります。",
+    "weakPassword": "パスワードには小文字、大文字、数字、記号を含める必要があります。",
     "emailNotConfirmed": "ログインする前にメールアドレスを確認してください。",
-    "invalidToken": "確認リンクが無効か、期限切れです。",
-    "rateLimitExceeded": "リクエストが多すぎます。後でもう一度お試しください。",
-    "sessionMissing": "セッションの有効期限が切れました。もう一度ログインしてください。",
+    "invalidToken": "確認リンクが無効か期限切れです。",
+    "rateLimitExceeded": "リクエストが多すぎます。しばらくしてからもう一度お試しください。",
+    "sessionMissing": "セッションが期限切れです。もう一度ログインしてください。",
     "defaultError": "予期しないエラーが発生しました。もう一度お試しください。"
   },
   "SignUpForm": {
@@ -283,7 +289,7 @@
     "email": "メールアドレス",
     "password": "パスワード",
     "confirmPassword": "パスワード（確認）",
-    "passwordRequirement": "8文字以上である必要があります。",
+    "passwordRequirement": "小文字、大文字、数字、記号を含める必要があります。",
     "createAccount": "アカウント作成",
     "creatingAccount": "アカウント作成中...",
     "orContinueWith": "または次で続行",

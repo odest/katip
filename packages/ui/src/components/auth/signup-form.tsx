@@ -48,10 +48,6 @@ export function SignupForm({
       setError(t("passwordMismatchError"));
       return;
     }
-    if (password.length < 8) {
-      setError(t("passwordMinLengthError"));
-      return;
-    }
 
     const { data, error } = await signUp(email, password, fullName);
 
@@ -135,7 +131,7 @@ export function SignupForm({
                     />
                   </Field>
                 </Field>
-                <FieldDescription className="font-mono text-xs">
+                <FieldDescription className="text-xs">
                   {t("passwordRequirement")}
                 </FieldDescription>
               </Field>

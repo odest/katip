@@ -11,6 +11,12 @@ export const getAuthErrorKey = (errorMessage: string): string => {
   if (errorMessage.includes("Password should be at least")) {
     return "passwordTooShort";
   }
+  if (
+    errorMessage.includes("weak") ||
+    errorMessage.includes("should contain")
+  ) {
+    return "weakPassword";
+  }
   if (errorMessage.includes("Email not confirmed")) {
     return "emailNotConfirmed";
   }

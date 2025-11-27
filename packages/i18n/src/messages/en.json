@@ -144,7 +144,12 @@
     "confirmTitle": "Update Password?",
     "confirmDescription": "Are you sure you want to update your password?",
     "cancel": "Cancel",
-    "confirm": "Update"
+    "confirm": "Update",
+    "updating": "Updating...",
+    "passwordUpdated": "Password updated successfully!",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "incorrectCurrentPassword": "Current password is incorrect",
+    "updateFailed": "Failed to update password"
   },
   "DangerZoneCard": {
     "title": "Danger Zone",
@@ -270,6 +275,7 @@
     "invalidCredentials": "Invalid email or password. Please try again.",
     "userAlreadyRegistered": "A user with this email address already exists.",
     "passwordTooShort": "Password should be at least 8 characters.",
+    "weakPassword": "Password must contain lowercase, uppercase, digits, and symbols.",
     "emailNotConfirmed": "Please verify your email address before logging in.",
     "invalidToken": "The verification link is invalid or has expired.",
     "rateLimitExceeded": "Too many requests. Please try again later.",
@@ -283,7 +289,7 @@
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm Password",
-    "passwordRequirement": "Must be at least 8 characters long.",
+    "passwordRequirement": "Must contain lowercase, uppercase, digits, and symbols.",
     "createAccount": "Create Account",
     "creatingAccount": "Creating account...",
     "orContinueWith": "Or continue with",

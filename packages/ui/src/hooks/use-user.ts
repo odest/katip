@@ -129,6 +129,45 @@ export function useUser() {
     }
   }, [user]);
 
+  const changePassword = useCallback(
+    async (
+      currentPassword: string,
+      newPassword: string
+    ): Promise<{ success: boolean; error?: string }> => {
+      if (!user || !user.email) {
+        return { success: false, error: "User not authenticated" };
+      }
+
+      try {
+        const { error: verifyError } = await supabase.auth.signInWithPassword({
+          email: user.email,
+          password: currentPassword,
+        });
+
+        if (verifyError) {
+          return { success: false, error: "incorrectCurrentPassword" };
+        }
+
+        const { error: updateError } = await supabase.auth.updateUser({
+          password: newPassword,
+        });
+
+        if (updateError) {
+          return { success: false, error: updateError.message };
+        }
+
+        return { success: true };
+      } catch (error) {
+        return {
+          success: false,
+          error:
+            error instanceof Error ? error.message : "Password change failed",
+        };
+      }
+    },
+    [user]
+  );
+
   const fullName = useMemo(() => {
     return user?.user_metadata?.full_name || null;
   }, [user?.user_metadata?.full_name]);
@@ -157,6 +196,7 @@ export function useUser() {
     signOut,
     uploadAvatar,
     removeAvatar,
+    changePassword,
     fullName,
     email,
     avatarUrl,

@@ -144,7 +144,12 @@
     "confirmTitle": "Atualizar senha?",
     "confirmDescription": "Tem certeza de que deseja atualizar sua senha?",
     "cancel": "Cancelar",
-    "confirm": "Atualizar"
+    "confirm": "Atualizar",
+    "updating": "Atualizando...",
+    "passwordUpdated": "Senha atualizada com sucesso!",
+    "passwordsDoNotMatch": "As senhas não coincidem",
+    "incorrectCurrentPassword": "A senha atual está incorreta",
+    "updateFailed": "Falha ao atualizar a senha"
   },
   "DangerZoneCard": {
     "title": "Zona de Perigo",
@@ -270,7 +275,8 @@
     "invalidCredentials": "E-mail ou senha inválidos. Por favor, tente novamente.",
     "userAlreadyRegistered": "Já existe um usuário com este endereço de e-mail.",
     "passwordTooShort": "A senha deve ter pelo menos 8 caracteres.",
-    "emailNotConfirmed": "Por favor, verifique seu endereço de e-mail antes de entrar.",
+    "weakPassword": "A senha deve conter minúsculas, maiúsculas, dígitos e símbolos.",
+    "emailNotConfirmed": "Por favor, verifique seu endereço de e-mail antes de fazer login.",
     "invalidToken": "O link de verificação é inválido ou expirou.",
     "rateLimitExceeded": "Muitas solicitações. Por favor, tente novamente mais tarde.",
     "sessionMissing": "Sessão expirada. Por favor, faça login novamente.",
@@ -283,7 +289,7 @@
     "email": "E-mail",
     "password": "Senha",
     "confirmPassword": "Confirmar senha",
-    "passwordRequirement": "Deve ter pelo menos 8 caracteres.",
+    "passwordRequirement": "Deve conter minúsculas, maiúsculas, dígitos e símbolos.",
     "createAccount": "Criar conta",
     "creatingAccount": "Criando conta...",
     "orContinueWith": "Ou continue com",

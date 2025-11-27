@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Lock, Eye, EyeClosed } from "lucide-react";
+import { toast } from "sonner";
 import { useTranslations } from "@workspace/i18n";
+import { useUser } from "@workspace/ui/hooks/use-user";
 import {
   Card,
   CardContent,
@@ -26,9 +28,11 @@ import {
 } from "@workspace/ui/components/input-group";
 import { Label } from "@workspace/ui/components/label";
 import { Button } from "@workspace/ui/components/button";
+import { Spinner } from "@workspace/ui/components/spinner";
 
 export function ChangePasswordCard() {
   const t = useTranslations("ChangePasswordCard");
+  const { changePassword } = useUser();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -36,19 +40,39 @@ export function ChangePasswordCard() {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const isFormValid =
     currentPassword.trim() !== "" &&
     newPassword.trim() !== "" &&
     confirmPassword.trim() !== "";
 
-  const handleUpdatePassword = () => {
-    // TODO: Implement password update logic
-    setShowConfirmDialog(false);
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
-  };
+  const passwordsMatch = newPassword === confirmPassword;
+
+  const handleUpdatePassword = useCallback(async () => {
+    if (!passwordsMatch) {
+      toast.error(t("passwordsDoNotMatch"));
+      return;
+    }
+
+    setIsUpdating(true);
+    const result = await changePassword(currentPassword, newPassword);
+
+    if (result.success) {
+      toast.success(t("passwordUpdated"));
+      setShowConfirmDialog(false);
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } else {
+      if (result.error === "incorrectCurrentPassword") {
+        toast.error(t("incorrectCurrentPassword"));
+      } else {
+        toast.error(t("updateFailed"), { description: result.error });
+      }
+    }
+    setIsUpdating(false);
+  }, [changePassword, currentPassword, newPassword, passwordsMatch, t]);
 
   return (
     <>
@@ -58,8 +82,22 @@ export function ChangePasswordCard() {
           <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col gap-6">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setShowConfirmDialog(true);
+            }}
+            className="flex flex-col gap-6"
+          >
             <div className="grid gap-4">
+              {/* Hidden username field for accessibility */}
+              <input
+                type="text"
+                autoComplete="username"
+                className="sr-only"
+                tabIndex={-1}
+                aria-hidden="true"
+              />
               <div className="grid gap-2">
                 <Label htmlFor="currentPassword">{t("currentPassword")}</Label>
                 <InputGroup>
@@ -69,10 +107,12 @@ export function ChangePasswordCard() {
                     placeholder={t("currentPasswordPlaceholder")}
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
+                    autoComplete="current-password"
                   />
                   <InputGroupAddon align="inline-end">
                     <InputGroupButton
                       size="icon-xs"
+                      type="button"
                       onClick={() =>
                         setShowCurrentPassword(!showCurrentPassword)
                       }
@@ -92,10 +132,12 @@ export function ChangePasswordCard() {
                     placeholder={t("newPasswordPlaceholder")}
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
+                    autoComplete="new-password"
                   />
                   <InputGroupAddon align="inline-end">
                     <InputGroupButton
                       size="icon-xs"
+                      type="button"
                       onClick={() => setShowNewPassword(!showNewPassword)}
                     >
                       {showNewPassword ? <Eye /> : <EyeClosed />}
@@ -113,10 +155,12 @@ export function ChangePasswordCard() {
                     placeholder={t("confirmPasswordPlaceholder")}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
+                    autoComplete="new-password"
                   />
                   <InputGroupAddon align="inline-end">
                     <InputGroupButton
                       size="icon-xs"
+                      type="button"
                       onClick={() =>
                         setShowConfirmPassword(!showConfirmPassword)
                       }
@@ -129,14 +173,14 @@ export function ChangePasswordCard() {
             </div>
 
             <Button
+              type="submit"
               disabled={!isFormValid}
               className="cursor-pointer"
-              onClick={() => setShowConfirmDialog(true)}
             >
               <Lock />
               {t("updatePassword")}
             </Button>
-          </div>
+          </form>
         </CardContent>
       </Card>
 
@@ -151,11 +195,17 @@ export function ChangePasswordCard() {
               variant="outline"
               className="cursor-pointer"
               onClick={() => setShowConfirmDialog(false)}
+              disabled={isUpdating}
             >
               {t("cancel")}
             </Button>
-            <Button className="cursor-pointer" onClick={handleUpdatePassword}>
-              {t("confirm")}
+            <Button
+              className="cursor-pointer"
+              onClick={handleUpdatePassword}
+              disabled={isUpdating}
+            >
+              {isUpdating ? <Spinner /> : null}
+              {isUpdating ? t("updating") : t("confirm")}
             </Button>
           </DialogFooter>
         </DialogContent>

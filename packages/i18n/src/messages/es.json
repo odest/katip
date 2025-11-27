@@ -144,7 +144,12 @@
     "confirmTitle": "¿Actualizar contraseña?",
     "confirmDescription": "¿Está seguro de que desea actualizar su contraseña?",
     "cancel": "Cancelar",
-    "confirm": "Actualizar"
+    "confirm": "Actualizar",
+    "updating": "Actualizando...",
+    "passwordUpdated": "¡Contraseña actualizada exitosamente!",
+    "passwordsDoNotMatch": "Las contraseñas no coinciden",
+    "incorrectCurrentPassword": "La contraseña actual es incorrecta",
+    "updateFailed": "Error al actualizar la contraseña"
   },
   "DangerZoneCard": {
     "title": "Zona de Peligro",
@@ -270,11 +275,12 @@
     "invalidCredentials": "Correo electrónico o contraseña inválidos. Por favor, inténtelo de nuevo.",
     "userAlreadyRegistered": "Ya existe un usuario con esta dirección de correo electrónico.",
     "passwordTooShort": "La contraseña debe tener al menos 8 caracteres.",
+    "weakPassword": "La contraseña debe contener minúsculas, mayúsculas, dígitos y símbolos.",
     "emailNotConfirmed": "Por favor, verifique su dirección de correo electrónico antes de iniciar sesión.",
-    "invalidToken": "El enlace de verificación no es válido o ha caducado.",
+    "invalidToken": "El enlace de verificación es inválido o ha expirado.",
     "rateLimitExceeded": "Demasiadas solicitudes. Por favor, inténtelo de nuevo más tarde.",
-    "sessionMissing": "Sesión caducada. Por favor, inicie sesión de nuevo.",
-    "defaultError": "Ocurrió un error inesperado. Por favor, inténtelo de nuevo."
+    "sessionMissing": "Sesión expirada. Por favor, inicie sesión de nuevo.",
+    "defaultError": "Se produjo un error inesperado. Por favor, inténtelo de nuevo."
   },
   "SignUpForm": {
     "title": "Cree su cuenta",
@@ -283,7 +289,7 @@
     "email": "Correo electrónico",
     "password": "Contraseña",
     "confirmPassword": "Confirmar contraseña",
-    "passwordRequirement": "Debe tener al menos 8 caracteres.",
+    "passwordRequirement": "Debe contener minúsculas, mayúsculas, dígitos y símbolos.",
     "createAccount": "Crear cuenta",
     "creatingAccount": "Creando cuenta...",
     "orContinueWith": "O continuar con",

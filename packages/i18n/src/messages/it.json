@@ -144,7 +144,12 @@
     "confirmTitle": "Aggiornare la password?",
     "confirmDescription": "Sei sicuro di voler aggiornare la tua password?",
     "cancel": "Annulla",
-    "confirm": "Aggiorna"
+    "confirm": "Aggiorna",
+    "updating": "Aggiornamento...",
+    "passwordUpdated": "Password aggiornata con successo!",
+    "passwordsDoNotMatch": "Le password non corrispondono",
+    "incorrectCurrentPassword": "La password attuale non è corretta",
+    "updateFailed": "Impossibile aggiornare la password"
   },
   "DangerZoneCard": {
     "title": "Zona Pericolo",
@@ -270,6 +275,7 @@
     "invalidCredentials": "Email o password non validi. Riprova.",
     "userAlreadyRegistered": "Esiste già un utente con questo indirizzo email.",
     "passwordTooShort": "La password deve contenere almeno 8 caratteri.",
+    "weakPassword": "La password deve contenere minuscole, maiuscole, cifre e simboli.",
     "emailNotConfirmed": "Verifica il tuo indirizzo email prima di accedere.",
     "invalidToken": "Il link di verifica non è valido o è scaduto.",
     "rateLimitExceeded": "Troppe richieste. Riprova più tardi.",
@@ -283,7 +289,7 @@
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Conferma password",
-    "passwordRequirement": "Deve essere lungo almeno 8 caratteri.",
+    "passwordRequirement": "Deve contenere minuscole, maiuscole, cifre e simboli.",
     "createAccount": "Crea account",
     "creatingAccount": "Creazione account in corso...",
     "orContinueWith": "O continua con",

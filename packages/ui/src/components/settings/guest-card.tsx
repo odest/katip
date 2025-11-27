@@ -14,7 +14,7 @@ import { Button } from "@workspace/ui/components/button";
 
 export function GuestCard() {
   const t = useTranslations("GuestCard");
-  const { setOpenDialog, setFormView } = useAuthStore();
+  const { setOpenDialog, formView, setFormView } = useAuthStore();
 
   return (
     <Card>
@@ -35,7 +35,11 @@ export function GuestCard() {
             <Button
               variant="default"
               onClick={() => {
-                setFormView("signin");
+                {
+                  formView == "otp"
+                    ? setFormView("otp")
+                    : setFormView("signin");
+                }
                 setOpenDialog(true);
               }}
             >
@@ -45,7 +49,11 @@ export function GuestCard() {
             <Button
               variant="outline"
               onClick={() => {
-                setFormView("signup");
+                {
+                  formView == "otp"
+                    ? setFormView("otp")
+                    : setFormView("signup");
+                }
                 setOpenDialog(true);
               }}
             >

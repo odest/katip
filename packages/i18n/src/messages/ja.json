@@ -108,8 +108,12 @@
     "avatarUpdated": "アバターが正常に更新されました！",
     "avatarRemoved": "アバターが正常に削除されました！",
     "formatInfo": "JPG、PNGまたはWebP形式",
-    "sizeInfo": "最大サイズ: 1MB",
-    "resizeInfo": "画像は256x256ピクセルにリサイズされます"
+    "sizeInfo": "最大サイズ: 10MB",
+    "resizeInfo": "画像は256x256ピクセルにリサイズされます",
+    "uploadFailed": "アバターのアップロードに失敗しました",
+    "removeFailed": "アバターの削除に失敗しました",
+    "uploading": "アップロード中...",
+    "removing": "削除中..."
   },
   "AccountInfoCard": {
     "title": "アカウント情報",

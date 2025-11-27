@@ -108,8 +108,12 @@
     "avatarUpdated": "Avatar updated successfully!",
     "avatarRemoved": "Avatar removed successfully!",
     "formatInfo": "JPG, PNG or WebP format",
-    "sizeInfo": "Maximum size: 1MB",
-    "resizeInfo": "Image will be resized to 256x256 pixels"
+    "sizeInfo": "Maximum size: 10MB",
+    "resizeInfo": "Image will be resized to 256x256 pixels",
+    "uploadFailed": "Failed to upload avatar",
+    "removeFailed": "Failed to remove avatar",
+    "uploading": "Uploading...",
+    "removing": "Removing..."
   },
   "AccountInfoCard": {
     "title": "Account Information",

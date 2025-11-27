@@ -108,8 +108,12 @@
     "avatarUpdated": "头像更新成功！",
     "avatarRemoved": "头像移除成功！",
     "formatInfo": "JPG、PNG 或 WebP 格式",
-    "sizeInfo": "最大大小: 1MB",
-    "resizeInfo": "图片将被调整为 256x256 像素"
+    "sizeInfo": "最大大小: 10MB",
+    "resizeInfo": "图片将被调整为 256x256 像素",
+    "uploadFailed": "头像上传失败",
+    "removeFailed": "头像移除失败",
+    "uploading": "上传中...",
+    "removing": "删除中..."
   },
   "AccountInfoCard": {
     "title": "账户信息",

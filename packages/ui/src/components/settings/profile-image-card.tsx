@@ -18,28 +18,45 @@ import {
   AvatarImage,
 } from "@workspace/ui/components/avatar";
 import { Button } from "@workspace/ui/components/button";
+import { Spinner } from "@workspace/ui/components/spinner";
 import { ImageCropper } from "@workspace/ui/components/common/image-cropper";
 
 export function ProfileImageCard() {
   const t = useTranslations("ProfileImageCard");
   const [cropperOpen, setCropperOpen] = useState(false);
-  const { avatarUrl: savedAvatarUrl, avatarFallback } = useUser();
-  const [pendingAvatarUrl, setPendingAvatarUrl] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
+  const { avatarUrl, avatarFallback, uploadAvatar, removeAvatar } = useUser();
 
-  const displayAvatarUrl = pendingAvatarUrl || savedAvatarUrl;
   const displayFallback = avatarFallback || "GU";
+  const isLoading = isUploading || isRemoving;
 
-  const handleCropComplete = useCallback((croppedImageUrl: string) => {
-    setPendingAvatarUrl(croppedImageUrl);
-    toast.success(t("avatarUpdated"));
-    // TODO: Upload to Supabase storage and update user metadata
-  }, []);
+  const handleCropComplete = useCallback(
+    async (croppedImageUrl: string) => {
+      setIsUploading(true);
+      const result = await uploadAvatar(croppedImageUrl);
 
-  const handleRemoveAvatar = useCallback(() => {
-    setPendingAvatarUrl(null);
-    toast.success(t("avatarRemoved"));
-    // TODO: Remove from Supabase storage and update user metadata
-  }, [t]);
+      if (result.success) {
+        toast.success(t("avatarUpdated"));
+      } else {
+        toast.error(t("uploadFailed"), { description: result.error });
+      }
+      setIsUploading(false);
+    },
+    [uploadAvatar, t]
+  );
+
+  const handleRemoveAvatar = useCallback(async () => {
+    setIsRemoving(true);
+    const result = await removeAvatar();
+
+    if (result.success) {
+      toast.success(t("avatarRemoved"));
+    } else {
+      toast.error(t("removeFailed"), { description: result.error });
+    }
+    setIsRemoving(false);
+  }, [removeAvatar, t]);
 
   return (
     <Card>
@@ -50,7 +67,7 @@ export function ProfileImageCard() {
       <CardContent>
         <div className="flex items-center gap-4">
           <Avatar className="h-20 w-20 shrink-0">
-            <AvatarImage src={displayAvatarUrl} alt="Profile" />
+            <AvatarImage src={avatarUrl ?? undefined} alt="Profile" />
             <AvatarFallback className="text-xl">
               {displayFallback}
             </AvatarFallback>
@@ -67,18 +84,30 @@ export function ProfileImageCard() {
               variant="outline"
               className="cursor-pointer"
               onClick={() => setCropperOpen(true)}
+              disabled={isLoading}
             >
-              {displayAvatarUrl ? <RefreshCw /> : <Upload />}
-              {displayAvatarUrl ? t("changeAvatar") : t("uploadAvatar")}
+              {isUploading ? (
+                <Spinner />
+              ) : avatarUrl ? (
+                <RefreshCw />
+              ) : (
+                <Upload />
+              )}
+              {isUploading
+                ? t("uploading")
+                : avatarUrl
+                  ? t("changeAvatar")
+                  : t("uploadAvatar")}
             </Button>
-            {displayAvatarUrl && (
+            {avatarUrl && (
               <Button
                 variant="destructive"
                 className="cursor-pointer"
                 onClick={handleRemoveAvatar}
+                disabled={isLoading}
               >
-                <Trash2Icon />
-                {t("removeAvatar")}
+                {isRemoving ? <Spinner /> : <Trash2Icon />}
+                {isRemoving ? t("removing") : t("removeAvatar")}
               </Button>
             )}
           </div>

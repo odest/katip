@@ -108,8 +108,12 @@
     "avatarUpdated": "Avatar başarıyla güncellendi!",
     "avatarRemoved": "Avatar başarıyla kaldırıldı!",
     "formatInfo": "JPG, PNG veya WebP formatı",
-    "sizeInfo": "Maksimum boyut: 1MB",
-    "resizeInfo": "Resim 256x256 piksel olarak yeniden boyutlandırılacak"
+    "sizeInfo": "Maksimum boyut: 10MB",
+    "resizeInfo": "Resim 256x256 piksel olarak yeniden boyutlandırılacak",
+    "uploadFailed": "Avatar yüklenemedi",
+    "removeFailed": "Avatar kaldırılamadı",
+    "uploading": "Yükleniyor...",
+    "removing": "Kaldırılıyor..."
   },
   "AccountInfoCard": {
     "title": "Hesap Bilgileri",

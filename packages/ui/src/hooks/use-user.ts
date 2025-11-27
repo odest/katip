@@ -3,6 +3,7 @@ import { User } from "@supabase/supabase-js";
 import { createClient } from "@workspace/ui/lib/supabase";
 
 const supabase = createClient();
+const AVATAR_BUCKET = "avatars";
 
 export function useUser() {
   const [user, setUser] = useState<User | null>(null);
@@ -35,6 +36,99 @@ export function useUser() {
     await supabase.auth.signOut();
   }, []);
 
+  const uploadAvatar = useCallback(
+    async (dataUrl: string): Promise<{ success: boolean; error?: string }> => {
+      if (!user) return { success: false, error: "User not authenticated" };
+
+      try {
+        const response = await fetch(dataUrl);
+        const blob = await response.blob();
+
+        const fileName = `${user.id}/${Date.now()}.webp`;
+
+        const oldAvatarUrl = user.user_metadata?.avatar_url;
+        if (oldAvatarUrl) {
+          const match = oldAvatarUrl.match(/\/avatars\/(.+)$/);
+          if (match && match[1]) {
+            const oldPath = decodeURIComponent(match[1]);
+            await supabase.storage.from(AVATAR_BUCKET).remove([oldPath]);
+          }
+        }
+
+        const { error: uploadError } = await supabase.storage
+          .from(AVATAR_BUCKET)
+          .upload(fileName, blob, {
+            contentType: "image/webp",
+            upsert: true,
+          });
+
+        if (uploadError) {
+          return { success: false, error: uploadError.message };
+        }
+
+        const {
+          data: { publicUrl },
+        } = supabase.storage.from(AVATAR_BUCKET).getPublicUrl(fileName);
+
+        const { error: updateError } = await supabase.auth.updateUser({
+          data: { avatar_url: publicUrl },
+        });
+
+        if (updateError) {
+          return { success: false, error: updateError.message };
+        }
+
+        return { success: true };
+      } catch (error) {
+        return {
+          success: false,
+          error: error instanceof Error ? error.message : "Upload failed",
+        };
+      }
+    },
+    [user]
+  );
+
+  const removeAvatar = useCallback(async (): Promise<{
+    success: boolean;
+    error?: string;
+  }> => {
+    if (!user) return { success: false, error: "User not authenticated" };
+
+    try {
+      const avatarUrl = user.user_metadata?.avatar_url;
+
+      if (avatarUrl) {
+        const match = avatarUrl.match(/\/avatars\/(.+)$/);
+        if (match && match[1]) {
+          const filePath = decodeURIComponent(match[1]);
+          const { error: deleteError } = await supabase.storage
+            .from(AVATAR_BUCKET)
+            .remove([filePath]);
+
+          if (deleteError) {
+            return { success: false, error: deleteError.message };
+          }
+        }
+      }
+
+      const { error: updateError } = await supabase.auth.updateUser({
+        data: { avatar_url: null },
+      });
+
+      if (updateError) {
+        return { success: false, error: updateError.message };
+      }
+
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Remove failed",
+      };
+    }
+  }, [user]);
+
   const fullName = useMemo(() => {
     return user?.user_metadata?.full_name || null;
   }, [user?.user_metadata?.full_name]);
@@ -61,6 +155,8 @@ export function useUser() {
     user,
     loading,
     signOut,
+    uploadAvatar,
+    removeAvatar,
     fullName,
     email,
     avatarUrl,

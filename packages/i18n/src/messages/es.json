@@ -245,7 +245,8 @@
     "signOutConfirmTitle": "¿Estás seguro de que quieres cerrar sesión?",
     "signOutConfirmDesc": "Se cerrará la sesión de su cuenta.",
     "cancel": "Cancelar",
-    "confirmSignOut": "Cerrar sesión"
+    "confirmSignOut": "Cerrar sesión",
+    "profile": "Perfil"
   },
   "SignInForm": {
     "title": "Bienvenido de nuevo",

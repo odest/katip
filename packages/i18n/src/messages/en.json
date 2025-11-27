@@ -245,7 +245,8 @@
     "signOutConfirmTitle": "Are you sure you want to sign out?",
     "signOutConfirmDesc": "You will be logged out of your account.",
     "cancel": "Cancel",
-    "confirmSignOut": "Sign Out"
+    "confirmSignOut": "Sign Out",
+    "profile": "Profile"
   },
   "SignInForm": {
     "title": "Welcome back",

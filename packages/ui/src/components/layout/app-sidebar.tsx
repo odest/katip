@@ -82,7 +82,7 @@ export function AppSidebar({
         />
       </SidebarContent>
       <SidebarFooter>
-        <UserNav />
+        <UserNav LinkComponent={LinkComponent} />
       </SidebarFooter>
     </Sidebar>
   );

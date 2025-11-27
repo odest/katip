@@ -245,7 +245,8 @@
     "signOutConfirmTitle": "Êtes-vous sûr de vouloir vous déconnecter ?",
     "signOutConfirmDesc": "Vous serez déconnecté de votre compte.",
     "cancel": "Annuler",
-    "confirmSignOut": "Se déconnecter"
+    "confirmSignOut": "Se déconnecter",
+    "profile": "Profil"
   },
   "SignInForm": {
     "title": "Bon retour",

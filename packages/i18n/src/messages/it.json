@@ -245,7 +245,8 @@
     "signOutConfirmTitle": "Sei sicuro di voler uscire?",
     "signOutConfirmDesc": "Verrai disconnesso dal tuo account.",
     "cancel": "Annulla",
-    "confirmSignOut": "Esci"
+    "confirmSignOut": "Esci",
+    "profile": "Profilo"
   },
   "SignInForm": {
     "title": "Bentornato",

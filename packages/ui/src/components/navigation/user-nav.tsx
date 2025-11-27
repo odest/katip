@@ -1,10 +1,12 @@
 "use client";
 
-import { ChevronsUpDown, LogIn, LogOut } from "lucide-react";
+import { ComponentType } from "react";
+import { ChevronsUpDown, LogIn, LogOut, User } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 import { useTranslations } from "@workspace/i18n";
 import { useUser } from "@workspace/ui/hooks/use-user";
 import { useAuthStore } from "@workspace/ui/stores/auth-store";
+import { useSettingsStore } from "@workspace/ui/stores/settings-storage";
 import {
   Avatar,
   AvatarFallback,
@@ -17,6 +19,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuGroup,
 } from "@workspace/ui/components/dropdown-menu";
 import {
   SidebarMenu,
@@ -25,8 +28,20 @@ import {
   useSidebar,
 } from "@workspace/ui/components/sidebar";
 
-export function UserNav() {
+interface UserNavProps {
+  LinkComponent:
+    | ComponentType<{
+        href: string;
+        children: React.ReactNode;
+        onClick?: () => void;
+        className?: string;
+      }>
+    | "a";
+}
+
+export function UserNav({ LinkComponent }: UserNavProps) {
   const { isMobile } = useSidebar();
+  const { setSelectedTab } = useSettingsStore();
   const t = useTranslations("Navigation");
   const { user, loading, fullName, email, avatarUrl, avatarFallback } =
     useUser();
@@ -84,30 +99,41 @@ export function UserNav() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {user ? (
-              <DropdownMenuItem
-                onClick={() => setOpenLogoutDialog(true)}
-                className="cursor-pointer"
-              >
-                <LogOut />
-                {t("signOut")}
+            <DropdownMenuGroup>
+              <DropdownMenuItem asChild className="cursor-pointer">
+                <LinkComponent
+                  href="/settings"
+                  onClick={() => setSelectedTab("account")}
+                >
+                  <User />
+                  {t("profile")}
+                </LinkComponent>
               </DropdownMenuItem>
-            ) : (
-              <DropdownMenuItem
-                onClick={() => {
-                  {
-                    formView == "otp"
-                      ? setFormView("otp")
-                      : setFormView("signin");
-                  }
-                  setOpenDialog(true);
-                }}
-                className="cursor-pointer"
-              >
-                <LogIn />
-                {t("signIn")}
-              </DropdownMenuItem>
-            )}
+              {user ? (
+                <DropdownMenuItem
+                  onClick={() => setOpenLogoutDialog(true)}
+                  className="cursor-pointer"
+                >
+                  <LogOut />
+                  {t("signOut")}
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem
+                  onClick={() => {
+                    {
+                      formView == "otp"
+                        ? setFormView("otp")
+                        : setFormView("signin");
+                    }
+                    setOpenDialog(true);
+                  }}
+                  className="cursor-pointer"
+                >
+                  <LogIn />
+                  {t("signIn")}
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

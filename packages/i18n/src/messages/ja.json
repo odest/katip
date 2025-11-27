@@ -245,7 +245,8 @@
     "signOutConfirmTitle": "ログアウトしてもよろしいですか？",
     "signOutConfirmDesc": "アカウントからログアウトします。",
     "cancel": "キャンセル",
-    "confirmSignOut": "ログアウト"
+    "confirmSignOut": "ログアウト",
+    "profile": "プロフィール"
   },
   "SignInForm": {
     "title": "おかえりなさい",

@@ -245,7 +245,8 @@
     "signOutConfirmTitle": "Вы уверены, что хотите выйти?",
     "signOutConfirmDesc": "Вы выйдете из своей учетной записи.",
     "cancel": "Отмена",
-    "confirmSignOut": "Выйти"
+    "confirmSignOut": "Выйти",
+    "profile": "Профиль"
   },
   "SignInForm": {
     "title": "С возвращением",

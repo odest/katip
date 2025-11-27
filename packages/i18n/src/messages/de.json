@@ -245,7 +245,8 @@
     "signOutConfirmTitle": "Möchten Sie sich wirklich abmelden?",
     "signOutConfirmDesc": "Sie werden von Ihrem Konto abgemeldet.",
     "cancel": "Abbrechen",
-    "confirmSignOut": "Abmelden"
+    "confirmSignOut": "Abmelden",
+    "profile": "Profil"
   },
   "SignInForm": {
     "title": "Willkommen zurück",

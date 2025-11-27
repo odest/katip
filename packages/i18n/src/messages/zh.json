@@ -245,7 +245,8 @@
     "signOutConfirmTitle": "您确定要退出吗？",
     "signOutConfirmDesc": "您将退出您的帐户。",
     "cancel": "取消",
-    "confirmSignOut": "退出"
+    "confirmSignOut": "退出",
+    "profile": "个人资料"
   },
   "SignInForm": {
     "title": "欢迎回来",

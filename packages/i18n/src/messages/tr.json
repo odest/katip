@@ -245,7 +245,8 @@
     "signOutConfirmTitle": "Çıkış yapmak istediğinizden emin misiniz?",
     "signOutConfirmDesc": "Hesabınızdan çıkış yapılacaktır.",
     "cancel": "İptal",
-    "confirmSignOut": "Çıkış Yap"
+    "confirmSignOut": "Çıkış Yap",
+    "profile": "Profil"
   },
   "SignInForm": {
     "title": "Tekrar hoş geldiniz",

@@ -3,6 +3,7 @@
 import { isTauri } from "@tauri-apps/api/core";
 import { useTranslations } from "@workspace/i18n";
 import { useUser } from "@workspace/ui/hooks/use-user";
+import { useSettingsStore, type SettingsTabs } from "@workspace/ui/stores/settings-storage";
 import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
 import {
   Tabs,
@@ -29,6 +30,7 @@ import { ThemesList } from "@workspace/ui/components/settings/themes-list";
 export function SettingsPage() {
   const t = useTranslations("SettingsPage");
   const { loading, user } = useUser();
+  const { selectedTab, setSelectedTab } = useSettingsStore();
 
   return (
     <ScrollArea className="overflow-y-auto w-full">
@@ -38,7 +40,7 @@ export function SettingsPage() {
             <h1 className="text-3xl font-bold">{t("title")}</h1>
             <p className="text-muted-foreground">{t("description")}</p>
           </div>
-          <Tabs defaultValue="general">
+          <Tabs value={selectedTab} onValueChange={(value) => setSelectedTab(value as SettingsTabs)}>
             <TabsList className="w-full max-w-3xl mb-4">
               <TabsTrigger value="general">{t("general")}</TabsTrigger>
               <TabsTrigger value="models">{t("models")}</TabsTrigger>

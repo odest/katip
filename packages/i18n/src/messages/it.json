@@ -129,7 +129,10 @@
     "confirmEmailTitle": "Aggiornare l'email?",
     "confirmEmailDescription": "Sei sicuro di voler aggiornare il tuo indirizzo email? Verrà inviata un'email di verifica al nuovo indirizzo.",
     "cancel": "Annulla",
-    "confirm": "Aggiorna"
+    "confirm": "Aggiorna",
+    "updating": "Aggiornamento...",
+    "nameUpdated": "Nome e cognome aggiornati con successo!",
+    "updateFailed": "Aggiornamento fallito"
   },
   "ChangePasswordCard": {
     "title": "Cambia Password",

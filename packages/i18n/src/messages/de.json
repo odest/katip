@@ -129,7 +129,10 @@
     "confirmEmailTitle": "E-Mail aktualisieren?",
     "confirmEmailDescription": "Möchten Sie Ihre E-Mail-Adresse wirklich aktualisieren? Eine Bestätigungs-E-Mail wird an die neue Adresse gesendet.",
     "cancel": "Abbrechen",
-    "confirm": "Aktualisieren"
+    "confirm": "Aktualisieren",
+    "updating": "Aktualisieren...",
+    "nameUpdated": "Name und Nachname erfolgreich aktualisiert!",
+    "updateFailed": "Aktualisierung fehlgeschlagen"
   },
   "ChangePasswordCard": {
     "title": "Passwort ändern",

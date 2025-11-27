@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Save } from "lucide-react";
+import { toast } from "sonner";
 import { useTranslations } from "@workspace/i18n";
 import { useUser } from "@workspace/ui/hooks/use-user";
 import {
@@ -22,10 +23,16 @@ import {
 import { Input } from "@workspace/ui/components/input";
 import { Label } from "@workspace/ui/components/label";
 import { Button } from "@workspace/ui/components/button";
+import { Spinner } from "@workspace/ui/components/spinner";
 
 export function AccountInfoCard() {
   const t = useTranslations("AccountInfoCard");
-  const { user, fullName: userFullName, email: userEmail } = useUser();
+  const {
+    user,
+    fullName: userFullName,
+    email: userEmail,
+    updateName,
+  } = useUser();
 
   const initialFullName = userFullName || "";
   const initialEmail = userEmail || "";
@@ -36,6 +43,7 @@ export function AccountInfoCard() {
   const [pendingAction, setPendingAction] = useState<"name" | "email" | null>(
     null
   );
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -57,15 +65,25 @@ export function AccountInfoCard() {
     setShowConfirmDialog(true);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = useCallback(async () => {
     if (pendingAction === "name") {
-      // TODO: Implement update name logic
+      setIsUpdating(true);
+      const result = await updateName(fullName.trim());
+
+      if (result.success) {
+        toast.success(t("nameUpdated"));
+        setShowConfirmDialog(false);
+        setPendingAction(null);
+      } else {
+        toast.error(t("updateFailed"), { description: result.error });
+      }
     } else if (pendingAction === "email") {
       // TODO: Implement update email logic
+      setShowConfirmDialog(false);
+      setPendingAction(null);
     }
-    setShowConfirmDialog(false);
-    setPendingAction(null);
-  };
+    setIsUpdating(false);
+  }, [pendingAction, fullName, updateName, t]);
 
   return (
     <>
@@ -140,12 +158,18 @@ export function AccountInfoCard() {
             <Button
               variant="outline"
               className="cursor-pointer"
+              disabled={isUpdating}
               onClick={() => setShowConfirmDialog(false)}
             >
               {t("cancel")}
             </Button>
-            <Button className="cursor-pointer" onClick={handleConfirm}>
-              {t("confirm")}
+            <Button
+              className="cursor-pointer"
+              disabled={isUpdating}
+              onClick={handleConfirm}
+            >
+              {isUpdating && <Spinner />}
+              {isUpdating ? t("updating") : t("confirm")}
             </Button>
           </DialogFooter>
         </DialogContent>

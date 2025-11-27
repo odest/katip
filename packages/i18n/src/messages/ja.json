@@ -129,7 +129,10 @@
     "confirmEmailTitle": "メールを更新しますか？",
     "confirmEmailDescription": "メールアドレスを更新してもよろしいですか？新しいアドレスに確認メールが送信されます。",
     "cancel": "キャンセル",
-    "confirm": "更新"
+    "confirm": "更新",
+    "updating": "更新中...",
+    "nameUpdated": "氏名が正常に更新されました！",
+    "updateFailed": "更新に失敗しました"
   },
   "ChangePasswordCard": {
     "title": "パスワード変更",

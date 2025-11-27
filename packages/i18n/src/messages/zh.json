@@ -129,7 +129,10 @@
     "confirmEmailTitle": "更新邮箱？",
     "confirmEmailDescription": "您确定要更新您的电子邮件地址吗？验证邮件将发送到新地址。",
     "cancel": "取消",
-    "confirm": "更新"
+    "confirm": "更新",
+    "updating": "更新中...",
+    "nameUpdated": "姓名更新成功！",
+    "updateFailed": "更新失败"
   },
   "ChangePasswordCard": {
     "title": "修改密码",

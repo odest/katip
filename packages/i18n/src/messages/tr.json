@@ -129,7 +129,10 @@
     "confirmEmailTitle": "E-posta Güncellensin mi?",
     "confirmEmailDescription": "E-posta adresinizi güncellemek istediğinizden emin misiniz? Yeni adrese bir doğrulama e-postası gönderilecektir.",
     "cancel": "İptal",
-    "confirm": "Güncelle"
+    "confirm": "Güncelle",
+    "updating": "Güncelleniyor...",
+    "nameUpdated": "Ad ve soyad başarıyla güncellendi!",
+    "updateFailed": "Güncelleme başarısız oldu"
   },
   "ChangePasswordCard": {
     "title": "Şifre Değiştir",

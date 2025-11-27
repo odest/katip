@@ -129,7 +129,10 @@
     "confirmEmailTitle": "Update Email?",
     "confirmEmailDescription": "Are you sure you want to update your email address? A verification email will be sent to the new address.",
     "cancel": "Cancel",
-    "confirm": "Update"
+    "confirm": "Update",
+    "updating": "Updating...",
+    "nameUpdated": "Name and surname updated successfully!",
+    "updateFailed": "Failed to update"
   },
   "ChangePasswordCard": {
     "title": "Change Password",

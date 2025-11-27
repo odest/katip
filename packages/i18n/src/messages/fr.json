@@ -129,7 +129,10 @@
     "confirmEmailTitle": "Mettre à jour l'email ?",
     "confirmEmailDescription": "Êtes-vous sûr de vouloir mettre à jour votre adresse e-mail ? Un e-mail de vérification sera envoyé à la nouvelle adresse.",
     "cancel": "Annuler",
-    "confirm": "Mettre à jour"
+    "confirm": "Mettre à jour",
+    "updating": "Mise à jour...",
+    "nameUpdated": "Nom et prénom mis à jour avec succès !",
+    "updateFailed": "Échec de la mise à jour"
   },
   "ChangePasswordCard": {
     "title": "Changer le mot de passe",

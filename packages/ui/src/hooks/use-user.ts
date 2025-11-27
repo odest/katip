@@ -38,7 +38,8 @@ export function useUser() {
 
   const uploadAvatar = useCallback(
     async (dataUrl: string): Promise<{ success: boolean; error?: string }> => {
-      if (!user) return { success: false, error: "User not authenticated" };
+      if (!user || !user.email)
+        return { success: false, error: "User not authenticated" };
 
       try {
         const response = await fetch(dataUrl);
@@ -93,7 +94,8 @@ export function useUser() {
     success: boolean;
     error?: string;
   }> => {
-    if (!user) return { success: false, error: "User not authenticated" };
+    if (!user || !user.email)
+      return { success: false, error: "User not authenticated" };
 
     try {
       const avatarUrl = user.user_metadata?.avatar_url;
@@ -128,6 +130,32 @@ export function useUser() {
       };
     }
   }, [user]);
+
+  const updateName = useCallback(
+    async (newName: string): Promise<{ success: boolean; error?: string }> => {
+      if (!user || !user.email) {
+        return { success: false, error: "User not authenticated" };
+      }
+
+      try {
+        const { error: updateError } = await supabase.auth.updateUser({
+          data: { full_name: newName },
+        });
+
+        if (updateError) {
+          return { success: false, error: updateError.message };
+        }
+
+        return { success: true };
+      } catch (error) {
+        return {
+          success: false,
+          error: error instanceof Error ? error.message : "Name update failed",
+        };
+      }
+    },
+    [user]
+  );
 
   const changePassword = useCallback(
     async (
@@ -234,6 +262,7 @@ export function useUser() {
     signOut,
     uploadAvatar,
     removeAvatar,
+    updateName,
     changePassword,
     deleteAccount,
     fullName,

@@ -3,11 +3,17 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 use tauri::{AppHandle, Emitter, Listener, State};
 use tokio::sync::Mutex as TokioMutex;
+
+#[cfg(not(target_os = "android"))]
 use whisper_rs::{
     FullParams, SamplingStrategy, SegmentCallbackData, WhisperContext, WhisperContextParameters,
 };
 
+#[cfg(not(target_os = "android"))]
 pub struct TranscriptionState(pub Arc<TokioMutex<Option<WhisperContext>>>);
+
+#[cfg(target_os = "android")]
+pub struct TranscriptionState(pub Arc<TokioMutex<Option<()>>>);
 
 static CANCEL_FLAG: Lazy<Arc<AtomicBool>> = Lazy::new(|| Arc::new(AtomicBool::new(false)));
 static PROGRESS_CALLBACK: Lazy<Mutex<Option<Box<dyn Fn(i32) + Send + Sync>>>> =
@@ -47,6 +53,7 @@ struct SegmentPayload {
     text: String,
 }
 
+#[cfg(not(target_os = "android"))]
 #[tauri::command]
 pub async fn load_model(
     model_path: String,
@@ -67,6 +74,18 @@ pub async fn load_model(
     Ok(())
 }
 
+#[cfg(target_os = "android")]
+#[tauri::command]
+pub async fn load_model(
+    _model_path: String,
+    _use_gpu: bool,
+    _gpu_device: Option<i32>,
+    _state: State<'_, TranscriptionState>,
+) -> Result<(), String> {
+    Err("Not supported on Android".to_string())
+}
+
+#[cfg(not(target_os = "android"))]
 #[tauri::command]
 pub async fn transcribe(
     options: TranscriptionOptions,
@@ -210,10 +229,27 @@ pub async fn transcribe(
     Ok(())
 }
 
+#[cfg(target_os = "android")]
+#[tauri::command]
+pub async fn transcribe(
+    _options: TranscriptionOptions,
+    _app_handle: AppHandle,
+    _state: State<'_, TranscriptionState>,
+) -> Result<(), String> {
+    Err("Not supported on Android".to_string())
+}
+
+#[cfg(not(target_os = "android"))]
 #[tauri::command]
 pub async fn cancel_transcription(app_handle: AppHandle) -> Result<(), String> {
     app_handle
         .emit("abort_transcribe", ())
         .map_err(|e| e.to_string())?;
     Ok(())
+}
+
+#[cfg(target_os = "android")]
+#[tauri::command]
+pub async fn cancel_transcription(_app_handle: AppHandle) -> Result<(), String> {
+    Err("Not supported on Android".to_string())
 }

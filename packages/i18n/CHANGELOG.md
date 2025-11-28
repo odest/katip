@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.3](https://github.com/odest/katip/compare/v0.1.2...v0.1.3) (2025-11-28)
+## [0.1.1](https://github.com/odest/katip/compare/v0.1.0...v0.1.1) (2025-11-28)
 
 
 ### Features
@@ -10,7 +10,6 @@
 * add per-file download progress UI and translation keys ([61a7187](https://github.com/odest/katip/commit/61a7187930452d61a081ccb001b68c88b5f88f8a))
 * add segment editing and export as file ([75c91d2](https://github.com/odest/katip/commit/75c91d21ba20f91b31475dee18eb0c267bf7b11c))
 * **auth:** add forgot password and reset password flow ([412d089](https://github.com/odest/katip/commit/412d089cea4776bb09a7ded419ee8f0a8396bf19))
-* **auth:** add GitHub OAuth provider for signin and signup ([d2858b3](https://github.com/odest/katip/commit/d2858b3a8c803e5ebebb682424343a68ddd291b1))
 * **auth:** Add Supabase auth, UI components, and OTP flow ([a272ad1](https://github.com/odest/katip/commit/a272ad1b571e5eba20d083aad20c05da66e88a35))
 * **auth:** enable account deletion with validation ([209e0f8](https://github.com/odest/katip/commit/209e0f8628f8880baf0d3b68ec97b01740529251))
 * **auth:** enable avatar upload/remove with validation ([3633a7e](https://github.com/odest/katip/commit/3633a7e7fca856dee30ab880937694e1bb271672))
@@ -18,8 +17,6 @@
 * **auth:** enable update email with validation ([61c5080](https://github.com/odest/katip/commit/61c508071096c0d5bb3e848bd5dc1305afddd47d))
 * **auth:** enable update name with validation ([89914d1](https://github.com/odest/katip/commit/89914d1feae68119a6e124b225524dff87fead81))
 * **auth:** implement comprehensive authentication system and user settings ([186b2ea](https://github.com/odest/katip/commit/186b2ea36ed9a7709fc0d35e327d35a86ddfbdc2))
-* **ci:** add Vulkan GPU acceleration support for Linux and Windows builds ([c8634d5](https://github.com/odest/katip/commit/c8634d5f74ddd1b0e047b630d6b79027fca3e0d6))
-* **gpu:** add Vulkan GPU acceleration support ([31a5e79](https://github.com/odest/katip/commit/31a5e799ce469ec3847d5dcf7048ab7b31221f53))
 * **i18n:** add missing translations to panels and pickers ([caea6ee](https://github.com/odest/katip/commit/caea6eeed44f74a629eafae0c50d5a320ddeb07a))
 * **settings:** Add AI provider card to settings page ([1f12892](https://github.com/odest/katip/commit/1f12892de539a3c9d80965e64ce32bc48e46593b))
 * **transcription:** add basic transcription logic and UI ([8e2f44d](https://github.com/odest/katip/commit/8e2f44d0d20b6030da0893523f2e8894f838a3cf))
@@ -40,50 +37,11 @@
 * **web:** add cached models card to manage cached models ([e99baff](https://github.com/odest/katip/commit/e99baff87706f070b543f0ca29aacaf2cb59109e))
 
 
-### Bug Fixes
-
-* **ci:** add required macOS environment variables (close [#5](https://github.com/odest/katip/issues/5)) ([81cb1d9](https://github.com/odest/katip/commit/81cb1d98cc9530318f8c54447864d34b5ddb7b93))
-* **ci:** Replace tauri-action with manual build for macOS debugging ([d4f4d2e](https://github.com/odest/katip/commit/d4f4d2ea3f98740263d9a1194a04bd0d3be315dc))
-* **ci:** Set specific env variables to resolve macOS build failures ([855a8a7](https://github.com/odest/katip/commit/855a8a75767bfab9d8277edfdbea46f213379423))
-* **ci:** Temporarily fix macOS build errors with CMAKE_ARGS ([0886403](https://github.com/odest/katip/commit/08864032d7e8e860a5ffd5a5faf907c9e6a60805))
-* **ci:** use absolute path for Vulkan SDK installation on Windows ([3a09da9](https://github.com/odest/katip/commit/3a09da9fb1184a9234fef75c0000edf469a34fbc))
-* **ci:** Vulkan SDK setup for Windows and Linux builds ([b065981](https://github.com/odest/katip/commit/b06598178ddf4e3224c5422144e62e6dc2701dc2))
-
-
-### Documentation
-
-* update README and contributing guide ([44ed5af](https://github.com/odest/katip/commit/44ed5af409896be70eec8f4de17ec265dbc1dca3))
-
-
 ### Code Refactoring
 
-* **auth:** move auth components to auth/ and add useAuth hook ([2ac036c](https://github.com/odest/katip/commit/2ac036cb8795995cb4a8bbf87a84bab007f643df))
-* **auth:** refactor auth and user navigation via central store ([4303de3](https://github.com/odest/katip/commit/4303de3e42ef7d52128e304068e18749b48cda65))
 * introduce toolbar and segment list for transcription views ([9093dfc](https://github.com/odest/katip/commit/9093dfc33a65bab87715792d111c93d7d26d895a))
 * remove title and description from HomePage and SettingsPage ([f81998d](https://github.com/odest/katip/commit/f81998d469b3e9833ce33fa7263b86962ae236e2))
 * remove unused pages and i18n messages ([9c2be6f](https://github.com/odest/katip/commit/9c2be6f903524f68ce8b63dad8172746c7ebcb11))
 * rename audio/model stores, add Tauri fs scope and drop support ([4029b8f](https://github.com/odest/katip/commit/4029b8f503abdda3a622be202604d740ac40942a))
 * rename FileUploadCard to AudioSelectCard and selection logic ([49ac0a7](https://github.com/odest/katip/commit/49ac0a7c7c0cec1b43ef6c339dce1138e4bc906e))
-* replace local component state with Zustand stores ([ed9f0d7](https://github.com/odest/katip/commit/ed9f0d7b13b8ede289ebbc008b31b0c50d3d79ac))
 * **ui:** reorganize UI components, drop unused code, add advanced options ([f63da3f](https://github.com/odest/katip/commit/f63da3f66a3224682735f2b30c67142358a14909))
-
-
-### Continuous Integration
-
-* **macos:** add detailed logging and artifact upload for build debugging ([81e972d](https://github.com/odest/katip/commit/81e972dde2158dc85756eaa7497cd318f563623b))
-
-## [0.1.2](https://github.com/odest/katip/compare/v0.1.1...v0.1.2) (2025-10-20)
-
-
-### Features
-
-* **native:** add dialog and fs plugins and audio picker component ([d7be847](https://github.com/odest/katip/commit/d7be84753afbc22b560d98af9cc68bb5cc268fe5))
-* **native:** add whisper transcribe support for native desktop ([6152560](https://github.com/odest/katip/commit/615256061e692c0aa86177b731d9f420af10323d))
-* **web:** add whisper wasm transcribe support for web ([320e1a7](https://github.com/odest/katip/commit/320e1a7bd3bc0e5e85685bc102267c356f6d1fc5))
-
-## [0.1.1](https://github.com/odest/katip/compare/v0.1.0...v0.1.1) (2025-10-17)
-
-
-### Code Refactoring
-
-* rename project to katip and update versions ([969d76a](https://github.com/odest/katip/commit/969d76a34d0d19214b0c8fe43dbbee44b4d1b14c))

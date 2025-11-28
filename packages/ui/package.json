@@ -9,6 +9,7 @@
     "shadcn": "pnpm dlx shadcn@latest"
   },
   "dependencies": {
+    "@fabianlars/tauri-plugin-oauth": "^2.0.0",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-checkbox": "^1.3.3",
     "@radix-ui/react-collapsible": "^1.1.12",
@@ -33,6 +34,7 @@
     "@tauri-apps/plugin-dialog": "~2",
     "@tauri-apps/plugin-fs": "~2",
     "@tauri-apps/plugin-http": "~2.5.4",
+    "@tauri-apps/plugin-opener": "^2.5.0",
     "@tauri-apps/plugin-os": "~2",
     "@xenova/transformers": "2.7.0",
     "class-variance-authority": "^0.7.1",
@@ -73,6 +75,7 @@
     "./lib/*": "./src/lib/*.ts",
     "./hooks/*": "./src/hooks/*.ts",
     "./stores/*": "./src/stores/*.ts",
-    "./config/*": "./src/config/*.ts"
+    "./config/*": "./src/config/*.ts",
+    "./scripts/*": "./src/scripts/*.ts"
   }
 }

@@ -65,24 +65,26 @@ export function ProfileImageCard() {
         <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center gap-4">
-          <Avatar className="h-20 w-20 shrink-0">
-            <AvatarImage src={avatarUrl ?? undefined} alt="Profile" />
-            <AvatarFallback className="text-xl">
-              {displayFallback}
-            </AvatarFallback>
-          </Avatar>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          <div className="flex items-center gap-4 flex-1">
+            <Avatar className="h-20 w-20 shrink-0">
+              <AvatarImage src={avatarUrl ?? undefined} alt="Profile" />
+              <AvatarFallback className="text-xl">
+                {displayFallback}
+              </AvatarFallback>
+            </Avatar>
 
-          <div className="flex flex-col gap-0.5 flex-1">
-            <p className="text-xs text-muted-foreground">{t("formatInfo")}</p>
-            <p className="text-xs text-muted-foreground">{t("sizeInfo")}</p>
-            <p className="text-xs text-muted-foreground">{t("resizeInfo")}</p>
+            <div className="flex flex-col gap-0.5 flex-1">
+              <p className="text-xs text-muted-foreground">{t("formatInfo")}</p>
+              <p className="text-xs text-muted-foreground">{t("sizeInfo")}</p>
+              <p className="text-xs text-muted-foreground">{t("resizeInfo")}</p>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center justify-center gap-2 w-full sm:w-auto sm:shrink-0">
             <Button
               variant="outline"
-              className="cursor-pointer"
+              className="cursor-pointer flex-1 sm:flex-none"
               onClick={() => setCropperOpen(true)}
               disabled={isLoading}
             >
@@ -102,7 +104,7 @@ export function ProfileImageCard() {
             {avatarUrl && (
               <Button
                 variant="destructive"
-                className="cursor-pointer"
+                className="cursor-pointer flex-1 sm:flex-none"
                 onClick={handleRemoveAvatar}
                 disabled={isLoading}
               >

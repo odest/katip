@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentType } from "react";
+import { ComponentType, useCallback } from "react";
 import { ChevronsUpDown, LogIn, LogOut, User } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 import { useTranslations } from "@workspace/i18n";
@@ -40,7 +40,7 @@ interface UserNavProps {
 }
 
 export function UserNav({ LinkComponent }: UserNavProps) {
-  const { isMobile } = useSidebar();
+  const { isMobile, setOpenMobile } = useSidebar();
   const { setSelectedTab } = useSettingsStore();
   const t = useTranslations("Navigation");
   const { user, loading, fullName, email, avatarUrl, avatarFallback } =
@@ -52,6 +52,13 @@ export function UserNav({ LinkComponent }: UserNavProps) {
   const displayEmail = email || t("guestEmail");
   const displayFallback =
     avatarFallback || t("guest").substring(0, 2).toUpperCase();
+
+  const handleLinkClick = useCallback(() => {
+    if (isMobile) {
+      setSelectedTab("account");
+      setOpenMobile(false);
+    }
+  }, [isMobile, setOpenMobile, setSelectedTab]);
 
   return (
     <SidebarMenu>
@@ -101,10 +108,7 @@ export function UserNav({ LinkComponent }: UserNavProps) {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className="cursor-pointer">
-                <LinkComponent
-                  href="/settings"
-                  onClick={() => setSelectedTab("account")}
-                >
+                <LinkComponent href="/settings" onClick={handleLinkClick}>
                   <User />
                   {t("profile")}
                 </LinkComponent>

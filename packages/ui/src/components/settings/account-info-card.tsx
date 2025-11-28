@@ -114,7 +114,7 @@ export function AccountInfoCard() {
             <div className="grid gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="fullName">{t("fullName")}</Label>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                   <Input
                     id="fullName"
                     placeholder={t("fullNamePlaceholder")}
@@ -123,7 +123,7 @@ export function AccountInfoCard() {
                   />
                   <Button
                     disabled={!isFullNameChanged}
-                    className="cursor-pointer"
+                    className="cursor-pointer w-full sm:w-auto"
                     onClick={() => {
                       setShowConfirmDialog(true);
                     }}
@@ -136,7 +136,7 @@ export function AccountInfoCard() {
 
               <div className="grid gap-2">
                 <Label htmlFor="email">{t("email")}</Label>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                   <Input
                     id="email"
                     type="email"
@@ -146,7 +146,7 @@ export function AccountInfoCard() {
                   />
                   <Button
                     disabled={!isEmailChanged}
-                    className="cursor-pointer"
+                    className="cursor-pointer w-full sm:w-auto"
                     onClick={() => {
                       setShowPasswordDialog(true);
                     }}

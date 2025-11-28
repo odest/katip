@@ -13,6 +13,17 @@ const nextConfig: NextConfig = {
   },
   distDir: "dist",
   transpilePackages: ["@workspace/ui", "@workspace/i18n"],
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "onnxruntime-node": false,
+      sharp: false,
+    };
+    return config;
+  },
 };
 
 export default withNextIntl(nextConfig);

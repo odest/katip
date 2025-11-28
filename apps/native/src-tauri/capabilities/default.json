@@ -16,6 +16,9 @@
     "clipboard-manager:allow-write-text",
     "http:default",
     "http:allow-fetch",
+    "oauth:default",
+    "oauth:allow-start",
+    "oauth:allow-cancel",
     {
       "identifier": "http:default",
       "allow": [

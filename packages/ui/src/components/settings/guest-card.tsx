@@ -31,9 +31,10 @@ export function GuestCard() {
           <p className="text-sm text-muted-foreground max-w-sm">
             {t("welcomeMessage")}
           </p>
-          <div className="flex gap-3 pt-6">
+          <div className="flex flex-col sm:flex-row gap-3 p-6  w-full sm:w-auto">
             <Button
               variant="default"
+              className="cursor-pointer"
               onClick={() => {
                 {
                   formView == "otp"
@@ -48,6 +49,7 @@ export function GuestCard() {
             </Button>
             <Button
               variant="outline"
+              className="cursor-pointer"
               onClick={() => {
                 {
                   formView == "otp"

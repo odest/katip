@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.1.3](https://github.com/odest/katip/compare/v0.1.2...v0.1.3) (2025-11-28)
+
+
+### Features
+
+* add copy to clipboard support to transcription views ([b14b7b7](https://github.com/odest/katip/commit/b14b7b77c62778591b8c07fd9d625b4dacbb3db8))
+* add editing, export, and clipboard support with new toolbar and segment list ([0e53894](https://github.com/odest/katip/commit/0e5389438cf84cf2fb4874799c9b0a2ad69e07ce))
+* add segment editing and export as file ([75c91d2](https://github.com/odest/katip/commit/75c91d21ba20f91b31475dee18eb0c267bf7b11c))
+* **auth:** add GitHub OAuth provider for signin and signup ([d2858b3](https://github.com/odest/katip/commit/d2858b3a8c803e5ebebb682424343a68ddd291b1))
+* **auth:** Add Supabase auth, UI components, and OTP flow ([a272ad1](https://github.com/odest/katip/commit/a272ad1b571e5eba20d083aad20c05da66e88a35))
+* **auth:** implement comprehensive authentication system and user settings ([186b2ea](https://github.com/odest/katip/commit/186b2ea36ed9a7709fc0d35e327d35a86ddfbdc2))
+* **gpu:** add Vulkan GPU acceleration support ([31a5e79](https://github.com/odest/katip/commit/31a5e799ce469ec3847d5dcf7048ab7b31221f53))
+* **transcription:** add basic transcription logic and UI ([8e2f44d](https://github.com/odest/katip/commit/8e2f44d0d20b6030da0893523f2e8894f838a3cf))
+* **transcription:** implement desktop and web transcription support ([c5a7099](https://github.com/odest/katip/commit/c5a70994aa84411b972aa8089c6ae766e7df8770))
+* **ui:** add basic transcribe page, navigation and UI enhancements ([59f45e9](https://github.com/odest/katip/commit/59f45e9393de8690bf195d1aaee866a5e454c3d3))
+* **ui:** add browser capabilities badge & hook, update i18n ([90b92d8](https://github.com/odest/katip/commit/90b92d8e7a1965403ea0ea2c1f212e02da8864a1))
+* **ui:** add file upload component and toast wrapper ([071cfd9](https://github.com/odest/katip/commit/071cfd9a6b81a29c7fa9525e84bc3e925c9ee0df))
+* **ui:** add local LLM summarization and action item extraction ([103f04c](https://github.com/odest/katip/commit/103f04cc10c3ca428776c6dfdf5ec60ee62a6c9f))
+* **ui:** add local LLM summarization support ([ab48911](https://github.com/odest/katip/commit/ab489119734d2227717bd319671c2656ad67d15d))
+
+
+### Code Refactoring
+
+* remove unused pages and i18n messages ([9c2be6f](https://github.com/odest/katip/commit/9c2be6f903524f68ce8b63dad8172746c7ebcb11))
+* rename audio/model stores, add Tauri fs scope and drop support ([4029b8f](https://github.com/odest/katip/commit/4029b8f503abdda3a622be202604d740ac40942a))
+
 ## [0.1.2](https://github.com/odest/katip/compare/v0.1.1...v0.1.2) (2025-10-20)
 
 

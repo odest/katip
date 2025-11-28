@@ -1,7 +1,5 @@
 {
   "HomePage": {
-    "title": "使用Whisper语音转文字",
-    "description": "将您的音频转换为准确的文本转录",
     "startTranscription": "开始转录"
   },
   "TranscribePage": {
@@ -93,8 +91,6 @@
     "noActionsAvailable": "无可用操作项"
   },
   "SettingsPage": {
-    "title": "设置",
-    "description": "管理您的应用程序首选项并自定义您的体验。",
     "general": "常规",
     "models": "模型",
     "account": "账户"

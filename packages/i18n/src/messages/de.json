@@ -1,7 +1,5 @@
 {
   "HomePage": {
-    "title": "Sprache-zu-Text mit Whisper",
-    "description": "Verwandeln Sie Ihre Audiodateien in präzise Texttranskriptionen",
     "startTranscription": "Transkription starten"
   },
   "TranscribePage": {
@@ -93,8 +91,6 @@
     "noActionsAvailable": "Keine Aktionselemente verfügbar"
   },
   "SettingsPage": {
-    "title": "Einstellungen",
-    "description": "Verwalten Sie Ihre Anwendungseinstellungen und passen Sie Ihre Erfahrung an.",
     "general": "Allgemein",
     "models": "Modelle",
     "account": "Konto"

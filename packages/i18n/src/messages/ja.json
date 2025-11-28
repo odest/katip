@@ -1,7 +1,5 @@
 {
   "HomePage": {
-    "title": "Whisperで音声からテキストへ",
-    "description": "音声を正確なテキスト文字起こしに変換",
     "startTranscription": "文字起こしを開始"
   },
   "TranscribePage": {
@@ -93,8 +91,6 @@
     "noActionsAvailable": "アクションアイテムはありません"
   },
   "SettingsPage": {
-    "title": "設定",
-    "description": "アプリケーションの設定を管理し、体験をカスタマイズします。",
     "general": "一般",
     "models": "モデル",
     "account": "アカウント"

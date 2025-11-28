@@ -1,7 +1,5 @@
 {
   "HomePage": {
-    "title": "Voz a Texto con Whisper",
-    "description": "Transforma tu audio en transcripciones de texto precisas",
     "startTranscription": "Iniciar transcripción"
   },
   "TranscribePage": {
@@ -93,8 +91,6 @@
     "noActionsAvailable": "No hay elementos de acción disponibles"
   },
   "SettingsPage": {
-    "title": "Configuración",
-    "description": "Administre las preferencias de su aplicación y personalice su experiencia.",
     "general": "General",
     "models": "Modelos",
     "account": "Cuenta"

@@ -1,7 +1,5 @@
 {
   "HomePage": {
-    "title": "Speech-to-Text with Whisper",
-    "description": "Transform your audio into accurate text transcriptions",
     "startTranscription": "Start Transcription"
   },
   "TranscribePage": {
@@ -93,8 +91,6 @@
     "noActionsAvailable": "No action items available"
   },
   "SettingsPage": {
-    "title": "Settings",
-    "description": "Manage your application preferences and customize your experience.",
     "general": "General",
     "models": "Models",
     "account": "Account"

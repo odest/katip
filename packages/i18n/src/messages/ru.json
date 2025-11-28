@@ -1,7 +1,5 @@
 {
   "HomePage": {
-    "title": "Речь в Текст с Whisper",
-    "description": "Превратите ваше аудио в точные текстовые расшифровки",
     "startTranscription": "Начать расшифровку"
   },
   "TranscribePage": {
@@ -93,8 +91,6 @@
     "noActionsAvailable": "Нет доступных действий"
   },
   "SettingsPage": {
-    "title": "Настройки",
-    "description": "Управляйте настройками приложения и настраивайте свой опыт.",
     "general": "Общие",
     "models": "Модели",
     "account": "Аккаунт"

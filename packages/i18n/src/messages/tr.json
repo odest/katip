@@ -1,7 +1,5 @@
 {
   "HomePage": {
-    "title": "Whisper ile Konuşmadan Metne",
-    "description": "Ses dosyalarınızı doğru metin transkriptlerine dönüştürün",
     "startTranscription": "Transkripti Başlat"
   },
   "TranscribePage": {
@@ -93,8 +91,6 @@
     "noActionsAvailable": "Eylem öğesi mevcut değil"
   },
   "SettingsPage": {
-    "title": "Ayarlar",
-    "description": "Uygulama tercihlerinizi yönetin ve deneyiminizi özelleştirin.",
     "general": "Genel",
     "models": "Modeller",
     "account": "Hesap"

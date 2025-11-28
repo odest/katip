@@ -8,6 +8,7 @@
     }
   ],
   "include-component-in-tag": false,
+  "comment": "last-release-sha can be removed after the next successful release PR is merged",
   "last-release-sha": "538a4ea4bd174eb1948e3d3e78370d855b6a1248",
   "packages": {
     ".": {

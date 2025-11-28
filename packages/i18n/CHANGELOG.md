@@ -1,5 +1,51 @@
 # Changelog
 
+## [0.1.2](https://github.com/odest/katip/compare/v0.1.1...v0.1.2) (2025-11-28)
+
+
+### Features
+
+* add copy to clipboard support to transcription views ([b14b7b7](https://github.com/odest/katip/commit/b14b7b77c62778591b8c07fd9d625b4dacbb3db8))
+* add editing, export, and clipboard support with new toolbar and segment list ([0e53894](https://github.com/odest/katip/commit/0e5389438cf84cf2fb4874799c9b0a2ad69e07ce))
+* add per-file download progress UI and translation keys ([61a7187](https://github.com/odest/katip/commit/61a7187930452d61a081ccb001b68c88b5f88f8a))
+* add segment editing and export as file ([75c91d2](https://github.com/odest/katip/commit/75c91d21ba20f91b31475dee18eb0c267bf7b11c))
+* **auth:** add forgot password and reset password flow ([412d089](https://github.com/odest/katip/commit/412d089cea4776bb09a7ded419ee8f0a8396bf19))
+* **auth:** Add Supabase auth, UI components, and OTP flow ([a272ad1](https://github.com/odest/katip/commit/a272ad1b571e5eba20d083aad20c05da66e88a35))
+* **auth:** enable account deletion with validation ([209e0f8](https://github.com/odest/katip/commit/209e0f8628f8880baf0d3b68ec97b01740529251))
+* **auth:** enable avatar upload/remove with validation ([3633a7e](https://github.com/odest/katip/commit/3633a7e7fca856dee30ab880937694e1bb271672))
+* **auth:** enable password update with validation ([3c729c5](https://github.com/odest/katip/commit/3c729c5f06a19720e218a6d4947f9f9a2497a228))
+* **auth:** enable update email with validation ([61c5080](https://github.com/odest/katip/commit/61c508071096c0d5bb3e848bd5dc1305afddd47d))
+* **auth:** enable update name with validation ([89914d1](https://github.com/odest/katip/commit/89914d1feae68119a6e124b225524dff87fead81))
+* **auth:** implement comprehensive authentication system and user settings ([186b2ea](https://github.com/odest/katip/commit/186b2ea36ed9a7709fc0d35e327d35a86ddfbdc2))
+* **i18n:** add missing translations to panels and pickers ([caea6ee](https://github.com/odest/katip/commit/caea6eeed44f74a629eafae0c50d5a320ddeb07a))
+* **settings:** Add AI provider card to settings page ([1f12892](https://github.com/odest/katip/commit/1f12892de539a3c9d80965e64ce32bc48e46593b))
+* **transcription:** add basic transcription logic and UI ([8e2f44d](https://github.com/odest/katip/commit/8e2f44d0d20b6030da0893523f2e8894f838a3cf))
+* **transcription:** implement desktop and web transcription support ([c5a7099](https://github.com/odest/katip/commit/c5a70994aa84411b972aa8089c6ae766e7df8770))
+* **transcription:** support web transcription with transformers.js ([2bfaed4](https://github.com/odest/katip/commit/2bfaed408ba3dcab34a6a6199dde81f830ba86d7))
+* **ui:** add account settings ui card with image, info, password, delete ([05266cb](https://github.com/odest/katip/commit/05266cb347a8a7e2448d7079a5c62a0325e7359d))
+* **ui:** add basic transcribe page, navigation and UI enhancements ([59f45e9](https://github.com/odest/katip/commit/59f45e9393de8690bf195d1aaee866a5e454c3d3))
+* **ui:** add browser capabilities badge & hook, update i18n ([90b92d8](https://github.com/odest/katip/commit/90b92d8e7a1965403ea0ea2c1f212e02da8864a1))
+* **ui:** add file upload component and toast wrapper ([071cfd9](https://github.com/odest/katip/commit/071cfd9a6b81a29c7fa9525e84bc3e925c9ee0df))
+* **ui:** add language and performance selection components ([fc7d90a](https://github.com/odest/katip/commit/fc7d90a58b9201ac098da8fcf48920ae9c0dd7f2))
+* **ui:** add local LLM summarization and action item extraction ([103f04c](https://github.com/odest/katip/commit/103f04cc10c3ca428776c6dfdf5ec60ee62a6c9f))
+* **ui:** add local LLM summarization support ([ab48911](https://github.com/odest/katip/commit/ab489119734d2227717bd319671c2656ad67d15d))
+* **ui:** add ModelSelectCard component and localization strings ([ee5c4af](https://github.com/odest/katip/commit/ee5c4af352799c20b04e2c7e54c7b144d43c270b))
+* **ui:** add settings store, persist selected tab, profile link ([b60483a](https://github.com/odest/katip/commit/b60483af80db49643c410698ca4591cc19d35ec4))
+* **ui:** add sideviews for summary and actions ([9dc1c83](https://github.com/odest/katip/commit/9dc1c8376cf340c80fec1c30694a72dd50a047cd))
+* **ui:** add user navigation with sign-in/sign-up forms ([0d0aa24](https://github.com/odest/katip/commit/0d0aa241ca08f592f60ee3168ca68b4ec585af10))
+* **web:** add cached model indicators in model selection ([b6470c4](https://github.com/odest/katip/commit/b6470c4b8145bace6bc966b2369e976b002c075c))
+* **web:** add cached models card to manage cached models ([e99baff](https://github.com/odest/katip/commit/e99baff87706f070b543f0ca29aacaf2cb59109e))
+
+
+### Code Refactoring
+
+* introduce toolbar and segment list for transcription views ([9093dfc](https://github.com/odest/katip/commit/9093dfc33a65bab87715792d111c93d7d26d895a))
+* remove title and description from HomePage and SettingsPage ([f81998d](https://github.com/odest/katip/commit/f81998d469b3e9833ce33fa7263b86962ae236e2))
+* remove unused pages and i18n messages ([9c2be6f](https://github.com/odest/katip/commit/9c2be6f903524f68ce8b63dad8172746c7ebcb11))
+* rename audio/model stores, add Tauri fs scope and drop support ([4029b8f](https://github.com/odest/katip/commit/4029b8f503abdda3a622be202604d740ac40942a))
+* rename FileUploadCard to AudioSelectCard and selection logic ([49ac0a7](https://github.com/odest/katip/commit/49ac0a7c7c0cec1b43ef6c339dce1138e4bc906e))
+* **ui:** reorganize UI components, drop unused code, add advanced options ([f63da3f](https://github.com/odest/katip/commit/f63da3f66a3224682735f2b30c67142358a14909))
+
 ## [0.1.1](https://github.com/odest/katip/compare/v0.1.0...v0.1.1) (2025-11-28)
 
 

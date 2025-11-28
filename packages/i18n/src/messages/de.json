@@ -266,6 +266,7 @@
     "signOutConfirmDesc": "Sie werden von Ihrem Konto abgemeldet.",
     "cancel": "Abbrechen",
     "confirmSignOut": "Abmelden",
+    "signingOut": "Abmeldung läuft...",
     "profile": "Profil"
   },
   "SignInForm": {
@@ -323,7 +324,29 @@
     "resending": "Erneut senden läuft...",
     "verificationCodeResent": "Bestätigungscode erneut gesendet. Bitte überprüfen Sie Ihre E-Mail.",
     "signUpSuccess": "Verifizierung abgeschlossen! Konto erfolgreich erstellt.",
-    "emailChangeSuccess": "E-Mail erfolgreich aktualisiert!"
+    "emailChangeSuccess": "E-Mail erfolgreich aktualisiert!",
+    "recoverySuccess": "Verifizierung abgeschlossen! Sie können jetzt Ihr Passwort zurücksetzen."
+  },
+  "ForgotPasswordForm": {
+    "title": "Passwort vergessen",
+    "description": "Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Bestätigungscode zum Zurücksetzen Ihres Passworts.",
+    "email": "E-Mail",
+    "sendResetLink": "Bestätigungscode senden",
+    "sending": "Wird gesendet...",
+    "backToSignin": "Zurück zur Anmeldung",
+    "resetLinkSent": "Bestätigungscode gesendet! Bitte überprüfen Sie Ihre E-Mail."
+  },
+  "ResetPasswordForm": {
+    "title": "Passwort zurücksetzen",
+    "description": "Geben Sie unten Ihr neues Passwort ein.",
+    "newPassword": "Neues Passwort",
+    "newPasswordPlaceholder": "Geben Sie Ihr neues Passwort ein",
+    "confirmPassword": "Passwort bestätigen",
+    "confirmPasswordPlaceholder": "Bestätigen Sie Ihr neues Passwort",
+    "resetPassword": "Passwort zurücksetzen",
+    "resetting": "Wird zurückgesetzt...",
+    "passwordResetSuccess": "Passwort erfolgreich zurückgesetzt! Sie können sich jetzt anmelden.",
+    "passwordsDoNotMatch": "Passwörter stimmen nicht überein"
   },
   "AudioSelectCard": {
     "title": "Audiodatei-Auswahl",

@@ -266,6 +266,7 @@
     "signOutConfirmDesc": "Hesabınızdan çıkış yapılacaktır.",
     "cancel": "İptal",
     "confirmSignOut": "Çıkış Yap",
+    "signingOut": "Çıkış yapılıyor...",
     "profile": "Profil"
   },
   "SignInForm": {
@@ -323,7 +324,29 @@
     "resending": "Tekrar gönderiliyor...",
     "verificationCodeResent": "Doğrulama kodu yeniden gönderildi. Lütfen e-postanızı kontrol edin.",
     "signUpSuccess": "Doğrulama tamamlandı! Hesap başarıyla oluşturuldu.",
-    "emailChangeSuccess": "E-posta başarıyla güncellendi!"
+    "emailChangeSuccess": "E-posta başarıyla güncellendi!",
+    "recoverySuccess": "Doğrulama tamamlandı! Artık şifrenizi sıfırlayabilirsiniz."
+  },
+  "ForgotPasswordForm": {
+    "title": "Şifremi Unuttum",
+    "description": "E-posta adresinizi girin, şifrenizi sıfırlamanız için size bir doğrulama kodu göndereceğiz.",
+    "email": "E-posta",
+    "sendResetLink": "Sıfırlama Kodu Gönder",
+    "sending": "Gönderiliyor...",
+    "backToSignin": "Giriş Yap'a Dön",
+    "resetLinkSent": "Doğrulama kodu gönderildi! Lütfen e-postanızı kontrol edin."
+  },
+  "ResetPasswordForm": {
+    "title": "Şifre Sıfırla",
+    "description": "Aşağıya yeni şifrenizi girin.",
+    "newPassword": "Yeni Şifre",
+    "newPasswordPlaceholder": "Yeni şifrenizi girin",
+    "confirmPassword": "Şifre Onayı",
+    "confirmPasswordPlaceholder": "Yeni şifrenizi onaylayın",
+    "resetPassword": "Şifreyi Sıfırla",
+    "resetting": "Sıfırlanıyor...",
+    "passwordResetSuccess": "Şifre başarıyla sıfırlandı! Artık giriş yapabilirsiniz.",
+    "passwordsDoNotMatch": "Şifreler eşleşmiyor"
   },
   "AudioSelectCard": {
     "title": "Ses Dosyası Seçimi",

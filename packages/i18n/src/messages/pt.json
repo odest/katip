@@ -266,6 +266,7 @@
     "signOutConfirmDesc": "Você será desconectado da sua conta.",
     "cancel": "Cancelar",
     "confirmSignOut": "Sair",
+    "signingOut": "Saindo...",
     "profile": "Perfil"
   },
   "SignInForm": {
@@ -323,7 +324,29 @@
     "resending": "Reenviando...",
     "verificationCodeResent": "Código de verificação reenviado. Por favor, verifique seu e-mail.",
     "signUpSuccess": "Verificação concluída! Conta criada com sucesso.",
-    "emailChangeSuccess": "E-mail atualizado com sucesso!"
+    "emailChangeSuccess": "E-mail atualizado com sucesso!",
+    "recoverySuccess": "Verificação concluída! Agora você pode redefinir sua senha."
+  },
+  "ForgotPasswordForm": {
+    "title": "Esqueci minha senha",
+    "description": "Digite seu endereço de e-mail e enviaremos um código de verificação para redefinir sua senha.",
+    "email": "E-mail",
+    "sendResetLink": "Enviar código de redefinição",
+    "sending": "Enviando...",
+    "backToSignin": "Voltar para Entrar",
+    "resetLinkSent": "Código de verificação enviado! Por favor, verifique seu e-mail."
+  },
+  "ResetPasswordForm": {
+    "title": "Redefinir senha",
+    "description": "Digite sua nova senha abaixo.",
+    "newPassword": "Nova senha",
+    "newPasswordPlaceholder": "Digite sua nova senha",
+    "confirmPassword": "Confirmar senha",
+    "confirmPasswordPlaceholder": "Confirme sua nova senha",
+    "resetPassword": "Redefinir senha",
+    "resetting": "Redefinindo...",
+    "passwordResetSuccess": "Senha redefinida com sucesso! Agora você pode entrar.",
+    "passwordsDoNotMatch": "As senhas não correspondem"
   },
   "AudioSelectCard": {
     "title": "Seleção de arquivo de áudio",

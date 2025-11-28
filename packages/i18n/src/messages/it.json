@@ -266,6 +266,7 @@
     "signOutConfirmDesc": "Verrai disconnesso dal tuo account.",
     "cancel": "Annulla",
     "confirmSignOut": "Esci",
+    "signingOut": "Uscita in corso...",
     "profile": "Profilo"
   },
   "SignInForm": {
@@ -323,7 +324,29 @@
     "resending": "Invio in corso...",
     "verificationCodeResent": "Codice di verifica rinviato. Per favore controlla la tua email.",
     "signUpSuccess": "Verifica completata! Account creato con successo.",
-    "emailChangeSuccess": "Email aggiornata con successo!"
+    "emailChangeSuccess": "Email aggiornata con successo!",
+    "recoverySuccess": "Verifica completata! Ora puoi reimpostare la tua password."
+  },
+  "ForgotPasswordForm": {
+    "title": "Password dimenticata",
+    "description": "Inserisci il tuo indirizzo email e ti invieremo un codice di verifica per reimpostare la tua password.",
+    "email": "Email",
+    "sendResetLink": "Invia codice di reimpostazione",
+    "sending": "Invio in corso...",
+    "backToSignin": "Torna all'accesso",
+    "resetLinkSent": "Codice di verifica inviato! Per favore controlla la tua email."
+  },
+  "ResetPasswordForm": {
+    "title": "Reimposta password",
+    "description": "Inserisci la tua nuova password qui sotto.",
+    "newPassword": "Nuova password",
+    "newPasswordPlaceholder": "Inserisci la tua nuova password",
+    "confirmPassword": "Conferma password",
+    "confirmPasswordPlaceholder": "Conferma la tua nuova password",
+    "resetPassword": "Reimposta password",
+    "resetting": "Reimpostazione...",
+    "passwordResetSuccess": "Password reimpostata con successo! Ora puoi accedere.",
+    "passwordsDoNotMatch": "Le password non corrispondono"
   },
   "AudioSelectCard": {
     "title": "Selezione file audio",

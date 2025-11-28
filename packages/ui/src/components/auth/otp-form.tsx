@@ -38,7 +38,8 @@ export function OTPForm({
   ...props
 }: OTPFormProps) {
   const t = useTranslations("OTPForm");
-  const { verifyOtp, resendOtp, loading, error } = useAuth();
+  const { verifyOtp, resendOtp, resetPasswordRequest, loading, error } =
+    useAuth();
   const [otp, setOtp] = useState("");
   const [resending, setResending] = useState(false);
 
@@ -52,8 +53,14 @@ export function OTPForm({
     });
 
     if (!error) {
-      const successMessage =
-        type === "email_change" ? t("emailChangeSuccess") : t("signUpSuccess");
+      let successMessage: string;
+      if (type === "email_change") {
+        successMessage = t("emailChangeSuccess");
+      } else if (type === "recovery") {
+        successMessage = t("recoverySuccess");
+      } else {
+        successMessage = t("signUpSuccess");
+      }
       toast.success(successMessage);
       onSuccess?.();
     }
@@ -61,7 +68,16 @@ export function OTPForm({
 
   const handleResend = async () => {
     setResending(true);
-    const { error } = await resendOtp({ email, type });
+    let error: string | null = null;
+
+    if (type === "recovery") {
+      const result = await resetPasswordRequest(email);
+      error = result.error ?? null;
+    } else {
+      const result = await resendOtp({ email, type });
+      error = result.error ?? null;
+    }
+
     if (!error) {
       toast.info(t("verificationCodeResent"));
     }
@@ -113,13 +129,13 @@ export function OTPForm({
             <Button
               type="submit"
               disabled={loading || resending}
-              className="w-full"
+              className="w-full cursor-pointer"
             >
               {loading || resending ? <Spinner /> : null}
-              {loading
-                ? t("verifying")
-                : resending
-                  ? t("resending")
+              {resending
+                ? t("resending")
+                : loading
+                  ? t("verifying")
                   : t("verify")}
             </Button>
             <FieldDescription className="text-center">

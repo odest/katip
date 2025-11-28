@@ -266,6 +266,7 @@
     "signOutConfirmDesc": "アカウントからログアウトします。",
     "cancel": "キャンセル",
     "confirmSignOut": "ログアウト",
+    "signingOut": "サインアウト中...",
     "profile": "プロフィール"
   },
   "SignInForm": {
@@ -323,7 +324,29 @@
     "resending": "再送信中...",
     "verificationCodeResent": "確認コードが再送信されました。メールを確認してください。",
     "signUpSuccess": "確認完了！アカウントが正常に作成されました。",
-    "emailChangeSuccess": "メールが正常に更新されました！"
+    "emailChangeSuccess": "メールが正常に更新されました！",
+    "recoverySuccess": "確認完了！パスワードをリセットできます。"
+  },
+  "ForgotPasswordForm": {
+    "title": "パスワードをお忘れですか",
+    "description": "メールアドレスを入力してください。パスワードをリセットするための確認コードをお送りします。",
+    "email": "メール",
+    "sendResetLink": "リセットコードを送信",
+    "sending": "送信中...",
+    "backToSignin": "ログインに戻る",
+    "resetLinkSent": "確認コードを送信しました！メールを確認してください。"
+  },
+  "ResetPasswordForm": {
+    "title": "パスワードをリセット",
+    "description": "以下に新しいパスワードを入力してください。",
+    "newPassword": "新しいパスワード",
+    "newPasswordPlaceholder": "新しいパスワードを入力",
+    "confirmPassword": "パスワードの確認",
+    "confirmPasswordPlaceholder": "新しいパスワードを確認",
+    "resetPassword": "パスワードをリセット",
+    "resetting": "リセット中...",
+    "passwordResetSuccess": "パスワードが正常にリセットされました！ログインできます。",
+    "passwordsDoNotMatch": "パスワードが一致しません"
   },
   "AudioSelectCard": {
     "title": "音声ファイルの選択",

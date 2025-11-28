@@ -25,12 +25,14 @@ import { Alert, AlertDescription } from "@workspace/ui/components/alert";
 
 interface SigninFormProps extends React.ComponentProps<"div"> {
   onSignupClick?: () => void;
+  onForgotPasswordClick?: () => void;
   onSuccess?: () => void;
 }
 
 export function SigninForm({
   className,
   onSignupClick,
+  onForgotPasswordClick,
   onSuccess,
   ...props
 }: SigninFormProps) {
@@ -81,12 +83,16 @@ export function SigninForm({
               <Field>
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">{t("password")}</FieldLabel>
-                  {/* <a
+                  <a
                     href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onForgotPasswordClick?.();
+                    }}
                     className="ml-auto text-sm underline-offset-4 hover:underline"
                   >
                     {t("forgotPassword")}
-                  </a> */}
+                  </a>
                 </div>
                 <Input
                   id="password"

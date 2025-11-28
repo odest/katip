@@ -1,8 +1,13 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-export type FormViews = "signin" | "signup" | "otp";
-export type OtpType = "signup" | "email_change";
+export type FormViews =
+  | "signin"
+  | "signup"
+  | "otp"
+  | "forgot-password"
+  | "reset-password";
+export type OtpType = "signup" | "email_change" | "recovery";
 
 interface AuthState {
   formView: FormViews;

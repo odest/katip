@@ -266,6 +266,7 @@
     "signOutConfirmDesc": "You will be logged out of your account.",
     "cancel": "Cancel",
     "confirmSignOut": "Sign Out",
+    "signingOut": "Signing out...",
     "profile": "Profile"
   },
   "SignInForm": {
@@ -323,7 +324,29 @@
     "resending": "Resending...",
     "verificationCodeResent": "Verification code resent. Please check your email.",
     "signUpSuccess": "Verification complete! Account created successfully.",
-    "emailChangeSuccess": "Email updated successfully!"
+    "emailChangeSuccess": "Email updated successfully!",
+    "recoverySuccess": "Verification complete! You can now reset your password."
+  },
+  "ForgotPasswordForm": {
+    "title": "Forgot Password",
+    "description": "Enter your email address and we'll send you a verification code to reset your password.",
+    "email": "Email",
+    "sendResetLink": "Send Reset Code",
+    "sending": "Sending...",
+    "backToSignin": "Back to Sign In",
+    "resetLinkSent": "Verification code sent! Please check your email."
+  },
+  "ResetPasswordForm": {
+    "title": "Reset Password",
+    "description": "Enter your new password below.",
+    "newPassword": "New Password",
+    "newPasswordPlaceholder": "Enter your new password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm your new password",
+    "resetPassword": "Reset Password",
+    "resetting": "Resetting...",
+    "passwordResetSuccess": "Password reset successfully! You can now sign in.",
+    "passwordsDoNotMatch": "Passwords do not match"
   },
   "AudioSelectCard": {
     "title": "Audio File Selection",

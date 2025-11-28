@@ -266,6 +266,7 @@
     "signOutConfirmDesc": "您将退出您的帐户。",
     "cancel": "取消",
     "confirmSignOut": "退出",
+    "signingOut": "正在退出...",
     "profile": "个人资料"
   },
   "SignInForm": {
@@ -323,7 +324,29 @@
     "resending": "正在重新发送...",
     "verificationCodeResent": "验证码已重新发送。请检查您的电子邮件。",
     "signUpSuccess": "验证完成！帐户已成功创建。",
-    "emailChangeSuccess": "电子邮件更新成功！"
+    "emailChangeSuccess": "电子邮件更新成功！",
+    "recoverySuccess": "验证完成！您现在可以重置密码。"
+  },
+  "ForgotPasswordForm": {
+    "title": "忘记密码",
+    "description": "输入您的电子邮件地址，我们将向您发送验证码以重置密码。",
+    "email": "电子邮件",
+    "sendResetLink": "发送重置码",
+    "sending": "发送中...",
+    "backToSignin": "返回登录",
+    "resetLinkSent": "验证码已发送！请检查您的电子邮件。"
+  },
+  "ResetPasswordForm": {
+    "title": "重置密码",
+    "description": "在下方输入您的新密码。",
+    "newPassword": "新密码",
+    "newPasswordPlaceholder": "输入新密码",
+    "confirmPassword": "确认密码",
+    "confirmPasswordPlaceholder": "确认新密码",
+    "resetPassword": "重置密码",
+    "resetting": "重置中...",
+    "passwordResetSuccess": "密码重置成功！您现在可以登录。",
+    "passwordsDoNotMatch": "密码不匹配"
   },
   "AudioSelectCard": {
     "title": "音频文件选择",

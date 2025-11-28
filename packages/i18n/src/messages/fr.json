@@ -266,6 +266,7 @@
     "signOutConfirmDesc": "Vous serez déconnecté de votre compte.",
     "cancel": "Annuler",
     "confirmSignOut": "Se déconnecter",
+    "signingOut": "Déconnexion en cours...",
     "profile": "Profil"
   },
   "SignInForm": {
@@ -323,7 +324,29 @@
     "resending": "Renvoyer en cours...",
     "verificationCodeResent": "Code de vérification renvoyé. Veuillez vérifier votre e-mail.",
     "signUpSuccess": "Vérification terminée ! Compte créé avec succès.",
-    "emailChangeSuccess": "E-mail mis à jour avec succès !"
+    "emailChangeSuccess": "E-mail mis à jour avec succès !",
+    "recoverySuccess": "Vérification terminée ! Vous pouvez maintenant réinitialiser votre mot de passe."
+  },
+  "ForgotPasswordForm": {
+    "title": "Mot de passe oublié",
+    "description": "Entrez votre adresse e-mail et nous vous enverrons un code de vérification pour réinitialiser votre mot de passe.",
+    "email": "E-mail",
+    "sendResetLink": "Envoyer le code de réinitialisation",
+    "sending": "Envoi en cours...",
+    "backToSignin": "Retour à la connexion",
+    "resetLinkSent": "Code de vérification envoyé ! Veuillez vérifier votre e-mail."
+  },
+  "ResetPasswordForm": {
+    "title": "Réinitialiser le mot de passe",
+    "description": "Entrez votre nouveau mot de passe ci-dessous.",
+    "newPassword": "Nouveau mot de passe",
+    "newPasswordPlaceholder": "Entrez votre nouveau mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "confirmPasswordPlaceholder": "Confirmez votre nouveau mot de passe",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "resetting": "Réinitialisation...",
+    "passwordResetSuccess": "Mot de passe réinitialisé avec succès ! Vous pouvez maintenant vous connecter.",
+    "passwordsDoNotMatch": "Les mots de passe ne correspondent pas"
   },
   "AudioSelectCard": {
     "title": "Sélection de fichier audio",

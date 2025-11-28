@@ -81,6 +81,40 @@ export function useAuth() {
     return { error: null };
   };
 
+  const resetPasswordRequest = async (email: string) => {
+    setLoading(true);
+    setError(null);
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
+
+    if (error) {
+      const msg = tAuthErrors(getAuthErrorKey(error.message));
+      setError(msg);
+      setLoading(false);
+      return { error: msg };
+    }
+
+    setLoading(false);
+    return { error: null };
+  };
+
+  const resetPassword = async (newPassword: string) => {
+    setLoading(true);
+    setError(null);
+    const { error } = await supabase.auth.updateUser({
+      password: newPassword,
+    });
+
+    if (error) {
+      const msg = tAuthErrors(getAuthErrorKey(error.message));
+      setError(msg);
+      setLoading(false);
+      return { error: msg };
+    }
+
+    setLoading(false);
+    return { error: null };
+  };
+
   return {
     loading,
     error,
@@ -89,5 +123,7 @@ export function useAuth() {
     signUp,
     verifyOtp,
     resendOtp,
+    resetPasswordRequest,
+    resetPassword,
   };
 }

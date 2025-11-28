@@ -266,6 +266,7 @@
     "signOutConfirmDesc": "Вы выйдете из своей учетной записи.",
     "cancel": "Отмена",
     "confirmSignOut": "Выйти",
+    "signingOut": "Выход выполняется...",
     "profile": "Профиль"
   },
   "SignInForm": {
@@ -323,7 +324,29 @@
     "resending": "Отправка повторно...",
     "verificationCodeResent": "Код подтверждения повторно отправлен. Пожалуйста, проверьте свою электронную почту.",
     "signUpSuccess": "Подтверждение завершено! Аккаунт успешно создан.",
-    "emailChangeSuccess": "Электронная почта успешно обновлена!"
+    "emailChangeSuccess": "Электронная почта успешно обновлена!",
+    "recoverySuccess": "Подтверждение завершено! Теперь вы можете сбросить пароль."
+  },
+  "ForgotPasswordForm": {
+    "title": "Забыли пароль",
+    "description": "Введите свой адрес электронной почты, и мы отправим вам код подтверждения для сброса пароля.",
+    "email": "Электронная почта",
+    "sendResetLink": "Отправить код сброса",
+    "sending": "Отправка...",
+    "backToSignin": "Вернуться к входу",
+    "resetLinkSent": "Код подтверждения отправлен! Пожалуйста, проверьте свою электронную почту."
+  },
+  "ResetPasswordForm": {
+    "title": "Сброс пароля",
+    "description": "Введите новый пароль ниже.",
+    "newPassword": "Новый пароль",
+    "newPasswordPlaceholder": "Введите новый пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "confirmPasswordPlaceholder": "Подтвердите новый пароль",
+    "resetPassword": "Сбросить пароль",
+    "resetting": "Сброс...",
+    "passwordResetSuccess": "Пароль успешно сброшен! Теперь вы можете войти.",
+    "passwordsDoNotMatch": "Пароли не совпадают"
   },
   "AudioSelectCard": {
     "title": "Выбор аудиофайла",

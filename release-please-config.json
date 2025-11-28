@@ -1,8 +1,14 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "sequential-calls": true,
-  "plugins": ["cargo-workspace"],
+  "plugins": [
+    {
+      "type": "merge",
+      "pull-request-title-pattern": "chore: release ${branch}"
+    }
+  ],
   "include-component-in-tag": false,
+  "last-release-sha": "538a4ea4bd174eb1948e3d3e78370d855b6a1248",
   "packages": {
     ".": {
       "changelog-path": "CHANGELOG.md",

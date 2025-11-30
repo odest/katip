@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1764501632296,
+      "tag": "0000_sour_blue_shield",
+      "breakpoints": true
+    }
+  ]
+}

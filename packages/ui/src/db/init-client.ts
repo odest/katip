@@ -17,6 +17,7 @@ export const initClientDb = async () => {
   for (const migration of MIGRATIONS) {
     if (!appliedMigrationNames.has(migration.name)) {
       try {
+        await sqlDriver`BEGIN TRANSACTION`;
         // Split statements by statement-breakpoint
         const statements = migration.sql.split("--> statement-breakpoint");
 
@@ -27,8 +28,13 @@ export const initClientDb = async () => {
         }
 
         await sqlDriver`INSERT INTO "_migrations" (name) VALUES (${migration.name})`;
+        await sqlDriver`COMMIT`;
       } catch (error) {
-        console.error(`Failed to apply migration ${migration.name}:`, error);
+        await sqlDriver`ROLLBACK`;
+        console.error(
+          `Migration failed, changes rolled back: ${migration.name}`,
+          error
+        );
         throw error;
       }
     }

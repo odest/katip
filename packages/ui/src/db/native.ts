@@ -20,8 +20,10 @@ export const nativeDb = drizzle(
       }
 
       return method === "get"
-        ? { rows: rows[0]!.values }
-        : { rows: rows.map((r) => r.values) };
+        ? { rows: rows[0]!.values.map((v) => (v === "" ? null : v)) }
+        : {
+            rows: rows.map((r) => r.values.map((v) => (v === "" ? null : v))),
+          };
     } catch (e: unknown) {
       console.error("Error from sqlite proxy server: ", e);
       return { rows: [] };

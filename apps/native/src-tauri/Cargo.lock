@@ -2325,10 +2325,12 @@ version = "0.1.3"
 dependencies = [
  "ash",
  "base64 0.22.1",
+ "hex",
  "hound",
  "once_cell",
  "serde",
  "serde_json",
+ "sha2",
  "sqlx",
  "tauri",
  "tauri-build",

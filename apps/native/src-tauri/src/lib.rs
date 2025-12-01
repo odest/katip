@@ -1,4 +1,5 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+mod utils;
 mod transcription;
 mod drizzle_proxy;
 include!(concat!(env!("OUT_DIR"), "/generated_migrations.rs"));
@@ -6,18 +7,6 @@ include!(concat!(env!("OUT_DIR"), "/generated_migrations.rs"));
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use transcription::TranscriptionState;
-
-#[tauri::command]
-async fn add_fs_scope(app: tauri::AppHandle, path: String) -> Result<(), String> {
-    use tauri_plugin_fs::FsExt;
-
-    let scope = app.fs_scope();
-    scope
-        .allow_directory(&path, true)
-        .map_err(|e| format!("Failed to add path to scope: {}", e))?;
-
-    Ok(())
-}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -37,7 +26,8 @@ pub fn run() {
                 .build(),
         )
         .invoke_handler(tauri::generate_handler![
-            add_fs_scope,
+            utils::add_fs_scope,
+            utils::calculate_file_hash,
             transcription::load_model,
             transcription::transcribe,
             transcription::cancel_transcription,

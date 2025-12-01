@@ -79,6 +79,7 @@
     "./pages/*": "./src/pages/*.tsx",
     "./pages/subpages/*": "./src/pages/subpages/*.tsx",
     "./db/*": "./src/db/*.ts",
+    "./db": "./src/db/index.ts",
     "./lib/*": "./src/lib/*.ts",
     "./hooks/*": "./src/hooks/*.ts",
     "./stores/*": "./src/stores/*.ts",

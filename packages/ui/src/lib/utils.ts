@@ -153,3 +153,49 @@ export const getBadgeStyles = (status: string) => {
       return "bg-white-500/10 text-white-500 border-white-500/20 hover:bg-white-500/25";
   }
 };
+
+export async function calculateFileHash(file: File): Promise<string> {
+  try {
+    const buffer = await file.arrayBuffer();
+    const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+    return hashHex;
+  } catch (error) {
+    console.error("Error calculating file hash:", error);
+    return "";
+  }
+}
+
+export const getAudioDuration = (objectUrl: string): Promise<number> => {
+  return new Promise((resolve, reject) => {
+    try {
+      const audio = new Audio(objectUrl);
+      audio.onloadedmetadata = () => {
+        const duration = audio.duration;
+
+        URL.revokeObjectURL(objectUrl);
+
+        if (duration === Infinity) {
+          audio.currentTime = 1e101;
+          audio.ontimeupdate = () => {
+            audio.ontimeupdate = null;
+            resolve(audio.duration);
+          };
+        } else {
+          resolve(duration);
+        }
+      };
+
+      audio.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        reject(new Error("Error getting audio duration"));
+      };
+    } catch (error) {
+      console.error("Error getting audio duration:", error);
+      reject(error);
+    }
+  });
+};

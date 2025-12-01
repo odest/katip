@@ -2,10 +2,9 @@ import { ReactNode, ComponentType, useState, useEffect } from "react";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 import { LogOut } from "lucide-react";
+import { database } from "@workspace/ui/db";
 import { isTauri } from "@tauri-apps/api/core";
 import { useTranslations } from "@workspace/i18n";
-import { nativeDb } from "@workspace/ui/db/native";
-import { clientDb } from "@workspace/ui/db/client";
 import { useUser } from "@workspace/ui/hooks/use-user";
 import { users } from "@workspace/database/schema/sqlite";
 import { initClientDb } from "@workspace/ui/db/init-client";
@@ -70,37 +69,23 @@ export function AppLayout({
 
   useEffect(() => {
     const initLocalUser = async () => {
-      if (isTauri()) {
-        try {
-          const existingUsers = await nativeDb.select().from(users).limit(1);
-          if (existingUsers.length === 0) {
-            await nativeDb.insert(users).values({
-              id: uuidv4(),
-              email: "guest@native",
-              fullName: "guest",
-              createdAt: new Date(),
-              updatedAt: new Date(),
-            });
-          }
-        } catch (error) {
-          console.error("Failed to initialize native local user:", error);
+      if (!isTauri()) {
+        await initClientDb();
+      }
+
+      try {
+        const existingUsers = await database.select().from(users).limit(1);
+        if (existingUsers.length === 0) {
+          await database.insert(users).values({
+            id: uuidv4(),
+            email: "guest@local",
+            fullName: "guest",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          });
         }
-      } else {
-        try {
-          await initClientDb();
-          const existingUsers = await clientDb.select().from(users).limit(1);
-          if (existingUsers.length === 0) {
-            await clientDb.insert(users).values({
-              id: uuidv4(),
-              email: "guest@client",
-              fullName: "guest",
-              createdAt: new Date(),
-              updatedAt: new Date(),
-            });
-          }
-        } catch (error) {
-          console.error("Failed to initialize web local user:", error);
-        }
+      } catch (error) {
+        console.error("Failed to initialize native local user:", error);
       }
     };
 

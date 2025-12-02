@@ -66,7 +66,7 @@ export const summaries = sqliteTable("summaries", {
   userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  content: text("content", { mode: "json" }),
+  content: text("content"),
   provider: text("provider"),
   model: text("model"),
   createdAt: integer("created_at", { mode: "timestamp_ms" }).default(
@@ -85,7 +85,8 @@ export const actionItems = sqliteTable("action_items", {
   userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  content: text("content").notNull(),
+  task: text("task").notNull(),
+  assignee: text("assignee"),
   isCompleted: integer("is_completed", { mode: "boolean" }).default(false),
   priority: text("priority").default("medium"),
   createdAt: integer("created_at", { mode: "timestamp_ms" }).default(

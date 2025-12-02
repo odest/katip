@@ -5,8 +5,11 @@ import { writeTextFile } from "@tauri-apps/plugin-fs";
 import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 import { toast } from "sonner";
 import { useTranslations } from "@workspace/i18n";
+import { useRecordings } from "@workspace/ui/hooks/use-recordings";
+import { useTranscripts } from "@workspace/ui/hooks/use-transcripts";
 import { useAudioStore } from "@workspace/ui/stores/audio-store";
 import { useModelStore } from "@workspace/ui/stores/model-store";
+import { useLanguageStore } from "@workspace/ui/stores/language-store";
 import {
   useTranscriptionStore,
   TranscriptionStatus,
@@ -31,6 +34,9 @@ export const NativeTranscriptionView = ({
 }: NativeTranscriptionViewProps) => {
   const router = useRouter();
   const t = useTranslations("TranscriptionView");
+
+  const { getRecordingByHash } = useRecordings();
+  const { deleteTranscriptByRecordingId } = useTranscripts();
 
   const { selectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
@@ -75,7 +81,32 @@ export const NativeTranscriptionView = ({
     router.push("/");
   };
 
-  const handleRetry = () => {
+  const handleRetry = async () => {
+    try {
+      if (selectedAudio && selectedModel) {
+        let hash = "";
+        if (typeof selectedAudio === "string") {
+          hash = await invoke<string>("calculate_file_hash", {
+            path: selectedAudio,
+          });
+        }
+
+        if (hash) {
+          const recording = await getRecordingByHash(hash);
+          if (recording) {
+            const { language } = useLanguageStore.getState();
+            await deleteTranscriptByRecordingId(
+              recording.id,
+              selectedModel as string,
+              language
+            );
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Failed to delete transcript on retry:", error);
+    }
+
     clearTranscriptionState();
     resetSummary();
     window.location.reload();

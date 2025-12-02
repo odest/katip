@@ -3,6 +3,7 @@ import {
   text,
   uuid,
   jsonb,
+  bigint,
   boolean,
   integer,
   timestamp,
@@ -27,7 +28,7 @@ export const recordings = pgTable("recordings", {
   filePath: text("file_path").notNull(),
   fileHash: text("file_hash"),
   duration: integer("duration"),
-  fileSize: integer("file_size"),
+  fileSize: bigint("file_size", { mode: "number" }),
   status: text("status").notNull().default("queued"),
   isFavorite: boolean("is_favorite").default(false),
   tags: jsonb("tags").$type<string[]>(),
@@ -63,7 +64,7 @@ export const summaries = pgTable("summaries", {
   userId: uuid("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  content: jsonb("content"),
+  content: text("content"),
   provider: text("provider"),
   model: text("model"),
   createdAt: timestamp("created_at").defaultNow(),
@@ -80,7 +81,8 @@ export const actionItems = pgTable("action_items", {
   userId: uuid("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  content: text("content").notNull(),
+  task: text("task").notNull(),
+  assignee: text("assignee"),
   isCompleted: boolean("is_completed").default(false),
   priority: text("priority").default("medium"),
   createdAt: timestamp("created_at").defaultNow(),

@@ -8,6 +8,13 @@
       "when": 1764501632296,
       "tag": "0000_sour_blue_shield",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1764699999444,
+      "tag": "0001_cold_hellion",
+      "breakpoints": true
     }
   ]
 }

@@ -151,6 +151,8 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
           GGML_I8MM: ${{ matrix.platform == 'macos-latest' && 'OFF' || '' }}
           MACOSX_DEPLOYMENT_TARGET: ${{ matrix.platform == 'macos-latest' && '10.15' || '' }}
           RUST_BACKTRACE: ${{ matrix.platform == 'macos-latest' && '1' || '' }}

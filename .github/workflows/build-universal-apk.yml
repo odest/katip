@@ -94,6 +94,9 @@ jobs:
           echo "$jksBase64" | base64 --decode > "$resolvedStoreFile"
 
       - name: Build Universal APK & AAB
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
         run: |
           cd apps/native
           pnpm tauri android build

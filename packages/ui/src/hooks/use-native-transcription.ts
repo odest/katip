@@ -1,17 +1,26 @@
 import { useEffect, useRef, type Dispatch, type SetStateAction } from "react";
-import { invoke } from "@tauri-apps/api/core";
+import { stat } from "@tauri-apps/plugin-fs";
 import { listen } from "@tauri-apps/api/event";
+import { invoke, convertFileSrc } from "@tauri-apps/api/core";
 import { toast } from "sonner";
+import { v4 as uuidv4 } from "uuid";
 import { useTranslations } from "@workspace/i18n";
+import { getAudioDuration } from "@workspace/ui/lib/utils";
+import { useSummaries } from "@workspace/ui/hooks/use-summaries";
+import { useRecordings } from "@workspace/ui/hooks/use-recordings";
+import { useTranscripts } from "@workspace/ui/hooks/use-transcripts";
+import { useActionItems } from "@workspace/ui/hooks/use-action-items";
+import { useAuthStore } from "@workspace/ui/stores/auth-store";
 import { useAudioStore } from "@workspace/ui/stores/audio-store";
 import { useModelStore } from "@workspace/ui/stores/model-store";
+import { useSummaryStore } from "@workspace/ui/stores/summary-store";
 import { useLanguageStore } from "@workspace/ui/stores/language-store";
-import { usePerformanceStore } from "@workspace/ui/stores/performance-store";
 import { useAdvancedStore } from "@workspace/ui/stores/advanced-store";
+import { usePerformanceStore } from "@workspace/ui/stores/performance-store";
 import type {
-  TranscriptionStatus,
   Segment,
   TranscriptionState,
+  TranscriptionStatus,
 } from "@workspace/ui/stores/transcription-store";
 
 interface UseTranscriptionParams {
@@ -32,13 +41,21 @@ export function useTranscriptionProcess({
   setTranscriptionState,
 }: UseTranscriptionParams) {
   const progressRef = useRef(0);
+  const fileHashRef = useRef<string | null>(null);
+  const recordingIdRef = useRef<string | null>(null);
   const t = useTranslations("TranscriptionView");
+
+  const { addRecording, getRecordingByHash } = useRecordings();
+  const { addTranscript, getTranscriptByRecordingId } = useTranscripts();
+  const { getSummaryByRecordingId } = useSummaries();
+  const { getActionItemsBySummaryId } = useActionItems();
 
   const { selectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
   const { language, translateToEnglish } = useLanguageStore();
   const { useGPU, threadCount } = usePerformanceStore();
   const advancedSettings = useAdvancedStore();
+  const { setShowSideViews, setSummaryResult } = useSummaryStore();
 
   useEffect(() => {
     let unlisteners: Array<() => void> = [];
@@ -79,7 +96,7 @@ export function useTranscriptionProcess({
       );
 
       unlisteners.push(
-        await listen("transcribe_completed", () => {
+        await listen("transcribe_completed", async () => {
           setStatus("done");
           setProgress(100);
 
@@ -95,6 +112,57 @@ export function useTranscriptionProcess({
               });
 
               toast.success(t("transcriptionCompleted"));
+
+              const currentUserId = useAuthStore.getState().userId;
+
+              if (currentUserId) {
+                (async () => {
+                  let recordingId = recordingIdRef.current;
+
+                  if (!recordingId && fileHashRef.current) {
+                    const duration = await getAudioDuration(
+                      convertFileSrc(selectedAudio as string)
+                    );
+                    const metadata = await stat(selectedAudio as string);
+                    recordingId = uuidv4();
+
+                    await addRecording({
+                      id: recordingId,
+                      userId: currentUserId,
+                      title:
+                        (selectedAudio as string).split(/[\\/]/).pop() ||
+                        "Untitled",
+                      description: null,
+                      filePath: selectedAudio as string,
+                      fileHash: fileHashRef.current,
+                      duration: duration,
+                      fileSize: metadata.size,
+                      status: "completed",
+                      isFavorite: false,
+                      tags: null,
+                      color: null,
+                      isSynced: false,
+                      createdAt: new Date(),
+                      updatedAt: new Date(),
+                      deletedAt: null,
+                    });
+                  }
+
+                  if (recordingId) {
+                    const transcriptId = uuidv4();
+                    await addTranscript({
+                      id: transcriptId,
+                      recordingId: recordingId,
+                      userId: currentUserId,
+                      language: language,
+                      model: selectedModel as string,
+                      segments: currentSegments,
+                      createdAt: new Date(),
+                    });
+                  }
+                })();
+              }
+
               return currentSegments;
             });
           }, 0);
@@ -146,6 +214,69 @@ export function useTranscriptionProcess({
           "Transcription already in progress or completed, skipping new start"
         );
         return;
+      }
+
+      try {
+        const hash = await invoke<string>("calculate_file_hash", {
+          path: selectedAudio,
+        });
+        fileHashRef.current = hash;
+
+        const existingRecording = await getRecordingByHash(hash);
+
+        if (existingRecording) {
+          recordingIdRef.current = existingRecording.id;
+          const transcript = await getTranscriptByRecordingId(
+            existingRecording.id,
+            selectedModel as string,
+            language
+          );
+
+          if (transcript) {
+            const segments = transcript.segments
+              ? (transcript.segments as Segment[])
+              : [];
+
+            setStatus("done");
+            setProgress(100);
+            setSegments(segments);
+            setTranscriptionState({
+              file: existingRecording.filePath,
+              model: transcript.model as string,
+              status: "done",
+              progress: 100,
+              segments: segments,
+              error: null,
+            });
+
+            try {
+              const summary = await getSummaryByRecordingId(
+                existingRecording.id
+              );
+
+              if (summary) {
+                const actionItems = await getActionItemsBySummaryId(summary.id);
+                setSummaryResult({
+                  summary: summary.content as string,
+                  action_items: actionItems.map((item) => ({
+                    task: item.task,
+                    assignee: item.assignee ?? "Unassigned",
+                    completed: item.isCompleted ?? false,
+                    priority: item.priority ?? "",
+                  })),
+                });
+                setShowSideViews(true);
+              } else {
+                setSummaryResult(null);
+              }
+            } catch (error) {
+              console.error("Failed to fetch summary:", error);
+            }
+            return;
+          }
+        }
+      } catch (error) {
+        console.error("Failed to calculate hash or check history:", error);
       }
 
       try {

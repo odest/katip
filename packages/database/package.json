@@ -1,0 +1,23 @@
+{
+  "name": "@workspace/database",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema/sqlite": "./src/schema.sqlite.ts",
+    "./schema/postgres": "./src/schema.postgres.ts",
+    "./migrations": "./drizzle/sqlite/migrations.ts"
+  },
+  "scripts": {
+    "generate:sqlite": "drizzle-kit generate --dialect=sqlite --schema=./src/schema.sqlite.ts --out=../../apps/native/src-tauri/migrations && npx tsx scripts/bundle-migrations.ts",
+    "generate:postgres": "drizzle-kit generate --dialect=postgresql --schema=./src/schema.postgres.ts --out=./drizzle/postgres",
+    "push:postgres": "drizzle-kit push --config=drizzle.config.postgres.ts",
+    "migrate:postgres": "drizzle-kit migrate --config=drizzle.config.postgres.ts"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "drizzle-kit": "^0.31.7",
+    "drizzle-orm": "^0.44.7"
+  }
+}

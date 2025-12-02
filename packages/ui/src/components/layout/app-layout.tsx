@@ -1,8 +1,13 @@
-import { ReactNode, ComponentType, useState } from "react";
+import { ReactNode, ComponentType, useState, useEffect } from "react";
 import { toast } from "sonner";
+import { v4 as uuidv4 } from "uuid";
 import { LogOut } from "lucide-react";
+import { database } from "@workspace/ui/db";
+import { isTauri } from "@tauri-apps/api/core";
 import { useTranslations } from "@workspace/i18n";
 import { useUser } from "@workspace/ui/hooks/use-user";
+import { users } from "@workspace/database/schema/sqlite";
+import { initClientDb } from "@workspace/ui/db/init-client";
 import { useAuthStore } from "@workspace/ui/stores/auth-store";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ThemeProvider } from "@workspace/ui/providers/theme-provider";
@@ -49,6 +54,8 @@ export function AppLayout({
   const t = useTranslations("Navigation");
   const { signOut } = useUser();
   const {
+    userId,
+    setUserId,
     formView,
     setFormView,
     openDialog,
@@ -61,6 +68,42 @@ export function AppLayout({
     setOtpType,
   } = useAuthStore();
   const [isSigningOut, setIsSigningOut] = useState(false);
+
+  useEffect(() => {
+    const initLocalUser = async () => {
+      if (!isTauri()) {
+        await initClientDb();
+      }
+
+      try {
+        const existingUsers = await database.select().from(users).limit(1);
+
+        if (existingUsers.length > 0) {
+          const currentUser = existingUsers[0];
+          setUserId(currentUser.id);
+          return;
+        }
+
+        if (!userId) {
+          const newGuestId = uuidv4();
+
+          await database.insert(users).values({
+            id: newGuestId,
+            email: "guest@local",
+            fullName: "guest",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          });
+
+          setUserId(newGuestId);
+        }
+      } catch (error) {
+        console.error("Failed to initialize native local user:", error);
+      }
+    };
+
+    initLocalUser();
+  }, []);
 
   const handleConfirmLogout = async () => {
     setIsSigningOut(true);

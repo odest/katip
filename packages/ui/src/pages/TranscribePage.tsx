@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { isTauri } from "@tauri-apps/api/core";
+import { v4 as uuidv4 } from "uuid";
 import { platform } from "@tauri-apps/plugin-os";
+import { isTauri, invoke } from "@tauri-apps/api/core";
 import {
   Laptop,
   Upload,
@@ -12,15 +13,22 @@ import {
   FileAudioIcon,
 } from "lucide-react";
 import { toast } from "sonner";
-import { generateSummary } from "@workspace/ui/lib/ai-client";
 import { useTranslations } from "@workspace/i18n";
 import { useRouter } from "@workspace/i18n/navigation";
+import { calculateFileHash } from "@workspace/ui/lib/utils";
+import { generateSummary } from "@workspace/ui/lib/ai-client";
 import { useSidebar } from "@workspace/ui/components/sidebar";
+import { useAuthStore } from "@workspace/ui/stores/auth-store";
 import { useAudioStore } from "@workspace/ui/stores/audio-store";
 import { useModelStore } from "@workspace/ui/stores/model-store";
+import { useSummaries } from "@workspace/ui/hooks/use-summaries";
+import { useRecordings } from "@workspace/ui/hooks/use-recordings";
+import { useTranscripts } from "@workspace/ui/hooks/use-transcripts";
+import { useActionItems } from "@workspace/ui/hooks/use-action-items";
+import { useLanguageStore } from "@workspace/ui/stores/language-store";
 import { useSummaryStore } from "@workspace/ui/stores/summary-store";
-import { useTranscriptionStore } from "@workspace/ui/stores/transcription-store";
 import { EmptyState } from "@workspace/ui/components/common/empty-state";
+import { useTranscriptionStore } from "@workspace/ui/stores/transcription-store";
 import { MobileLayout } from "@workspace/ui/components/transcription/mobile-layout";
 import { DesktopLayout } from "@workspace/ui/components/transcription/desktop-layout";
 import { WebTranscriptionView } from "@workspace/ui/components/transcription/web-transcription-view";
@@ -40,8 +48,15 @@ export function TranscribePage() {
     showSideViews,
     setShowSideViews,
     model,
+    provider,
     url,
   } = useSummaryStore();
+  const { language } = useLanguageStore();
+  const { userId } = useAuthStore.getState();
+  const { addActionItems } = useActionItems();
+  const { getRecordingByHash } = useRecordings();
+  const { getTranscriptByRecordingId } = useTranscripts();
+  const { addSummary, deleteSummaryByRecordingId } = useSummaries();
   const { isMobile } = useSidebar();
   const [isAndroid, setIsAndroid] = useState(false);
   const [animateIn, setAnimateIn] = useState(false);
@@ -91,13 +106,73 @@ export function TranscribePage() {
     try {
       const result = await generateSummary(text, model, url);
       setSummaryResult(result);
+
+      try {
+        let hash = "";
+        if (isTauriApp && typeof selectedAudio === "string") {
+          hash = await invoke<string>("calculate_file_hash", {
+            path: selectedAudio,
+          });
+        } else if (selectedAudio instanceof File) {
+          hash = await calculateFileHash(selectedAudio);
+        }
+
+        if (hash && userId) {
+          const recording = await getRecordingByHash(hash);
+          if (recording) {
+            const transcript = await getTranscriptByRecordingId(
+              recording.id,
+              selectedModel as string,
+              language
+            );
+
+            await deleteSummaryByRecordingId(recording.id);
+
+            const summaryId = uuidv4();
+            await addSummary({
+              id: summaryId,
+              recordingId: recording.id,
+              transcriptId: transcript?.id,
+              userId,
+              content: result.summary,
+              provider: provider,
+              model: model,
+              createdAt: new Date(),
+            });
+
+            if (result.action_items && result.action_items.length > 0) {
+              await addActionItems(
+                result.action_items.map((item) => ({
+                  id: uuidv4(),
+                  summaryId,
+                  recordingId: recording.id,
+                  userId,
+                  task: item.task,
+                  assignee: item.assignee,
+                  isCompleted: item.completed,
+                  priority: item.priority,
+                  createdAt: new Date(),
+                }))
+              );
+            }
+          }
+        }
+      } catch (dbError) {
+        console.error("Failed to save summary to database:", dbError);
+      }
+
       toast.success(t("summarySuccess"));
     } catch (err) {
       console.error(err);
-      const errorMessage = err instanceof Error ? err.message : t("summaryFailed");
+      const errorMessage =
+        err instanceof Error ? err.message : t("summaryFailed");
       setError(errorMessage);
 
-      if (!isTauriApp && (errorMessage.includes("Failed to fetch") || errorMessage.includes("NetworkError"))) {
+      if (
+        !isTauriApp &&
+        (errorMessage.includes("Failed to fetch") ||
+          errorMessage.includes("NetworkError"))
+      ) {
         toast.error(t("summaryFailedOllamaCORS"));
       } else {
         toast.error(t("summaryFailedCheckConnection"));

@@ -1,19 +1,27 @@
 import {
-  useEffect,
   useRef,
+  useEffect,
+  useCallback,
   Dispatch,
   SetStateAction,
-  useCallback,
 } from "react";
 import { toast } from "sonner";
+import { v4 as uuidv4 } from "uuid";
 import { useTranslations } from "@workspace/i18n";
+import { calculateFileHash, getAudioDuration } from "@workspace/ui/lib/utils";
+import { useSummaries } from "@workspace/ui/hooks/use-summaries";
+import { useRecordings } from "@workspace/ui/hooks/use-recordings";
+import { useTranscripts } from "@workspace/ui/hooks/use-transcripts";
+import { useActionItems } from "@workspace/ui/hooks/use-action-items";
+import { useAuthStore } from "@workspace/ui/stores/auth-store";
 import { useAudioStore } from "@workspace/ui/stores/audio-store";
 import { useModelStore } from "@workspace/ui/stores/model-store";
+import { useSummaryStore } from "@workspace/ui/stores/summary-store";
 import { useLanguageStore } from "@workspace/ui/stores/language-store";
 import {
+  Segment,
   TranscriptionState,
   TranscriptionStatus,
-  Segment,
 } from "@workspace/ui/stores/transcription-store";
 
 interface UseWebTranscriptionParams {
@@ -59,13 +67,21 @@ export function useWebTranscription({
   setDownloadingFiles,
 }: UseWebTranscriptionParams) {
   const workerRef = useRef<Worker | null>(null);
+  const fileHashRef = useRef<string | null>(null);
+  const recordingIdRef = useRef<string | null>(null);
   const progressItemsRef = useRef<ProgressItem[]>([]);
   const audioDurationRef = useRef<number>(0);
   const t = useTranslations("TranscriptionView");
 
+  const { addRecording, getRecordingByHash } = useRecordings();
+  const { addTranscript, getTranscriptByRecordingId } = useTranscripts();
+  const { getSummaryByRecordingId } = useSummaries();
+  const { getActionItemsBySummaryId } = useActionItems();
+
   const { selectedAudio } = useAudioStore();
   const { selectedModel, useQuantized } = useModelStore();
   const { language, translateToEnglish } = useLanguageStore();
+  const { setShowSideViews, setSummaryResult } = useSummaryStore();
 
   const transcribe = useCallback(() => {
     if (workerRef.current) {
@@ -105,7 +121,7 @@ export function useWebTranscription({
               status: message.status,
             };
             progressItemsRef.current.push(newItem);
-            
+
             setDownloadingFiles((prev) => [
               ...prev,
               {
@@ -160,7 +176,7 @@ export function useWebTranscription({
                   : file
               )
             );
-            
+
             progressItemsRef.current = progressItemsRef.current.filter(
               (item) => item.file !== message.file
             );
@@ -235,6 +251,53 @@ export function useWebTranscription({
             });
 
             toast.success(t("transcriptionComplete"));
+
+            const currentUserId = useAuthStore.getState().userId;
+
+            if (currentUserId) {
+              (async () => {
+                let recordingId = recordingIdRef.current;
+
+                if (!recordingId && fileHashRef.current) {
+                  const duration = await getAudioDuration(
+                    URL.createObjectURL(selectedAudio as File)
+                  );
+                  recordingId = uuidv4();
+
+                  await addRecording({
+                    id: recordingId,
+                    userId: currentUserId,
+                    title: (selectedAudio as File).name || "Untitled",
+                    description: null,
+                    filePath: (selectedAudio as File).name,
+                    fileHash: fileHashRef.current,
+                    duration: duration,
+                    fileSize: (selectedAudio as File).size,
+                    status: "completed",
+                    isFavorite: false,
+                    tags: null,
+                    color: null,
+                    isSynced: false,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    deletedAt: null,
+                  });
+                }
+
+                if (recordingId) {
+                  const transcriptId = uuidv4();
+                  await addTranscript({
+                    id: transcriptId,
+                    recordingId: recordingId,
+                    userId: currentUserId,
+                    language: language,
+                    model: selectedModel as string,
+                    segments: finalSegments,
+                    createdAt: new Date(),
+                  });
+                }
+              })();
+            }
           }
           break;
 
@@ -277,6 +340,63 @@ export function useWebTranscription({
       try {
         if (!(selectedAudio instanceof File)) {
           throw new Error("Invalid audio file. Expected a File object.");
+        }
+
+        const hash = await calculateFileHash(selectedAudio);
+        fileHashRef.current = hash;
+
+        const existingRecording = await getRecordingByHash(hash);
+
+        if (existingRecording) {
+          recordingIdRef.current = existingRecording.id;
+          const transcript = await getTranscriptByRecordingId(
+            existingRecording.id,
+            selectedModel as string,
+            language
+          );
+
+          if (transcript) {
+            const segments = transcript.segments
+              ? (transcript.segments as Segment[])
+              : [];
+
+            setStatus("done");
+            setProgress(100);
+            setSegments(segments);
+            setTranscriptionState({
+              file: existingRecording.filePath,
+              model: transcript.model as string,
+              status: "done",
+              progress: 100,
+              segments: segments,
+              error: null,
+            });
+
+            try {
+              const summary = await getSummaryByRecordingId(
+                existingRecording.id
+              );
+
+              if (summary) {
+                const actionItems = await getActionItemsBySummaryId(summary.id);
+                setSummaryResult({
+                  summary: summary.content as string,
+                  action_items: actionItems.map((item) => ({
+                    task: item.task,
+                    assignee: item.assignee ?? "Unassigned",
+                    completed: item.isCompleted ?? false,
+                    priority: item.priority ?? "",
+                  })),
+                });
+                setShowSideViews(true);
+              } else {
+                setSummaryResult(null);
+              }
+            } catch (error) {
+              console.error("Failed to fetch summary:", error);
+            }
+            return;
+          }
         }
 
         const arrayBuffer = await selectedAudio.arrayBuffer();

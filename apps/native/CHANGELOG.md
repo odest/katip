@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.4](https://github.com/odest/katip/compare/v0.1.3...v0.1.4) (2025-12-02)
+
+
+### Features
+
+* **db:** add basic database stack with drizzle, sqlocal, sqlite, postgres ([e9fb499](https://github.com/odest/katip/commit/e9fb4999a5198cb1e863dfb9a2c0e3140e5262b1))
+* **db:** add initial migration files and schema for SQLite and Postgres ([b2284f0](https://github.com/odest/katip/commit/b2284f069272e123ae13f6a21c8c35e58f56bb66))
+* **db:** add SQL plugin, Drizzle proxy and multi-platform database setup ([30db4f0](https://github.com/odest/katip/commit/30db4f05e770e794efc6c81e4019fd1c77ff1a3a))
+* **db:** add sqlocal support for local web db and configure migrations ([5a54b68](https://github.com/odest/katip/commit/5a54b6847fbc9cddfbd0acb31a2bcd5dc7030808))
+* **db:** integrate persistence with database hooks ([63c26ed](https://github.com/odest/katip/commit/63c26ed77fde8ad37cb8fdabfb55c25b63fd3630))
+* **utils:** add file utils and unify database ([3c74b80](https://github.com/odest/katip/commit/3c74b808900994cfb22530f9a1795a273a862e62))
+
 ## [0.1.3](https://github.com/odest/katip/compare/v0.1.2...v0.1.3) (2025-11-28)
 
 

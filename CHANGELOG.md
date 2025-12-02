@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.5](https://github.com/odest/katip/compare/v0.1.4...v0.1.5) (2025-12-02)
+
+
+### Bug Fixes
+
+* **ci:** add Supabase env vars to CI workflows ([62c7aae](https://github.com/odest/katip/commit/62c7aae3f22c02bf7bef1513b1a37536b6051574))
+
 ## [0.1.4](https://github.com/odest/katip/compare/v0.1.3...v0.1.4) (2025-12-02)
 
 

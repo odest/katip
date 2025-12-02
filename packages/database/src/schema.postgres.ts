@@ -85,3 +85,19 @@ export const actionItems = pgTable("action_items", {
   priority: text("priority").default("medium"),
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+// Inferred types
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;
+
+export type Recording = typeof recordings.$inferSelect;
+export type NewRecording = typeof recordings.$inferInsert;
+
+export type Transcript = typeof transcripts.$inferSelect;
+export type NewTranscript = typeof transcripts.$inferInsert;
+
+export type Summary = typeof summaries.$inferSelect;
+export type NewSummary = typeof summaries.$inferInsert;
+
+export type ActionItem = typeof actionItems.$inferSelect;
+export type NewActionItem = typeof actionItems.$inferInsert;

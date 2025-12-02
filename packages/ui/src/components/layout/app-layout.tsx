@@ -54,6 +54,8 @@ export function AppLayout({
   const t = useTranslations("Navigation");
   const { signOut } = useUser();
   const {
+    userId,
+    setUserId,
     formView,
     setFormView,
     openDialog,
@@ -75,14 +77,25 @@ export function AppLayout({
 
       try {
         const existingUsers = await database.select().from(users).limit(1);
-        if (existingUsers.length === 0) {
+
+        if (existingUsers.length > 0) {
+          const currentUser = existingUsers[0];
+          setUserId(currentUser.id);
+          return;
+        }
+
+        if (!userId) {
+          const newGuestId = uuidv4();
+
           await database.insert(users).values({
-            id: uuidv4(),
+            id: newGuestId,
             email: "guest@local",
             fullName: "guest",
             createdAt: new Date(),
             updatedAt: new Date(),
           });
+
+          setUserId(newGuestId);
         }
       } catch (error) {
         console.error("Failed to initialize native local user:", error);

@@ -10,6 +10,8 @@ export type FormViews =
 export type OtpType = "signup" | "email_change" | "recovery";
 
 interface AuthState {
+  userId: string | null;
+  setUserId: (userId: string | null) => void;
   formView: FormViews;
   setFormView: (formView: FormViews) => void;
   openDialog: boolean;
@@ -25,6 +27,11 @@ interface AuthState {
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
+      userId: null,
+      setUserId: (userId: string | null) => {
+        set({ userId });
+      },
+
       formView: "signin",
       setFormView: (formView: FormViews) => {
         set({ formView });
@@ -54,6 +61,7 @@ export const useAuthStore = create<AuthState>()(
       name: "auth-storage",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
+        userId: state.userId,
         otpEmail: state.otpEmail,
         otpType: state.otpType,
         formView: state.formView,

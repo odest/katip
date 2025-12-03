@@ -57,7 +57,7 @@ export function HomePage() {
       <AppFooter>
         <Button
           size="lg"
-          className="max-w-3xl mx-auto w-full shadow-lg"
+          className="max-w-3xl mx-auto w-full shadow-lg cursor-pointer"
           onClick={() => router.push("/transcribe")}
           disabled={isButtonDisabled}
         >

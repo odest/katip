@@ -104,7 +104,7 @@ export function TranscribePage() {
     setActiveTab("summary");
 
     try {
-      const result = await generateSummary(text, model, url);
+      const result = await generateSummary(text, model, url, provider);
       setSummaryResult(result);
 
       try {

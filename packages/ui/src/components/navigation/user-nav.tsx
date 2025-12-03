@@ -55,9 +55,9 @@ export function UserNav({ LinkComponent }: UserNavProps) {
 
   const handleLinkClick = useCallback(() => {
     if (isMobile) {
-      setSelectedTab("account");
       setOpenMobile(false);
     }
+    setSelectedTab("account");
   }, [isMobile, setOpenMobile, setSelectedTab]);
 
   return (

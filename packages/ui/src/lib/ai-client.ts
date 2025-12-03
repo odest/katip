@@ -63,11 +63,12 @@ export async function getModels(baseUrl: string): Promise<string[]> {
 export async function generateSummary(
   text: string,
   model: string,
-  baseUrl: string
+  baseUrl: string,
+  provider?: string
 ): Promise<SummaryResult> {
   try {
     const client = createClient(baseUrl);
-    const response = await client.chat.completions.create({
+    const options: any = {
       model: model,
       messages: [
         {
@@ -80,8 +81,42 @@ export async function generateSummary(
         },
       ],
       stream: false,
-      response_format: { type: "json_object" },
-    });
+    };
+
+    // LM Studio requires json_schema for structured output
+    if (provider === "lm-studio") {
+      options.response_format = {
+        type: "json_schema",
+        json_schema: {
+          name: "summary_result",
+          strict: true,
+          schema: {
+            type: "object",
+            properties: {
+              summary: { type: "string" },
+              action_items: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    task: { type: "string" },
+                    assignee: { type: "string" },
+                    priority: { type: "string" },
+                    completed: { type: "boolean" },
+                  },
+                  required: ["task", "assignee", "priority"],
+                },
+              },
+            },
+            required: ["summary", "action_items"],
+          },
+        },
+      };
+    } else {
+      options.response_format = { type: "json_object" };
+    }
+
+    const response = await client.chat.completions.create(options);
 
     const content = response.choices[0]?.message?.content;
 

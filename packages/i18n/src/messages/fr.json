@@ -23,6 +23,14 @@
     "summaryFailedCheckConnection": "Échec de la génération du résumé. Veuillez vérifier votre connexion IA.",
     "summaryFailedOllamaCORS": "Échec de la connexion. Si vous utilisez Ollama sur le Web, assurez-vous qu'il fonctionne avec OLLAMA_ORIGINS=\"*\"."
   },
+  "RecordingsPage": {
+    "loading": "Chargement des enregistrements...",
+    "emptyTitle": "Aucun enregistrement pour le moment",
+    "emptyDescription": "Vos enregistrements apparaîtront ici une fois que vous commencerez à utiliser l'application.",
+    "startTranscription": "Démarrer la transcription",
+    "previous": "Précédent",
+    "next": "Suivant"
+  },
   "TranscriptionView": {
     "cancellingTranscription": "Annulation de la transcription...",
     "failedToCancel": "Impossible d'annuler la transcription",
@@ -251,6 +259,7 @@
   "Navigation": {
     "home": "Accueil",
     "transcribe": "Transcrire",
+    "recordings": "Enregistrements",
     "settings": "Paramètres",
     "platform": "Plateforme",
     "guest": "Utilisateur invité",

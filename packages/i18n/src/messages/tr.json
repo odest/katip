@@ -23,6 +23,14 @@
     "summaryFailedCheckConnection": "Özet oluşturulamadı. Lütfen yapay zeka bağlantınızı kontrol edin.",
     "summaryFailedOllamaCORS": "Bağlantı başarısız. Web üzerinde Ollama kullanıyorsanız, OLLAMA_ORIGINS=\"*\" ile çalıştığından emin olun."
   },
+  "RecordingsPage": {
+    "loading": "Kayıtlar yükleniyor...",
+    "emptyTitle": "Henüz kayıt yok",
+    "emptyDescription": "Kayıtlarınız uygulamayı kullanmaya başladığınızda burada görünecek.",
+    "startTranscription": "Transkripti Başlat",
+    "previous": "Önceki",
+    "next": "Sonraki"
+  },
   "TranscriptionView": {
     "cancellingTranscription": "Transkript iptal ediliyor...",
     "failedToCancel": "Transkript iptal edilemedi",
@@ -251,6 +259,7 @@
   "Navigation": {
     "home": "Ana Sayfa",
     "transcribe": "Transkript",
+    "recordings": "Kayıtlar",
     "settings": "Ayarlar",
     "platform": "Platform",
     "guest": "Misafir Kullanıcı",

@@ -23,6 +23,14 @@
     "summaryFailedCheckConnection": "Не удалось создать сводку. Пожалуйста, проверьте подключение к ИИ.",
     "summaryFailedOllamaCORS": "Не удалось подключиться. Если вы используете Ollama в вебе, убедитесь, что он запущен с OLLAMA_ORIGINS=\"*\"."
   },
+  "RecordingsPage": {
+    "loading": "Загрузка записей...",
+    "emptyTitle": "Записей пока нет",
+    "emptyDescription": "Ваши записи появятся здесь, как только вы начнете использовать приложение.",
+    "startTranscription": "Начать транскрипцию",
+    "previous": "Назад",
+    "next": "Далее"
+  },
   "TranscriptionView": {
     "cancellingTranscription": "Отмена транскрипции...",
     "failedToCancel": "Не удалось отменить транскрипцию",
@@ -251,6 +259,7 @@
   "Navigation": {
     "home": "Главная",
     "transcribe": "Транскрибировать",
+    "recordings": "Записи",
     "settings": "Настройки",
     "platform": "Платформа",
     "guest": "Гость",

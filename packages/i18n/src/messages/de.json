@@ -23,6 +23,14 @@
     "summaryFailedCheckConnection": "Zusammenfassung fehlgeschlagen. Bitte überprüfen Sie Ihre KI-Verbindung.",
     "summaryFailedOllamaCORS": "Verbindung fehlgeschlagen. Wenn Sie Ollama im Web verwenden, stellen Sie sicher, dass es mit OLLAMA_ORIGINS=\"*\" ausgeführt wird."
   },
+  "RecordingsPage": {
+    "loading": "Aufnahmen werden geladen...",
+    "emptyTitle": "Noch keine Aufnahmen",
+    "emptyDescription": "Ihre Aufnahmen erscheinen hier, sobald Sie die App verwenden.",
+    "startTranscription": "Transkription starten",
+    "previous": "Zurück",
+    "next": "Weiter"
+  },
   "TranscriptionView": {
     "cancellingTranscription": "Transkription wird abgebrochen...",
     "failedToCancel": "Transkription konnte nicht abgebrochen werden",
@@ -251,6 +259,7 @@
   "Navigation": {
     "home": "Startseite",
     "settings": "Einstellungen",
+    "recordings": "Aufnahmen",
     "transcribe": "Transkribieren",
     "platform": "Plattform",
     "guest": "Gastbenutzer",

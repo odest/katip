@@ -23,6 +23,14 @@
     "summaryFailedCheckConnection": "要約の生成に失敗しました。AI接続を確認してください。",
     "summaryFailedOllamaCORS": "接続に失敗しました。WebでOllamaを使用している場合は、OLLAMA_ORIGINS=\"*\"で実行されていることを確認してください。"
   },
+  "RecordingsPage": {
+    "loading": "読み込み中...",
+    "emptyTitle": "録音はまだありません",
+    "emptyDescription": "アプリの使用を開始すると、ここに録音が表示されます。",
+    "startTranscription": "文字起こしを開始",
+    "previous": "前へ",
+    "next": "次へ"
+  },
   "TranscriptionView": {
     "cancellingTranscription": "文字起こしをキャンセル中...",
     "failedToCancel": "文字起こしのキャンセルに失敗しました",
@@ -251,6 +259,7 @@
   "Navigation": {
     "home": "ホーム",
     "transcribe": "文字起こし",
+    "recordings": "録音",
     "settings": "設定",
     "platform": "プラットフォーム",
     "guest": "ゲストユーザー",

@@ -1,4 +1,10 @@
-import { Home, Settings, AudioWaveform, LucideIcon } from "lucide-react";
+import {
+  Home,
+  Settings,
+  AudioWaveform,
+  GalleryVerticalEnd,
+  LucideIcon,
+} from "lucide-react";
 
 export interface SubNavItem {
   title: string;
@@ -44,6 +50,14 @@ export const navigationData: NavigationData = {
       isActive: true,
       items: [],
       translationKey: "transcribe",
+    },
+    {
+      title: "Recordings",
+      url: "/recordings",
+      icon: GalleryVerticalEnd,
+      isActive: true,
+      items: [],
+      translationKey: "recordings",
     },
   ],
   navSecondary: [

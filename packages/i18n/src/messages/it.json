@@ -23,6 +23,14 @@
     "summaryFailedCheckConnection": "Impossibile generare il riassunto. Controlla la tua connessione AI.",
     "summaryFailedOllamaCORS": "Connessione fallita. Se stai usando Ollama sul Web, assicurati che sia in esecuzione con OLLAMA_ORIGINS=\"*\"."
   },
+  "RecordingsPage": {
+    "loading": "Caricamento registrazioni...",
+    "emptyTitle": "Nessuna registrazione ancora",
+    "emptyDescription": "Le tue registrazioni appariranno qui una volta che inizierai a usare l'app.",
+    "startTranscription": "Avvia trascrizione",
+    "previous": "Precedente",
+    "next": "Successivo"
+  },
   "TranscriptionView": {
     "cancellingTranscription": "Annullamento trascrizione...",
     "failedToCancel": "Impossibile annullare la trascrizione",
@@ -251,6 +259,7 @@
   "Navigation": {
     "home": "Home",
     "transcribe": "Trascrivi",
+    "recordings": "Registrazioni",
     "settings": "Impostazioni",
     "platform": "Piattaforma",
     "guest": "Utente ospite",

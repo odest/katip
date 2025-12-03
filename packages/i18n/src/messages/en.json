@@ -23,6 +23,14 @@
     "summaryFailedCheckConnection": "Failed to generate summary. Please check your AI connection.",
     "summaryFailedOllamaCORS": "Connection failed. If using Ollama on Web, ensure it's running with OLLAMA_ORIGINS=\"*\"."
   },
+  "RecordingsPage": {
+    "loading": "Loading recordings...",
+    "emptyTitle": "No recordings yet",
+    "emptyDescription": "Your recordings will appear here once you start using the app.",
+    "startTranscription": "Start Transcription",
+    "previous": "Previous",
+    "next": "Next"
+  },
   "TranscriptionView": {
     "cancellingTranscription": "Cancelling transcription...",
     "failedToCancel": "Failed to cancel transcription",
@@ -251,6 +259,7 @@
   "Navigation": {
     "home": "Home",
     "transcribe": "Transcribe",
+    "recordings": "Recordings",
     "settings": "Settings",
     "platform": "Platform",
     "guest": "Guest User",

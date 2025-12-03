@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.5](https://github.com/odest/katip/compare/v0.1.4...v0.1.5) (2025-12-03)
+
+
+### Bug Fixes
+
+* add LM Studio json schema support to fix response_format error (close [#19](https://github.com/odest/katip/issues/19)) ([354ff9c](https://github.com/odest/katip/commit/354ff9c80dcc229e36b96a07afede628100b0eaa))
+
 ## [0.1.4](https://github.com/odest/katip/compare/v0.1.3...v0.1.4) (2025-12-02)
 
 

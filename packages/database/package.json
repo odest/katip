@@ -13,11 +13,18 @@
     "generate:sqlite": "drizzle-kit generate --dialect=sqlite --schema=./src/schema.sqlite.ts --out=../../apps/native/src-tauri/migrations && npx tsx scripts/bundle-migrations.ts",
     "generate:postgres": "drizzle-kit generate --dialect=postgresql --schema=./src/schema.postgres.ts --out=./drizzle/postgres",
     "push:postgres": "drizzle-kit push --config=drizzle.config.postgres.ts",
-    "migrate:postgres": "drizzle-kit migrate --config=drizzle.config.postgres.ts"
+    "migrate:postgres": "drizzle-kit migrate --config=drizzle.config.postgres.ts",
+    "seed:sqlite": "npx tsx scripts/seed-sqlite.ts"
   },
   "dependencies": {
     "dotenv": "^17.2.3",
     "drizzle-kit": "^0.31.7",
     "drizzle-orm": "^0.44.7"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^10.1.0",
+    "@types/sql.js": "^1.4.9",
+    "sql.js": "^1.13.0",
+    "uuid": "^13.0.0"
   }
 }

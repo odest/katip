@@ -29,7 +29,15 @@
     "emptyDescription": "Ваши записи появятся здесь, как только вы начнете использовать приложение.",
     "startTranscription": "Начать транскрипцию",
     "previous": "Назад",
-    "next": "Далее"
+    "next": "Далее",
+    "file": "Файл",
+    "duration": "Длительность",
+    "size": "Размер",
+    "created": "Создано",
+    "completed": "Завершено",
+    "queued": "В очереди",
+    "processing": "Обработка",
+    "failed": "Ошибка"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Отмена транскрипции...",

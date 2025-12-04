@@ -29,7 +29,15 @@
     "emptyDescription": "Suas gravações aparecerão aqui assim que você começar a usar o aplicativo.",
     "startTranscription": "Iniciar Transcrição",
     "previous": "Anterior",
-    "next": "Próximo"
+    "next": "Próximo",
+    "file": "Arquivo",
+    "duration": "Duração",
+    "size": "Tamanho",
+    "created": "Criado",
+    "completed": "Concluído",
+    "queued": "Na fila",
+    "processing": "Processando",
+    "failed": "Falhou"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Cancelando transcrição...",

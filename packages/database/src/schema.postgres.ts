@@ -5,8 +5,8 @@ import {
   jsonb,
   bigint,
   boolean,
-  integer,
   timestamp,
+  doublePrecision,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
@@ -27,12 +27,11 @@ export const recordings = pgTable("recordings", {
   description: text("description"),
   filePath: text("file_path").notNull(),
   fileHash: text("file_hash"),
-  duration: integer("duration"),
+  duration: doublePrecision("duration"),
   fileSize: bigint("file_size", { mode: "number" }),
   status: text("status").notNull().default("queued"),
   isFavorite: boolean("is_favorite").default(false),
   tags: jsonb("tags").$type<string[]>(),
-  color: text("color"),
   isSynced: boolean("is_synced").default(false),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),

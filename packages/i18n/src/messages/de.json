@@ -29,7 +29,15 @@
     "emptyDescription": "Ihre Aufnahmen erscheinen hier, sobald Sie die App verwenden.",
     "startTranscription": "Transkription starten",
     "previous": "Zurück",
-    "next": "Weiter"
+    "next": "Weiter",
+    "file": "Datei",
+    "duration": "Dauer",
+    "size": "Größe",
+    "created": "Erstellt",
+    "completed": "Abgeschlossen",
+    "queued": "In Warteschlange",
+    "processing": "Wird verarbeitet",
+    "failed": "Fehlgeschlagen"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Transkription wird abgebrochen...",

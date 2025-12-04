@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import {
   recordings,
   type Recording,
@@ -36,8 +36,44 @@ export function useRecordings() {
     []
   );
 
+  const getPaginatedRecordings = useCallback(
+    async (page: number, pageSize: number) => {
+      try {
+        const offset = (page - 1) * pageSize;
+
+        const [data, allIds] = await Promise.all([
+          database
+            .select({
+              id: recordings.id,
+              title: recordings.title,
+              filePath: recordings.filePath,
+              duration: recordings.duration,
+              fileSize: recordings.fileSize,
+              status: recordings.status,
+              createdAt: recordings.createdAt,
+            })
+            .from(recordings)
+            .orderBy(desc(recordings.createdAt))
+            .limit(pageSize)
+            .offset(offset),
+          database.select({ id: recordings.id }).from(recordings),
+        ]);
+
+        return {
+          recordings: data,
+          totalCount: allIds.length,
+        };
+      } catch (error) {
+        console.error("Failed to get paginated recordings:", error);
+        return { recordings: [], totalCount: 0 };
+      }
+    },
+    []
+  );
+
   return {
     addRecording,
     getRecordingByHash,
+    getPaginatedRecordings,
   };
 }

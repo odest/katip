@@ -1,20 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
+  Clock,
+  Calendar,
   FileText,
   Sparkles,
+  HardDrive,
   FileAudio,
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "lucide-react";
-import { cn } from "@workspace/ui/lib/utils";
+import { cn, formatTimestamp, getBadgeStyles } from "@workspace/ui/lib/utils";
 import { useTranslations } from "@workspace/i18n";
 import { useRouter } from "@workspace/i18n/navigation";
+import { Recording } from "@workspace/database/schema/sqlite";
+import { useRecordings } from "@workspace/ui/hooks/use-recordings";
 import {
   Card,
   CardTitle,
   CardHeader,
+  CardContent,
   CardDescription,
 } from "@workspace/ui/components/card";
 import {
@@ -24,6 +30,7 @@ import {
   PaginationContent,
   PaginationEllipsis,
 } from "@workspace/ui/components/pagination";
+import { Badge } from "@workspace/ui/components/badge";
 import { Spinner } from "@workspace/ui/components/spinner";
 import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
 import { AppFooter } from "@workspace/ui/components/layout/app-footer";
@@ -33,29 +40,46 @@ import { TextShimmer } from "@workspace/ui/components/common/text-shimmer";
 export function RecordingsPage() {
   const router = useRouter();
   const t = useTranslations("RecordingsPage");
-  const [recordings, setRecordings] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { getPaginatedRecordings } = useRecordings();
+  const [recordings, setRecordings] = useState<
+    Pick<
+      Recording,
+      | "id"
+      | "title"
+      | "filePath"
+      | "duration"
+      | "fileSize"
+      | "status"
+      | "createdAt"
+    >[]
+  >([]);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
   const ITEMS_PER_PAGE = 10;
 
-  // Mock data for testing
-  const allRecordings = Array.from({ length: 125 }).map((_, i) => ({
-    id: i,
-    title: `Recording ${i + 1}`,
-    description: "Test recording description",
-  }));
-  const totalPages = Math.ceil(allRecordings.length / ITEMS_PER_PAGE);
-  const currentRecordings = allRecordings.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+  useEffect(() => {
+    const fetchRecordings = async () => {
+      setLoading(true);
+      try {
+        const { recordings: data, totalCount: count } =
+          await getPaginatedRecordings(currentPage, ITEMS_PER_PAGE);
+        setRecordings(data);
+        setTotalCount(count);
+      } catch (error) {
+        console.error("Failed to fetch recordings:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecordings();
+  }, [currentPage, getPaginatedRecordings]);
+
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
   const handlePageChange = (page: number) => {
-    setLoading(true);
-    setTimeout(() => {
-      setCurrentPage(page);
-      setLoading(false);
-    }, 250);
+    setCurrentPage(page);
   };
 
   const getPageNumbers = () => {
@@ -97,6 +121,18 @@ export function RecordingsPage() {
     return pages;
   };
 
+  const formatFileSize = (bytes: number | null) => {
+    if (!bytes) return "0 B";
+    const k = 1024;
+    const sizes = ["B", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
+  };
+
+  const getFileName = (path: string) => {
+    return path.split(/[\\/]/).pop() || path;
+  };
+
   if (loading) {
     return (
       <div className="flex flex-1 flex-col justify-center items-center p-6 gap-4">
@@ -129,12 +165,94 @@ export function RecordingsPage() {
       <ScrollArea className="overflow-y-auto w-full flex-1">
         <div className="flex flex-col gap-6 p-6">
           <div className="max-w-3xl mx-auto w-full flex flex-col gap-6">
-            {currentRecordings.map((recording) => (
-              <Card key={recording.id}>
+            {recordings.map((recording) => (
+              <Card
+                key={recording.id}
+                className="gap-3 cursor-pointer hover:bg-card/90 hover:border-primary/15"
+              >
                 <CardHeader>
-                  <CardTitle>{recording.title}</CardTitle>
-                  <CardDescription>{recording.description}</CardDescription>
+                  <div className="flex flex-row items-start justify-between">
+                    <CardTitle>{recording.title}</CardTitle>
+                    <CardDescription>
+                      <Badge
+                        variant="outline"
+                        className={cn(
+                          getBadgeStyles(recording.status),
+                          " font-mono"
+                        )}
+                      >
+                        {t(recording.status)}
+                      </Badge>
+                    </CardDescription>
+                  </div>
                 </CardHeader>
+                <CardContent>
+                  <div className="flex flex-col gap-4">
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                      <div className="flex items-center gap-2.5 px-2 py-2 rounded-lg border">
+                        <div className="flex items-center justify-center min-w-8 h-8 rounded-md border">
+                          <FileAudio className="h-4 w-4" />
+                        </div>
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-[10px] tracking-wider text-muted-foreground font-medium">
+                            {t("file")}
+                          </span>
+                          <span className="text-xs font-medium text-foreground truncate">
+                            {getFileName(recording.filePath)}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2.5 px-2 py-2 rounded-lg border">
+                        <div className="flex items-center justify-center w-8 h-8 rounded-md border">
+                          <Clock className="h-4 w-4" />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-[10px] tracking-wider text-muted-foreground font-medium">
+                            {t("duration")}
+                          </span>
+                          <span className="text-xs font-medium text-foreground tabular-nums">
+                            {formatTimestamp(recording.duration || 0)}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2.5 px-2 py-2 rounded-lg border">
+                        <div className="flex items-center justify-center w-8 h-8 rounded-md border">
+                          <HardDrive className="h-4 w-4" />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-[10px] tracking-wider text-muted-foreground font-medium">
+                            {t("size")}
+                          </span>
+                          <span className="text-xs font-medium text-foreground">
+                            {formatFileSize(recording.fileSize)}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2.5 px-2 py-2 rounded-lg border">
+                        <div className="flex items-center justify-center w-8 h-8 rounded-md border">
+                          <Calendar className="h-4 w-4" />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-[10px] tracking-wider text-muted-foreground font-medium">
+                            {t("created")}
+                          </span>
+                          <span className="text-xs font-medium text-foreground">
+                            {recording.createdAt
+                              ? new Intl.DateTimeFormat("en-UK", {
+                                  day: "numeric",
+                                  month: "numeric",
+                                  year: "numeric",
+                                }).format(new Date(recording.createdAt))
+                              : "-"}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
               </Card>
             ))}
           </div>

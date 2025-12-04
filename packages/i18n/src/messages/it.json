@@ -29,7 +29,15 @@
     "emptyDescription": "Le tue registrazioni appariranno qui una volta che inizierai a usare l'app.",
     "startTranscription": "Avvia trascrizione",
     "previous": "Precedente",
-    "next": "Successivo"
+    "next": "Successivo",
+    "file": "File",
+    "duration": "Durata",
+    "size": "Dimensione",
+    "created": "Creato",
+    "completed": "Completato",
+    "queued": "In coda",
+    "processing": "Elaborazione",
+    "failed": "Fallito"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Annullamento trascrizione...",

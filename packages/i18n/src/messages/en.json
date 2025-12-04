@@ -29,7 +29,15 @@
     "emptyDescription": "Your recordings will appear here once you start using the app.",
     "startTranscription": "Start Transcription",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "file": "File",
+    "duration": "Duration",
+    "size": "Size",
+    "created": "Created",
+    "completed": "Completed",
+    "queued": "Queued",
+    "processing": "Processing",
+    "failed": "Failed"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Cancelling transcription...",

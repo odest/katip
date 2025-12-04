@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
 
 export const users = sqliteTable("users", {
@@ -23,12 +23,11 @@ export const recordings = sqliteTable("recordings", {
   description: text("description"),
   filePath: text("file_path").notNull(),
   fileHash: text("file_hash"),
-  duration: integer("duration"),
+  duration: real("duration"),
   fileSize: integer("file_size"),
   status: text("status").notNull().default("queued"),
   isFavorite: integer("is_favorite", { mode: "boolean" }).default(false),
   tags: text("tags", { mode: "json" }).$type<string[]>(),
-  color: text("color"),
   isSynced: integer("is_synced", { mode: "boolean" }).default(false),
   createdAt: integer("created_at", { mode: "timestamp_ms" }).default(
     sql`(unixepoch() * 1000)`

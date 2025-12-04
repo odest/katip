@@ -29,7 +29,15 @@
     "emptyDescription": "Kayıtlarınız uygulamayı kullanmaya başladığınızda burada görünecek.",
     "startTranscription": "Transkripti Başlat",
     "previous": "Önceki",
-    "next": "Sonraki"
+    "next": "Sonraki",
+    "file": "Dosya",
+    "duration": "Süre",
+    "size": "Boyut",
+    "created": "Oluşturuldu",
+    "completed": "Tamamlandı",
+    "queued": "Sırada",
+    "processing": "İşleniyor",
+    "failed": "Başarısız"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Transkript iptal ediliyor...",

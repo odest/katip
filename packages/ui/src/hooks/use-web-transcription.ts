@@ -276,7 +276,6 @@ export function useWebTranscription({
                     status: "completed",
                     isFavorite: false,
                     tags: null,
-                    color: null,
                     isSynced: false,
                     createdAt: new Date(),
                     updatedAt: new Date(),

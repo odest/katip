@@ -29,7 +29,15 @@
     "emptyDescription": "アプリの使用を開始すると、ここに録音が表示されます。",
     "startTranscription": "文字起こしを開始",
     "previous": "前へ",
-    "next": "次へ"
+    "next": "次へ",
+    "file": "ファイル",
+    "duration": "期間",
+    "size": "サイズ",
+    "created": "作成日",
+    "completed": "完了",
+    "queued": "待機中",
+    "processing": "処理中",
+    "failed": "失敗"
   },
   "TranscriptionView": {
     "cancellingTranscription": "文字起こしをキャンセル中...",

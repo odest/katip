@@ -137,18 +137,21 @@ export async function deleteAllCachedModels(): Promise<boolean> {
 
 export const getBadgeStyles = (status: string) => {
   switch (status.toLowerCase()) {
-    case "high":
-      return "bg-red-500/10 text-red-500 border-red-500/20 hover:bg-red-500/25";
-    case "medium":
-      return "bg-amber-500/10 text-amber-500 border-amber-500/20 hover:bg-amber-500/25";
-    case "low":
-      return "bg-blue-500/10 text-blue-500 border-blue-500/20 hover:bg-blue-500/25";
-    case "checking":
-      return "bg-yellow-500/10 text-yellow-500 border-yellow-500/20 hover:bg-yellow-500/25";
+    case "completed":
     case "connected":
       return "bg-green-500/10 text-green-500 border-green-500/20 hover:bg-green-500/25";
+    case "queued":
+    case "low":
+      return "bg-blue-500/10 text-blue-500 border-blue-500/20 hover:bg-blue-500/25";
+    case "medium":
+      return "bg-amber-500/10 text-amber-500 border-amber-500/20 hover:bg-amber-500/25";
+    case "failed":
+    case "high":
     case "disconnected":
       return "bg-red-500/10 text-red-500 border-red-500/20 hover:bg-red-500/25";
+    case "processing":
+    case "checking":
+      return "bg-yellow-500/10 text-yellow-500 border-yellow-500/20 hover:bg-yellow-500/25";
     default:
       return "bg-white-500/10 text-white-500 border-white-500/20 hover:bg-white-500/25";
   }

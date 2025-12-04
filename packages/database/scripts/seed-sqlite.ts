@@ -105,7 +105,6 @@ const main = async () => {
           ["meeting", "lecture", "interview", "notes"],
           { min: 0, max: 3 }
         ),
-        color: faker.color.rgb(),
         isSynced: faker.datatype.boolean(),
         createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),

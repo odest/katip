@@ -29,7 +29,15 @@
     "emptyDescription": "Vos enregistrements apparaîtront ici une fois que vous commencerez à utiliser l'application.",
     "startTranscription": "Démarrer la transcription",
     "previous": "Précédent",
-    "next": "Suivant"
+    "next": "Suivant",
+    "file": "Fichier",
+    "duration": "Durée",
+    "size": "Taille",
+    "created": "Créé",
+    "completed": "Terminé",
+    "queued": "En file d'attente",
+    "processing": "Traitement",
+    "failed": "Échoué"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Annulation de la transcription...",

@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.7](https://github.com/odest/katip/compare/v0.1.6...v0.1.7) (2025-12-04)
+
+
+### Features
+
+* add recordings migration, pagination, and remove color column ([2749506](https://github.com/odest/katip/commit/2749506445063a4fba30a2917d92c21e0645cd40))
+* **db:** add SQLite seeding script and dev deps for tests ([78200d3](https://github.com/odest/katip/commit/78200d383670d617e44a28ca9ad776f1c372951d))
+* **ui:** add basic recordings page with pagination and navigation ([15da692](https://github.com/odest/katip/commit/15da6920cdd2b1d1b6d59e602b7a08b98aad9eff))
+
 ## [0.1.6](https://github.com/odest/katip/compare/v0.1.5...v0.1.6) (2025-12-03)
 
 

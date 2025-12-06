@@ -37,7 +37,12 @@
     "completed": "Completato",
     "queued": "In coda",
     "processing": "Elaborazione",
-    "failed": "Fallito"
+    "cancelled": "Annullato",
+    "failed": "Fallito",
+    "delete": "Elimina",
+    "deleteConfirmationTitle": "Eliminare definitivamente la registrazione?",
+    "deleteConfirmationDescription": "Sei sicuro di voler eliminare questa registrazione? Questa registrazione, insieme a tutte le trascrizioni e i riassunti associati, verrà eliminata definitivamente. Questa azione non può essere annullata.",
+    "cancel": "Annulla"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Annullamento trascrizione...",

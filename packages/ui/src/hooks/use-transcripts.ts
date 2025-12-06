@@ -67,9 +67,28 @@ export function useTranscripts() {
     []
   );
 
+  const getFirstTranscriptByRecordingId = useCallback(
+    async (recordingId: string): Promise<Transcript | null> => {
+      try {
+        const result = await database
+          .select()
+          .from(transcripts)
+          .where(eq(transcripts.recordingId, recordingId))
+          .limit(1);
+
+        return result[0] || null;
+      } catch (error) {
+        console.error("Failed to get first transcript:", error);
+        return null;
+      }
+    },
+    []
+  );
+
   return {
     addTranscript,
     getTranscriptByRecordingId,
+    getFirstTranscriptByRecordingId,
     deleteTranscriptByRecordingId,
   };
 }

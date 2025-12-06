@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { save } from "@tauri-apps/plugin-dialog";
 import { writeTextFile } from "@tauri-apps/plugin-fs";
@@ -38,33 +38,37 @@ export const NativeTranscriptionView = ({
   const { getRecordingByHash } = useRecordings();
   const { deleteTranscriptByRecordingId } = useTranscripts();
 
-  const { selectedAudio } = useAudioStore();
+  const { selectedAudio, setSelectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
   const {
-    checkTranscriptionMatch,
+    status: storeStatus,
+    progress: storeProgress,
+    segments: storeSegments,
+    error: storeError,
+    file: storeFile,
+    model: storeModel,
+    recordingId: storeRecordingId,
     setTranscriptionState,
     clearTranscriptionState,
   } = useTranscriptionStore();
   const { resetSummary } = useSummaryStore();
 
-  const initialState = useMemo(
-    () =>
-      checkTranscriptionMatch(
-        selectedAudio as string,
-        selectedModel as string
-      ) || null,
-    [selectedAudio, selectedModel, checkTranscriptionMatch]
-  );
+  const isActiveTranscription =
+    storeFile === selectedAudio &&
+    storeModel === selectedModel &&
+    (storeStatus === "loadingModel" || storeStatus === "transcribing");
 
   const [status, setStatus] = useState<TranscriptionStatus>(
-    initialState?.status || "loadingModel"
+    isActiveTranscription ? storeStatus : "loadingModel"
   );
-  const [progress, setProgress] = useState(initialState?.progress || 0);
+  const [progress, setProgress] = useState(
+    isActiveTranscription ? storeProgress : 0
+  );
   const [segments, setSegments] = useState<Segment[]>(
-    initialState?.segments || []
+    isActiveTranscription ? storeSegments : []
   );
   const [error, setError] = useState<string | null>(
-    initialState?.error || null
+    isActiveTranscription ? storeError : null
   );
 
   const handleSegmentChange = (index: number, newText: string) => {
@@ -78,6 +82,7 @@ export const NativeTranscriptionView = ({
   const handleNewTranscription = () => {
     clearTranscriptionState();
     resetSummary();
+    setSelectedAudio(null);
     router.push("/");
   };
 
@@ -151,7 +156,8 @@ export const NativeTranscriptionView = ({
 
   // start transcription process
   useTranscriptionProcess({
-    initialState,
+    isActiveTranscription,
+    storeRecordingId,
     setStatus,
     setProgress,
     setSegments,

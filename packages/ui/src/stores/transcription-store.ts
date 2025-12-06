@@ -8,6 +8,7 @@ export interface Segment {
 }
 
 export type TranscriptionStatus =
+  | "queued"
   | "loadingModel"
   | "transcribing"
   | "cancelled"
@@ -21,16 +22,13 @@ export interface TranscriptionState {
   progress: number;
   segments: Segment[];
   error: string | null;
+  recordingId: string | null;
 }
 
 interface TranscriptionStore extends TranscriptionState {
-  setTranscriptionState: (state: TranscriptionState) => void;
+  setTranscriptionState: (state: Partial<TranscriptionState>) => void;
   getTranscriptionState: () => TranscriptionState | null;
   clearTranscriptionState: () => void;
-  checkTranscriptionMatch: (
-    file: string,
-    model: string
-  ) => TranscriptionState | null;
 }
 
 export const useTranscriptionStore = create(
@@ -38,24 +36,21 @@ export const useTranscriptionStore = create(
     (set, get) => ({
       file: null,
       model: null,
-      status: "loadingModel" as TranscriptionStatus,
+      status: "queued" as TranscriptionStatus,
       progress: 0,
       segments: [],
       error: null,
+      recordingId: null,
 
       setTranscriptionState: (state) =>
-        set({
-          file: state.file,
-          model: state.model,
-          status: state.status,
-          progress: state.progress,
-          segments: state.segments,
-          error: state.error,
-        }),
+        set((prev) => ({
+          ...prev,
+          ...state,
+        })),
 
       getTranscriptionState: () => {
         const state = get();
-        if (!state.file) return null;
+        if (!state.file && !state.recordingId) return null;
 
         return {
           file: state.file,
@@ -64,6 +59,7 @@ export const useTranscriptionStore = create(
           progress: state.progress,
           segments: state.segments,
           error: state.error,
+          recordingId: state.recordingId,
         };
       },
 
@@ -75,26 +71,8 @@ export const useTranscriptionStore = create(
           progress: 0,
           segments: [],
           error: null,
+          recordingId: null,
         }),
-
-      checkTranscriptionMatch: (file, model) => {
-        const state = get();
-
-        if (!state.file) return null;
-
-        if (state.file === file && state.model === model) {
-          return {
-            file: state.file,
-            model: state.model,
-            status: state.status,
-            progress: state.progress,
-            segments: state.segments,
-            error: state.error,
-          };
-        }
-
-        return null;
-      },
     }),
     {
       name: "transcription-storage",

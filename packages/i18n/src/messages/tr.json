@@ -37,7 +37,12 @@
     "completed": "Tamamlandı",
     "queued": "Sırada",
     "processing": "İşleniyor",
-    "failed": "Başarısız"
+    "cancelled": "İptal Edildi",
+    "failed": "Başarısız",
+    "delete": "Sil",
+    "deleteConfirmationTitle": "Kaydı Kalıcı Olarak Sil?",
+    "deleteConfirmationDescription": "Bu kaydı silmek istediğinizden emin misiniz? Bu kayıt, ilişkili tüm transkriptler ve özetler kalıcı olarak silinecek. Bu işlem geri alınamaz.",
+    "cancel": "İptal"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Transkript iptal ediliyor...",

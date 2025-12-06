@@ -37,7 +37,12 @@
     "completed": "Completed",
     "queued": "Queued",
     "processing": "Processing",
-    "failed": "Failed"
+    "cancelled": "Cancelled",
+    "failed": "Failed",
+    "delete": "Delete",
+    "deleteConfirmationTitle": "Permanently Delete Recording?",
+    "deleteConfirmationDescription": "Are you sure you want to delete this recording? This recording, along with all associated transcripts and summaries, will be permanently deleted. This action cannot be undone.",
+    "cancel": "Cancel"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Cancelling transcription...",

@@ -143,6 +143,7 @@ export const getBadgeStyles = (status: string) => {
     case "queued":
     case "low":
       return "bg-blue-500/10 text-blue-500 border-blue-500/20 hover:bg-blue-500/25";
+    case "cancelled":
     case "medium":
       return "bg-amber-500/10 text-amber-500 border-amber-500/20 hover:bg-amber-500/25";
     case "failed":

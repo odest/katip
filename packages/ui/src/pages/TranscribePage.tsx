@@ -40,7 +40,7 @@ export function TranscribePage() {
   const t = useTranslations("TranscribePage");
   const { selectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
-  const { segments } = useTranscriptionStore();
+  const { segments, recordingId } = useTranscriptionStore();
   const {
     setSummarizing,
     setSummaryResult,
@@ -61,7 +61,9 @@ export function TranscribePage() {
   const [isAndroid, setIsAndroid] = useState(false);
   const [animateIn, setAnimateIn] = useState(false);
   const [activeTab, setActiveTab] = useState("transcribe");
-  const selectionsMissing = !selectedAudio || !selectedModel;
+  const selectionsMissing = recordingId
+    ? false
+    : !selectedAudio || !selectedModel;
   const TranscriptionView = isTauriApp
     ? NativeTranscriptionView
     : WebTranscriptionView;

@@ -37,7 +37,12 @@
     "completed": "Concluído",
     "queued": "Na fila",
     "processing": "Processando",
-    "failed": "Falhou"
+    "cancelled": "Cancelado",
+    "failed": "Falhou",
+    "delete": "Excluir",
+    "deleteConfirmationTitle": "Excluir gravação permanentemente?",
+    "deleteConfirmationDescription": "Tem certeza de que deseja excluir esta gravação? Esta gravação, juntamente com todas as transcrições e resumos associados, será excluída permanentemente. Esta ação não pode ser desfeita.",
+    "cancel": "Cancelar"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Cancelando transcrição...",

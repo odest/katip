@@ -1,5 +1,5 @@
 import { useEffect, useRef, type Dispatch, type SetStateAction } from "react";
-import { stat } from "@tauri-apps/plugin-fs";
+import { stat, exists } from "@tauri-apps/plugin-fs";
 import { listen } from "@tauri-apps/api/event";
 import { invoke, convertFileSrc } from "@tauri-apps/api/core";
 import { toast } from "sonner";
@@ -24,16 +24,18 @@ import type {
 } from "@workspace/ui/stores/transcription-store";
 
 interface UseTranscriptionParams {
-  initialState: TranscriptionState | null;
+  isActiveTranscription: boolean;
+  storeRecordingId: string | null;
   setStatus: Dispatch<SetStateAction<TranscriptionStatus>>;
   setProgress: Dispatch<SetStateAction<number>>;
   setSegments: Dispatch<SetStateAction<Segment[]>>;
   setError: Dispatch<SetStateAction<string | null>>;
-  setTranscriptionState: (state: TranscriptionState) => void;
+  setTranscriptionState: (state: Partial<TranscriptionState>) => void;
 }
 
 export function useTranscriptionProcess({
-  initialState,
+  isActiveTranscription,
+  storeRecordingId,
   setStatus,
   setProgress,
   setSegments,
@@ -41,16 +43,22 @@ export function useTranscriptionProcess({
   setTranscriptionState,
 }: UseTranscriptionParams) {
   const progressRef = useRef(0);
+  const segmentsRef = useRef<Segment[]>([]);
   const fileHashRef = useRef<string | null>(null);
   const recordingIdRef = useRef<string | null>(null);
   const t = useTranslations("TranscriptionView");
 
-  const { addRecording, getRecordingByHash } = useRecordings();
-  const { addTranscript, getTranscriptByRecordingId } = useTranscripts();
+  const { addRecording, getRecordingByHash, getRecordingById } =
+    useRecordings();
+  const {
+    addTranscript,
+    getTranscriptByRecordingId,
+    getFirstTranscriptByRecordingId,
+  } = useTranscripts();
   const { getSummaryByRecordingId } = useSummaries();
   const { getActionItemsBySummaryId } = useActionItems();
 
-  const { selectedAudio } = useAudioStore();
+  const { selectedAudio, setSelectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
   const { language, translateToEnglish } = useLanguageStore();
   const { useGPU, threadCount } = usePerformanceStore();
@@ -80,6 +88,7 @@ export function useTranscriptionProcess({
               return prev;
             }
             const newSegments = [...prev, event.payload];
+            segmentsRef.current = newSegments;
 
             setTranscriptionState({
               file: selectedAudio as string,
@@ -190,13 +199,76 @@ export function useTranscriptionProcess({
       );
 
       unlisteners.push(
-        await listen("transcribe_cancelled", () => {
-          setStatus("done");
-          setProgress(100);
+        await listen("transcribe_cancelled", async () => {
+          setStatus("cancelled");
+          const currentSegments = segmentsRef.current;
+          const currentProgress = progressRef.current;
+
+          setTranscriptionState({
+            file: selectedAudio as string,
+            model: selectedModel as string,
+            status: "cancelled",
+            progress: currentProgress,
+            segments: currentSegments,
+            error: null,
+          });
 
           toast.info(t("transcriptionCancelled"), {
             description: t("transcriptionCancelledDesc"),
           });
+
+          if (currentSegments.length > 0) {
+            const currentUserId = useAuthStore.getState().userId;
+
+            if (currentUserId) {
+              try {
+                let recordingId = recordingIdRef.current;
+
+                if (!recordingId && fileHashRef.current) {
+                  const duration = await getAudioDuration(
+                    convertFileSrc(selectedAudio as string)
+                  );
+                  const metadata = await stat(selectedAudio as string);
+                  recordingId = uuidv4();
+
+                  await addRecording({
+                    id: recordingId,
+                    userId: currentUserId,
+                    title:
+                      (selectedAudio as string).split(/[\\/]/).pop() ||
+                      "Untitled",
+                    description: null,
+                    filePath: selectedAudio as string,
+                    fileHash: fileHashRef.current,
+                    duration: duration,
+                    fileSize: metadata.size,
+                    status: "cancelled",
+                    isFavorite: false,
+                    tags: null,
+                    isSynced: false,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    deletedAt: null,
+                  });
+                }
+
+                if (recordingId) {
+                  const transcriptId = uuidv4();
+                  await addTranscript({
+                    id: transcriptId,
+                    recordingId: recordingId,
+                    userId: currentUserId,
+                    language: language,
+                    model: selectedModel as string,
+                    segments: currentSegments,
+                    createdAt: new Date(),
+                  });
+                }
+              } catch (error) {
+                console.error("Failed to save cancelled transcription:", error);
+              }
+            }
+          }
         })
       );
     };
@@ -204,18 +276,89 @@ export function useTranscriptionProcess({
     const runTranscription = async () => {
       await setupListeners();
 
-      if (
-        initialState?.status === "done" ||
-        initialState?.status === "loadingModel" ||
-        initialState?.status === "transcribing"
-      ) {
-        console.log(
-          "Transcription already in progress or completed, skipping new start"
-        );
+      if (isActiveTranscription) {
+        console.log("Transcription already in progress, skipping new start");
         return;
       }
 
       try {
+        // If we have a recordingId from store (e.g., navigating from RecordingsPage),
+        // load directly from DB without file check or hash calculation
+        if (storeRecordingId) {
+          const existingRecording = await getRecordingById(storeRecordingId);
+
+          if (existingRecording) {
+            recordingIdRef.current = existingRecording.id;
+
+            const transcript = await getFirstTranscriptByRecordingId(
+              existingRecording.id
+            );
+
+            if (transcript) {
+              const segments = transcript.segments
+                ? (transcript.segments as Segment[])
+                : [];
+
+              setStatus("done");
+              setProgress(100);
+              setSegments(segments);
+              setSelectedAudio(existingRecording.filePath);
+              setTranscriptionState({
+                file: existingRecording.filePath,
+                model: transcript.model as string,
+                status: "done",
+                progress: 100,
+                segments: segments,
+                error: null,
+                recordingId: existingRecording.id,
+              });
+
+              try {
+                const summary = await getSummaryByRecordingId(
+                  existingRecording.id
+                );
+
+                if (summary) {
+                  const actionItems = await getActionItemsBySummaryId(
+                    summary.id
+                  );
+                  setSummaryResult({
+                    summary: summary.content as string,
+                    action_items: actionItems.map((item) => ({
+                      task: item.task,
+                      assignee: item.assignee ?? "Unassigned",
+                      completed: item.isCompleted ?? false,
+                      priority: item.priority ?? "",
+                    })),
+                  });
+                  setShowSideViews(true);
+                } else {
+                  setSummaryResult(null);
+                }
+              } catch (error) {
+                console.error("Failed to fetch summary:", error);
+              }
+              return;
+            }
+          }
+        }
+
+        const fileExists = await exists(selectedAudio as string);
+        if (!fileExists) {
+          const errorMessage = `File not found: ${selectedAudio}`;
+          setError(errorMessage);
+          setStatus("error");
+          setTranscriptionState({
+            file: selectedAudio as string,
+            model: selectedModel as string,
+            status: "error",
+            progress: 0,
+            segments: [],
+            error: errorMessage,
+          });
+          return;
+        }
+
         const hash = await invoke<string>("calculate_file_hash", {
           path: selectedAudio,
         });
@@ -276,6 +419,21 @@ export function useTranscriptionProcess({
         }
       } catch (error) {
         console.error("Failed to calculate hash or check history:", error);
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : "Failed to access audio file";
+        setError(errorMessage);
+        setStatus("error");
+        setTranscriptionState({
+          file: selectedAudio as string,
+          model: selectedModel as string,
+          status: "error",
+          progress: 0,
+          segments: [],
+          error: errorMessage,
+        });
+        return;
       }
 
       try {

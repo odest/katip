@@ -127,10 +127,10 @@ const main = async () => {
         userId: recording.userId,
         language: "en",
         model: "whisper-1",
-        segments: JSON.stringify([
-          { start: 0, end: 10, text: faker.lorem.sentence() },
-          { start: 10, end: 20, text: faker.lorem.sentence() },
-        ]),
+        segments: [
+          { start: 0, end: 1000, text: faker.lorem.sentence() },
+          { start: 1000, end: 2000, text: faker.lorem.sentence() },
+        ],
         createdAt: faker.date.past(),
       });
     }

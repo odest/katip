@@ -37,7 +37,12 @@
     "completed": "已完成",
     "queued": "排队中",
     "processing": "处理中",
-    "failed": "失败"
+    "cancelled": "已取消",
+    "failed": "失败",
+    "delete": "删除",
+    "deleteConfirmationTitle": "永久删除录音？",
+    "deleteConfirmationDescription": "您确定要删除此录音吗？此录音以及所有相关的转录和摘要将被永久删除。此操作无法撤销。",
+    "cancel": "取消"
   },
   "TranscriptionView": {
     "cancellingTranscription": "正在取消转录...",

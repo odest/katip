@@ -1,9 +1,11 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { toast } from "sonner";
+import { v4 as uuidv4 } from "uuid";
 import { useTranslations } from "@workspace/i18n";
-import { calculateFileHash } from "@workspace/ui/lib/utils";
+import { calculateFileHash, getAudioDuration } from "@workspace/ui/lib/utils";
 import { useRecordings } from "@workspace/ui/hooks/use-recordings";
 import { useTranscripts } from "@workspace/ui/hooks/use-transcripts";
+import { useAuthStore } from "@workspace/ui/stores/auth-store";
 import { useAudioStore } from "@workspace/ui/stores/audio-store";
 import { useModelStore } from "@workspace/ui/stores/model-store";
 import { useLanguageStore } from "@workspace/ui/stores/language-store";
@@ -32,36 +34,42 @@ export const WebTranscriptionView = ({
   const router = useRouter();
   const t = useTranslations("TranscriptionView");
 
-  const { getRecordingByHash } = useRecordings();
-  const { deleteTranscriptByRecordingId } = useTranscripts();
+  const { getRecordingByHash, addRecording } = useRecordings();
+  const { deleteTranscriptByRecordingId, addTranscript } = useTranscripts();
 
-  const { selectedAudio } = useAudioStore();
+  const { language } = useLanguageStore();
+  const { selectedAudio, setSelectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
   const {
-    checkTranscriptionMatch,
+    status: storeStatus,
+    progress: storeProgress,
+    segments: storeSegments,
+    error: storeError,
+    file: storeFile,
+    model: storeModel,
+    recordingId: storeRecordingId,
     setTranscriptionState,
     clearTranscriptionState,
   } = useTranscriptionStore();
   const { resetSummary } = useSummaryStore();
 
-  const initialState = useMemo(
-    () =>
-      checkTranscriptionMatch(
-        selectedAudio as string,
-        selectedModel as string
-      ) || null,
-    [selectedAudio, selectedModel, checkTranscriptionMatch]
-  );
+  const isActiveTranscription =
+    storeFile ===
+      (selectedAudio instanceof File ? selectedAudio.name : selectedAudio) &&
+    storeModel === selectedModel &&
+    (storeStatus === "loadingModel" || storeStatus === "transcribing");
 
-  const [status, setStatus] = useState<TranscriptionStatus | "cancelled">(
-    initialState?.status || "loadingModel"
+  const [status, setStatus] = useState<TranscriptionStatus>(
+    isActiveTranscription ? storeStatus : "loadingModel"
   );
-  const [progress, setProgress] = useState(initialState?.progress || 0);
+  const [progress, setProgress] = useState(
+    isActiveTranscription ? storeProgress : 0
+  );
   const [segments, setSegments] = useState<Segment[]>(
-    initialState?.segments || []
+    isActiveTranscription ? storeSegments : []
   );
   const [error, setError] = useState<string | null>(
-    initialState?.error || null
+    isActiveTranscription ? storeError : null
   );
   const [downloadingFiles, setDownloadingFiles] = useState<
     Array<{ name: string; progress: number; status: "loading" | "done" }>
@@ -79,6 +87,7 @@ export const WebTranscriptionView = ({
   const handleNewTranscription = () => {
     clearTranscriptionState();
     resetSummary();
+    setSelectedAudio(null);
     router.push("/");
   };
 
@@ -142,7 +151,8 @@ export const WebTranscriptionView = ({
   };
 
   const { cancel: terminateWorker, transcribe } = useWebTranscription({
-    initialState,
+    isActiveTranscription,
+    storeRecordingId,
     setStatus,
     setProgress,
     setSegments,
@@ -151,20 +161,78 @@ export const WebTranscriptionView = ({
     setDownloadingFiles,
   });
 
-  const handleCancel = useCallback(() => {
+  const handleCancel = useCallback(async () => {
     if (status === "loadingModel" || status === "transcribing") {
       const wasRunning = terminateWorker();
       if (wasRunning) {
+        const currentSegments = segments;
+        const currentProgress = progress;
+
         setTranscriptionState({
-          file: selectedAudio as string,
+          file:
+            selectedAudio instanceof File
+              ? selectedAudio.name
+              : (selectedAudio as string),
           model: selectedModel as string,
           status: "cancelled" as TranscriptionStatus,
-          progress: progress,
-          segments: segments,
+          progress: currentProgress,
+          segments: currentSegments,
           error: null,
         });
         setStatus("cancelled");
         toast.info(t("transcriptionCancelled"));
+
+        if (currentSegments.length > 0 && selectedAudio instanceof File) {
+          const currentUserId = useAuthStore.getState().userId;
+
+          if (currentUserId) {
+            try {
+              const hash = await calculateFileHash(selectedAudio);
+              let existingRecording = await getRecordingByHash(hash);
+              let recordingId = existingRecording?.id;
+
+              if (!recordingId) {
+                const duration = await getAudioDuration(
+                  URL.createObjectURL(selectedAudio)
+                );
+                recordingId = uuidv4();
+
+                await addRecording({
+                  id: recordingId,
+                  userId: currentUserId,
+                  title: selectedAudio.name || "Untitled",
+                  description: null,
+                  filePath: selectedAudio.name,
+                  fileHash: hash,
+                  duration: duration,
+                  fileSize: selectedAudio.size,
+                  status: "cancelled",
+                  isFavorite: false,
+                  tags: null,
+                  isSynced: false,
+                  createdAt: new Date(),
+                  updatedAt: new Date(),
+                  deletedAt: null,
+                });
+              }
+
+              if (recordingId) {
+                const transcriptId = uuidv4();
+                await addTranscript({
+                  id: transcriptId,
+                  recordingId: recordingId,
+                  userId: currentUserId,
+                  language: language,
+                  model: selectedModel as string,
+                  segments: currentSegments,
+                  createdAt: new Date(),
+                });
+              }
+            } catch (error) {
+              console.error("Failed to save cancelled transcription:", error);
+            }
+          }
+        }
       }
     }
   }, [
@@ -175,7 +243,11 @@ export const WebTranscriptionView = ({
     setTranscriptionState,
     selectedAudio,
     selectedModel,
+    language,
     t,
+    getRecordingByHash,
+    addRecording,
+    addTranscript,
   ]);
 
   useEffect(() => {
@@ -199,7 +271,7 @@ export const WebTranscriptionView = ({
         setTranscriptionState({
           file: selectedAudio as string,
           model: selectedModel as string,
-          status: "cancelled" as TranscriptionStatus,
+          status: "processing" as TranscriptionStatus,
           progress: progress,
           segments: segments,
           error: null,

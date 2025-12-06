@@ -36,6 +36,24 @@ export function useRecordings() {
     []
   );
 
+  const getRecordingById = useCallback(
+    async (id: string): Promise<Recording | null> => {
+      try {
+        const result = await database
+          .select()
+          .from(recordings)
+          .where(eq(recordings.id, id))
+          .limit(1);
+
+        return result[0] || null;
+      } catch (error) {
+        console.error("Failed to get recording by id:", error);
+        return null;
+      }
+    },
+    []
+  );
+
   const getPaginatedRecordings = useCallback(
     async (page: number, pageSize: number) => {
       try {
@@ -71,9 +89,21 @@ export function useRecordings() {
     []
   );
 
+  const deleteRecording = useCallback(async (id: string) => {
+    try {
+      await database.delete(recordings).where(eq(recordings.id, id));
+      return { success: true };
+    } catch (error) {
+      console.error("Failed to delete recording:", error);
+      return { success: false, error };
+    }
+  }, []);
+
   return {
     addRecording,
     getRecordingByHash,
+    getRecordingById,
     getPaginatedRecordings,
+    deleteRecording,
   };
 }

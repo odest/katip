@@ -37,7 +37,12 @@
     "completed": "完了",
     "queued": "待機中",
     "processing": "処理中",
-    "failed": "失敗"
+    "cancelled": "キャンセル済み",
+    "failed": "失敗",
+    "delete": "削除",
+    "deleteConfirmationTitle": "録音を完全に削除しますか？",
+    "deleteConfirmationDescription": "この録音を削除してもよろしいですか？この録音と、関連するすべての文字起こしや要約は完全に削除されます。この操作は元に戻せません。",
+    "cancel": "キャンセル"
   },
   "TranscriptionView": {
     "cancellingTranscription": "文字起こしをキャンセル中...",

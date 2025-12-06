@@ -25,12 +25,13 @@ import {
 } from "@workspace/ui/stores/transcription-store";
 
 interface UseWebTranscriptionParams {
-  initialState: TranscriptionState | null;
+  isActiveTranscription: boolean;
+  storeRecordingId: string | null;
   setStatus: Dispatch<SetStateAction<TranscriptionStatus>>;
   setProgress: Dispatch<SetStateAction<number>>;
   setSegments: Dispatch<SetStateAction<Segment[]>>;
   setError: Dispatch<SetStateAction<string | null>>;
-  setTranscriptionState: (state: TranscriptionState) => void;
+  setTranscriptionState: (state: Partial<TranscriptionState>) => void;
   setDownloadingFiles: Dispatch<
     SetStateAction<
       Array<{ name: string; progress: number; status: "loading" | "done" }>
@@ -58,7 +59,8 @@ interface WorkerMessage {
 }
 
 export function useWebTranscription({
-  initialState,
+  isActiveTranscription,
+  storeRecordingId,
   setStatus,
   setProgress,
   setSegments,
@@ -73,8 +75,13 @@ export function useWebTranscription({
   const audioDurationRef = useRef<number>(0);
   const t = useTranslations("TranscriptionView");
 
-  const { addRecording, getRecordingByHash } = useRecordings();
-  const { addTranscript, getTranscriptByRecordingId } = useTranscripts();
+  const { addRecording, getRecordingByHash, getRecordingById } =
+    useRecordings();
+  const {
+    addTranscript,
+    getTranscriptByRecordingId,
+    getFirstTranscriptByRecordingId,
+  } = useTranscripts();
   const { getSummaryByRecordingId } = useSummaries();
   const { getActionItemsBySummaryId } = useActionItems();
 
@@ -330,15 +337,79 @@ export function useWebTranscription({
     worker.addEventListener("message", handleWorkerMessage);
 
     const start = async () => {
-      if (!selectedAudio || !selectedModel) {
-        setError("Audio or model not available");
-        setStatus("error");
-        return;
-      }
-
       try {
+        // If we have a recordingId from store (e.g., navigating from RecordingsPage),
+        // load directly from DB without file check or hash calculation
+        if (storeRecordingId) {
+          const existingRecording = await getRecordingById(storeRecordingId);
+
+          if (existingRecording) {
+            recordingIdRef.current = existingRecording.id;
+
+            const transcript = await getFirstTranscriptByRecordingId(
+              existingRecording.id
+            );
+
+            if (transcript) {
+              const segments = transcript.segments
+                ? (transcript.segments as Segment[])
+                : [];
+
+              setStatus("done");
+              setProgress(100);
+              setSegments(segments);
+              setTranscriptionState({
+                file: existingRecording.filePath,
+                model: transcript.model as string,
+                status: "done",
+                progress: 100,
+                segments: segments,
+                error: null,
+                recordingId: existingRecording.id,
+              });
+
+              try {
+                const summary = await getSummaryByRecordingId(
+                  existingRecording.id
+                );
+
+                if (summary) {
+                  const actionItems = await getActionItemsBySummaryId(
+                    summary.id
+                  );
+                  setSummaryResult({
+                    summary: summary.content as string,
+                    action_items: actionItems.map((item) => ({
+                      task: item.task,
+                      assignee: item.assignee ?? "Unassigned",
+                      completed: item.isCompleted ?? false,
+                      priority: item.priority ?? "",
+                    })),
+                  });
+                  setShowSideViews(true);
+                } else {
+                  setSummaryResult(null);
+                }
+              } catch (error) {
+                console.error("Failed to fetch summary:", error);
+              }
+              return;
+            }
+          }
+        }
+
+        if (!selectedAudio || !selectedModel) {
+          setError("Audio or model not available");
+          setStatus("error");
+          return;
+        }
+
         if (!(selectedAudio instanceof File)) {
           throw new Error("Invalid audio file. Expected a File object.");
+        }
+
+        if (selectedAudio.size === 0) {
+          throw new Error("Audio file is empty or invalid.");
         }
 
         const hash = await calculateFileHash(selectedAudio);
@@ -458,15 +529,11 @@ export function useWebTranscription({
   ]);
 
   useEffect(() => {
-    if (
-      initialState?.status === "done" ||
-      initialState?.status === "cancelled" ||
-      initialState?.status === "loadingModel" ||
-      initialState?.status === "transcribing"
-    ) {
-      console.log("Transcription already in progress or completed");
+    if (isActiveTranscription) {
+      console.log("Transcription already in progress, skipping new start");
       return;
     }
+
     transcribe();
 
     return () => {
@@ -475,7 +542,7 @@ export function useWebTranscription({
         workerRef.current = null;
       }
     };
-  }, [initialState, transcribe]);
+  }, [isActiveTranscription, transcribe]);
 
   const cancel = useCallback(() => {
     if (workerRef.current) {

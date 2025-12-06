@@ -37,7 +37,12 @@
     "completed": "Завершено",
     "queued": "В очереди",
     "processing": "Обработка",
-    "failed": "Ошибка"
+    "cancelled": "Отменено",
+    "failed": "Ошибка",
+    "delete": "Удалить",
+    "deleteConfirmationTitle": "Удалить запись безвозвратно?",
+    "deleteConfirmationDescription": "Вы уверены, что хотите удалить эту запись? Эта запись, а также все связанные с ней расшифровки и сводки будут удалены безвозвратно. Это действие нельзя отменить.",
+    "cancel": "Отмена"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Отмена транскрипции...",

@@ -1,13 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Clock,
+  Trash2,
   Calendar,
   FileText,
   Sparkles,
   HardDrive,
   FileAudio,
+  MoreVertical,
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "lucide-react";
@@ -16,6 +18,18 @@ import { useTranslations } from "@workspace/i18n";
 import { useRouter } from "@workspace/i18n/navigation";
 import { Recording } from "@workspace/database/schema/sqlite";
 import { useRecordings } from "@workspace/ui/hooks/use-recordings";
+import { useTranscripts } from "@workspace/ui/hooks/use-transcripts";
+import { useAudioStore } from "@workspace/ui/stores/audio-store";
+import { useSummaryStore } from "@workspace/ui/stores/summary-store";
+import { useTranscriptionStore } from "@workspace/ui/stores/transcription-store";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@workspace/ui/components/dialog";
 import {
   Card,
   CardTitle,
@@ -30,7 +44,14 @@ import {
   PaginationContent,
   PaginationEllipsis,
 } from "@workspace/ui/components/pagination";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@workspace/ui/components/dropdown-menu";
 import { Badge } from "@workspace/ui/components/badge";
+import { Button } from "@workspace/ui/components/button";
 import { Spinner } from "@workspace/ui/components/spinner";
 import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
 import { AppFooter } from "@workspace/ui/components/layout/app-footer";
@@ -40,7 +61,12 @@ import { TextShimmer } from "@workspace/ui/components/common/text-shimmer";
 export function RecordingsPage() {
   const router = useRouter();
   const t = useTranslations("RecordingsPage");
-  const { getPaginatedRecordings } = useRecordings();
+  const { getPaginatedRecordings, deleteRecording } = useRecordings();
+  const { getFirstTranscriptByRecordingId } = useTranscripts();
+  const { setTranscriptionState, clearTranscriptionState } =
+    useTranscriptionStore();
+  const { resetSummary } = useSummaryStore();
+  const { setSelectedAudio } = useAudioStore();
   const [recordings, setRecordings] = useState<
     Pick<
       Recording,
@@ -56,30 +82,65 @@ export function RecordingsPage() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const ITEMS_PER_PAGE = 10;
 
-  useEffect(() => {
-    const fetchRecordings = async () => {
-      setLoading(true);
-      try {
-        const { recordings: data, totalCount: count } =
-          await getPaginatedRecordings(currentPage, ITEMS_PER_PAGE);
-        setRecordings(data);
-        setTotalCount(count);
-      } catch (error) {
-        console.error("Failed to fetch recordings:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRecordings();
+  const fetchRecordings = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { recordings: data, totalCount: count } =
+        await getPaginatedRecordings(currentPage, ITEMS_PER_PAGE);
+      setRecordings(data);
+      setTotalCount(count);
+    } catch (error) {
+      console.error("Failed to fetch recordings:", error);
+    } finally {
+      setLoading(false);
+    }
   }, [currentPage, getPaginatedRecordings]);
+
+  useEffect(() => {
+    fetchRecordings();
+  }, [fetchRecordings]);
 
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const handleDeleteClick = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    setDeleteId(id);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (deleteId) {
+      await deleteRecording(deleteId);
+      clearTranscriptionState();
+      resetSummary();
+      fetchRecordings();
+      setSelectedAudio(null);
+      setDeleteId(null);
+      setIsDeleteDialogOpen(false);
+    }
+  };
+
+  const handleCardClick = async (recording: (typeof recordings)[0]) => {
+    try {
+      const transcript = await getFirstTranscriptByRecordingId(recording.id);
+
+      if (transcript) {
+        setTranscriptionState({ recordingId: recording.id });
+        router.push("/transcribe");
+      } else {
+        console.error("No transcript found for recording:", recording.id);
+      }
+    } catch (error) {
+      console.error("Failed to navigate to recording:", error);
+    }
   };
 
   const getPageNumbers = () => {
@@ -144,7 +205,7 @@ export function RecordingsPage() {
     );
   }
 
-  if (!loading && !recordings) {
+  if (!loading && recordings.length === 0) {
     return (
       <div className="flex flex-1 justify-center items-center p-6">
         <EmptyState
@@ -169,11 +230,12 @@ export function RecordingsPage() {
               <Card
                 key={recording.id}
                 className="gap-3 cursor-pointer hover:bg-card/90 hover:border-primary/15"
+                onClick={() => handleCardClick(recording)}
               >
                 <CardHeader>
-                  <div className="flex flex-row items-start justify-between">
+                  <div className="flex flex-row items-center justify-between">
                     <CardTitle>{recording.title}</CardTitle>
-                    <CardDescription>
+                    <CardDescription className="flex flex-row items-center gap-1">
                       <Badge
                         variant="outline"
                         className={cn(
@@ -183,6 +245,28 @@ export function RecordingsPage() {
                       >
                         {t(recording.status)}
                       </Badge>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="w-8 h-8 cursor-pointer"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem
+                            variant="destructive"
+                            className="cursor-pointer"
+                            onClick={(e) => handleDeleteClick(e, recording.id)}
+                          >
+                            <Trash2 />
+                            {t("delete")}
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </CardDescription>
                   </div>
                 </CardHeader>
@@ -282,31 +366,29 @@ export function RecordingsPage() {
                 </PaginationLink>
               </PaginationItem>
 
-              {(() => {
-                return getPageNumbers().map((page, index) => {
-                  if (page === "ellipsis-start" || page === "ellipsis-end") {
-                    return (
-                      <PaginationItem key={`ellipsis-${index}`}>
-                        <PaginationEllipsis />
-                      </PaginationItem>
-                    );
-                  }
+              {getPageNumbers().map((page, index) => {
+                if (page === "ellipsis-start" || page === "ellipsis-end") {
                   return (
-                    <PaginationItem key={page}>
-                      <PaginationLink
-                        href="#"
-                        isActive={currentPage === page}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handlePageChange(page as number);
-                        }}
-                      >
-                        {page}
-                      </PaginationLink>
+                    <PaginationItem key={`ellipsis-${index}`}>
+                      <PaginationEllipsis />
                     </PaginationItem>
                   );
-                });
-              })()}
+                }
+                return (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      href="#"
+                      isActive={currentPage === page}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handlePageChange(page as number);
+                      }}
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              })}
 
               <PaginationItem>
                 <PaginationLink
@@ -332,6 +414,33 @@ export function RecordingsPage() {
           </Pagination>
         </AppFooter>
       )}
+
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("deleteConfirmationTitle")}</DialogTitle>
+            <DialogDescription>
+              {t("deleteConfirmationDescription")}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              className="cursor-pointer"
+              onClick={() => setIsDeleteDialogOpen(false)}
+            >
+              {t("cancel")}
+            </Button>
+            <Button
+              variant="destructive"
+              className="cursor-pointer"
+              onClick={confirmDelete}
+            >
+              {t("delete")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

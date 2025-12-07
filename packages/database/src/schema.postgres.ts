@@ -8,6 +8,7 @@ import {
   timestamp,
   doublePrecision,
 } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 
 export const users = pgTable("users", {
   id: uuid("id").primaryKey(),
@@ -86,6 +87,68 @@ export const actionItems = pgTable("action_items", {
   priority: text("priority").default("medium"),
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+// Relations
+
+export const usersRelations = relations(users, ({ many }) => ({
+  recordings: many(recordings),
+  transcripts: many(transcripts),
+  summaries: many(summaries),
+  actionItems: many(actionItems),
+}));
+
+export const recordingsRelations = relations(recordings, ({ one, many }) => ({
+  user: one(users, {
+    fields: [recordings.userId],
+    references: [users.id],
+  }),
+  transcripts: many(transcripts),
+  summaries: many(summaries),
+  actionItems: many(actionItems),
+}));
+
+export const transcriptsRelations = relations(transcripts, ({ one, many }) => ({
+  recording: one(recordings, {
+    fields: [transcripts.recordingId],
+    references: [recordings.id],
+  }),
+  user: one(users, {
+    fields: [transcripts.userId],
+    references: [users.id],
+  }),
+  summaries: many(summaries),
+}));
+
+export const summariesRelations = relations(summaries, ({ one, many }) => ({
+  transcript: one(transcripts, {
+    fields: [summaries.transcriptId],
+    references: [transcripts.id],
+  }),
+  recording: one(recordings, {
+    fields: [summaries.recordingId],
+    references: [recordings.id],
+  }),
+  user: one(users, {
+    fields: [summaries.userId],
+    references: [users.id],
+  }),
+  actionItems: many(actionItems),
+}));
+
+export const actionItemsRelations = relations(actionItems, ({ one }) => ({
+  summary: one(summaries, {
+    fields: [actionItems.summaryId],
+    references: [summaries.id],
+  }),
+  recording: one(recordings, {
+    fields: [actionItems.recordingId],
+    references: [recordings.id],
+  }),
+  user: one(users, {
+    fields: [actionItems.userId],
+    references: [users.id],
+  }),
+}));
 
 // Inferred types
 export type User = typeof users.$inferSelect;

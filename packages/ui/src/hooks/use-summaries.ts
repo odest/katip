@@ -21,13 +21,11 @@ export function useSummaries() {
   const getSummaryByRecordingId = useCallback(
     async (recordingId: string): Promise<Summary | null> => {
       try {
-        const result = await database
-          .select()
-          .from(summaries)
-          .where(eq(summaries.recordingId, recordingId))
-          .limit(1);
+        const result = await database.query.summaries.findFirst({
+          where: eq(summaries.recordingId, recordingId),
+        });
 
-        return result[0] || null;
+        return result || null;
       } catch (error) {
         console.error("Failed to get summary by recording id:", error);
         return null;

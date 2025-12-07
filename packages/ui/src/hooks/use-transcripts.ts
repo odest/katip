@@ -25,19 +25,15 @@ export function useTranscripts() {
       language: string
     ): Promise<Transcript | null> => {
       try {
-        const result = await database
-          .select()
-          .from(transcripts)
-          .where(
-            and(
-              eq(transcripts.recordingId, recordingId),
-              eq(transcripts.model, model),
-              eq(transcripts.language, language)
-            )
-          )
-          .limit(1);
+        const result = await database.query.transcripts.findFirst({
+          where: and(
+            eq(transcripts.recordingId, recordingId),
+            eq(transcripts.model, model),
+            eq(transcripts.language, language)
+          ),
+        });
 
-        return result[0] || null;
+        return result || null;
       } catch (error) {
         console.error("Failed to get transcript by recording id:", error);
         return null;
@@ -70,13 +66,11 @@ export function useTranscripts() {
   const getFirstTranscriptByRecordingId = useCallback(
     async (recordingId: string): Promise<Transcript | null> => {
       try {
-        const result = await database
-          .select()
-          .from(transcripts)
-          .where(eq(transcripts.recordingId, recordingId))
-          .limit(1);
+        const result = await database.query.transcripts.findFirst({
+          where: eq(transcripts.recordingId, recordingId),
+        });
 
-        return result[0] || null;
+        return result || null;
       } catch (error) {
         console.error("Failed to get first transcript:", error);
         return null;

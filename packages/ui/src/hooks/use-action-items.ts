@@ -22,10 +22,9 @@ export function useActionItems() {
   const getActionItemsBySummaryId = useCallback(
     async (summaryId: string): Promise<ActionItem[]> => {
       try {
-        const result = await database
-          .select()
-          .from(actionItems)
-          .where(eq(actionItems.summaryId, summaryId));
+        const result = await database.query.actionItems.findMany({
+          where: eq(actionItems.summaryId, summaryId),
+        });
 
         return result;
       } catch (error) {

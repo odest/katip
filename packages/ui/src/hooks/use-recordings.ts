@@ -29,15 +29,14 @@ export function useRecordings() {
     async (hash: string): Promise<Recording | null> => {
       if (!userId) return null;
       try {
-        const result = await database
-          .select()
-          .from(recordings)
-          .where(
-            and(eq(recordings.fileHash, hash), eq(recordings.userId, userId))
-          )
-          .limit(1);
+        const result = await database.query.recordings.findFirst({
+          where: and(
+            eq(recordings.fileHash, hash),
+            eq(recordings.userId, userId)
+          ),
+        });
 
-        return result[0] || null;
+        return result || null;
       } catch (error) {
         console.error("Failed to get recording by hash:", error);
         return null;
@@ -50,13 +49,11 @@ export function useRecordings() {
     async (id: string): Promise<Recording | null> => {
       if (!userId) return null;
       try {
-        const result = await database
-          .select()
-          .from(recordings)
-          .where(and(eq(recordings.id, id), eq(recordings.userId, userId)))
-          .limit(1);
+        const result = await database.query.recordings.findFirst({
+          where: and(eq(recordings.id, id), eq(recordings.userId, userId)),
+        });
 
-        return result[0] || null;
+        return result || null;
       } catch (error) {
         console.error("Failed to get recording by id:", error);
         return null;
@@ -72,22 +69,22 @@ export function useRecordings() {
         const offset = (page - 1) * pageSize;
 
         const [data, allIds] = await Promise.all([
-          database
-            .select({
-              id: recordings.id,
-              title: recordings.title,
-              filePath: recordings.filePath,
-              duration: recordings.duration,
-              fileSize: recordings.fileSize,
-              status: recordings.status,
-              isSynced: recordings.isSynced,
-              createdAt: recordings.createdAt,
-            })
-            .from(recordings)
-            .where(eq(recordings.userId, userId))
-            .orderBy(desc(recordings.createdAt))
-            .limit(pageSize)
-            .offset(offset),
+          database.query.recordings.findMany({
+            where: eq(recordings.userId, userId),
+            orderBy: desc(recordings.createdAt),
+            limit: pageSize,
+            offset: offset,
+            columns: {
+              id: true,
+              title: true,
+              filePath: true,
+              duration: true,
+              fileSize: true,
+              status: true,
+              isSynced: true,
+              createdAt: true,
+            },
+          }),
           database
             .select({ id: recordings.id })
             .from(recordings)
@@ -95,7 +92,7 @@ export function useRecordings() {
         ]);
 
         return {
-          recordings: data,
+          recordings: data as unknown as Recording[],
           totalCount: allIds.length,
         };
       } catch (error) {

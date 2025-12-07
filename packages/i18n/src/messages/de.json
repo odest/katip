@@ -42,7 +42,10 @@
     "delete": "Löschen",
     "deleteConfirmationTitle": "Aufnahme dauerhaft löschen?",
     "deleteConfirmationDescription": "Sind Sie sicher, dass Sie diese Aufnahme löschen möchten? Diese Aufnahme sowie alle zugehörigen Transkripte und Zusammenfassungen werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "synchronize": "Synchronisieren",
+    "synced": "Synchronisiert",
+    "unsynced": "Nicht synchronisiert"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Transkription wird abgebrochen...",

@@ -42,7 +42,10 @@
     "delete": "Delete",
     "deleteConfirmationTitle": "Permanently Delete Recording?",
     "deleteConfirmationDescription": "Are you sure you want to delete this recording? This recording, along with all associated transcripts and summaries, will be permanently deleted. This action cannot be undone.",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "synchronize": "Synchronize",
+    "synced": "Synced",
+    "unsynced": "Unsynced"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Cancelling transcription...",

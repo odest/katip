@@ -4,8 +4,10 @@ import { useState, useEffect, useCallback } from "react";
 import { FileText, Sparkles, FileAudio } from "lucide-react";
 import { useTranslations } from "@workspace/i18n";
 import { useRouter } from "@workspace/i18n/navigation";
+import { useUser } from "@workspace/ui/hooks/use-user";
 import { useRecordings } from "@workspace/ui/hooks/use-recordings";
 import { useTranscripts } from "@workspace/ui/hooks/use-transcripts";
+import { useAuthStore } from "@workspace/ui/stores/auth-store";
 import { useAudioStore } from "@workspace/ui/stores/audio-store";
 import { useSummaryStore } from "@workspace/ui/stores/summary-store";
 import { useTranscriptionStore } from "@workspace/ui/stores/transcription-store";
@@ -32,6 +34,8 @@ import { RecordingPagination } from "@workspace/ui/components/recordings/recordi
 export function RecordingsPage() {
   const router = useRouter();
   const t = useTranslations("RecordingsPage");
+  const { user } = useUser();
+  const { setOpenDialog, formView, setFormView } = useAuthStore();
   const { getPaginatedRecordings, deleteRecording } = useRecordings();
   const { getFirstTranscriptByRecordingId } = useTranscripts();
   const { setTranscriptionState, clearTranscriptionState } =
@@ -68,6 +72,16 @@ export function RecordingsPage() {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const handleSynchronizeClick = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    if (user) {
+      // TODO: Implement synchronization logic here
+      return;
+    }
+    formView == "otp" ? setFormView("otp") : setFormView("signin");
+    setOpenDialog(true);
   };
 
   const handleDeleteClick = (e: React.MouseEvent, id: string) => {
@@ -140,6 +154,7 @@ export function RecordingsPage() {
                 key={recording.id}
                 recording={recording}
                 onCardClick={handleCardClick}
+                onSynchronizeClick={handleSynchronizeClick}
                 onDeleteClick={handleDeleteClick}
               />
             ))}

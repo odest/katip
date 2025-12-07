@@ -42,7 +42,10 @@
     "delete": "Supprimer",
     "deleteConfirmationTitle": "Supprimer définitivement l'enregistrement ?",
     "deleteConfirmationDescription": "Êtes-vous sûr de vouloir supprimer cet enregistrement ? Cet enregistrement, ainsi que toutes les transcriptions et résumés associés, seront définitivement supprimés. Cette action est irréversible.",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "synchronize": "Synchroniser",
+    "synced": "Synchronisé",
+    "unsynced": "Non synchronisé"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Annulation de la transcription...",

@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Cloud,
   Clock,
   Trash2,
   Calendar,
@@ -19,6 +20,11 @@ import {
   CardDescription,
 } from "@workspace/ui/components/card";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@workspace/ui/components/tooltip";
+import {
   DropdownMenu,
   DropdownMenuItem,
   DropdownMenuContent,
@@ -29,18 +35,27 @@ import { Button } from "@workspace/ui/components/button";
 
 export type RecordingItem = Pick<
   Recording,
-  "id" | "title" | "filePath" | "duration" | "fileSize" | "status" | "createdAt"
+  | "id"
+  | "title"
+  | "filePath"
+  | "duration"
+  | "fileSize"
+  | "status"
+  | "isSynced"
+  | "createdAt"
 >;
 
 interface RecordingCardProps {
   recording: RecordingItem;
   onCardClick: (recording: RecordingItem) => void;
+  onSynchronizeClick: (e: React.MouseEvent, id: string) => void;
   onDeleteClick: (e: React.MouseEvent, id: string) => void;
 }
 
 export function RecordingCard({
   recording,
   onCardClick,
+  onSynchronizeClick,
   onDeleteClick,
 }: RecordingCardProps) {
   const t = useTranslations("RecordingsPage");
@@ -66,9 +81,24 @@ export function RecordingCard({
         <div className="flex flex-row items-center justify-between">
           <CardTitle>{recording.title}</CardTitle>
           <CardDescription className="flex flex-row items-center gap-1">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  className={cn(
+                    getBadgeStyles(recording.isSynced ? "synced" : "unsynced"),
+                    " h-6 w-6 rounded-full border cursor-pointer"
+                  )}
+                >
+                  <Cloud className="w-4 h-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{recording.isSynced ? t("synced") : t("unsynced")}</p>
+              </TooltipContent>
+            </Tooltip>
             <Badge
               variant="outline"
-              className={cn(getBadgeStyles(recording.status), " font-mono")}
+              className={cn(getBadgeStyles(recording.status), " font-mono h-6")}
             >
               {t(recording.status)}
             </Badge>
@@ -84,6 +114,13 @@ export function RecordingCard({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={(e) => onSynchronizeClick(e, recording.id)}
+                >
+                  <Cloud />
+                  {t("synchronize")}
+                </DropdownMenuItem>
                 <DropdownMenuItem
                   variant="destructive"
                   className="cursor-pointer"

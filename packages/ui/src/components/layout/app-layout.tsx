@@ -66,6 +66,7 @@ export function AppLayout({
     setOtpEmail,
     otpType,
     setOtpType,
+    isHydrated,
   } = useAuthStore();
   const [isSigningOut, setIsSigningOut] = useState(false);
 
@@ -76,34 +77,30 @@ export function AppLayout({
       }
 
       try {
-        const existingUsers = await database.select().from(users).limit(1);
+        if (!isHydrated) return;
 
-        if (existingUsers.length > 0) {
-          const currentUser = existingUsers[0];
-          setUserId(currentUser.id);
+        if (userId) {
           return;
         }
 
-        if (!userId) {
-          const newGuestId = uuidv4();
+        const newGuestId = uuidv4();
 
-          await database.insert(users).values({
-            id: newGuestId,
-            email: "guest@local",
-            fullName: "guest",
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          });
+        await database.insert(users).values({
+          id: newGuestId,
+          email: "guest@local",
+          fullName: "guest",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
 
-          setUserId(newGuestId);
-        }
+        setUserId(newGuestId);
       } catch (error) {
         console.error("Failed to initialize native local user:", error);
       }
     };
 
     initLocalUser();
-  }, []);
+  }, [userId, isHydrated, setUserId]);
 
   const handleConfirmLogout = async () => {
     setIsSigningOut(true);

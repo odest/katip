@@ -42,7 +42,10 @@
     "delete": "Sil",
     "deleteConfirmationTitle": "Kaydı Kalıcı Olarak Sil?",
     "deleteConfirmationDescription": "Bu kaydı silmek istediğinizden emin misiniz? Bu kayıt, ilişkili tüm transkriptler ve özetler kalıcı olarak silinecek. Bu işlem geri alınamaz.",
-    "cancel": "İptal"
+    "cancel": "İptal",
+    "synchronize": "Eşitle",
+    "synced": "Eşitlendi",
+    "unsynced": "Eşitlenmedi"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Transkript iptal ediliyor...",

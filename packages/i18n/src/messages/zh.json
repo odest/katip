@@ -42,7 +42,10 @@
     "delete": "删除",
     "deleteConfirmationTitle": "永久删除录音？",
     "deleteConfirmationDescription": "您确定要删除此录音吗？此录音以及所有相关的转录和摘要将被永久删除。此操作无法撤销。",
-    "cancel": "取消"
+    "cancel": "取消",
+    "synchronize": "同步",
+    "synced": "已同步",
+    "unsynced": "未同步"
   },
   "TranscriptionView": {
     "cancellingTranscription": "正在取消转录...",

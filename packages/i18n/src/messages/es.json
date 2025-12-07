@@ -42,7 +42,10 @@
     "delete": "Eliminar",
     "deleteConfirmationTitle": "¿Eliminar grabación permanentemente?",
     "deleteConfirmationDescription": "¿Está seguro de que desea eliminar esta grabación? Esta grabación, junto con todas las transcripciones y resúmenes asociados, se eliminará permanentemente. Esta acción no se puede deshacer.",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "synchronize": "Sincronizar",
+    "synced": "Sincronizado",
+    "unsynced": "No sincronizado"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Cancelando transcripción...",

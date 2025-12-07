@@ -22,6 +22,8 @@ interface AuthState {
   setOtpEmail: (otpEmail: string) => void;
   otpType: OtpType;
   setOtpType: (otpType: OtpType) => void;
+  isHydrated: boolean;
+  setHydrated: (isHydrated: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -56,10 +58,18 @@ export const useAuthStore = create<AuthState>()(
       setOtpType: (otpType: OtpType) => {
         set({ otpType });
       },
+
+      isHydrated: false,
+      setHydrated: (isHydrated: boolean) => {
+        set({ isHydrated });
+      },
     }),
     {
       name: "auth-storage",
       storage: createJSONStorage(() => localStorage),
+      onRehydrateStorage: () => (state) => {
+        state?.setHydrated(true);
+      },
       partialize: (state) => ({
         userId: state.userId,
         otpEmail: state.otpEmail,

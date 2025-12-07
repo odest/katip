@@ -1,6 +1,11 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { User } from "@supabase/supabase-js";
+import { eq } from "drizzle-orm";
+import { database } from "@workspace/ui/db";
 import { createClient } from "@workspace/ui/lib/supabase";
+import { users } from "@workspace/database/schema/sqlite";
+import { useSync } from "@workspace/ui/hooks/use-sync";
+import { useAuthStore } from "@workspace/ui/stores/auth-store";
 
 const supabase = createClient();
 const AVATAR_BUCKET = "avatars";
@@ -8,6 +13,8 @@ const AVATAR_BUCKET = "avatars";
 export function useUser() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const { userId: guestId, setUserId: setStoreUserId } = useAuthStore();
+  const { migrateGuestData } = useSync();
 
   useEffect(() => {
     const getUser = async () => {
@@ -16,25 +23,54 @@ export function useUser() {
       } = await supabase.auth.getUser();
       setUser(user);
       setLoading(false);
+
+      if (user && guestId && guestId !== user.id) {
+        await migrateGuestData(guestId, {
+          id: user.id,
+          email: user.email || "",
+          fullName: user.user_metadata.full_name,
+          avatarUrl: user.user_metadata.avatar_url,
+          createdAt: user.created_at,
+          updatedAt: user.updated_at!,
+        });
+        setStoreUserId(user.id);
+      } else if (user) {
+        setStoreUserId(user.id);
+      }
     };
 
     getUser();
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user ?? null);
       setLoading(false);
+
+      if (session?.user) {
+        if (guestId && guestId !== session.user.id) {
+          await migrateGuestData(guestId, {
+            id: session.user.id,
+            email: session.user.email || "",
+            fullName: session.user.user_metadata.full_name,
+            avatarUrl: session.user.user_metadata.avatar_url,
+            createdAt: session.user.created_at,
+            updatedAt: session.user.updated_at!,
+          });
+        }
+        setStoreUserId(session.user.id);
+      }
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [guestId, migrateGuestData, setStoreUserId]);
 
   const signOut = useCallback(async () => {
     await supabase.auth.signOut();
-  }, []);
+    setStoreUserId(null);
+  }, [setStoreUserId]);
 
   const uploadAvatar = useCallback(
     async (dataUrl: string): Promise<{ success: boolean; error?: string }> => {
@@ -260,7 +296,13 @@ export function useUser() {
         }
       }
 
-      await supabase.auth.signOut();
+      try {
+        await database.delete(users).where(eq(users.id, user.id));
+      } catch (dbError) {
+        console.error("Failed to delete user from local database:", dbError);
+      }
+
+      await signOut();
 
       return { success: true };
     } catch (error) {

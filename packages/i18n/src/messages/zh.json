@@ -48,7 +48,19 @@
     "unsynced": "未同步",
     "synchronizing": "正在同步...",
     "syncSuccess": "录音已成功同步",
-    "syncError": "同步录音失败"
+    "syncError": "同步录音失败",
+    "searchPlaceholder": "搜索录音...",
+    "sortBy": "排序方式",
+    "sortDateDesc": "日期 (从新到旧)",
+    "sortDateAsc": "日期 (从旧到新)",
+    "sortTitleAsc": "标题 (A-Z)",
+    "sortTitleDesc": "标题 (Z-A)",
+    "sortDurationDesc": "时长 (从长到短)",
+    "sortDurationAsc": "时长 (从短到长)",
+    "sortSizeDesc": "大小 (从大到小)",
+    "sortSizeAsc": "大小 (从小到大)",
+    "noResultsFound": "未找到结果",
+    "tryAdjustingSearch": "尝试调整您的搜索查询。"
   },
   "TranscriptionView": {
     "cancellingTranscription": "正在取消转录...",

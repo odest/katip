@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { eq, desc, and } from "drizzle-orm";
+import { eq, desc, and, asc, like } from "drizzle-orm";
 import {
   recordings,
   type Recording,
@@ -63,15 +63,58 @@ export function useRecordings() {
   );
 
   const getPaginatedRecordings = useCallback(
-    async (page: number, pageSize: number) => {
+    async (
+      page: number,
+      pageSize: number,
+      searchQuery: string,
+      sortBy: string
+    ) => {
       if (!userId) return { recordings: [], totalCount: 0 };
       try {
         const offset = (page - 1) * pageSize;
 
+        const conditions = [eq(recordings.userId, userId)];
+        if (searchQuery) {
+          conditions.push(like(recordings.title, `%${searchQuery}%`));
+        }
+        const whereCondition = and(...conditions);
+
+        let orderByCondition = desc(recordings.createdAt);
+        if (sortBy) {
+          switch (sortBy) {
+            case "date_asc":
+              orderByCondition = asc(recordings.createdAt);
+              break;
+            case "date_desc":
+              orderByCondition = desc(recordings.createdAt);
+              break;
+            case "title_asc":
+              orderByCondition = asc(recordings.title);
+              break;
+            case "title_desc":
+              orderByCondition = desc(recordings.title);
+              break;
+            case "duration_asc":
+              orderByCondition = asc(recordings.duration);
+              break;
+            case "duration_desc":
+              orderByCondition = desc(recordings.duration);
+              break;
+            case "size_asc":
+              orderByCondition = asc(recordings.fileSize);
+              break;
+            case "size_desc":
+              orderByCondition = desc(recordings.fileSize);
+              break;
+            default:
+              orderByCondition = desc(recordings.createdAt);
+          }
+        }
+
         const [data, allIds] = await Promise.all([
           database.query.recordings.findMany({
-            where: eq(recordings.userId, userId),
-            orderBy: desc(recordings.createdAt),
+            where: whereCondition,
+            orderBy: orderByCondition,
             limit: pageSize,
             offset: offset,
             columns: {
@@ -88,7 +131,7 @@ export function useRecordings() {
           database
             .select({ id: recordings.id })
             .from(recordings)
-            .where(eq(recordings.userId, userId)),
+            .where(whereCondition),
         ]);
 
         return {

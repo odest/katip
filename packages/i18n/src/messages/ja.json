@@ -48,7 +48,19 @@
     "unsynced": "未同期",
     "synchronizing": "同期中...",
     "syncSuccess": "録音が正常に同期されました",
-    "syncError": "録音の同期に失敗しました"
+    "syncError": "録音の同期に失敗しました",
+    "searchPlaceholder": "録音を検索...",
+    "sortBy": "並び替え",
+    "sortDateDesc": "日付 (新しい順)",
+    "sortDateAsc": "日付 (古い順)",
+    "sortTitleAsc": "タイトル (A-Z)",
+    "sortTitleDesc": "タイトル (Z-A)",
+    "sortDurationDesc": "期間 (長い順)",
+    "sortDurationAsc": "期間 (短い順)",
+    "sortSizeDesc": "サイズ (大きい順)",
+    "sortSizeAsc": "サイズ (小さい順)",
+    "noResultsFound": "結果が見つかりません",
+    "tryAdjustingSearch": "検索クエリを調整してみてください。"
   },
   "TranscriptionView": {
     "cancellingTranscription": "文字起こしをキャンセル中...",

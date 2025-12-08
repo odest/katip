@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { FileText, Sparkles, FileAudio } from "lucide-react";
+import { FileCodeIcon, Sparkles, FileAudioIcon, Search } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "@workspace/i18n";
 import { useRouter } from "@workspace/i18n/navigation";
@@ -9,6 +9,7 @@ import { useUser } from "@workspace/ui/hooks/use-user";
 import { useSync } from "@workspace/ui/hooks/use-sync";
 import { useRecordings } from "@workspace/ui/hooks/use-recordings";
 import { useTranscripts } from "@workspace/ui/hooks/use-transcripts";
+import { useSortStore } from "@workspace/ui/stores/sort-store";
 import { useAuthStore } from "@workspace/ui/stores/auth-store";
 import { useAudioStore } from "@workspace/ui/stores/audio-store";
 import { useSummaryStore } from "@workspace/ui/stores/summary-store";
@@ -31,6 +32,7 @@ import {
   RecordingCard,
   type RecordingItem,
 } from "@workspace/ui/components/recordings/recording-card";
+import { RecordingToolbar } from "@workspace/ui/components/recordings/recording-toolbar";
 import { RecordingPagination } from "@workspace/ui/components/recordings/recording-pagination";
 
 export function RecordingsPage() {
@@ -47,6 +49,8 @@ export function RecordingsPage() {
   const { setSelectedAudio } = useAudioStore();
   const [recordings, setRecordings] = useState<RecordingItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const { sortBy, setSortBy } = useSortStore();
   const [synchronizing, setSynchronizing] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
@@ -58,7 +62,12 @@ export function RecordingsPage() {
     setLoading(true);
     try {
       const { recordings: data, totalCount: count } =
-        await getPaginatedRecordings(currentPage, ITEMS_PER_PAGE);
+        await getPaginatedRecordings(
+          currentPage,
+          ITEMS_PER_PAGE,
+          searchQuery,
+          sortBy
+        );
       setRecordings(data);
       setTotalCount(count);
     } catch (error) {
@@ -66,7 +75,11 @@ export function RecordingsPage() {
     } finally {
       setLoading(false);
     }
-  }, [currentPage, getPaginatedRecordings]);
+  }, [currentPage, getPaginatedRecordings, searchQuery, sortBy]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, sortBy]);
 
   useEffect(() => {
     fetchRecordings();
@@ -150,13 +163,13 @@ export function RecordingsPage() {
     );
   }
 
-  if (!loading && recordings.length === 0) {
+  if (!loading && recordings.length === 0 && !searchQuery) {
     return (
       <div className="flex flex-1 justify-center items-center p-6">
         <EmptyState
           title={t("emptyTitle")}
           description={t("emptyDescription")}
-          icons={[FileAudio, Sparkles, FileText]}
+          icons={[FileAudioIcon, Sparkles, FileCodeIcon]}
           action={{
             label: t("startTranscription"),
             onClick: () => router.push("/"),
@@ -169,18 +182,38 @@ export function RecordingsPage() {
   return (
     <>
       <ScrollArea className="overflow-y-auto w-full flex-1">
-        <div className="flex flex-col gap-6 p-6">
+        <div className="sticky top-0 z-10 w-full p-6 bg-background/50 backdrop-blur-md">
+          <div className="max-w-3xl mx-auto w-full">
+            <RecordingToolbar
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              sortBy={sortBy}
+              onSortChange={(val) => setSortBy(val as any)}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col gap-6 px-6 pb-6">
           <div className="max-w-3xl mx-auto w-full flex flex-col gap-6">
-            {recordings.map((recording) => (
-              <RecordingCard
-                key={recording.id}
-                recording={recording}
-                synchronizing={synchronizing}
-                onCardClick={handleCardClick}
-                onSynchronizeClick={handleSynchronizeClick}
-                onDeleteClick={handleDeleteClick}
-              />
-            ))}
+            {recordings.length === 0 ? (
+              <div className="flex flex-1 justify-center items-center py-12">
+                <EmptyState
+                  title={t("noResultsFound")}
+                  description={t("tryAdjustingSearch")}
+                  icons={[Search]}
+                />
+              </div>
+            ) : (
+              recordings.map((recording) => (
+                <RecordingCard
+                  key={recording.id}
+                  recording={recording}
+                  synchronizing={synchronizing}
+                  onCardClick={handleCardClick}
+                  onSynchronizeClick={handleSynchronizeClick}
+                  onDeleteClick={handleDeleteClick}
+                />
+              ))
+            )}
           </div>
         </div>
         <ScrollBar orientation="vertical" />

@@ -48,7 +48,19 @@
     "unsynced": "No sincronizado",
     "synchronizing": "Sincronizando...",
     "syncSuccess": "Grabación sincronizada con éxito",
-    "syncError": "Error al sincronizar la grabación"
+    "syncError": "Error al sincronizar la grabación",
+    "searchPlaceholder": "Buscar grabaciones...",
+    "sortBy": "Ordenar por",
+    "sortDateDesc": "Fecha (Más recientes primero)",
+    "sortDateAsc": "Fecha (Más antiguas primero)",
+    "sortTitleAsc": "Título (A-Z)",
+    "sortTitleDesc": "Título (Z-A)",
+    "sortDurationDesc": "Duración (Más largas primero)",
+    "sortDurationAsc": "Duración (Más cortas primero)",
+    "sortSizeDesc": "Tamaño (Más grandes primero)",
+    "sortSizeAsc": "Tamaño (Más pequeños primero)",
+    "noResultsFound": "No se encontraron resultados",
+    "tryAdjustingSearch": "Intenta ajustar tu búsqueda."
   },
   "TranscriptionView": {
     "cancellingTranscription": "Cancelando transcripción...",

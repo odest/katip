@@ -48,7 +48,19 @@
     "unsynced": "Не синхронизировано",
     "synchronizing": "Синхронизация...",
     "syncSuccess": "Запись успешно синхронизирована",
-    "syncError": "Не удалось синхронизировать запись"
+    "syncError": "Не удалось синхронизировать запись",
+    "searchPlaceholder": "Поиск записей...",
+    "sortBy": "Сортировать по",
+    "sortDateDesc": "Дата (Сначала новые)",
+    "sortDateAsc": "Дата (Сначала старые)",
+    "sortTitleAsc": "Название (A-Я)",
+    "sortTitleDesc": "Название (Я-A)",
+    "sortDurationDesc": "Длительность (Сначала длинные)",
+    "sortDurationAsc": "Длительность (Сначала короткие)",
+    "sortSizeDesc": "Размер (Сначала большие)",
+    "sortSizeAsc": "Размер (Сначала маленькие)",
+    "noResultsFound": "Результатов не найдено",
+    "tryAdjustingSearch": "Попробуйте изменить поисковый запрос."
   },
   "TranscriptionView": {
     "cancellingTranscription": "Отмена транскрипции...",

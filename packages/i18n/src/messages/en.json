@@ -48,7 +48,19 @@
     "unsynced": "Unsynced",
     "synchronizing": "Synchronizing...",
     "syncSuccess": "Recording successfully synchronized",
-    "syncError": "Failed to synchronize recording"
+    "syncError": "Failed to synchronize recording",
+    "searchPlaceholder": "Search recordings...",
+    "sortBy": "Sort by",
+    "sortDateDesc": "Date (Newest first)",
+    "sortDateAsc": "Date (Oldest first)",
+    "sortTitleAsc": "Title (A-Z)",
+    "sortTitleDesc": "Title (Z-A)",
+    "sortDurationDesc": "Duration (Longest first)",
+    "sortDurationAsc": "Duration (Shortest first)",
+    "sortSizeDesc": "Size (Largest first)",
+    "sortSizeAsc": "Size (Smallest first)",
+    "noResultsFound": "No results found",
+    "tryAdjustingSearch": "Try adjusting your search query."
   },
   "TranscriptionView": {
     "cancellingTranscription": "Cancelling transcription...",

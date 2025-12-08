@@ -48,7 +48,19 @@
     "unsynced": "Non sincronizzato",
     "synchronizing": "Sincronizzazione...",
     "syncSuccess": "Registrazione sincronizzata con successo",
-    "syncError": "Impossibile sincronizzare la registrazione"
+    "syncError": "Impossibile sincronizzare la registrazione",
+    "searchPlaceholder": "Cerca registrazioni...",
+    "sortBy": "Ordina per",
+    "sortDateDesc": "Data (Più recenti prima)",
+    "sortDateAsc": "Data (Meno recenti prima)",
+    "sortTitleAsc": "Titolo (A-Z)",
+    "sortTitleDesc": "Titolo (Z-A)",
+    "sortDurationDesc": "Durata (Più lunghe prima)",
+    "sortDurationAsc": "Durata (Più brevi prima)",
+    "sortSizeDesc": "Dimensione (Più grandi prima)",
+    "sortSizeAsc": "Dimensione (Più piccoli prima)",
+    "noResultsFound": "Nessun risultato trovato",
+    "tryAdjustingSearch": "Prova a modificare la tua ricerca."
   },
   "TranscriptionView": {
     "cancellingTranscription": "Annullamento trascrizione...",

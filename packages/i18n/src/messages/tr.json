@@ -48,7 +48,19 @@
     "unsynced": "Eşitlenmedi",
     "synchronizing": "Senkronize ediliyor...",
     "syncSuccess": "Kayıt başarıyla senkronize edildi",
-    "syncError": "Kayıt senkronize edilemedi"
+    "syncError": "Kayıt senkronize edilemedi",
+    "searchPlaceholder": "Kayıtlarda ara...",
+    "sortBy": "Sırala",
+    "sortDateDesc": "Tarih (Yeniden eskiye)",
+    "sortDateAsc": "Tarih (Eskiden yeniye)",
+    "sortTitleAsc": "Başlık (A-Z)",
+    "sortTitleDesc": "Başlık (Z-A)",
+    "sortDurationDesc": "Süre (Uzundan kısaya)",
+    "sortDurationAsc": "Süre (Kısadan uzuna)",
+    "sortSizeDesc": "Boyut (Büyükten küçüğe)",
+    "sortSizeAsc": "Boyut (Küçükten büyüğe)",
+    "noResultsFound": "Sonuç bulunamadı",
+    "tryAdjustingSearch": "Arama teriminizi değiştirmeyi deneyin."
   },
   "TranscriptionView": {
     "cancellingTranscription": "Transkript iptal ediliyor...",

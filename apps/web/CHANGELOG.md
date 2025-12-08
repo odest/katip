@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.4](https://github.com/odest/katip/compare/v0.1.3...v0.1.4) (2025-12-08)
+
+
+### Features
+
+* **ui:** add basic recordings page with pagination and navigation ([15da692](https://github.com/odest/katip/commit/15da6920cdd2b1d1b6d59e602b7a08b98aad9eff))
+
+
+### Bug Fixes
+
+* **deps:** upgrade next.js and react to resolve CVE-2025-55182 ([c73377a](https://github.com/odest/katip/commit/c73377a6d66ca3110096119df418dee7e367368d))
+
 ## [0.1.3](https://github.com/odest/katip/compare/v0.1.2...v0.1.3) (2025-11-28)
 
 

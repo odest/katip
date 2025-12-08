@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.1.7](https://github.com/odest/katip/compare/v0.1.6...v0.1.7) (2025-12-08)
+
+
+### Features
+
+* add recordings migration, pagination, and remove color column ([2749506](https://github.com/odest/katip/commit/2749506445063a4fba30a2917d92c21e0645cd40))
+* **auth:** fix session management, db init and local user cleanup ([f91c9cc](https://github.com/odest/katip/commit/f91c9cc30e1b2a5f518f1de3c3a7e31c76ac8403))
+* **sync:** add push recording sync support ([cf02c0f](https://github.com/odest/katip/commit/cf02c0fca887c94b6d3eb7f8c0a4c2ad801d46b5))
+* **ui:** add basic recordings page with pagination and navigation ([15da692](https://github.com/odest/katip/commit/15da6920cdd2b1d1b6d59e602b7a08b98aad9eff))
+
+
+### Bug Fixes
+
+* **deps:** upgrade next.js and react to resolve CVE-2025-55182 ([c73377a](https://github.com/odest/katip/commit/c73377a6d66ca3110096119df418dee7e367368d))
+
+
+### Code Refactoring
+
+* **db:** implement relational query api and define schema relations ([7adf62d](https://github.com/odest/katip/commit/7adf62dcfe9a975f32910c99124a5cca44462fe0))
+* overhaul transcription state and database logic ([2e6bc7f](https://github.com/odest/katip/commit/2e6bc7fa0381e64ce149adc0051eb5b30b15ceb9))
+* **ui:** extract RecordingCard and RecordingPagination components ([5bc1c01](https://github.com/odest/katip/commit/5bc1c01afb9734e34ff6a7570155dd0c98997934))
+
 ## [0.1.6](https://github.com/odest/katip/compare/v0.1.5...v0.1.6) (2025-12-03)
 
 

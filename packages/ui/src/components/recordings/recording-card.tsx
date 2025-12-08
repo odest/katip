@@ -47,6 +47,7 @@ export type RecordingItem = Pick<
 
 interface RecordingCardProps {
   recording: RecordingItem;
+  synchronizing: boolean;
   onCardClick: (recording: RecordingItem) => void;
   onSynchronizeClick: (e: React.MouseEvent, id: string) => void;
   onDeleteClick: (e: React.MouseEvent, id: string) => void;
@@ -54,6 +55,7 @@ interface RecordingCardProps {
 
 export function RecordingCard({
   recording,
+  synchronizing,
   onCardClick,
   onSynchronizeClick,
   onDeleteClick,
@@ -116,6 +118,7 @@ export function RecordingCard({
               <DropdownMenuContent align="end">
                 <DropdownMenuItem
                   className="cursor-pointer"
+                  disabled={synchronizing}
                   onClick={(e) => onSynchronizeClick(e, recording.id)}
                 >
                   <Cloud />

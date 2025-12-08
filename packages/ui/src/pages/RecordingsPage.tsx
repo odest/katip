@@ -2,9 +2,11 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { FileText, Sparkles, FileAudio } from "lucide-react";
+import { toast } from "sonner";
 import { useTranslations } from "@workspace/i18n";
 import { useRouter } from "@workspace/i18n/navigation";
 import { useUser } from "@workspace/ui/hooks/use-user";
+import { useSync } from "@workspace/ui/hooks/use-sync";
 import { useRecordings } from "@workspace/ui/hooks/use-recordings";
 import { useTranscripts } from "@workspace/ui/hooks/use-transcripts";
 import { useAuthStore } from "@workspace/ui/stores/auth-store";
@@ -35,6 +37,7 @@ export function RecordingsPage() {
   const router = useRouter();
   const t = useTranslations("RecordingsPage");
   const { user } = useUser();
+  const { pushRecording } = useSync();
   const { setOpenDialog, formView, setFormView } = useAuthStore();
   const { getPaginatedRecordings, deleteRecording } = useRecordings();
   const { getFirstTranscriptByRecordingId } = useTranscripts();
@@ -44,6 +47,7 @@ export function RecordingsPage() {
   const { setSelectedAudio } = useAudioStore();
   const [recordings, setRecordings] = useState<RecordingItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [synchronizing, setSynchronizing] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -77,9 +81,27 @@ export function RecordingsPage() {
   const handleSynchronizeClick = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     if (user) {
-      // TODO: Implement synchronization logic here
+      setSynchronizing(true);
+
+      const promise = async () => {
+        try {
+          const { success, error } = await pushRecording(id);
+          if (!success) throw error || new Error("Failed to synchronize");
+          await fetchRecordings();
+        } finally {
+          setSynchronizing(false);
+        }
+      };
+
+      toast.promise(promise(), {
+        loading: t("synchronizing"),
+        success: t("syncSuccess"),
+        error: t("syncError"),
+      });
+
       return;
     }
+
     formView == "otp" ? setFormView("otp") : setFormView("signin");
     setOpenDialog(true);
   };
@@ -153,6 +175,7 @@ export function RecordingsPage() {
               <RecordingCard
                 key={recording.id}
                 recording={recording}
+                synchronizing={synchronizing}
                 onCardClick={handleCardClick}
                 onSynchronizeClick={handleSynchronizeClick}
                 onDeleteClick={handleDeleteClick}

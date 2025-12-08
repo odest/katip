@@ -45,7 +45,10 @@
     "cancel": "Abbrechen",
     "synchronize": "Synchronisieren",
     "synced": "Synchronisiert",
-    "unsynced": "Nicht synchronisiert"
+    "unsynced": "Nicht synchronisiert",
+    "synchronizing": "Synchronisieren...",
+    "syncSuccess": "Aufnahme erfolgreich synchronisiert",
+    "syncError": "Fehler beim Synchronisieren der Aufnahme"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Transkription wird abgebrochen...",

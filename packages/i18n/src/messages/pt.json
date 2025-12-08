@@ -45,7 +45,10 @@
     "cancel": "Cancelar",
     "synchronize": "Sincronizar",
     "synced": "Sincronizado",
-    "unsynced": "Não sincronizado"
+    "unsynced": "Não sincronizado",
+    "synchronizing": "A sincronizar...",
+    "syncSuccess": "Gravação sincronizada com sucesso",
+    "syncError": "Falha ao sincronizar gravação"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Cancelando transcrição...",

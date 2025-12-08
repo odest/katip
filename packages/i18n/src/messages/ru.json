@@ -45,7 +45,10 @@
     "cancel": "Отмена",
     "synchronize": "Синхронизировать",
     "synced": "Синхронизировано",
-    "unsynced": "Не синхронизировано"
+    "unsynced": "Не синхронизировано",
+    "synchronizing": "Синхронизация...",
+    "syncSuccess": "Запись успешно синхронизирована",
+    "syncError": "Не удалось синхронизировать запись"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Отмена транскрипции...",

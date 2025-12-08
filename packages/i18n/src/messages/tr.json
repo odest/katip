@@ -45,7 +45,10 @@
     "cancel": "İptal",
     "synchronize": "Eşitle",
     "synced": "Eşitlendi",
-    "unsynced": "Eşitlenmedi"
+    "unsynced": "Eşitlenmedi",
+    "synchronizing": "Senkronize ediliyor...",
+    "syncSuccess": "Kayıt başarıyla senkronize edildi",
+    "syncError": "Kayıt senkronize edilemedi"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Transkript iptal ediliyor...",

@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.1.4](https://github.com/odest/katip/compare/v0.1.3...v0.1.4) (2025-12-10)
+
+
+### Features
+
+* add recordings migration, pagination, and remove color column ([2749506](https://github.com/odest/katip/commit/2749506445063a4fba30a2917d92c21e0645cd40))
+* **auth:** fix session management, db init and local user cleanup ([f91c9cc](https://github.com/odest/katip/commit/f91c9cc30e1b2a5f518f1de3c3a7e31c76ac8403))
+* **db:** implement soft delete with restore functionality and sync fix ([295e782](https://github.com/odest/katip/commit/295e7829f5d0cd1114eafec5915dbb84c79f2293))
+* **sync:** add push recording sync support ([cf02c0f](https://github.com/odest/katip/commit/cf02c0fca887c94b6d3eb7f8c0a4c2ad801d46b5))
+* **sync:** implement synchronization logic with pull & push recordings ([1c80123](https://github.com/odest/katip/commit/1c8012389c491a478de1f01bf4feb1719671d3d0))
+* **ui:** add basic recordings page with pagination and navigation ([15da692](https://github.com/odest/katip/commit/15da6920cdd2b1d1b6d59e602b7a08b98aad9eff))
+* **ui:** add recording toolbar with search, sort, persist sort preference ([2efeb38](https://github.com/odest/katip/commit/2efeb388d2f7f2db5cb33ada141dfec1292ec445))
+
+
+### Bug Fixes
+
+* **deps:** upgrade next.js and react to resolve CVE-2025-55182 ([c73377a](https://github.com/odest/katip/commit/c73377a6d66ca3110096119df418dee7e367368d))
+
+
+### Code Refactoring
+
+* overhaul transcription state and database logic ([2e6bc7f](https://github.com/odest/katip/commit/2e6bc7fa0381e64ce149adc0051eb5b30b15ceb9))
+
 ## [0.1.3](https://github.com/odest/katip/compare/v0.1.2...v0.1.3) (2025-11-28)
 
 

@@ -48,7 +48,8 @@ export function RecordingsPage() {
   const { user } = useUser();
   const { pushRecording, pullRecordings, pushRecordings, syncAll } = useSync();
   const { setOpenDialog, formView, setFormView } = useAuthStore();
-  const { getPaginatedRecordings, deleteRecording } = useRecordings();
+  const { getPaginatedRecordings, deleteRecording, restoreRecording } =
+    useRecordings();
   const { getFirstTranscriptByRecordingId } = useTranscripts();
   const { setTranscriptionState, clearTranscriptionState } =
     useTranscriptionStore();
@@ -160,15 +161,45 @@ export function RecordingsPage() {
     setIsDeleteDialogOpen(true);
   };
 
+  const handleRestore = async (id: string) => {
+    const promise = async () => {
+      const { success, error } = await restoreRecording(id);
+      if (!success) throw error || new Error("Failed to restore");
+      await fetchRecordings();
+    };
+
+    toast.promise(promise(), {
+      loading: t("processing"),
+      success: t("undoSuccess"),
+      error: t("undoError"),
+    });
+  };
+
   const confirmDelete = async () => {
     if (deleteId) {
-      await deleteRecording(deleteId);
-      clearTranscriptionState();
-      resetSummary();
-      fetchRecordings();
-      setSelectedAudio(null);
-      setDeleteId(null);
-      setIsDeleteDialogOpen(false);
+      const idToRestore = deleteId;
+
+      const promise = async () => {
+        const { success, error } = await deleteRecording(deleteId);
+        if (!success) throw error || new Error("Failed to delete");
+
+        clearTranscriptionState();
+        resetSummary();
+        await fetchRecordings();
+        setSelectedAudio(null);
+        setDeleteId(null);
+        setIsDeleteDialogOpen(false);
+      };
+
+      toast.promise(promise(), {
+        loading: t("deleting"),
+        success: t("deletedSuccess"),
+        error: t("failed"),
+        action: {
+          label: t("undo"),
+          onClick: () => handleRestore(idToRestore),
+        },
+      });
     }
   };
 
@@ -232,18 +263,26 @@ export function RecordingsPage() {
   return (
     <>
       <ScrollArea className="overflow-y-auto w-full flex-1">
-        <div className="sticky top-0 z-10 w-full p-6 bg-background/50 backdrop-blur-md">
-          <div className="max-w-3xl mx-auto w-full">
-            <RecordingToolbar
-              searchQuery={searchQuery}
-              onSearchChange={setSearchQuery}
-              sortBy={sortBy}
-              onSortChange={(val) => setSortBy(val as any)}
-              onSyncAll={handleSyncAll}
-              onPush={handlePushLocal}
-              onPull={handlePullCloud}
-              isSyncing={synchronizing}
-            />
+        <div className="sticky top-0 z-10 w-full">
+          <div
+            className="absolute inset-x-0 top-0 h-[calc(100%+32px)] pointer-events-none
+                      bg-gradient-to-b from-background/80 to-transparent backdrop-blur-md
+                      [mask-image:linear-gradient(to_bottom,black,black,transparent)]
+                      [-webkit-mask-image:linear-gradient(to_bottom,black,black,transparent)]"
+          />
+          <div className="relative p-6">
+            <div className="max-w-3xl mx-auto w-full">
+              <RecordingToolbar
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                sortBy={sortBy}
+                onSortChange={(val) => setSortBy(val as any)}
+                onSyncAll={handleSyncAll}
+                onPush={handlePushLocal}
+                onPull={handlePullCloud}
+                isSyncing={synchronizing}
+              />
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-6 px-6 pb-6">

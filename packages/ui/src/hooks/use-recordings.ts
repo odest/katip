@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { eq, desc, and, asc, like } from "drizzle-orm";
+import { eq, desc, and, asc, like, isNull } from "drizzle-orm";
 import {
   recordings,
   type Recording,
@@ -32,7 +32,8 @@ export function useRecordings() {
         const result = await database.query.recordings.findFirst({
           where: and(
             eq(recordings.fileHash, hash),
-            eq(recordings.userId, userId)
+            eq(recordings.userId, userId),
+            isNull(recordings.deletedAt)
           ),
         });
 
@@ -50,7 +51,11 @@ export function useRecordings() {
       if (!userId) return null;
       try {
         const result = await database.query.recordings.findFirst({
-          where: and(eq(recordings.id, id), eq(recordings.userId, userId)),
+          where: and(
+            eq(recordings.id, id),
+            eq(recordings.userId, userId),
+            isNull(recordings.deletedAt)
+          ),
         });
 
         return result || null;
@@ -73,7 +78,11 @@ export function useRecordings() {
       try {
         const offset = (page - 1) * pageSize;
 
-        const conditions = [eq(recordings.userId, userId)];
+        const conditions = [
+          eq(recordings.userId, userId),
+          isNull(recordings.deletedAt),
+        ];
+
         if (searchQuery) {
           conditions.push(like(recordings.title, `%${searchQuery}%`));
         }
@@ -151,11 +160,33 @@ export function useRecordings() {
       if (!userId) return { success: false, error: "No user ID" };
       try {
         await database
-          .delete(recordings)
+          .update(recordings)
+          .set({
+            deletedAt: new Date(),
+            updatedAt: new Date(),
+            isSynced: false,
+          })
           .where(and(eq(recordings.id, id), eq(recordings.userId, userId)));
         return { success: true };
       } catch (error) {
         console.error("Failed to delete recording:", error);
+        return { success: false, error };
+      }
+    },
+    [userId]
+  );
+
+  const restoreRecording = useCallback(
+    async (id: string) => {
+      if (!userId) return { success: false, error: "No user ID" };
+      try {
+        await database
+          .update(recordings)
+          .set({ deletedAt: null, updatedAt: new Date(), isSynced: false })
+          .where(and(eq(recordings.id, id), eq(recordings.userId, userId)));
+        return { success: true };
+      } catch (error) {
+        console.error("Failed to restore recording:", error);
         return { success: false, error };
       }
     },
@@ -168,5 +199,6 @@ export function useRecordings() {
     getRecordingById,
     getPaginatedRecordings,
     deleteRecording,
+    restoreRecording,
   };
 }

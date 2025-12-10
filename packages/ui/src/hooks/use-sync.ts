@@ -106,7 +106,10 @@ export function useSync() {
         is_synced: true,
         created_at: localRec.createdAt?.toISOString(),
         updated_at: localRec.updatedAt?.toISOString(),
-        deleted_at: localRec.deletedAt?.toISOString(),
+        deleted_at:
+          localRec.deletedAt && localRec.deletedAt.getTime() > 0
+            ? localRec.deletedAt.toISOString()
+            : null,
       });
 
       if (recError) throw recError;

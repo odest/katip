@@ -1,42 +1,156 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { User } from "@supabase/supabase-js";
 import { eq } from "drizzle-orm";
 import { database } from "@workspace/ui/db";
 import { createClient } from "@workspace/ui/lib/supabase";
-import { users } from "@workspace/database/schema/sqlite";
+import {
+  users,
+  type User as UserType,
+} from "@workspace/database/schema/sqlite";
 import { useSync } from "@workspace/ui/hooks/use-sync";
 import { useAuthStore } from "@workspace/ui/stores/auth-store";
+import { useUserStore } from "@workspace/ui/stores/user-store";
 
 const supabase = createClient();
 const AVATAR_BUCKET = "avatars";
 
 export function useUser() {
   const [user, setUser] = useState<User | null>(null);
+  const { localUser, setLocalUser } = useUserStore();
   const [loading, setLoading] = useState(true);
   const { userId: guestId, setUserId: setStoreUserId } = useAuthStore();
   const { migrateGuestData } = useSync();
+  const syncedUserIdRef = useRef<string | null>(null);
 
   useEffect(() => {
+    const syncProfileFromPublic = async (userId: string, authUser: User) => {
+      try {
+        const existingLocalUser = await database.query.users.findFirst({
+          where: eq(users.id, userId),
+        });
+
+        if (existingLocalUser && syncedUserIdRef.current === userId) {
+          return existingLocalUser;
+        }
+
+        const { data: publicProfile, error } = await supabase
+          .from("users")
+          .select("*")
+          .eq("id", userId)
+          .single();
+
+        if (error || !publicProfile) {
+          console.warn("Public profile not found, auth metadata will be used.");
+          return null;
+        }
+
+        if (
+          existingLocalUser &&
+          existingLocalUser.updatedAt &&
+          publicProfile.updated_at
+        ) {
+          const localTime = new Date(existingLocalUser.updatedAt).getTime();
+          const remoteTime = new Date(publicProfile.updated_at).getTime();
+          const diff = Math.abs(localTime - remoteTime);
+
+          if (diff < 2000) {
+            syncedUserIdRef.current = userId;
+            return existingLocalUser;
+          }
+        }
+
+        await database
+          .insert(users)
+          .values({
+            id: publicProfile.id,
+            email: publicProfile.email || authUser.email || "",
+            fullName: publicProfile.full_name,
+            avatarUrl: publicProfile.avatar_url,
+            createdAt: publicProfile.created_at
+              ? new Date(publicProfile.created_at)
+              : new Date(),
+            updatedAt: publicProfile.updated_at
+              ? new Date(publicProfile.updated_at)
+              : new Date(),
+          })
+          .onConflictDoUpdate({
+            target: users.id,
+            set: {
+              fullName: publicProfile.full_name,
+              avatarUrl: publicProfile.avatar_url,
+              email: publicProfile.email,
+              updatedAt: publicProfile.updated_at
+                ? new Date(publicProfile.updated_at)
+                : new Date(),
+            },
+          });
+
+        syncedUserIdRef.current = userId;
+
+        return {
+          id: publicProfile.id,
+          email: publicProfile.email || authUser.email || "",
+          fullName: publicProfile.full_name,
+          avatarUrl: publicProfile.avatar_url,
+          createdAt: publicProfile.created_at
+            ? new Date(publicProfile.created_at)
+            : new Date(),
+          updatedAt: publicProfile.updated_at
+            ? new Date(publicProfile.updated_at)
+            : new Date(),
+        } as UserType;
+      } catch (err) {
+        console.error("Profile sync error:", err);
+        return null;
+      }
+    };
+
     const getUser = async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
       setUser(user);
-      setLoading(false);
 
-      if (user && guestId && guestId !== user.id) {
-        await migrateGuestData(guestId, {
-          id: user.id,
-          email: user.email || "",
-          fullName: user.user_metadata.full_name,
-          avatarUrl: user.user_metadata.avatar_url,
-          createdAt: user.created_at,
-          updatedAt: user.updated_at!,
-        });
-        setStoreUserId(user.id);
-      } else if (user) {
-        setStoreUserId(user.id);
+      if (user) {
+        const syncedUser = await syncProfileFromPublic(user.id, user);
+
+        try {
+          if (syncedUser) {
+            setLocalUser(syncedUser);
+          } else {
+            const dbUser = await database.query.users.findFirst({
+              where: eq(users.id, user.id),
+            });
+            if (dbUser) setLocalUser(dbUser);
+          }
+        } catch (error) {
+          console.error("Failed to fetch local user:", error);
+        }
+
+        if (guestId && guestId !== user.id) {
+          const userDataForMigration = {
+            id: syncedUser?.id ?? user.id,
+            email: syncedUser?.email ?? user.email ?? "",
+            fullName:
+              syncedUser?.fullName ?? user.user_metadata.full_name ?? "",
+            avatarUrl:
+              syncedUser?.avatarUrl ?? user.user_metadata.avatar_url ?? "",
+            createdAt: syncedUser?.createdAt
+              ? syncedUser.createdAt.toISOString()
+              : user.created_at,
+            updatedAt: syncedUser?.updatedAt
+              ? syncedUser.updatedAt.toISOString()
+              : user.updated_at!,
+          };
+
+          await migrateGuestData(guestId, userDataForMigration);
+          setStoreUserId(user.id);
+        } else {
+          setStoreUserId(user.id);
+        }
       }
+
+      setLoading(false);
     };
 
     getUser();
@@ -45,21 +159,58 @@ export function useUser() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user ?? null);
-      setLoading(false);
+
+      if (!session?.user) {
+        syncedUserIdRef.current = null;
+      }
 
       if (session?.user) {
+        const syncedUser = await syncProfileFromPublic(
+          session.user.id,
+          session.user
+        );
+
+        try {
+          if (syncedUser) {
+            setLocalUser(syncedUser);
+          } else {
+            const dbUser = await database.query.users.findFirst({
+              where: eq(users.id, session.user.id),
+            });
+            if (dbUser) setLocalUser(dbUser);
+          }
+        } catch (error) {
+          console.error("Failed to fetch local user:", error);
+        }
+
         if (guestId && guestId !== session.user.id) {
-          await migrateGuestData(guestId, {
-            id: session.user.id,
-            email: session.user.email || "",
-            fullName: session.user.user_metadata.full_name,
-            avatarUrl: session.user.user_metadata.avatar_url,
-            createdAt: session.user.created_at,
-            updatedAt: session.user.updated_at!,
-          });
+          const userDataForMigration = {
+            id: syncedUser?.id ?? session.user.id,
+            email: syncedUser?.email ?? session.user.email ?? "",
+            fullName:
+              syncedUser?.fullName ??
+              session.user.user_metadata.full_name ??
+              "",
+            avatarUrl:
+              syncedUser?.avatarUrl ??
+              session.user.user_metadata.avatar_url ??
+              "",
+            createdAt: syncedUser?.createdAt
+              ? syncedUser.createdAt.toISOString()
+              : session.user.created_at,
+            updatedAt: syncedUser?.updatedAt
+              ? syncedUser.updatedAt.toISOString()
+              : session.user.updated_at!,
+          };
+
+          await migrateGuestData(guestId, userDataForMigration);
         }
         setStoreUserId(session.user.id);
+      } else {
+        setLocalUser(null);
       }
+
+      setLoading(false);
     });
 
     return () => {
@@ -70,6 +221,7 @@ export function useUser() {
   const signOut = useCallback(async () => {
     await supabase.auth.signOut();
     setStoreUserId(null);
+    setLocalUser(null);
   }, [setStoreUserId]);
 
   const uploadAvatar = useCallback(
@@ -80,12 +232,23 @@ export function useUser() {
       try {
         const response = await fetch(dataUrl);
         const blob = await response.blob();
-
         const fileName = `${user.id}/${Date.now()}.webp`;
 
-        const oldAvatarUrl = user.user_metadata?.avatar_url;
-        if (oldAvatarUrl) {
-          const match = oldAvatarUrl.match(/\/avatars\/(.+)$/);
+        let oldAvatarUrl = localUser?.avatarUrl;
+
+        if (!oldAvatarUrl) {
+          const { data: publicData } = await supabase
+            .from("users")
+            .select("avatar_url")
+            .eq("id", user.id)
+            .single();
+          oldAvatarUrl = publicData?.avatar_url;
+        }
+
+        if (oldAvatarUrl && oldAvatarUrl.includes(`/${AVATAR_BUCKET}/`)) {
+          const match = oldAvatarUrl.match(
+            new RegExp(`/${AVATAR_BUCKET}/(.+)$`)
+          );
           if (match && match[1]) {
             const oldPath = decodeURIComponent(match[1]);
             await supabase.storage.from(AVATAR_BUCKET).remove([oldPath]);
@@ -107,12 +270,33 @@ export function useUser() {
           data: { publicUrl },
         } = supabase.storage.from(AVATAR_BUCKET).getPublicUrl(fileName);
 
-        const { error: updateError } = await supabase.auth.updateUser({
-          data: { avatar_url: publicUrl },
-        });
+        const { error: updateError } = await supabase
+          .from("users")
+          .update({
+            avatar_url: publicUrl,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("id", user.id);
 
         if (updateError) {
           return { success: false, error: updateError.message };
+        }
+
+        try {
+          await database
+            .update(users)
+            .set({ avatarUrl: publicUrl, updatedAt: new Date() })
+            .where(eq(users.id, user.id));
+
+          if (localUser) {
+            setLocalUser({
+              ...localUser,
+              avatarUrl: publicUrl,
+              updatedAt: new Date(),
+            });
+          }
+        } catch (error) {
+          console.error("Failed to update avatar in local database:", error);
         }
 
         return { success: true };
@@ -134,28 +318,55 @@ export function useUser() {
       return { success: false, error: "User not authenticated" };
 
     try {
-      const avatarUrl = user.user_metadata?.avatar_url;
+      let avatarUrl = localUser?.avatarUrl;
 
-      if (avatarUrl) {
-        const match = avatarUrl.match(/\/avatars\/(.+)$/);
+      if (!avatarUrl) {
+        const { data: publicData } = await supabase
+          .from("users")
+          .select("avatar_url")
+          .eq("id", user.id)
+          .single();
+        avatarUrl = publicData?.avatar_url;
+      }
+
+      if (avatarUrl && avatarUrl.includes(`/${AVATAR_BUCKET}/`)) {
+        const match = avatarUrl.match(new RegExp(`/${AVATAR_BUCKET}/(.+)$`));
         if (match && match[1]) {
           const filePath = decodeURIComponent(match[1]);
-          const { error: deleteError } = await supabase.storage
+          await supabase.storage
             .from(AVATAR_BUCKET)
-            .remove([filePath]);
-
-          if (deleteError) {
-            return { success: false, error: deleteError.message };
-          }
+            .remove([filePath])
+            .catch(console.error);
         }
       }
 
-      const { error: updateError } = await supabase.auth.updateUser({
-        data: { avatar_url: null },
-      });
+      const { error: updateError } = await supabase
+        .from("users")
+        .update({
+          avatar_url: null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", user.id);
 
       if (updateError) {
         return { success: false, error: updateError.message };
+      }
+
+      try {
+        await database
+          .update(users)
+          .set({ avatarUrl: null, updatedAt: new Date() })
+          .where(eq(users.id, user.id));
+
+        if (localUser) {
+          setLocalUser({
+            ...localUser,
+            avatarUrl: null,
+            updatedAt: new Date(),
+          });
+        }
+      } catch (error) {
+        console.error("Failed to remove avatar from local database:", error);
       }
 
       return { success: true };
@@ -174,12 +385,30 @@ export function useUser() {
       }
 
       try {
-        const { error: updateError } = await supabase.auth.updateUser({
-          data: { full_name: newName },
-        });
+        const { error: updateError } = await supabase
+          .from("users")
+          .update({ full_name: newName, updated_at: new Date().toISOString() })
+          .eq("id", user.id);
 
         if (updateError) {
           return { success: false, error: updateError.message };
+        }
+
+        try {
+          await database
+            .update(users)
+            .set({ fullName: newName, updatedAt: new Date() })
+            .where(eq(users.id, user.id));
+
+          if (localUser) {
+            setLocalUser({
+              ...localUser,
+              fullName: newName,
+              updatedAt: new Date(),
+            });
+          }
+        } catch (error) {
+          console.error("Failed to update name in local database:", error);
         }
 
         return { success: true };
@@ -218,6 +447,23 @@ export function useUser() {
 
         if (updateError) {
           return { success: false, error: updateError.message };
+        }
+
+        try {
+          await database
+            .update(users)
+            .set({ email: newEmail, updatedAt: new Date() })
+            .where(eq(users.id, user.id));
+
+          if (localUser) {
+            setLocalUser({
+              ...localUser,
+              email: newEmail,
+              updatedAt: new Date(),
+            });
+          }
+        } catch (error) {
+          console.error("Failed to update email in local database:", error);
         }
 
         return { success: true };
@@ -315,26 +561,39 @@ export function useUser() {
   }, [user]);
 
   const fullName = useMemo(() => {
+    if (loading) return null;
+    if (localUser !== null) {
+      return localUser.fullName;
+    }
     return user?.user_metadata?.full_name || null;
-  }, [user?.user_metadata?.full_name]);
+  }, [localUser, user?.user_metadata?.full_name]);
 
   const email = useMemo(() => {
+    if (loading) return null;
+    if (localUser !== null) {
+      return localUser.email;
+    }
     return user?.email || null;
-  }, [user?.email]);
+  }, [localUser, user?.email]);
 
   const avatarUrl = useMemo(() => {
+    if (loading) return null;
+    if (localUser !== null) {
+      return localUser.avatarUrl;
+    }
     return user?.user_metadata?.avatar_url || null;
-  }, [user?.user_metadata?.avatar_url]);
+  }, [localUser, user?.user_metadata?.avatar_url]);
 
   const avatarFallback = useMemo(() => {
-    if (user?.user_metadata?.full_name) {
-      return user.user_metadata.full_name.substring(0, 2).toUpperCase();
-    }
-    if (user?.email) {
-      return user.email.substring(0, 2).toUpperCase();
-    }
+    if (loading) return null;
+    const name = localUser?.fullName || user?.user_metadata?.full_name;
+    const mail = localUser?.email || user?.email;
+
+    if (name) return name.substring(0, 2).toUpperCase();
+    if (mail) return mail.substring(0, 2).toUpperCase();
+
     return null;
-  }, [user?.user_metadata?.full_name, user?.email]);
+  }, [localUser, user]);
 
   return {
     user,

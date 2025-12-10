@@ -8,8 +8,13 @@ interface EmptyStateProps {
   description: string;
   icons?: LucideIcon[];
   action?: {
-    label: string;
+    label: string | React.ReactNode;
     onClick: () => void;
+  };
+  secondaryAction?: {
+    label: string | React.ReactNode;
+    onClick: () => void;
+    disabled?: boolean;
   };
   className?: string;
 }
@@ -19,6 +24,7 @@ export function EmptyState({
   description,
   icons = [],
   action,
+  secondaryAction,
   className,
 }: EmptyStateProps) {
   return (
@@ -67,14 +73,31 @@ export function EmptyState({
       <p className="text-sm text-muted-foreground mt-6 whitespace-pre-line">
         {description}
       </p>
-      {action && (
-        <Button
-          onClick={action.onClick}
-          size="lg"
-          className={cn("mt-10", "shadow-sm active:shadow-none cursor-pointer")}
-        >
-          {action.label}
-        </Button>
+
+      {(action || secondaryAction) && (
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          {action && (
+            <Button
+              onClick={action.onClick}
+              size="lg"
+              className={cn("shadow-sm active:shadow-none cursor-pointer")}
+            >
+              {action.label}
+            </Button>
+          )}
+
+          {secondaryAction && (
+            <Button
+              variant="secondary"
+              onClick={secondaryAction.onClick}
+              disabled={secondaryAction.disabled}
+              size="lg"
+              className={cn("shadow-sm active:shadow-none cursor-pointer")}
+            >
+              {secondaryAction.label}
+            </Button>
+          )}
+        </div>
       )}
     </div>
   );

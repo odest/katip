@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { platform } from "@tauri-apps/plugin-os";
 import { isTauri, invoke } from "@tauri-apps/api/core";
 import {
+  Home,
   Laptop,
   Upload,
   Computer,
@@ -193,7 +194,12 @@ export function TranscribePage() {
           description={t("configurationRequiredDesc")}
           icons={[FileAudioIcon, Upload, FileCodeIcon]}
           action={{
-            label: t("returnToHome"),
+            label: (
+              <>
+                <Home />
+                {t("returnToHome")}
+              </>
+            ),
             onClick: () => router.push("/"),
           }}
         />
@@ -210,7 +216,12 @@ export function TranscribePage() {
           description={t("androidSupportComingSoonDesc")}
           icons={[Laptop, Smartphone, Computer]}
           action={{
-            label: t("returnToHome"),
+            label: (
+              <>
+                <Home />
+                {t("returnToHome")}
+              </>
+            ),
             onClick: () => router.push("/"),
           }}
         />

@@ -19,7 +19,7 @@ import { useSummaryStore } from "@workspace/ui/stores/summary-store";
 import { Progress } from "@workspace/ui/components/progress";
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import { EmptyState } from "@workspace/ui/components/common/empty-state";
-import { Ban, AlertCircle, Bug } from "lucide-react";
+import { Ban, AlertCircle, Bug, RefreshCw, Home } from "lucide-react";
 import { useTranscriptionProcess } from "@workspace/ui/hooks/use-native-transcription";
 import { TranscriptionToolbar } from "@workspace/ui/components/transcription/transcription-toolbar";
 import { SegmentList } from "@workspace/ui/components/transcription/segment-list";
@@ -174,8 +174,22 @@ export const NativeTranscriptionView = ({
           className="border-destructive hover:border-destructive/80"
           icons={[Ban, AlertCircle, Bug]}
           action={{
-            label: t("tryAgain"),
+            label: (
+              <>
+                <RefreshCw />
+                {t("tryAgain")}
+              </>
+            ),
             onClick: () => window.location.reload(),
+          }}
+          secondaryAction={{
+            label: (
+              <>
+                <Home />
+                {t("returnToHome")}
+              </>
+            ),
+            onClick: () => router.push("/"),
           }}
         />
       </div>

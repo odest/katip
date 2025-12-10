@@ -60,7 +60,14 @@
     "sortSizeDesc": "Size (Largest first)",
     "sortSizeAsc": "Size (Smallest first)",
     "noResultsFound": "No results found",
-    "tryAdjustingSearch": "Try adjusting your search query."
+    "tryAdjustingSearch": "Try adjusting your search query.",
+    "syncAll": "Sync All",
+    "syncing": "Syncing...",
+    "pushLocal": "Push Local Recordings",
+    "pullCloud": "Pull from Cloud",
+    "more": "More",
+    "syncAllSuccess": "All recordings synchronized successfully",
+    "syncAllError": "Failed to synchronize recordings"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Cancelling transcription...",
@@ -69,6 +76,7 @@
     "transcriptionFailed": "Transcription Failed",
     "transcriptionFailedDesc": "An error occurred while transcribing your audio. This could be due to an unsupported audio format, corrupted file, or insufficient system resources. Please check your audio file and try again.",
     "tryAgain": "Try Again",
+    "returnToHome": "Return to Home",
     "unsavedChangesWarning": "You have unsaved changes. Are you sure you want to proceed?",
     "downloadingFromCDN": "Downloading from CDN...",
     "loadingModel": "Loading Model",

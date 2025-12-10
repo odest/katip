@@ -60,7 +60,14 @@
     "sortSizeDesc": "サイズ (大きい順)",
     "sortSizeAsc": "サイズ (小さい順)",
     "noResultsFound": "結果が見つかりません",
-    "tryAdjustingSearch": "検索クエリを調整してみてください。"
+    "tryAdjustingSearch": "検索クエリを調整してみてください。",
+    "syncAll": "すべて同期",
+    "syncing": "同期中...",
+    "pushLocal": "ローカル録音をプッシュ",
+    "pullCloud": "クラウドからプル",
+    "more": "その他",
+    "syncAllSuccess": "すべての録音を正常に同期しました",
+    "syncAllError": "録音の同期に失敗しました"
   },
   "TranscriptionView": {
     "cancellingTranscription": "文字起こしをキャンセル中...",
@@ -69,6 +76,7 @@
     "transcriptionFailed": "文字起こしに失敗しました",
     "transcriptionFailedDesc": "音声の文字起こし中にエラーが発生しました。サポートされていない音声形式、破損したファイル、またはシステムリソース不足が原因である可能性があります。音声ファイルを確認して、もう一度お試しください。",
     "tryAgain": "もう一度試す",
+    "returnToHome": "ホームに戻る",
     "unsavedChangesWarning": "未保存の変更があります。続行してもよろしいですか？",
     "downloadingFromCDN": "CDNからダウンロード中...",
     "loadingModel": "モデルを読み込み中",

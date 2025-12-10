@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { database } from "@workspace/ui/db";
 import { createClient } from "@workspace/ui/lib/supabase";
 import { useAuthStore } from "@workspace/ui/stores/auth-store";
@@ -171,8 +171,190 @@ export function useSync() {
     }
   }, []);
 
+  const pullRecordings = useCallback(async () => {
+    const { userId } = useAuthStore.getState();
+    if (!userId) return { success: false, error: "No user ID" };
+
+    try {
+      const { data: remoteData, error: fetchError } = await supabase
+        .from("recordings")
+        .select(
+          `
+          *,
+          transcripts (*),
+          summaries (*),
+          action_items (*)
+        `
+        )
+        .eq("user_id", userId);
+
+      if (fetchError) throw fetchError;
+      if (!remoteData) return { success: true };
+
+      for (const rec of remoteData) {
+        await database
+          .insert(recordings)
+          .values({
+            id: rec.id,
+            userId: rec.user_id,
+            title: rec.title,
+            description: rec.description,
+            filePath: rec.file_path,
+            fileHash: rec.file_hash,
+            duration: rec.duration,
+            fileSize: rec.file_size,
+            status: rec.status,
+            isFavorite: rec.is_favorite,
+            tags: rec.tags,
+            isSynced: true,
+            createdAt: new Date(rec.created_at),
+            updatedAt: new Date(rec.updated_at),
+            deletedAt: rec.deleted_at ? new Date(rec.deleted_at) : null,
+          })
+          .onConflictDoUpdate({
+            target: recordings.id,
+            set: {
+              title: rec.title,
+              description: rec.description,
+              filePath: rec.file_path,
+              status: rec.status,
+              isFavorite: rec.is_favorite,
+              tags: rec.tags,
+              isSynced: true,
+              updatedAt: new Date(rec.updated_at),
+              deletedAt: rec.deleted_at ? new Date(rec.deleted_at) : null,
+            },
+          });
+
+        if (rec.transcripts && rec.transcripts.length > 0) {
+          for (const tr of rec.transcripts) {
+            await database
+              .insert(transcripts)
+              .values({
+                id: tr.id,
+                recordingId: tr.recording_id,
+                userId: tr.user_id,
+                language: tr.language,
+                model: tr.model,
+                segments: tr.segments,
+                createdAt: new Date(tr.created_at),
+              })
+              .onConflictDoNothing();
+          }
+        }
+
+        if (rec.summaries && rec.summaries.length > 0) {
+          for (const sum of rec.summaries) {
+            await database
+              .insert(summaries)
+              .values({
+                id: sum.id,
+                transcriptId: sum.transcript_id,
+                recordingId: sum.recording_id,
+                userId: sum.user_id,
+                content: sum.content,
+                provider: sum.provider,
+                model: sum.model,
+                createdAt: new Date(sum.created_at),
+              })
+              .onConflictDoNothing();
+          }
+        }
+
+        if (rec.action_items && rec.action_items.length > 0) {
+          for (const ai of rec.action_items) {
+            await database
+              .insert(actionItems)
+              .values({
+                id: ai.id,
+                summaryId: ai.summary_id,
+                recordingId: ai.recording_id,
+                userId: ai.user_id,
+                task: ai.task,
+                assignee: ai.assignee,
+                isCompleted: ai.is_completed,
+                priority: ai.priority,
+                createdAt: new Date(ai.created_at),
+              })
+              .onConflictDoUpdate({
+                target: actionItems.id,
+                set: {
+                  isCompleted: ai.is_completed,
+                  assistee: ai.assignee,
+                  priority: ai.priority,
+                },
+              });
+          }
+        }
+      }
+
+      return { success: true };
+    } catch (error) {
+      console.error("Pull recordings failed:", error);
+      return { success: false, error };
+    }
+  }, []);
+
+  const pushRecordings = useCallback(async () => {
+    const { userId } = useAuthStore.getState();
+    if (!userId) return { success: false, error: "No user ID" };
+
+    try {
+      const unsyncedRecordings = await database.query.recordings.findMany({
+        where: and(
+          eq(recordings.userId, userId),
+          eq(recordings.isSynced, false)
+        ),
+      });
+
+      if (unsyncedRecordings.length === 0) {
+        return { success: true, pushedCount: 0 };
+      }
+
+      let successCount = 0;
+      let failCount = 0;
+
+      for (const rec of unsyncedRecordings) {
+        const result = await pushRecording(rec.id);
+        if (result.success) {
+          successCount++;
+        } else {
+          failCount++;
+          console.error(`Failed to push recording ${rec.id}:`, result.error);
+        }
+      }
+
+      return {
+        success: failCount === 0,
+        pushedCount: successCount,
+        failCount,
+      };
+    } catch (error) {
+      console.error("Push local recordings failed:", error);
+      return { success: false, error };
+    }
+  }, [pushRecording]);
+
+  const syncAll = useCallback(async () => {
+    const pushResult = await pushRecordings();
+    const pullResult = await pullRecordings();
+
+    const success =
+      (pushResult.success || pushResult.pushedCount === 0) &&
+      pullResult.success;
+
+    return {
+      success,
+      pushResult,
+      pullResult,
+    };
+  }, [pushRecordings, pullRecordings]);
+
   return {
     migrateGuestData,
     pushRecording,
+    pullRecordings,
+    pushRecordings,
+    syncAll,
   };
 }

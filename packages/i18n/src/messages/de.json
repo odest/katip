@@ -60,7 +60,14 @@
     "sortSizeDesc": "Größe (Größte zuerst)",
     "sortSizeAsc": "Größe (Kleinste zuerst)",
     "noResultsFound": "Keine Ergebnisse gefunden",
-    "tryAdjustingSearch": "Versuchen Sie, Ihre Suchabfrage anzupassen."
+    "tryAdjustingSearch": "Versuchen Sie, Ihre Suchabfrage anzupassen.",
+    "syncAll": "Alle synchronisieren",
+    "syncing": "Synchronisieren...",
+    "pushLocal": "Lokale Aufnahmen hochladen",
+    "pullCloud": "Aus der Cloud abrufen",
+    "more": "Mehr",
+    "syncAllSuccess": "Alle Aufnahmen erfolgreich synchronisiert",
+    "syncAllError": "Fehler beim Synchronisieren der Aufnahmen"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Transkription wird abgebrochen...",
@@ -69,6 +76,7 @@
     "transcriptionFailed": "Transkription fehlgeschlagen",
     "transcriptionFailedDesc": "Beim Transkribieren Ihrer Audio ist ein Fehler aufgetreten. Dies kann auf ein nicht unterstütztes Audioformat, eine beschädigte Datei oder unzureichende Systemressourcen zurückzuführen sein. Bitte überprüfen Sie Ihre Audiodatei und versuchen Sie es erneut.",
     "tryAgain": "Erneut versuchen",
+    "returnToHome": "Zurück zur Startseite",
     "unsavedChangesWarning": "Sie haben nicht gespeicherte Änderungen. Sind Sie sicher, dass Sie fortfahren möchten?",
     "downloadingFromCDN": "Wird von CDN heruntergeladen...",
     "loadingModel": "Modell wird geladen",

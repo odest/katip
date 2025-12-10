@@ -1,7 +1,14 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { FileCodeIcon, Sparkles, FileAudioIcon, Search } from "lucide-react";
+import {
+  Plus,
+  Cloud,
+  Search,
+  Sparkles,
+  FileCodeIcon,
+  FileAudioIcon,
+} from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "@workspace/i18n";
 import { useRouter } from "@workspace/i18n/navigation";
@@ -39,7 +46,7 @@ export function RecordingsPage() {
   const router = useRouter();
   const t = useTranslations("RecordingsPage");
   const { user } = useUser();
-  const { pushRecording } = useSync();
+  const { pushRecording, pullRecordings, pushRecordings, syncAll } = useSync();
   const { setOpenDialog, formView, setFormView } = useAuthStore();
   const { getPaginatedRecordings, deleteRecording } = useRecordings();
   const { getFirstTranscriptByRecordingId } = useTranscripts();
@@ -119,6 +126,34 @@ export function RecordingsPage() {
     setOpenDialog(true);
   };
 
+  const checkAuthAndSync = async (
+    syncFn: () => Promise<{ success: boolean; error?: any }>
+  ) => {
+    if (!user) {
+      formView == "otp" ? setFormView("otp") : setFormView("signin");
+      setOpenDialog(true);
+      return;
+    }
+
+    setSynchronizing(true);
+    try {
+      const { success, error } = await syncFn();
+      if (!success) throw error || new Error("Failed to synchronize");
+
+      toast.success(t("syncAllSuccess"));
+      await fetchRecordings();
+    } catch (error) {
+      console.error("Sync failed:", error);
+      toast.error(t("syncAllError"));
+    } finally {
+      setSynchronizing(false);
+    }
+  };
+
+  const handleSyncAll = () => checkAuthAndSync(syncAll);
+  const handlePushLocal = () => checkAuthAndSync(pushRecordings);
+  const handlePullCloud = () => checkAuthAndSync(pullRecordings);
+
   const handleDeleteClick = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     setDeleteId(id);
@@ -171,8 +206,23 @@ export function RecordingsPage() {
           description={t("emptyDescription")}
           icons={[FileAudioIcon, Sparkles, FileCodeIcon]}
           action={{
-            label: t("startTranscription"),
+            label: (
+              <>
+                <Plus />
+                {t("startTranscription")}
+              </>
+            ),
             onClick: () => router.push("/"),
+          }}
+          secondaryAction={{
+            label: (
+              <>
+                {synchronizing ? <Spinner /> : <Cloud />}
+                {synchronizing ? t("syncing") : t("pullCloud")}
+              </>
+            ),
+            onClick: () => checkAuthAndSync(pullRecordings),
+            disabled: synchronizing,
           }}
         />
       </div>
@@ -189,6 +239,10 @@ export function RecordingsPage() {
               onSearchChange={setSearchQuery}
               sortBy={sortBy}
               onSortChange={(val) => setSortBy(val as any)}
+              onSyncAll={handleSyncAll}
+              onPush={handlePushLocal}
+              onPull={handlePullCloud}
+              isSyncing={synchronizing}
             />
           </div>
         </div>

@@ -60,7 +60,14 @@
     "sortSizeDesc": "Boyut (Büyükten küçüğe)",
     "sortSizeAsc": "Boyut (Küçükten büyüğe)",
     "noResultsFound": "Sonuç bulunamadı",
-    "tryAdjustingSearch": "Arama teriminizi değiştirmeyi deneyin."
+    "tryAdjustingSearch": "Arama teriminizi değiştirmeyi deneyin.",
+    "syncAll": "Tümünü Eşitle",
+    "syncing": "Eşitleniyor...",
+    "pushLocal": "Yerel Kayıtları Gönder",
+    "pullCloud": "Buluttan Çek",
+    "more": "Daha Fazla",
+    "syncAllSuccess": "Tüm kayıtlar başarıyla eşitlendi",
+    "syncAllError": "Kayıtlar eşitlenirken hata oluştu"
   },
   "TranscriptionView": {
     "cancellingTranscription": "Transkript iptal ediliyor...",
@@ -69,6 +76,7 @@
     "transcriptionFailed": "Transkript Başarısız",
     "transcriptionFailedDesc": "Sesinizi çevirirken bir hata oluştu. Bu, desteklenmeyen bir ses formatı, bozuk dosya veya yetersiz sistem kaynakları nedeniyle olabilir. Lütfen ses dosyanızı kontrol edin ve tekrar deneyin.",
     "tryAgain": "Tekrar Dene",
+    "returnToHome": "Ana Sayfaya Dön",
     "unsavedChangesWarning": "Kaydedilmemiş değişiklikleriniz var. Devam etmek istediğinizden emin misiniz?",
     "downloadingFromCDN": "CDN'den indiriliyor...",
     "loadingModel": "Model Yükleniyor",

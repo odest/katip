@@ -60,7 +60,14 @@
     "sortSizeDesc": "大小 (从大到小)",
     "sortSizeAsc": "大小 (从小到大)",
     "noResultsFound": "未找到结果",
-    "tryAdjustingSearch": "尝试调整您的搜索查询。"
+    "tryAdjustingSearch": "尝试调整您的搜索查询。",
+    "syncAll": "同步所有",
+    "syncing": "正在同步...",
+    "pushLocal": "推送本地录音",
+    "pullCloud": "从云端拉取",
+    "more": "更多",
+    "syncAllSuccess": "所有录音同步成功",
+    "syncAllError": "同步录音失败"
   },
   "TranscriptionView": {
     "cancellingTranscription": "正在取消转录...",
@@ -69,6 +76,7 @@
     "transcriptionFailed": "转录失败",
     "transcriptionFailedDesc": "转录您的音频时发生错误。这可能是由于不支持的音频格式、文件损坏或系统资源不足。请检查您的音频文件并重试。",
     "tryAgain": "再试一次",
+    "returnToHome": "返回主页",
     "unsavedChangesWarning": "您有未保存的更改。您确定要继续吗？",
     "downloadingFromCDN": "正在从CDN下载...",
     "loadingModel": "加载模型",

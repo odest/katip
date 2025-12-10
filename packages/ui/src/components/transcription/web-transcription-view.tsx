@@ -19,7 +19,7 @@ import { useWebTranscription } from "@workspace/ui/hooks/use-web-transcription";
 import { Progress } from "@workspace/ui/components/progress";
 import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
 import { EmptyState } from "@workspace/ui/components/common/empty-state";
-import { Ban, AlertCircle, Bug } from "lucide-react";
+import { Ban, AlertCircle, Bug, RefreshCw, Home } from "lucide-react";
 import { TranscriptionToolbar } from "@workspace/ui/components/transcription/transcription-toolbar";
 import { SegmentList } from "@workspace/ui/components/transcription/segment-list";
 import { useRouter } from "@workspace/i18n/navigation";
@@ -296,8 +296,22 @@ export const WebTranscriptionView = ({
           className="border-destructive hover:border-destructive/80"
           icons={[Ban, AlertCircle, Bug]}
           action={{
-            label: t("tryAgain"),
+            label: (
+              <>
+                <RefreshCw />
+                {t("tryAgain")}
+              </>
+            ),
             onClick: () => transcribe(),
+          }}
+          secondaryAction={{
+            label: (
+              <>
+                <Home />
+                {t("returnToHome")}
+              </>
+            ),
+            onClick: () => router.push("/"),
           }}
         />
       </div>

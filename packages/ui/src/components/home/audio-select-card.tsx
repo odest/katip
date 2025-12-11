@@ -35,10 +35,10 @@ const AUDIO_EXTENSIONS = [
   "flac",
   "aac",
   "ogg",
-  "wma",
+  "oga",
   "aiff",
-  "ape",
-  "opus",
+  "mp4",
+  "mov",
 ];
 
 export function AudioSelectCard() {

@@ -84,6 +84,8 @@
     "returnToHome": "Zurück zur Startseite",
     "unsavedChangesWarning": "Sie haben nicht gespeicherte Änderungen. Sind Sie sicher, dass Sie fortfahren möchten?",
     "downloadingFromCDN": "Wird von CDN heruntergeladen...",
+    "preparingFile": "Datei wird vorbereitet",
+    "decodingAndResampling": "Optimieren für Transkription...",
     "loadingModel": "Modell wird geladen",
     "preparingModel": "KI-Modell wird für die Transkription vorbereitet...",
     "loading": "Laden...",

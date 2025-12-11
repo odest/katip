@@ -84,6 +84,8 @@
     "returnToHome": "返回主页",
     "unsavedChangesWarning": "您有未保存的更改。您确定要继续吗？",
     "downloadingFromCDN": "正在从CDN下载...",
+    "preparingFile": "准备文件中",
+    "decodingAndResampling": "正在优化转写...",
     "loadingModel": "加载模型",
     "preparingModel": "正在为转录准备AI模型...",
     "loading": "加载中...",

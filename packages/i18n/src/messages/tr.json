@@ -84,6 +84,8 @@
     "returnToHome": "Ana Sayfaya Dön",
     "unsavedChangesWarning": "Kaydedilmemiş değişiklikleriniz var. Devam etmek istediğinizden emin misiniz?",
     "downloadingFromCDN": "CDN'den indiriliyor...",
+    "preparingFile": "Dosya Hazırlanıyor",
+    "decodingAndResampling": "Transkript için optimize ediliyor...",
     "loadingModel": "Model Yükleniyor",
     "preparingModel": "Transkript için AI modeli hazırlanıyor...",
     "loading": "Yükleniyor",

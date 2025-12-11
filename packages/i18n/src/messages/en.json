@@ -84,6 +84,8 @@
     "returnToHome": "Return to Home",
     "unsavedChangesWarning": "You have unsaved changes. Are you sure you want to proceed?",
     "downloadingFromCDN": "Downloading from CDN...",
+    "preparingFile": "Preparing File",
+    "decodingAndResampling": "Optimizing for transcription...",
     "loadingModel": "Loading Model",
     "preparingModel": "Preparing the AI model for transcription...",
     "loading": "Loading...",

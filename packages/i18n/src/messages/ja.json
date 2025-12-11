@@ -84,6 +84,8 @@
     "returnToHome": "ホームに戻る",
     "unsavedChangesWarning": "未保存の変更があります。続行してもよろしいですか？",
     "downloadingFromCDN": "CDNからダウンロード中...",
+    "preparingFile": "ファイルを準備中",
+    "decodingAndResampling": "文字起こし用に最適化中...",
     "loadingModel": "モデルを読み込み中",
     "preparingModel": "文字起こし用のAIモデルを準備中...",
     "loading": "読み込み中...",

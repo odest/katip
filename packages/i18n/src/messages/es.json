@@ -84,6 +84,8 @@
     "returnToHome": "Volver al Inicio",
     "unsavedChangesWarning": "Tiene cambios sin guardar. ¿Está seguro de que desea continuar?",
     "downloadingFromCDN": "Descargando desde CDN...",
+    "preparingFile": "Preparando archivo",
+    "decodingAndResampling": "Optimizando para transcripción...",
     "loadingModel": "Cargando Modelo",
     "preparingModel": "Preparando el modelo de IA para la transcripción...",
     "loading": "Cargando...",

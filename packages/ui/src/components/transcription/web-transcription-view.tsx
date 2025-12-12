@@ -16,12 +16,15 @@ import {
 } from "@workspace/ui/stores/transcription-store";
 import { useSummaryStore } from "@workspace/ui/stores/summary-store";
 import { useWebTranscription } from "@workspace/ui/hooks/use-web-transcription";
+import { Spinner } from "@workspace/ui/components/spinner";
 import { Progress } from "@workspace/ui/components/progress";
 import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
 import { EmptyState } from "@workspace/ui/components/common/empty-state";
 import { Ban, AlertCircle, Bug, RefreshCw, Home } from "lucide-react";
 import { TranscriptionToolbar } from "@workspace/ui/components/transcription/transcription-toolbar";
 import { SegmentList } from "@workspace/ui/components/transcription/segment-list";
+import { TextShimmer } from "@workspace/ui/components/common/text-shimmer";
+import { CircularProgress } from "@workspace/ui/components/common/circular-progress";
 import { useRouter } from "@workspace/i18n/navigation";
 
 interface WebTranscriptionViewProps {
@@ -57,10 +60,12 @@ export const WebTranscriptionView = ({
     storeFile ===
       (selectedAudio instanceof File ? selectedAudio.name : selectedAudio) &&
     storeModel === selectedModel &&
-    (storeStatus === "loadingModel" || storeStatus === "transcribing");
+    (storeStatus === "processingAudio" ||
+      storeStatus === "loadingModel" ||
+      storeStatus === "transcribing");
 
   const [status, setStatus] = useState<TranscriptionStatus>(
-    isActiveTranscription ? storeStatus : "loadingModel"
+    isActiveTranscription ? storeStatus : "processingAudio"
   );
   const [progress, setProgress] = useState(
     isActiveTranscription ? storeProgress : 0
@@ -71,9 +76,6 @@ export const WebTranscriptionView = ({
   const [error, setError] = useState<string | null>(
     isActiveTranscription ? storeError : null
   );
-  const [downloadingFiles, setDownloadingFiles] = useState<
-    Array<{ name: string; progress: number; status: "loading" | "done" }>
-  >([]);
   const isTranscribing = status === "transcribing";
 
   const handleSegmentChange = (index: number, newText: string) => {
@@ -158,7 +160,6 @@ export const WebTranscriptionView = ({
     setSegments,
     setError,
     setTranscriptionState,
-    setDownloadingFiles,
   });
 
   const handleCancel = useCallback(async () => {
@@ -318,50 +319,33 @@ export const WebTranscriptionView = ({
     );
   }
 
+  if (status === "processingAudio") {
+    return (
+      <div className="flex flex-1 flex-col justify-center items-center p-6 gap-4">
+        <Spinner className="size-8" />
+        <h2 className="text-2xl font-bold">{t("preparingFile")}</h2>
+        <TextShimmer className="font-mono" duration={1}>
+          {t("decodingAndResampling")}
+        </TextShimmer>
+      </div>
+    );
+  }
+
   if (status === "loadingModel") {
     return (
-      <div className="flex flex-1 justify-center items-center p-6">
-        <div className="w-full max-w-3xl flex flex-col items-center gap-8">
-          <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold">{t("loadingModel")}</h2>
-            <p className="text-muted-foreground">{t("preparingModel")}</p>
-            <p className="text-sm text-muted-foreground">
-              {t("downloadingFromCDN")}
-            </p>
-          </div>
-          <div className="w-full space-y-4">
-            <Progress value={progress} className="h-2" />
-            <div className="flex items-center justify-between text-sm mb-2">
-              <span className="text-muted-foreground">{t("overall")}</span>
-              <span className="font-medium">{progress.toFixed(0)}%</span>
-            </div>
-            <ScrollArea className="h-[200px] w-full rounded-md border">
-              <div className="space-y-2 p-2">
-                {downloadingFiles.map((file, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between text-sm p-2 rounded-md bg-muted/50"
-                  >
-                    <span className="text-muted-foreground truncate flex-1 mr-2">
-                      {file.name}
-                    </span>
-                    <span
-                      className={`font-medium whitespace-nowrap ${
-                        file.status === "done" ? "text-green-500" : ""
-                      }`}
-                    >
-                      {file.status === "done"
-                        ? t("done")
-                        : `${t("loading")} ${file.progress.toFixed(0)}%`}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <ScrollBar orientation="vertical" />
-              <ScrollBar orientation="horizontal" />
-            </ScrollArea>
-          </div>
-        </div>
+      <div className="flex flex-1 flex-col justify-center items-center p-6 gap-4">
+        <CircularProgress
+          value={progress}
+          size={80}
+          strokeWidth={5}
+          showLabel
+          labelClassName="text-sm font-mono"
+          renderLabel={(p) => `${p.toFixed(0)}%`}
+        />
+        <h2 className="text-2xl font-bold">{t("loadingModel")}</h2>
+        <TextShimmer className="font-mono" duration={1}>
+          {t("preparingModel")}
+        </TextShimmer>
       </div>
     );
   }

@@ -16,6 +16,7 @@ import {
   Segment,
 } from "@workspace/ui/stores/transcription-store";
 import { useSummaryStore } from "@workspace/ui/stores/summary-store";
+import { Spinner } from "@workspace/ui/components/spinner";
 import { Progress } from "@workspace/ui/components/progress";
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import { EmptyState } from "@workspace/ui/components/common/empty-state";
@@ -23,6 +24,7 @@ import { Ban, AlertCircle, Bug, RefreshCw, Home } from "lucide-react";
 import { useTranscriptionProcess } from "@workspace/ui/hooks/use-native-transcription";
 import { TranscriptionToolbar } from "@workspace/ui/components/transcription/transcription-toolbar";
 import { SegmentList } from "@workspace/ui/components/transcription/segment-list";
+import { TextShimmer } from "@workspace/ui/components/common/text-shimmer";
 import { useRouter } from "@workspace/i18n/navigation";
 
 interface NativeTranscriptionViewProps {
@@ -56,10 +58,12 @@ export const NativeTranscriptionView = ({
   const isActiveTranscription =
     storeFile === selectedAudio &&
     storeModel === selectedModel &&
-    (storeStatus === "loadingModel" || storeStatus === "transcribing");
+    (storeStatus === "processingAudio" ||
+      storeStatus === "loadingModel" ||
+      storeStatus === "transcribing");
 
   const [status, setStatus] = useState<TranscriptionStatus>(
-    isActiveTranscription ? storeStatus : "loadingModel"
+    isActiveTranscription ? storeStatus : "processingAudio"
   );
   const [progress, setProgress] = useState(
     isActiveTranscription ? storeProgress : 0
@@ -196,22 +200,26 @@ export const NativeTranscriptionView = ({
     );
   }
 
+  if (status === "processingAudio") {
+    return (
+      <div className="flex flex-1 flex-col justify-center items-center p-6 gap-4">
+        <Spinner className="size-8" />
+        <h2 className="text-2xl font-bold">{t("preparingFile")}</h2>
+        <TextShimmer className="font-mono" duration={1}>
+          {t("decodingAndResampling")}
+        </TextShimmer>
+      </div>
+    );
+  }
+
   if (status === "loadingModel") {
     return (
-      <div className="flex flex-1 justify-center items-center p-6">
-        <div className="w-full max-w-3xl flex flex-col items-center gap-8">
-          <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold">{t("loadingModel")}</h2>
-            <p className="text-muted-foreground">{t("preparingModel")}</p>
-          </div>
-          <div className="w-full space-y-2">
-            <Progress value={progress} className="h-2" />
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">{t("loading")}</span>
-              <span className="font-medium">{progress.toFixed(0)}%</span>
-            </div>
-          </div>
-        </div>
+      <div className="flex flex-1 flex-col justify-center items-center p-6 gap-4">
+        <Spinner className="size-8" />
+        <h2 className="text-2xl font-bold">{t("loadingModel")}</h2>
+        <TextShimmer className="font-mono" duration={1}>
+          {t("preparingModel")}
+        </TextShimmer>
       </div>
     );
   }

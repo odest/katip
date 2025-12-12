@@ -9,6 +9,7 @@ export interface Segment {
 
 export type TranscriptionStatus =
   | "queued"
+  | "processingAudio"
   | "loadingModel"
   | "transcribing"
   | "cancelled"
@@ -67,7 +68,7 @@ export const useTranscriptionStore = create(
         set({
           file: null,
           model: null,
-          status: "loadingModel" as TranscriptionStatus,
+          status: "processingAudio" as TranscriptionStatus,
           progress: 0,
           segments: [],
           error: null,

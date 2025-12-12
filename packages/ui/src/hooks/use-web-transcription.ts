@@ -32,11 +32,6 @@ interface UseWebTranscriptionParams {
   setSegments: Dispatch<SetStateAction<Segment[]>>;
   setError: Dispatch<SetStateAction<string | null>>;
   setTranscriptionState: (state: Partial<TranscriptionState>) => void;
-  setDownloadingFiles: Dispatch<
-    SetStateAction<
-      Array<{ name: string; progress: number; status: "loading" | "done" }>
-    >
-  >;
 }
 
 interface ProgressItem {
@@ -66,13 +61,13 @@ export function useWebTranscription({
   setSegments,
   setError,
   setTranscriptionState,
-  setDownloadingFiles,
 }: UseWebTranscriptionParams) {
   const workerRef = useRef<Worker | null>(null);
   const fileHashRef = useRef<string | null>(null);
   const recordingIdRef = useRef<string | null>(null);
   const progressItemsRef = useRef<ProgressItem[]>([]);
   const audioDurationRef = useRef<number>(0);
+  const hasStartedRef = useRef<boolean>(false);
   const t = useTranslations("TranscriptionView");
 
   const { addRecording, getRecordingByHash, getRecordingById } =
@@ -100,8 +95,18 @@ export function useWebTranscription({
     setError(null);
     setSegments([]);
     setProgress(0);
-    setStatus("loadingModel");
-    setDownloadingFiles([]);
+    setStatus("processingAudio");
+    setTranscriptionState({
+      file:
+        selectedAudio instanceof File
+          ? selectedAudio.name
+          : (selectedAudio as string),
+      model: selectedModel as string,
+      status: "processingAudio",
+      progress: 0,
+      segments: [],
+      error: null,
+    });
 
     workerRef.current = new Worker(
       new URL("@workspace/ui/lib/whisper-worker.ts", import.meta.url),
@@ -128,15 +133,6 @@ export function useWebTranscription({
               status: message.status,
             };
             progressItemsRef.current.push(newItem);
-
-            setDownloadingFiles((prev) => [
-              ...prev,
-              {
-                name: message.file || "Unknown file",
-                progress: message.progress || 0,
-                status: "loading",
-              },
-            ]);
           }
           setTranscriptionState({
             file: selectedAudio as string,
@@ -157,14 +153,6 @@ export function useWebTranscription({
               return item;
             });
 
-            setDownloadingFiles((prev) =>
-              prev.map((file) =>
-                file.name === message.file
-                  ? { ...file, progress: message.progress || 0 }
-                  : file
-              )
-            );
-
             const totalProgress =
               progressItemsRef.current.reduce(
                 (sum, item) => sum + item.progress,
@@ -176,17 +164,16 @@ export function useWebTranscription({
 
         case "done":
           if (message.file) {
-            setDownloadingFiles((prev) =>
-              prev.map((file) =>
-                file.name === message.file
-                  ? { ...file, progress: 100, status: "done" }
-                  : file
-              )
+            progressItemsRef.current = progressItemsRef.current.map((item) =>
+              item.file === message.file ? { ...item, progress: 100 } : item
             );
 
-            progressItemsRef.current = progressItemsRef.current.filter(
-              (item) => item.file !== message.file
-            );
+            const totalProgress =
+              progressItemsRef.current.reduce(
+                (sum, item) => sum + item.progress,
+                0
+              ) / progressItemsRef.current.length;
+            setProgress(totalProgress);
           }
           break;
 
@@ -478,19 +465,39 @@ export function useWebTranscription({
 
         let audio: Float32Array;
 
-        if (audioBuffer.numberOfChannels === 2) {
-          const SCALING_FACTOR = Math.sqrt(2);
-          const left = audioBuffer.getChannelData(0);
-          const right = audioBuffer.getChannelData(1);
-
-          audio = new Float32Array(left.length);
-          for (let i = 0; i < audioBuffer.length; ++i) {
-            audio[i] =
-              (SCALING_FACTOR * ((left[i] || 0) + (right[i] || 0))) / 2;
-          }
-        } else {
+        if (audioBuffer.numberOfChannels === 1) {
           audio = audioBuffer.getChannelData(0);
+        } else {
+          const length = audioBuffer.length;
+          const channels = audioBuffer.numberOfChannels;
+          audio = new Float32Array(length);
+
+          const channelData: Float32Array[] = [];
+          for (let c = 0; c < channels; c++) {
+            channelData.push(audioBuffer.getChannelData(c));
+          }
+
+          for (let i = 0; i < length; i++) {
+            let sum = 0;
+            for (let c = 0; c < channels; c++) {
+              sum += channelData[c]![i]!;
+            }
+            audio[i] = sum / channels;
+          }
         }
+
+        setStatus("loadingModel");
+        setTranscriptionState({
+          file:
+            selectedAudio instanceof File
+              ? selectedAudio.name
+              : (selectedAudio as string),
+          model: selectedModel as string,
+          status: "loadingModel",
+          progress: 0,
+          segments: [],
+          error: null,
+        });
 
         const task = translateToEnglish ? "translate" : "transcribe";
         const lang = language === "auto" ? null : language;
@@ -529,20 +536,26 @@ export function useWebTranscription({
   ]);
 
   useEffect(() => {
-    if (isActiveTranscription) {
+    if (hasStartedRef.current) {
+      return;
+    }
+
+    if (isActiveTranscription && workerRef.current) {
       console.log("Transcription already in progress, skipping new start");
       return;
     }
 
+    hasStartedRef.current = true;
     transcribe();
 
     return () => {
+      hasStartedRef.current = false;
       if (workerRef.current) {
         workerRef.current.terminate();
         workerRef.current = null;
       }
     };
-  }, [isActiveTranscription, transcribe]);
+  }, []);
 
   const cancel = useCallback(() => {
     if (workerRef.current) {

@@ -35,10 +35,10 @@ const AUDIO_EXTENSIONS = [
   "flac",
   "aac",
   "ogg",
-  "wma",
+  "oga",
   "aiff",
-  "ape",
-  "opus",
+  "mp4",
+  "mov",
 ];
 
 export function AudioSelectCard() {
@@ -169,7 +169,7 @@ export function AudioSelectCard() {
           value={selectedAudio instanceof File ? [selectedAudio] : []}
           onValueChange={handleValueChange}
           onFileReject={handleFileReject}
-          accept="audio/*,.m4a,.wav,.mp3,.flac,.aac,.ogg,.wma,.aiff,.ape,.opus"
+          accept="audio/*,.mp3,.mp4,.wav,.m4a,.flac,.ogg,.aac,.opus,.webm,.oga,.m4b"
         >
           <FileUploadDropzone
             ref={dropzoneRef}

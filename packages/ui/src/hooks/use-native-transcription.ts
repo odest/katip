@@ -437,6 +437,20 @@ export function useTranscriptionProcess({
       }
 
       try {
+        setStatus("processingAudio");
+        setTranscriptionState({
+          file: selectedAudio as string,
+          model: selectedModel as string,
+          status: "processingAudio",
+          progress: 0,
+          segments: [],
+          error: null,
+        });
+
+        await invoke("process_audio", {
+          audioPath: selectedAudio,
+        });
+
         setStatus("loadingModel");
         setTranscriptionState({
           file: selectedAudio as string,
@@ -465,7 +479,6 @@ export function useTranscriptionProcess({
 
         await invoke("transcribe", {
           options: {
-            audioPath: selectedAudio,
             language: language,
             translate: translateToEnglish,
             threadCount: threadCount,
@@ -496,7 +509,7 @@ export function useTranscriptionProcess({
           status: "error",
           progress: 0,
           segments: [],
-          error: null,
+          error: errorMessage,
         });
       }
     };

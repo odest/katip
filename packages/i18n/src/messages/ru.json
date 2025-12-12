@@ -84,6 +84,8 @@
     "returnToHome": "Вернуться на главную",
     "unsavedChangesWarning": "У вас есть несохраненные изменения. Вы уверены, что хотите продолжить?",
     "downloadingFromCDN": "Загрузка с CDN...",
+    "preparingFile": "Подготовка файла",
+    "decodingAndResampling": "Оптимизация для транскрипции...",
     "loadingModel": "Загрузка модели",
     "preparingModel": "Подготовка модели ИИ для транскрипции...",
     "loading": "Загрузка...",

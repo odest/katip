@@ -1,5 +1,6 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 mod utils;
+mod audio_utils;
 mod transcription;
 mod drizzle_proxy;
 include!(concat!(env!("OUT_DIR"), "/generated_migrations.rs"));
@@ -28,6 +29,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             utils::add_fs_scope,
             utils::calculate_file_hash,
+            transcription::process_audio,
             transcription::load_model,
             transcription::transcribe,
             transcription::cancel_transcription,

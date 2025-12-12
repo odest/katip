@@ -3,6 +3,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 use tauri::{AppHandle, Emitter, Listener, State};
 use tokio::sync::Mutex as TokioMutex;
+use crate::audio_utils;
 
 #[cfg(not(target_os = "android"))]
 use whisper_rs::{
@@ -15,6 +16,8 @@ pub struct TranscriptionState(pub Arc<TokioMutex<Option<WhisperContext>>>);
 #[cfg(target_os = "android")]
 pub struct TranscriptionState(pub Arc<TokioMutex<Option<()>>>);
 
+static PROCESSED_AUDIO: Lazy<Mutex<Option<Vec<f32>>>> = Lazy::new(|| Mutex::new(None));
+
 static CANCEL_FLAG: Lazy<Arc<AtomicBool>> = Lazy::new(|| Arc::new(AtomicBool::new(false)));
 static PROGRESS_CALLBACK: Lazy<Mutex<Option<Box<dyn Fn(i32) + Send + Sync>>>> =
     Lazy::new(|| Mutex::new(None));
@@ -24,7 +27,6 @@ static NEW_SEGMENT_CALLBACK: Lazy<Mutex<Option<Box<dyn Fn(SegmentPayload) + Send
 #[derive(serde::Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct TranscriptionOptions {
-    pub audio_path: String,
     pub language: String,
     pub translate: bool,
     pub thread_count: i32,
@@ -51,6 +53,24 @@ struct SegmentPayload {
     start: i64,
     end: i64,
     text: String,
+}
+
+#[cfg(not(target_os = "android"))]
+#[tauri::command]
+pub async fn process_audio(audio_path: String) -> Result<(), String> {
+    let audio_data = audio_utils::decode_and_resample(&audio_path)
+        .map_err(|e| format!("Audio processing error: {}", e))?;
+
+    let mut processed = PROCESSED_AUDIO.lock().unwrap();
+    *processed = Some(audio_data);
+
+    Ok(())
+}
+
+#[cfg(target_os = "android")]
+#[tauri::command]
+pub async fn process_audio(_audio_path: String) -> Result<(), String> {
+    Err("Not supported on Android".to_string())
 }
 
 #[cfg(not(target_os = "android"))]
@@ -185,25 +205,20 @@ pub async fn transcribe(
 
         params.set_abort_callback_safe(|| CANCEL_FLAG.load(Ordering::SeqCst));
 
-        let audio_path = options.audio_path;
+        let audio_data = {
+            let mut processed = PROCESSED_AUDIO.lock().unwrap();
+            processed.take()
+        };
 
-        let mut reader = match hound::WavReader::open(&audio_path) {
-            Ok(r) => r,
-            Err(e) => {
+        let audio_data = match audio_data {
+            Some(data) => data,
+            None => {
                 app_handle_cloned
-                    .emit(
-                        "transcribe_error",
-                        format!("Failed to open audio file '{}': {}", audio_path, e),
-                    )
+                    .emit("transcribe_error", "Audio data not found. process_audio must be called first.".to_string())
                     .unwrap();
                 return Ok::<(), String>(());
             }
         };
-
-        let audio_data: Vec<f32> = reader
-            .samples::<i16>()
-            .map(|s| s.unwrap_or(0) as f32 / i16::MAX as f32)
-            .collect();
 
         match whisper_state.full(params, &audio_data) {
             Ok(_) => {

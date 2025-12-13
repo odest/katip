@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.8](https://github.com/odest/katip/compare/v0.1.7...v0.1.8) (2025-12-13)
+
+
+### Features
+
+* improve audio processing and resolve RSC security vulnerabilities ([4795b77](https://github.com/odest/katip/commit/4795b778aba018ed7af96ffc1f77b8c9667a51e4))
+* **landing:** add basic landing page with download options ([ced4f82](https://github.com/odest/katip/commit/ced4f82914e38be497b9552c6a4d9d37e899d6e7))
+
+
+### Bug Fixes
+
+* **deps:** upgrade next.js and react to resolve new RSC vulnerabilities ([bb3d376](https://github.com/odest/katip/commit/bb3d37699c0ffcfdf394daba2e0046c57674a6eb))
+
 ## [0.1.7](https://github.com/odest/katip/compare/v0.1.6...v0.1.7) (2025-12-12)
 
 

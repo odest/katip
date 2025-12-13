@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Geist, Geist_Mono } from "next/font/google";
-import { AppLayout } from "./components/AppLayout";
 import { themeInitScript } from "@workspace/ui/scripts/theme-init";
 import { NextIntlClientProvider, hasLocale } from "@workspace/i18n";
 import { routing } from "@workspace/i18n/routing";
@@ -47,10 +46,10 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased  overflow-hidden`}
+        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}
       >
         <NextIntlClientProvider>
-          <AppLayout>{children}</AppLayout>
+          {children}
           <Toaster richColors />
         </NextIntlClientProvider>
       </body>

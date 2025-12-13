@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { isTauri } from "@tauri-apps/api/core";
 import { platform } from "@tauri-apps/plugin-os";

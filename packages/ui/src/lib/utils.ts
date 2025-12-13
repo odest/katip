@@ -205,3 +205,16 @@ export const getAudioDuration = (objectUrl: string): Promise<number> => {
     }
   });
 };
+
+export async function fetchLatestGithubVersion(): Promise<string | null> {
+  try {
+    const res = await fetch(
+      "https://api.github.com/repos/odest/katip/releases/latest"
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.tag_name?.replace(/^v/, "") || null;
+  } catch {
+    return null;
+  }
+}

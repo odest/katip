@@ -34,8 +34,11 @@ interface AppHeaderProps {
 }
 
 export function AppHeader({ pathname, LinkComponent = "a" }: AppHeaderProps) {
-  const segments = pathname.split("/").filter(Boolean);
+  const segments = pathname
+    .split("/")
+    .filter((s) => Boolean(s) && s !== "home");
   const t = useTranslations("Navigation");
+  const isHome = pathname === "/home" || pathname === "/";
 
   return (
     <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-12 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear">
@@ -49,7 +52,11 @@ export function AppHeader({ pathname, LinkComponent = "a" }: AppHeaderProps) {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem className="hidden md:block">
-              <LinkComponent href="/">{t("home")}</LinkComponent>
+              {isHome ? (
+                <BreadcrumbPage>{t("home")}</BreadcrumbPage>
+              ) : (
+                <LinkComponent href="/home">{t("home")}</LinkComponent>
+              )}
             </BreadcrumbItem>
 
             {segments.map((segment, index) => {

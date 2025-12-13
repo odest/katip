@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useCallback } from "react";
 import { ComponentType } from "react";
-import { Biohazard } from "lucide-react";
+import { AudioWaveform } from "lucide-react";
 
 import { MainNav } from "@workspace/ui/components/navigation/main-nav";
 import { SecondaryNav } from "@workspace/ui/components/navigation/secondary-nav";
@@ -61,7 +61,7 @@ export function AppSidebar({
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <LinkComponent href="/" onClick={handleLinkClick}>
-                <Biohazard className="!size-5" />
+                <AudioWaveform className="!size-5" />
                 <span className="text-base font-semibold">Katip</span>
               </LinkComponent>
             </SidebarMenuButton>

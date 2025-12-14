@@ -533,12 +533,25 @@ export function useUser() {
         return { success: false, error: error.message };
       }
 
-      const avatarUrl = user.user_metadata?.avatar_url;
-      if (avatarUrl) {
-        const match = avatarUrl.match(/\/avatars\/(.+)$/);
+      let avatarUrl = localUser?.avatarUrl;
+
+      if (!avatarUrl) {
+        const { data: publicData } = await supabase
+          .from("users")
+          .select("avatar_url")
+          .eq("id", user.id)
+          .single();
+        avatarUrl = publicData?.avatar_url;
+      }
+
+      if (avatarUrl && avatarUrl.includes(`/${AVATAR_BUCKET}/`)) {
+        const match = avatarUrl.match(new RegExp(`/${AVATAR_BUCKET}/(.+)$`));
         if (match && match[1]) {
           const filePath = decodeURIComponent(match[1]);
-          await supabase.storage.from(AVATAR_BUCKET).remove([filePath]);
+          await supabase.storage
+            .from(AVATAR_BUCKET)
+            .remove([filePath])
+            .catch(console.error);
         }
       }
 

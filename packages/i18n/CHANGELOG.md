@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.8](https://github.com/odest/katip/compare/v0.1.7...v0.1.8) (2025-12-14)
+
+
+### Features
+
+* **ai:** add cloud LLM provider support with API key auth ([c8edd84](https://github.com/odest/katip/commit/c8edd841ac9d6caea10537180f061c667175f479))
+* improve audio processing and resolve RSC security vulnerabilities ([4795b77](https://github.com/odest/katip/commit/4795b778aba018ed7af96ffc1f77b8c9667a51e4))
+* **native:** replace hound with symphonia to support multiple formats ([d85f9e4](https://github.com/odest/katip/commit/d85f9e47a2b1a3ffb81319d1df67921fed8ad54b))
+
+
+### Bug Fixes
+
+* **deps:** upgrade next.js and react to resolve new RSC vulnerabilities ([bb3d376](https://github.com/odest/katip/commit/bb3d37699c0ffcfdf394daba2e0046c57674a6eb))
+
 ## [0.1.7](https://github.com/odest/katip/compare/v0.1.6...v0.1.7) (2025-12-12)
 
 

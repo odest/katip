@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.9](https://github.com/odest/katip/compare/v0.1.8...v0.1.9) (2025-12-14)
+
+
+### Features
+
+* **ai:** add cloud LLM provider support with API key auth ([c8edd84](https://github.com/odest/katip/commit/c8edd841ac9d6caea10537180f061c667175f479))
+
 ## [0.1.8](https://github.com/odest/katip/compare/v0.1.7...v0.1.8) (2025-12-12)
 
 

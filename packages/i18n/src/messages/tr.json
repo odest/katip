@@ -127,7 +127,9 @@
     "model": "Model",
     "selectModel": "Model seç",
     "checkConnection": "Bağlantıyı Kontrol Et",
-    "url": "URL"
+    "url": "URL",
+    "apiKey": "API Anahtarı",
+    "apiKeyPlaceholder": "API anahtarınızı girin"
   },
   "TranscriptionTabs": {
     "transcribe": "Transkript",
@@ -253,7 +255,9 @@
     "checking": "Kontrol ediliyor...",
     "connected": "Bağlı",
     "disconnected": "Bağlantı Yok",
-    "retry": "Tekrar Dene"
+    "retry": "Tekrar Dene",
+    "apiKey": "API Anahtarı",
+    "apiKeyPlaceholder": "API anahtarınızı girin"
   },
   "CachedModelsCard": {
     "title": "Önbelleğe Alınan Modeller",

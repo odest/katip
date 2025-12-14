@@ -3,20 +3,71 @@ import { isTauri } from "@tauri-apps/api/core";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import { SYSTEM_PROMPT } from "@workspace/ui/config/prompt";
 
-export const AI_PROVIDERS = [
-  { id: "ollama", name: "Ollama", defaultUrl: "http://localhost:11434" },
+// Base providers available everywhere
+const BASE_PROVIDERS = [
+  // Local Providers
+  {
+    id: "ollama",
+    name: "Ollama",
+    defaultUrl: "http://localhost:11434",
+    requiresApiKey: false,
+  },
   {
     id: "llama-cpp",
     name: "Llama.cpp",
     defaultUrl: "http://localhost:8080/v1",
+    requiresApiKey: false,
   },
   {
     id: "lm-studio",
     name: "LM Studio",
     defaultUrl: "http://localhost:1234/v1",
+    requiresApiKey: false,
   },
-  { id: "openai-compatible", name: "OpenAI Compatible", defaultUrl: "" },
+  // Cloud Providers
+  {
+    id: "openai",
+    name: "OpenAI",
+    defaultUrl: "https://api.openai.com/v1",
+    requiresApiKey: true,
+  },
+  {
+    id: "openrouter",
+    name: "OpenRouter",
+    defaultUrl: "https://openrouter.ai/api/v1",
+    requiresApiKey: true,
+  },
+  {
+    id: "groq",
+    name: "Groq",
+    defaultUrl: "https://api.groq.com/openai/v1",
+    requiresApiKey: true,
+  },
+  // Custom
+  {
+    id: "openai-compatible",
+    name: "OpenAI Compatible",
+    defaultUrl: "",
+    requiresApiKey: false,
+  },
 ] as const;
+
+// Gemini only works in Tauri (native) due to CORS restrictions
+const GEMINI_PROVIDER = {
+  id: "gemini",
+  name: "Google Gemini",
+  defaultUrl: "https://generativelanguage.googleapis.com/v1beta/openai/",
+  requiresApiKey: true,
+} as const;
+
+// Dynamic provider list: include Gemini only in Tauri
+export const AI_PROVIDERS = isTauri()
+  ? ([
+      ...BASE_PROVIDERS.slice(0, 4),
+      GEMINI_PROVIDER,
+      ...BASE_PROVIDERS.slice(4),
+    ] as const)
+  : BASE_PROVIDERS;
 
 export interface SummaryResult {
   summary: string;
@@ -28,7 +79,7 @@ export interface SummaryResult {
   }>;
 }
 
-function createClient(baseUrl: string) {
+function createClient(baseUrl: string, apiKey?: string, provider?: string) {
   const cleanBaseUrl = baseUrl.replace(/\/$/, "");
   let url = cleanBaseUrl;
 
@@ -41,17 +92,29 @@ function createClient(baseUrl: string) {
   // If running in Web, use the native window.fetch
   const customFetch = isTauri() ? tauriFetch : fetch;
 
+  // OpenRouter requires HTTP-Referer header for authentication
+  const defaultHeaders: Record<string, string> = {};
+  if (provider === "openrouter") {
+    defaultHeaders["HTTP-Referer"] = "https://katip.odest.tech";
+    defaultHeaders["X-Title"] = "Katip";
+  }
+
   return new OpenAI({
     baseURL: url,
-    apiKey: "ollama", // Dummy key required by SDK
+    apiKey: apiKey || "not-needed", // Cloud providers need real key, local providers don't validate
     dangerouslyAllowBrowser: true,
     fetch: customFetch,
+    defaultHeaders,
   });
 }
 
-export async function getModels(baseUrl: string): Promise<string[]> {
+export async function getModels(
+  baseUrl: string,
+  apiKey?: string,
+  provider?: string
+): Promise<string[]> {
   try {
-    const client = createClient(baseUrl);
+    const client = createClient(baseUrl, apiKey, provider);
     const response = await client.models.list();
     return response.data.map((m) => m.id);
   } catch (error) {
@@ -64,10 +127,11 @@ export async function generateSummary(
   text: string,
   model: string,
   baseUrl: string,
-  provider?: string
+  provider?: string,
+  apiKey?: string
 ): Promise<SummaryResult> {
   try {
-    const client = createClient(baseUrl);
+    const client = createClient(baseUrl, apiKey, provider);
     const options: any = {
       model: model,
       messages: [

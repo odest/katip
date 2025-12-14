@@ -51,6 +51,7 @@ export function TranscribePage() {
     model,
     provider,
     url,
+    apiKey,
   } = useSummaryStore();
   const { language } = useLanguageStore();
   const { userId } = useAuthStore.getState();
@@ -107,7 +108,7 @@ export function TranscribePage() {
     setActiveTab("summary");
 
     try {
-      const result = await generateSummary(text, model, url, provider);
+      const result = await generateSummary(text, model, url, provider, apiKey);
       setSummaryResult(result);
 
       try {

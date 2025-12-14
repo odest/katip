@@ -36,17 +36,18 @@ import {
 export function AIProviderCard() {
   const t = useTranslations("AIProviderCard");
   const { isChecking, isConnected, availableModels, checkConnection } = useAI();
-  const { provider, model, url, setSettings } = useSummaryStore();
+  const { provider, model, url, apiKey, setSettings } = useSummaryStore();
+  const currentProvider = AI_PROVIDERS.find((p) => p.id === provider);
 
   useEffect(() => {
-    checkConnection(url);
+    checkConnection(url, apiKey, provider);
   }, [url]);
 
   useEffect(() => {
     if (availableModels.length > 0 && !availableModels.includes(model)) {
-      setSettings({ provider, url, model: availableModels[0]! });
+      setSettings({ provider, url, model: availableModels[0]!, apiKey });
     }
-  }, [availableModels, model, provider, url, setSettings]);
+  }, [availableModels, model, provider, url, apiKey, setSettings]);
 
   return (
     <Card>
@@ -85,7 +86,8 @@ export function AIProviderCard() {
               onValueChange={(val) => {
                 const selectedProvider = AI_PROVIDERS.find((p) => p.id === val);
                 const newUrl = selectedProvider?.defaultUrl ?? url;
-                setSettings({ provider: val, model, url: newUrl });
+                const newApiKey = selectedProvider?.requiresApiKey ? apiKey : "";
+                setSettings({ provider: val, model, url: newUrl, apiKey: newApiKey });
               }}
             >
               <SelectTrigger className="w-full cursor-pointer">
@@ -109,7 +111,7 @@ export function AIProviderCard() {
                   <Select
                     value={model}
                     onValueChange={(val) =>
-                      setSettings({ provider, model: val, url })
+                      setSettings({ provider, model: val, url, apiKey })
                     }
                   >
                     <SelectTrigger className="w-full cursor-pointer [&>span]:truncate">
@@ -131,6 +133,7 @@ export function AIProviderCard() {
                         provider,
                         model: e.target.value,
                         url,
+                        apiKey,
                       })
                     }
                     placeholder="e.g. Llama3"
@@ -146,7 +149,7 @@ export function AIProviderCard() {
                       size="icon"
                       variant="outline"
                       className="cursor-pointer shrink-0"
-                      onClick={() => checkConnection(url)}
+                      onClick={() => checkConnection(url, apiKey, provider)}
                       disabled={isChecking}
                     >
                       {isChecking ? (
@@ -164,17 +167,37 @@ export function AIProviderCard() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-[120px_1fr] items-center gap-3">
-            <Label className="md:text-right">{t("url")}</Label>
-            <Input
-              id="url"
-              value={url}
-              onChange={(e) =>
-                setSettings({ provider, model, url: e.target.value })
-              }
-              className="w-full"
-            />
-          </div>
+          {/* URL input - only for local providers */}
+          {!currentProvider?.requiresApiKey && (
+            <div className="grid grid-cols-1 md:grid-cols-[120px_1fr] items-center gap-3">
+              <Label className="md:text-right">{t("url")}</Label>
+              <Input
+                id="url"
+                value={url}
+                onChange={(e) =>
+                  setSettings({ provider, model, url: e.target.value, apiKey })
+                }
+                className="w-full"
+              />
+            </div>
+          )}
+
+          {/* API Key input - only for cloud providers */}
+          {currentProvider?.requiresApiKey && (
+            <div className="grid grid-cols-1 md:grid-cols-[120px_1fr] items-center gap-3">
+              <Label className="md:text-right">{t("apiKey")}</Label>
+              <Input
+                id="apiKey"
+                type="password"
+                value={apiKey}
+                onChange={(e) =>
+                  setSettings({ provider, model, url, apiKey: e.target.value })
+                }
+                placeholder={t("apiKeyPlaceholder")}
+                className="w-full"
+              />
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

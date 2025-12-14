@@ -127,7 +127,9 @@
     "model": "模型",
     "selectModel": "选择模型",
     "checkConnection": "检查连接",
-    "url": "URL"
+    "url": "URL",
+    "apiKey": "API 密钥",
+    "apiKeyPlaceholder": "请输入您的 API 密钥"
   },
   "TranscriptionTabs": {
     "transcribe": "转录",
@@ -252,8 +254,10 @@
     "checkConnection": "检查连接",
     "checking": "正在检查...",
     "connected": "已连接",
-    "disconnected": "已断开",
-    "retry": "重试"
+    "disconnected": "未连接",
+    "retry": "重试",
+    "apiKey": "API 密钥",
+    "apiKeyPlaceholder": "请输入您的 API 密钥"
   },
   "CachedModelsCard": {
     "title": "缓存的模型",

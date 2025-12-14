@@ -127,7 +127,9 @@
     "model": "Modelo",
     "selectModel": "Seleccionar modelo",
     "checkConnection": "Comprobar conexión",
-    "url": "URL"
+    "url": "URL",
+    "apiKey": "Clave API",
+    "apiKeyPlaceholder": "Ingrese su clave API"
   },
   "TranscriptionTabs": {
     "transcribe": "Transcribir",
@@ -253,7 +255,9 @@
     "checking": "Comprobando...",
     "connected": "Conectado",
     "disconnected": "Desconectado",
-    "retry": "Reintentar"
+    "retry": "Reintentar",
+    "apiKey": "Clave API",
+    "apiKeyPlaceholder": "Ingrese su clave API"
   },
   "CachedModelsCard": {
     "title": "Modelos en caché",

@@ -6,23 +6,26 @@ export function useAI() {
   const [isConnected, setIsConnected] = useState(false);
   const [availableModels, setAvailableModels] = useState<string[]>([]);
 
-  const checkConnection = useCallback(async (url: string) => {
-    setIsChecking(true);
-    setIsConnected(false);
-    setAvailableModels([]);
+  const checkConnection = useCallback(
+    async (url: string, apiKey?: string, provider?: string) => {
+      setIsChecking(true);
+      setIsConnected(false);
+      setAvailableModels([]);
 
-    try {
-      const models = await getModels(url);
-      setAvailableModels(models);
-      setIsConnected(true);
-      return true;
-    } catch (error) {
-      console.error("AI connection failed:", error);
-      return false;
-    } finally {
-      setIsChecking(false);
-    }
-  }, []);
+      try {
+        const models = await getModels(url, apiKey, provider);
+        setAvailableModels(models);
+        setIsConnected(true);
+        return true;
+      } catch (error) {
+        console.error("AI connection failed:", error);
+        return false;
+      } finally {
+        setIsChecking(false);
+      }
+    },
+    []
+  );
 
   return {
     isChecking,

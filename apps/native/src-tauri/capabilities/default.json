@@ -24,9 +24,11 @@
     {
       "identifier": "http:default",
       "allow": [
-        {
-          "url": "http{s}?://localhost:*/*"
-        }
+        { "url": "http{s}?://localhost:*/*" },
+        { "url": "https://api.openai.com/*" },
+        { "url": "https://generativelanguage.googleapis.com/*" },
+        { "url": "https://openrouter.ai/*" },
+        { "url": "https://api.groq.com/*" }
       ]
     }
   ]

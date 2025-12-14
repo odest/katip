@@ -127,7 +127,9 @@
     "model": "Модель",
     "selectModel": "Выберите модель",
     "checkConnection": "Проверить подключение",
-    "url": "URL"
+    "url": "URL",
+    "apiKey": "API ключ",
+    "apiKeyPlaceholder": "Введите ваш API ключ"
   },
   "TranscriptionTabs": {
     "transcribe": "Транскрибировать",
@@ -253,7 +255,9 @@
     "checking": "Проверка...",
     "connected": "Подключено",
     "disconnected": "Отключено",
-    "retry": "Повторить"
+    "retry": "Повторить",
+    "apiKey": "API ключ",
+    "apiKeyPlaceholder": "Введите ваш API ключ"
   },
   "CachedModelsCard": {
     "title": "Кэшированные Модели",

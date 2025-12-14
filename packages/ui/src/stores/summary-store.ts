@@ -10,6 +10,7 @@ interface SummaryState {
   provider: string;
   model: string;
   url: string;
+  apiKey: string;
   setSummarizing: (isSummarizing: boolean) => void;
   setShowSideViews: (show: boolean) => void;
   setSummaryResult: (result: SummaryResult | null) => void;
@@ -19,6 +20,7 @@ interface SummaryState {
     provider: string;
     model: string;
     url: string;
+    apiKey: string;
   }) => void;
   resetSummary: () => void;
 }
@@ -33,6 +35,7 @@ export const useSummaryStore = create<SummaryState>()(
       provider: "ollama",
       model: "",
       url: "http://localhost:11434",
+      apiKey: "",
       setSummarizing: (isSummarizing) => set({ isSummarizing }),
       setShowSideViews: (show) => set({ showSideViews: show }),
       setSummaryResult: (result) => set({ summaryResult: result }),
@@ -73,6 +76,7 @@ export const useSummaryStore = create<SummaryState>()(
         provider: state.provider,
         model: state.model,
         url: state.url,
+        apiKey: state.apiKey,
       }),
     }
   )

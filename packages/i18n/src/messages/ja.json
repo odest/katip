@@ -127,7 +127,9 @@
     "model": "モデル",
     "selectModel": "モデルを選択",
     "checkConnection": "接続を確認",
-    "url": "URL"
+    "url": "URL",
+    "apiKey": "APIキー",
+    "apiKeyPlaceholder": "APIキーを入力してください"
   },
   "TranscriptionTabs": {
     "transcribe": "文字起こし",
@@ -252,8 +254,10 @@
     "checkConnection": "接続を確認",
     "checking": "確認中...",
     "connected": "接続済み",
-    "disconnected": "切断",
-    "retry": "再試行"
+    "disconnected": "未接続",
+    "retry": "再試行",
+    "apiKey": "APIキー",
+    "apiKeyPlaceholder": "APIキーを入力してください"
   },
   "CachedModelsCard": {
     "title": "キャッシュされたモデル",

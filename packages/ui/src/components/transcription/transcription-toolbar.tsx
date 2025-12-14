@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import {
+  Eye,
   Copy,
   XCircle,
   Download,
   FilePlus,
   Sparkles,
+  EyeClosed,
   RefreshCw,
   ChevronDownIcon,
 } from "lucide-react";
@@ -33,6 +35,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@workspace/ui/components/select";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupButton,
+} from "@workspace/ui/components/input-group";
 import { Input } from "@workspace/ui/components/input";
 import { Label } from "@workspace/ui/components/label";
 import { Badge } from "@workspace/ui/components/badge";
@@ -60,6 +68,7 @@ export function TranscriptionToolbar({
   status,
 }: TranscriptionToolbarProps) {
   const t = useTranslations("TranscriptionToolbar");
+  const [showApiKey, setShowApiKey] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const { isChecking, isConnected, availableModels, checkConnection } = useAI();
   const {
@@ -68,27 +77,29 @@ export function TranscriptionToolbar({
     provider,
     model,
     url,
+    apiKey,
     setSettings,
     error,
   } = useSummaryStore();
+  const currentProvider = AI_PROVIDERS.find((p) => p.id === provider);
   const isProcessing = status === "loadingModel" || status === "transcribing";
   const isDone = status === "done" || status === "cancelled";
 
   useEffect(() => {
-    checkConnection(url);
+    checkConnection(url, apiKey, provider);
   }, [url]);
 
   useEffect(() => {
     if (availableModels.length > 0 && !availableModels.includes(model)) {
-      setSettings({ provider, url, model: availableModels[0]! });
+      setSettings({ provider, url, model: availableModels[0]!, apiKey });
     }
-  }, [availableModels, model, provider, url, setSettings]);
+  }, [availableModels, model, provider, url, apiKey, setSettings]);
 
   const handleSummarizeClick = () => {
     if (!model || !url || !isConnected) {
       setIsPopoverOpen(true);
       if (!isConnected) {
-        checkConnection(url);
+        checkConnection(url, apiKey, provider);
       }
     } else {
       onSummarize?.();
@@ -227,7 +238,15 @@ export function TranscriptionToolbar({
                         (p) => p.id === val
                       );
                       const newUrl = selectedProvider?.defaultUrl ?? url;
-                      setSettings({ provider: val, model, url: newUrl });
+                      const newApiKey = selectedProvider?.requiresApiKey
+                        ? apiKey
+                        : "";
+                      setSettings({
+                        provider: val,
+                        model,
+                        url: newUrl,
+                        apiKey: newApiKey,
+                      });
                     }}
                   >
                     <SelectTrigger className="w-full cursor-pointer">
@@ -251,7 +270,7 @@ export function TranscriptionToolbar({
                         <Select
                           value={model}
                           onValueChange={(val) =>
-                            setSettings({ provider, model: val, url })
+                            setSettings({ provider, model: val, url, apiKey })
                           }
                         >
                           <SelectTrigger className="w-full cursor-pointer [&>span]:truncate">
@@ -273,6 +292,7 @@ export function TranscriptionToolbar({
                               provider,
                               model: e.target.value,
                               url,
+                              apiKey,
                             })
                           }
                           placeholder="e.g. Llama3"
@@ -287,7 +307,7 @@ export function TranscriptionToolbar({
                           size="icon"
                           variant="outline"
                           className="cursor-pointer shrink-0"
-                          onClick={() => checkConnection(url)}
+                          onClick={() => checkConnection(url, apiKey, provider)}
                           disabled={isChecking}
                         >
                           {isChecking ? <Spinner /> : <RefreshCw />}
@@ -300,17 +320,79 @@ export function TranscriptionToolbar({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-[80px_1fr] items-center gap-3">
-                  <Label className="text-right">{t("url")}</Label>
-                  <Input
-                    id="url"
-                    value={url}
-                    onChange={(e) =>
-                      setSettings({ provider, model, url: e.target.value })
-                    }
-                    className="w-full"
-                  />
-                </div>
+                {/* URL input - only for local providers */}
+                {!currentProvider?.requiresApiKey && (
+                  <div className="grid grid-cols-[80px_1fr] items-center gap-3">
+                    <Label className="text-right">{t("url")}</Label>
+                    <InputGroup>
+                      <InputGroupInput
+                        id="url"
+                        value={url}
+                        onChange={(e) =>
+                          setSettings({
+                            provider,
+                            model,
+                            url: e.target.value,
+                            apiKey,
+                          })
+                        }
+                        className="w-full"
+                      />
+                      <InputGroupAddon align="inline-end">
+                        {url && (
+                          <InputGroupButton
+                            size="icon-xs"
+                            onClick={() => {
+                              setSettings({
+                                provider,
+                                model,
+                                url: "",
+                                apiKey,
+                              });
+                            }}
+                          >
+                            <XCircle className="size-4" />
+                          </InputGroupButton>
+                        )}
+                      </InputGroupAddon>
+                    </InputGroup>
+                  </div>
+                )}
+
+                {/* API Key input - only for cloud providers */}
+                {currentProvider?.requiresApiKey && (
+                  <div className="grid grid-cols-[80px_1fr] items-center gap-3">
+                    <Label className="text-right">{t("apiKey")}</Label>
+                    <InputGroup>
+                      <InputGroupInput
+                        id="apiKey"
+                        type={showApiKey ? "text" : "password"}
+                        value={apiKey}
+                        onChange={(e) =>
+                          setSettings({
+                            provider,
+                            model,
+                            url,
+                            apiKey: e.target.value,
+                          })
+                        }
+                        placeholder={t("apiKeyPlaceholder")}
+                        className="w-full"
+                      />
+                      <InputGroupAddon align="inline-end">
+                        {apiKey && (
+                          <InputGroupButton
+                            size="icon-xs"
+                            type="button"
+                            onClick={() => setShowApiKey(!showApiKey)}
+                          >
+                            {showApiKey ? <Eye /> : <EyeClosed />}
+                          </InputGroupButton>
+                        )}
+                      </InputGroupAddon>
+                    </InputGroup>
+                  </div>
+                )}
               </div>
             </PopoverContent>
           </Popover>

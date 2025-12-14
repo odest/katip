@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { isTauri } from "@tauri-apps/api/core";
+import { platform } from "@tauri-apps/plugin-os";
 import { open } from "@tauri-apps/plugin-dialog";
 import { Button } from "@workspace/ui/components/button";
 import {
@@ -41,17 +42,30 @@ export function ModelSelectCard() {
   } = useModelStore();
 
   const [isTauriApp, setIsTauriApp] = useState(false);
+  const [isAndroid, setIsAndroid] = useState(false);
   const [cachedModels, setCachedModels] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    setIsTauriApp(isTauri());
+    const checkPlatform = async () => {
+      const isTauriEnv = isTauri();
+      setIsTauriApp(isTauriEnv);
+      if (isTauriEnv) {
+        try {
+          const platformType = await platform();
+          setIsAndroid(platformType === "android");
+        } catch (err) {
+          console.error("Error detecting platform:", err);
+        }
+      }
+    };
+    checkPlatform();
   }, []);
 
   const checkCachedModels = useCallback(async () => {
-    if (isTauriApp) return;
+    if (isTauriApp && !isAndroid) return;
     const models = await getCachedModels();
     setCachedModels(models);
-  }, [isTauriApp]);
+  }, [isTauriApp, isAndroid]);
 
   useEffect(() => {
     checkCachedModels();
@@ -95,8 +109,8 @@ export function ModelSelectCard() {
         <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Desktop: Model File Selection */}
-        {isTauriApp && (
+        {/* Desktop: Model File Selection (not for Android) */}
+        {isTauriApp && !isAndroid && (
           <div className="space-y-4">
             <Button
               onClick={handleSelectModelFile}
@@ -123,8 +137,8 @@ export function ModelSelectCard() {
           </div>
         )}
 
-        {/* Web: Model Selection (Transformers.js CDN) */}
-        {!isTauriApp && (
+        {/* Web/Android: Model Selection (Transformers.js CDN) */}
+        {(!isTauriApp || isAndroid) && (
           <div className="space-y-6">
             <div className="space-y-2">
               <Label className="flex items-center gap-2">
@@ -260,7 +274,7 @@ export function ModelSelectCard() {
           </div>
         )}
 
-        {isTauriApp && typeof selectedModel === "string" && selectedModel && (
+        {isTauriApp && !isAndroid && typeof selectedModel === "string" && selectedModel && (
           <div className="p-3 rounded-lg border bg-muted/50 space-y-1">
             <p className="text-xs font-medium text-muted-foreground">
               {t("selectedModelFile")}
@@ -271,7 +285,7 @@ export function ModelSelectCard() {
           </div>
         )}
 
-        {!isTauriApp && typeof selectedModel === "string" && selectedModel && (
+        {(!isTauriApp || isAndroid) && typeof selectedModel === "string" && selectedModel && (
           <div className="p-3 rounded-lg border bg-muted/50 space-y-1">
             <p className="text-xs font-medium text-muted-foreground">
               {t("selectedModel")}

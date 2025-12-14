@@ -66,9 +66,8 @@ export function TranscribePage() {
   const selectionsMissing = recordingId
     ? false
     : !selectedAudio || !selectedModel;
-  const TranscriptionView = isTauriApp
-    ? NativeTranscriptionView
-    : WebTranscriptionView;
+  const TranscriptionView =
+    isTauriApp && !isAndroid ? NativeTranscriptionView : WebTranscriptionView;
 
   useEffect(() => {
     if (showSideViews) {
@@ -194,28 +193,6 @@ export function TranscribePage() {
           title={t("configurationRequiredTitle")}
           description={t("configurationRequiredDesc")}
           icons={[FileAudioIcon, Upload, FileCodeIcon]}
-          action={{
-            label: (
-              <>
-                <Home />
-                {t("returnToHome")}
-              </>
-            ),
-            onClick: () => router.push("/"),
-          }}
-        />
-      </div>
-    );
-  }
-
-  // Show message if running on Android
-  if (isAndroid) {
-    return (
-      <div className="flex flex-1 justify-center items-center p-6">
-        <EmptyState
-          title={t("androidSupportComingSoonTitle")}
-          description={t("androidSupportComingSoonDesc")}
-          icons={[Laptop, Smartphone, Computer]}
           action={{
             label: (
               <>

@@ -420,19 +420,9 @@
   "ModelSelectCard": {
     "title": "Whisperモデルの選択",
     "description": "文字起こしに使用するWhisperモデルを選択してください",
-    "modelPath": "モデルパス",
-    "selectModelPath": "モデルパスを選択",
     "selectModel": "モデルを選択",
-    "selectModelPlaceholder": ".binモデルファイルを選択してください",
-    "noModelsFound": "選択されたパスに.binモデルが見つかりません",
     "selectedModelFile": "選択されたモデルファイル",
-    "pathRequired": "まずモデルパスを選択してください",
-    "dragAndDrop": "モデルファイルをここにドラッグ＆ドロップ",
-    "orClickToBrowse": "またはクリックして参照",
-    "browseFiles": "ファイルを参照",
     "modelSelected": "モデルが正常に選択されました",
-    "fileUploaded": "ファイルが正常にアップロードされました",
-    "fileRejected": "ファイルが拒否されました",
     "tinyDescription": "最速 • 99言語",
     "baseDescription": "バランス型 • 99言語",
     "smallDescription": "良好な精度 • 99言語",
@@ -457,7 +447,10 @@
     "selectedModel": "選択されたモデル (CDN)",
     "useQuantizedModels": "量子化モデルを使用",
     "useQuantizedModelsDescription": "量子化モデルは小さく高速で、精度の損失は最小限です。ほとんどのユーザーに推奨されます。",
-    "quantized": "量子化"
+    "quantized": "量子化",
+    "selectModelFile": "モデルファイルを選択 (.bin)",
+    "noModelHint": "モデルがない？こちらからダウンロード",
+    "fileSelectError": "モデルファイルの選択に失敗しました"
   },
   "LanguageOptionsCard": {
     "title": "言語オプション",

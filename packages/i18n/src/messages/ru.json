@@ -420,19 +420,9 @@
   "ModelSelectCard": {
     "title": "Выбор модели Whisper",
     "description": "Выберите модель Whisper для использования в транскрипции",
-    "modelPath": "Путь к модели",
-    "selectModelPath": "Выбрать путь к модели",
     "selectModel": "Выбрать модель",
-    "selectModelPlaceholder": "Выберите файл модели .bin",
-    "noModelsFound": "Модели .bin не найдены в выбранном пути",
     "selectedModelFile": "Выбранный файл модели",
-    "pathRequired": "Сначала выберите путь к модели",
-    "dragAndDrop": "Перетащите файл модели сюда",
-    "orClickToBrowse": "Или нажмите для просмотра",
-    "browseFiles": "Обзор файлов",
     "modelSelected": "Модель успешно выбрана",
-    "fileUploaded": "Файл успешно загружен",
-    "fileRejected": "Файл отклонен",
     "tinyDescription": "Самый быстрый • 99 языков",
     "baseDescription": "Сбалансированный • 99 языков",
     "smallDescription": "Хорошая точность • 99 языков",
@@ -457,7 +447,10 @@
     "selectedModel": "Выбранная модель (CDN)",
     "useQuantizedModels": "Использовать квантованные модели",
     "useQuantizedModelsDescription": "Квантованные модели меньше и быстрее с минимальной потерей точности. Рекомендуется для большинства пользователей.",
-    "quantized": "Квантованная"
+    "quantized": "Квантованная",
+    "selectModelFile": "Выбрать файл модели (.bin)",
+    "noModelHint": "Нет модели? Скачайте с",
+    "fileSelectError": "Не удалось выбрать файл модели"
   },
   "LanguageOptionsCard": {
     "title": "Опции Языка",

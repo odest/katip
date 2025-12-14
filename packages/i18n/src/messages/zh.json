@@ -420,19 +420,9 @@
   "ModelSelectCard": {
     "title": "Whisper模型选择",
     "description": "选择用于转录的Whisper模型",
-    "modelPath": "模型路径",
-    "selectModelPath": "选择模型路径",
     "selectModel": "选择模型",
-    "selectModelPlaceholder": "选择一个.bin模型文件",
-    "noModelsFound": "在所选路径中未找到.bin模型",
     "selectedModelFile": "已选模型文件",
-    "pathRequired": "请先选择模型路径",
-    "dragAndDrop": "将模型文件拖放到此处",
-    "orClickToBrowse": "或点击浏览",
-    "browseFiles": "浏览文件",
     "modelSelected": "模型选择成功",
-    "fileUploaded": "文件上传成功",
-    "fileRejected": "文件被拒绝",
     "tinyDescription": "最快 • 99种语言",
     "baseDescription": "平衡 • 99种语言",
     "smallDescription": "良好精度 • 99种语言",
@@ -457,7 +447,10 @@
     "selectedModel": "已选模型 (CDN)",
     "useQuantizedModels": "使用量化模型",
     "useQuantizedModelsDescription": "量化模型更小、更快，精度损失最小。推荐给大多数用户。",
-    "quantized": "量化"
+    "quantized": "量化",
+    "selectModelFile": "选择模型文件 (.bin)",
+    "noModelHint": "没有模型？从这里下载",
+    "fileSelectError": "选择模型文件失败"
   },
   "LanguageOptionsCard": {
     "title": "语言选项",

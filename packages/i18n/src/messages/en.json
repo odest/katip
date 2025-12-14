@@ -420,19 +420,9 @@
   "ModelSelectCard": {
     "title": "Whisper Model Selection",
     "description": "Select a Whisper model to use for transcription",
-    "modelPath": "Model Path",
-    "selectModelPath": "Select Model Path",
     "selectModel": "Select Model",
-    "selectModelPlaceholder": "Choose a .bin model file",
-    "noModelsFound": "No .bin models found in the selected path",
     "selectedModelFile": "Selected Model File",
-    "pathRequired": "Please select a model path first",
-    "dragAndDrop": "Drag & drop model file here",
-    "orClickToBrowse": "Or click to browse",
-    "browseFiles": "Browse files",
     "modelSelected": "Model selected successfully",
-    "fileUploaded": "File uploaded successfully",
-    "fileRejected": "File rejected",
     "tinyDescription": "Fastest • 99 languages",
     "baseDescription": "Balanced • 99 languages",
     "smallDescription": "Good accuracy • 99 languages",
@@ -457,7 +447,10 @@
     "selectedModel": "Selected Model (CDN)",
     "useQuantizedModels": "Use Quantized Models",
     "useQuantizedModelsDescription": "Quantized models are smaller and faster with minimal accuracy loss. Recommended for most users.",
-    "quantized": "Quantized"
+    "quantized": "Quantized",
+    "selectModelFile": "Select Model File (.bin)",
+    "noModelHint": "Don't have a model? Download from",
+    "fileSelectError": "Failed to select model file"
   },
   "LanguageOptionsCard": {
     "title": "Language Options",

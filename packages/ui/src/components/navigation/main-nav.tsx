@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback } from "react";
-import { ComponentType } from "react";
+import { useCallback, useState, useEffect, ComponentType } from "react";
+import { isTauri } from "@tauri-apps/api/core";
 import { ChevronRight, type LucideIcon } from "lucide-react";
 import {
   Collapsible,
@@ -62,11 +62,28 @@ export function MainNav({
     }
   }, [isMobile, setOpenMobile]);
 
+  // Adjust home URL based on platform: native uses "/", web uses "/home"
+  // Use state to avoid hydration mismatch - start with "/home" (web default)
+  const [homeUrl, setHomeUrl] = useState("/home");
+  useEffect(() => {
+    if (isTauri()) {
+      setHomeUrl("/");
+    }
+  }, []);
+
+  // Update items with the correct home URL
+  const adjustedItems = items.map((item) => {
+    if (item.translationKey === "home") {
+      return { ...item, url: homeUrl };
+    }
+    return item;
+  });
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>{t("platform")}</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => {
+        {adjustedItems.map((item) => {
           const active =
             pathname === item.url ||
             (item.url !== "/" && pathname.startsWith(item.url));

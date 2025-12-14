@@ -37,7 +37,7 @@ export const navigationData: NavigationData = {
   navMain: [
     {
       title: "Home",
-      url: "/home",
+      url: "/",
       icon: Home,
       isActive: true,
       items: [],

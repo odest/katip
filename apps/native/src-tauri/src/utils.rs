@@ -1,17 +1,6 @@
 use sha2::{Digest, Sha256};
 use std::fs::File;
 use std::io::{BufReader, Read};
-use tauri_plugin_fs::FsExt;
-
-#[tauri::command]
-pub async fn add_fs_scope(app: tauri::AppHandle, path: String) -> Result<(), String> {
-    let scope = app.fs_scope();
-    scope
-        .allow_directory(&path, true)
-        .map_err(|e| format!("Failed to add path to scope: {}", e))?;
-
-    Ok(())
-}
 
 #[tauri::command]
 pub async fn calculate_file_hash(path: String) -> Result<String, String> {

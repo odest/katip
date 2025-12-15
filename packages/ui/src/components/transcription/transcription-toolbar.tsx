@@ -86,10 +86,6 @@ export function TranscriptionToolbar({
   const isDone = status === "done" || status === "cancelled";
 
   useEffect(() => {
-    checkConnection(url, apiKey, provider);
-  }, [url]);
-
-  useEffect(() => {
     if (availableModels.length > 0 && !availableModels.includes(model)) {
       setSettings({ provider, url, model: availableModels[0]!, apiKey });
     }

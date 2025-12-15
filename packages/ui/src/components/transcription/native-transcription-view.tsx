@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { save } from "@tauri-apps/plugin-dialog";
 import { writeTextFile } from "@tauri-apps/plugin-fs";
@@ -10,11 +9,7 @@ import { useTranscripts } from "@workspace/ui/hooks/use-transcripts";
 import { useAudioStore } from "@workspace/ui/stores/audio-store";
 import { useModelStore } from "@workspace/ui/stores/model-store";
 import { useLanguageStore } from "@workspace/ui/stores/language-store";
-import {
-  useTranscriptionStore,
-  TranscriptionStatus,
-  Segment,
-} from "@workspace/ui/stores/transcription-store";
+import { useTranscriptionStore } from "@workspace/ui/stores/transcription-store";
 import { useSummaryStore } from "@workspace/ui/stores/summary-store";
 import { Spinner } from "@workspace/ui/components/spinner";
 import { Progress } from "@workspace/ui/components/progress";
@@ -42,45 +37,24 @@ export const NativeTranscriptionView = ({
 
   const { selectedAudio, setSelectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
+
   const {
-    status: storeStatus,
-    progress: storeProgress,
-    segments: storeSegments,
-    error: storeError,
-    file: storeFile,
-    model: storeModel,
-    recordingId: storeRecordingId,
-    setTranscriptionState,
+    status,
+    progress,
+    segments,
+    error,
+    setSegments,
     clearTranscriptionState,
   } = useTranscriptionStore();
+
   const { resetSummary } = useSummaryStore();
 
-  const isActiveTranscription =
-    storeFile === selectedAudio &&
-    storeModel === selectedModel &&
-    (storeStatus === "processingAudio" ||
-      storeStatus === "loadingModel" ||
-      storeStatus === "transcribing");
-
-  const [status, setStatus] = useState<TranscriptionStatus>(
-    isActiveTranscription ? storeStatus : "processingAudio"
-  );
-  const [progress, setProgress] = useState(
-    isActiveTranscription ? storeProgress : 0
-  );
-  const [segments, setSegments] = useState<Segment[]>(
-    isActiveTranscription ? storeSegments : []
-  );
-  const [error, setError] = useState<string | null>(
-    isActiveTranscription ? storeError : null
-  );
+  useTranscriptionProcess();
 
   const handleSegmentChange = (index: number, newText: string) => {
-    setSegments((prevSegments) => {
-      const newSegments = [...prevSegments];
-      newSegments[index] = { ...newSegments[index]!, text: newText };
-      return newSegments;
-    });
+    const newSegments = [...segments];
+    newSegments[index] = { ...newSegments[index]!, text: newText };
+    setSegments(newSegments);
   };
 
   const handleNewTranscription = () => {
@@ -158,17 +132,6 @@ export const NativeTranscriptionView = ({
     }
   };
 
-  // start transcription process
-  useTranscriptionProcess({
-    isActiveTranscription,
-    storeRecordingId,
-    setStatus,
-    setProgress,
-    setSegments,
-    setError,
-    setTranscriptionState,
-  });
-
   if (status === "error") {
     return (
       <div className="flex flex-1 justify-center items-center p-6">
@@ -200,7 +163,7 @@ export const NativeTranscriptionView = ({
     );
   }
 
-  if (status === "processingAudio") {
+  if (status === "queued" || status === "processingAudio") {
     return (
       <div className="flex flex-1 flex-col justify-center items-center p-6 gap-4">
         <Spinner className="size-8" />

@@ -307,7 +307,7 @@ export function useUser() {
         };
       }
     },
-    [user]
+    [user, localUser, setLocalUser]
   );
 
   const removeAvatar = useCallback(async (): Promise<{
@@ -376,7 +376,7 @@ export function useUser() {
         error: error instanceof Error ? error.message : "Remove failed",
       };
     }
-  }, [user]);
+  }, [user, localUser, setLocalUser]);
 
   const updateName = useCallback(
     async (newName: string): Promise<{ success: boolean; error?: string }> => {
@@ -419,7 +419,7 @@ export function useUser() {
         };
       }
     },
-    [user]
+    [user, localUser, setLocalUser]
   );
 
   const updateEmail = useCallback(
@@ -474,7 +474,7 @@ export function useUser() {
         };
       }
     },
-    [user]
+    [user, localUser, setLocalUser]
   );
 
   const changePassword = useCallback(
@@ -571,7 +571,7 @@ export function useUser() {
           error instanceof Error ? error.message : "Account deletion failed",
       };
     }
-  }, [user]);
+  }, [user, localUser, signOut]);
 
   const fullName = useMemo(() => {
     if (loading) return null;

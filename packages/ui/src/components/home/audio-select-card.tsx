@@ -27,6 +27,8 @@ import {
 import { useTranslations } from "@workspace/i18n";
 import { useFileSelect } from "@workspace/ui/hooks/use-file-select";
 import { useAudioStore } from "@workspace/ui/stores/audio-store";
+import { useTranscriptionStore } from "@workspace/ui/stores/transcription-store";
+import { useSummaryStore } from "@workspace/ui/stores/summary-store";
 import { toast } from "sonner";
 
 const AUDIO_EXTENSIONS = [
@@ -45,6 +47,8 @@ const AUDIO_EXTENSIONS = [
 export function AudioSelectCard() {
   const t = useTranslations("AudioSelectCard");
   const { selectedAudio, setSelectedAudio } = useAudioStore();
+  const { clearTranscriptionState } = useTranscriptionStore();
+  const { resetSummary } = useSummaryStore();
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isTauriApp, setIsTauriApp] = useState(false);
   const [isAndroid, setIsAndroid] = useState(false);
@@ -72,6 +76,10 @@ export function AudioSelectCard() {
   const handleValueChange = (newFiles: File[]) => {
     const effectiveFiles = onValueChange(newFiles);
     const selectedFile = effectiveFiles[0] || null;
+    if (selectedFile) {
+      clearTranscriptionState();
+      resetSummary();
+    }
     setSelectedAudio(selectedFile);
   };
 
@@ -100,6 +108,8 @@ export function AudioSelectCard() {
         toast.success(t("audioFileAccepted"), {
           description: fileName,
         });
+        clearTranscriptionState();
+        resetSummary();
         setSelectedAudio(selected);
       }
     } catch (err) {
@@ -158,6 +168,8 @@ export function AudioSelectCard() {
             description: fileName,
           });
 
+          clearTranscriptionState();
+          resetSummary();
           setSelectedAudio(filePath);
         }
       );
@@ -215,7 +227,7 @@ export function AudioSelectCard() {
                 variant="outline"
                 size="sm"
                 className="mt-2 w-fit"
-              onClick={(e) => {
+                onClick={(e) => {
                   if (isTauriApp && !isAndroid) {
                     e.preventDefault();
                     e.stopPropagation();

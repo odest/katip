@@ -40,10 +40,6 @@ export function AIProviderCard() {
   const currentProvider = AI_PROVIDERS.find((p) => p.id === provider);
 
   useEffect(() => {
-    checkConnection(url, apiKey, provider);
-  }, [url]);
-
-  useEffect(() => {
     if (availableModels.length > 0 && !availableModels.includes(model)) {
       setSettings({ provider, url, model: availableModels[0]!, apiKey });
     }
@@ -86,8 +82,15 @@ export function AIProviderCard() {
               onValueChange={(val) => {
                 const selectedProvider = AI_PROVIDERS.find((p) => p.id === val);
                 const newUrl = selectedProvider?.defaultUrl ?? url;
-                const newApiKey = selectedProvider?.requiresApiKey ? apiKey : "";
-                setSettings({ provider: val, model, url: newUrl, apiKey: newApiKey });
+                const newApiKey = selectedProvider?.requiresApiKey
+                  ? apiKey
+                  : "";
+                setSettings({
+                  provider: val,
+                  model,
+                  url: newUrl,
+                  apiKey: newApiKey,
+                });
               }}
             >
               <SelectTrigger className="w-full cursor-pointer">

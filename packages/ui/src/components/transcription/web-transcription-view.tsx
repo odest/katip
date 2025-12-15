@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 import { useTranslations } from "@workspace/i18n";
@@ -9,16 +9,12 @@ import { useAuthStore } from "@workspace/ui/stores/auth-store";
 import { useAudioStore } from "@workspace/ui/stores/audio-store";
 import { useModelStore } from "@workspace/ui/stores/model-store";
 import { useLanguageStore } from "@workspace/ui/stores/language-store";
-import {
-  useTranscriptionStore,
-  TranscriptionStatus,
-  Segment,
-} from "@workspace/ui/stores/transcription-store";
+import { useTranscriptionStore } from "@workspace/ui/stores/transcription-store";
 import { useSummaryStore } from "@workspace/ui/stores/summary-store";
 import { useWebTranscription } from "@workspace/ui/hooks/use-web-transcription";
 import { Spinner } from "@workspace/ui/components/spinner";
 import { Progress } from "@workspace/ui/components/progress";
-import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
+import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import { EmptyState } from "@workspace/ui/components/common/empty-state";
 import { Ban, AlertCircle, Bug, RefreshCw, Home } from "lucide-react";
 import { TranscriptionToolbar } from "@workspace/ui/components/transcription/transcription-toolbar";
@@ -40,50 +36,27 @@ export const WebTranscriptionView = ({
   const { getRecordingByHash, addRecording } = useRecordings();
   const { deleteTranscriptByRecordingId, addTranscript } = useTranscripts();
 
-  const { language } = useLanguageStore();
   const { selectedAudio, setSelectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
+
   const {
-    status: storeStatus,
-    progress: storeProgress,
-    segments: storeSegments,
-    error: storeError,
-    file: storeFile,
-    model: storeModel,
-    recordingId: storeRecordingId,
+    status,
+    progress,
+    segments,
+    error,
+    setSegments,
     setTranscriptionState,
     clearTranscriptionState,
   } = useTranscriptionStore();
+
   const { resetSummary } = useSummaryStore();
 
-  const isActiveTranscription =
-    storeFile ===
-      (selectedAudio instanceof File ? selectedAudio.name : selectedAudio) &&
-    storeModel === selectedModel &&
-    (storeStatus === "processingAudio" ||
-      storeStatus === "loadingModel" ||
-      storeStatus === "transcribing");
-
-  const [status, setStatus] = useState<TranscriptionStatus>(
-    isActiveTranscription ? storeStatus : "processingAudio"
-  );
-  const [progress, setProgress] = useState(
-    isActiveTranscription ? storeProgress : 0
-  );
-  const [segments, setSegments] = useState<Segment[]>(
-    isActiveTranscription ? storeSegments : []
-  );
-  const [error, setError] = useState<string | null>(
-    isActiveTranscription ? storeError : null
-  );
-  const isTranscribing = status === "transcribing";
+  const { cancel: terminateWorker, transcribe } = useWebTranscription();
 
   const handleSegmentChange = (index: number, newText: string) => {
-    setSegments((prevSegments) => {
-      const newSegments = [...prevSegments];
-      newSegments[index] = { ...newSegments[index]!, text: newText };
-      return newSegments;
-    });
+    const newSegments = [...segments];
+    newSegments[index] = { ...newSegments[index]!, text: newText };
+    setSegments(newSegments);
   };
 
   const handleNewTranscription = () => {
@@ -152,61 +125,54 @@ export const WebTranscriptionView = ({
     }
   };
 
-  const { cancel: terminateWorker, transcribe } = useWebTranscription({
-    isActiveTranscription,
-    storeRecordingId,
-    setStatus,
-    setProgress,
-    setSegments,
-    setError,
-    setTranscriptionState,
-  });
-
   const handleCancel = useCallback(async () => {
     if (status === "loadingModel" || status === "transcribing") {
       const wasRunning = terminateWorker();
       if (wasRunning) {
-        const currentSegments = segments;
-        const currentProgress = progress;
+        const currentSegments = useTranscriptionStore.getState().segments;
+        const currentProgress = useTranscriptionStore.getState().progress;
+        const currentAudio = useAudioStore.getState().selectedAudio;
+        const currentModel = useModelStore.getState().selectedModel;
+        const currentLanguage = useLanguageStore.getState().language;
 
         setTranscriptionState({
           file:
-            selectedAudio instanceof File
-              ? selectedAudio.name
-              : (selectedAudio as string),
-          model: selectedModel as string,
-          status: "cancelled" as TranscriptionStatus,
+            currentAudio instanceof File
+              ? currentAudio.name
+              : (currentAudio as string),
+          model: currentModel as string,
+          status: "cancelled",
           progress: currentProgress,
           segments: currentSegments,
           error: null,
         });
-        setStatus("cancelled");
+
         toast.info(t("transcriptionCancelled"));
 
-        if (currentSegments.length > 0 && selectedAudio instanceof File) {
+        if (currentSegments.length > 0 && currentAudio instanceof File) {
           const currentUserId = useAuthStore.getState().userId;
 
           if (currentUserId) {
             try {
-              const hash = await calculateFileHash(selectedAudio);
+              const hash = await calculateFileHash(currentAudio);
               let existingRecording = await getRecordingByHash(hash);
               let recordingId = existingRecording?.id;
 
               if (!recordingId) {
                 const duration = await getAudioDuration(
-                  URL.createObjectURL(selectedAudio)
+                  URL.createObjectURL(currentAudio)
                 );
                 recordingId = uuidv4();
 
                 await addRecording({
                   id: recordingId,
                   userId: currentUserId,
-                  title: selectedAudio.name || "Untitled",
+                  title: currentAudio.name || "Untitled",
                   description: null,
-                  filePath: selectedAudio.name,
+                  filePath: currentAudio.name,
                   fileHash: hash,
                   duration: duration,
-                  fileSize: selectedAudio.size,
+                  fileSize: currentAudio.size,
                   status: "cancelled",
                   isFavorite: false,
                   tags: null,
@@ -223,8 +189,8 @@ export const WebTranscriptionView = ({
                   id: transcriptId,
                   recordingId: recordingId,
                   userId: currentUserId,
-                  language: language,
-                  model: selectedModel as string,
+                  language: currentLanguage,
+                  model: currentModel as string,
                   segments: currentSegments,
                   createdAt: new Date(),
                 });
@@ -238,13 +204,8 @@ export const WebTranscriptionView = ({
     }
   }, [
     status,
-    progress,
-    segments,
     terminateWorker,
     setTranscriptionState,
-    selectedAudio,
-    selectedModel,
-    language,
     t,
     getRecordingByHash,
     addRecording,
@@ -265,28 +226,6 @@ export const WebTranscriptionView = ({
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [status, t]);
-
-  useEffect(() => {
-    return () => {
-      if (status === "loadingModel" || status === "transcribing") {
-        setTranscriptionState({
-          file: selectedAudio as string,
-          model: selectedModel as string,
-          status: "processing" as TranscriptionStatus,
-          progress: progress,
-          segments: segments,
-          error: null,
-        });
-      }
-    };
-  }, [
-    status,
-    progress,
-    segments,
-    selectedAudio,
-    selectedModel,
-    setTranscriptionState,
-  ]);
 
   if (status === "error") {
     return (
@@ -319,7 +258,7 @@ export const WebTranscriptionView = ({
     );
   }
 
-  if (status === "processingAudio") {
+  if (status === "queued" || status === "processingAudio") {
     return (
       <div className="flex flex-1 flex-col justify-center items-center p-6 gap-4">
         <Spinner className="size-8" />
@@ -352,7 +291,7 @@ export const WebTranscriptionView = ({
 
   return (
     <div className="flex flex-col h-full w-full gap-4 p-6">
-      {isTranscribing && (
+      {status === "transcribing" && (
         <div className="w-full max-w-3xl mx-auto space-y-3">
           <div className="text-center">
             <h2 className="text-xl font-bold">{t("transcribingAudio")}</h2>

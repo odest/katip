@@ -32,7 +32,7 @@ export const SummaryView = () => {
               <AlertCircle className="h-8 w-8 text-destructive" />
               <p className="text-sm font-medium">{error}</p>
             </div>
-          ) : !summaryResult ? (
+          ) : !summaryResult?.summary ? (
             <div className="flex flex-col items-center gap-2 p-8 text-center">
               <p className="text-muted-foreground text-sm">
                 {t("noSummaryAvailable")}

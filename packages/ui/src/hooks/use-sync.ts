@@ -283,7 +283,7 @@ export function useSync() {
                 target: actionItems.id,
                 set: {
                   isCompleted: ai.is_completed,
-                  assistee: ai.assignee,
+                  assignee: ai.assignee,
                   priority: ai.priority,
                 },
               });

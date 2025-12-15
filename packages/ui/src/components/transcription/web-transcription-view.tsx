@@ -90,7 +90,7 @@ export const WebTranscriptionView = ({
     clearTranscriptionState();
     resetSummary();
     setSelectedAudio(null);
-    router.push("/");
+    router.push("/home");
   };
 
   const handleRetry = async () => {
@@ -312,7 +312,7 @@ export const WebTranscriptionView = ({
                 {t("returnToHome")}
               </>
             ),
-            onClick: () => router.push("/"),
+            onClick: () => router.push("/home"),
           }}
         />
       </div>

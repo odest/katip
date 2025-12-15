@@ -200,7 +200,7 @@ export function TranscribePage() {
                 {t("returnToHome")}
               </>
             ),
-            onClick: () => router.push("/"),
+            onClick: () => router.push("/home"),
           }}
         />
       </div>

@@ -1,7 +1,6 @@
 "use client";
 
-import { ComponentType, Fragment, useState, useEffect } from "react";
-import { isTauri } from "@tauri-apps/api/core";
+import { ComponentType, Fragment } from "react";
 import { Separator } from "@workspace/ui/components/separator";
 import { SidebarTrigger } from "@workspace/ui/components/sidebar";
 import {
@@ -41,15 +40,6 @@ export function AppHeader({ pathname, LinkComponent = "a" }: AppHeaderProps) {
   const t = useTranslations("Navigation");
   const isHome = pathname === "/home" || pathname === "/";
 
-  // Home URL: native uses "/", web uses "/home"
-  // Use state to avoid hydration mismatch - start with "/home" (web default)
-  const [homeUrl, setHomeUrl] = useState("/home");
-  useEffect(() => {
-    if (isTauri()) {
-      setHomeUrl("/");
-    }
-  }, []);
-
   return (
     <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-12 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear">
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
@@ -65,7 +55,7 @@ export function AppHeader({ pathname, LinkComponent = "a" }: AppHeaderProps) {
               {isHome ? (
                 <BreadcrumbPage>{t("home")}</BreadcrumbPage>
               ) : (
-                <LinkComponent href={homeUrl}>{t("home")}</LinkComponent>
+                <LinkComponent href="/home">{t("home")}</LinkComponent>
               )}
             </BreadcrumbItem>
 

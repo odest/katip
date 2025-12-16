@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { listen } from "@tauri-apps/api/event";
 import { isTauri } from "@tauri-apps/api/core";
+import { platform } from "@tauri-apps/plugin-os";
 import { open } from "@tauri-apps/plugin-dialog";
 import { Upload, X } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
@@ -26,6 +27,8 @@ import {
 import { useTranslations } from "@workspace/i18n";
 import { useFileSelect } from "@workspace/ui/hooks/use-file-select";
 import { useAudioStore } from "@workspace/ui/stores/audio-store";
+import { useTranscriptionStore } from "@workspace/ui/stores/transcription-store";
+import { useSummaryStore } from "@workspace/ui/stores/summary-store";
 import { toast } from "sonner";
 
 const AUDIO_EXTENSIONS = [
@@ -44,20 +47,39 @@ const AUDIO_EXTENSIONS = [
 export function AudioSelectCard() {
   const t = useTranslations("AudioSelectCard");
   const { selectedAudio, setSelectedAudio } = useAudioStore();
+  const { clearTranscriptionState } = useTranscriptionStore();
+  const { resetSummary } = useSummaryStore();
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isTauriApp, setIsTauriApp] = useState(false);
+  const [isAndroid, setIsAndroid] = useState(false);
   const dropzoneRef = useRef<HTMLDivElement>(null);
 
   const { handleValueChange: onValueChange, handleFileReject } =
     useFileSelect(t);
 
   useEffect(() => {
-    setIsTauriApp(isTauri());
+    const checkPlatform = async () => {
+      const isTauriEnv = isTauri();
+      setIsTauriApp(isTauriEnv);
+      if (isTauriEnv) {
+        try {
+          const platformType = await platform();
+          setIsAndroid(platformType === "android");
+        } catch (err) {
+          console.error("Error detecting platform:", err);
+        }
+      }
+    };
+    checkPlatform();
   }, []);
 
   const handleValueChange = (newFiles: File[]) => {
     const effectiveFiles = onValueChange(newFiles);
     const selectedFile = effectiveFiles[0] || null;
+    if (selectedFile) {
+      clearTranscriptionState();
+      resetSummary();
+    }
     setSelectedAudio(selectedFile);
   };
 
@@ -86,6 +108,8 @@ export function AudioSelectCard() {
         toast.success(t("audioFileAccepted"), {
           description: fileName,
         });
+        clearTranscriptionState();
+        resetSummary();
         setSelectedAudio(selected);
       }
     } catch (err) {
@@ -95,7 +119,7 @@ export function AudioSelectCard() {
   };
 
   useEffect(() => {
-    if (!isTauriApp) return;
+    if (!isTauriApp || isAndroid) return;
 
     let unlistenDrop: (() => void) | null = null;
     let unlistenEnter: (() => void) | null = null;
@@ -144,6 +168,8 @@ export function AudioSelectCard() {
             description: fileName,
           });
 
+          clearTranscriptionState();
+          resetSummary();
           setSelectedAudio(filePath);
         }
       );
@@ -156,7 +182,7 @@ export function AudioSelectCard() {
       unlistenEnter?.();
       unlistenLeave?.();
     };
-  }, [isTauriApp, setSelectedAudio, t]);
+  }, [isTauriApp, isAndroid, setSelectedAudio, t]);
 
   return (
     <Card>
@@ -180,7 +206,7 @@ export function AudioSelectCard() {
             }
             data-tauri-dragging={isDraggingOver ? "" : undefined}
             onClick={(e) => {
-              if (isTauriApp) {
+              if (isTauriApp && !isAndroid) {
                 e.preventDefault();
                 e.stopPropagation();
                 handleSelectAudioFile();
@@ -202,7 +228,7 @@ export function AudioSelectCard() {
                 size="sm"
                 className="mt-2 w-fit"
                 onClick={(e) => {
-                  if (isTauriApp) {
+                  if (isTauriApp && !isAndroid) {
                     e.preventDefault();
                     e.stopPropagation();
                     handleSelectAudioFile();
@@ -214,7 +240,7 @@ export function AudioSelectCard() {
             </FileUploadTrigger>
           </FileUploadDropzone>
           <FileUploadList forceMount={!!selectedAudio}>
-            {!isTauriApp && selectedAudio instanceof File && (
+            {(!isTauriApp || isAndroid) && selectedAudio instanceof File && (
               <FileUploadItem value={selectedAudio}>
                 <FileUploadItemPreview />
                 <FileUploadItemMetadata />
@@ -231,6 +257,7 @@ export function AudioSelectCard() {
             )}
 
             {isTauriApp &&
+              !isAndroid &&
               typeof selectedAudio === "string" &&
               selectedAudio && (
                 <div className="flex items-center gap-3 p-3 mt-3 rounded-lg border bg-muted/50">

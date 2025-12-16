@@ -1,5 +1,6 @@
 import { ReactNode, ComponentType, useState, useEffect } from "react";
 import { toast } from "sonner";
+import { eq } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 import { LogOut } from "lucide-react";
 import { database } from "@workspace/ui/db";
@@ -80,6 +81,21 @@ export function AppLayout({
         if (!isHydrated) return;
 
         if (userId) {
+          const existingUser = await database.query.users.findFirst({
+            where: eq(users.id, userId),
+          });
+
+          if (existingUser?.id) {
+            return;
+          }
+
+          await database.insert(users).values({
+            id: userId,
+            email: "guest@local",
+            fullName: "guest",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          });
           return;
         }
 

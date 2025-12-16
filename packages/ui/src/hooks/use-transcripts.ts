@@ -79,10 +79,27 @@ export function useTranscripts() {
     []
   );
 
+  const updateTranscriptSegments = useCallback(
+    async (transcriptId: string, segments: Transcript["segments"]) => {
+      try {
+        await database
+          .update(transcripts)
+          .set({ segments })
+          .where(eq(transcripts.id, transcriptId));
+        return { success: true };
+      } catch (error) {
+        console.error("Failed to update transcript segments:", error);
+        return { success: false, error };
+      }
+    },
+    []
+  );
+
   return {
     addTranscript,
     getTranscriptByRecordingId,
     getFirstTranscriptByRecordingId,
     deleteTranscriptByRecordingId,
+    updateTranscriptSegments,
   };
 }

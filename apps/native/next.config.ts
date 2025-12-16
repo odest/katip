@@ -16,7 +16,22 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
+    config.experiments = {
+      ...config.experiments,
+      asyncWebAssembly: true,
+    };
+
+    config.module.rules.push({
+      test: /\.wasm$/,
+      type: "asset/resource",
+    });
+
+    // Don't bundle Transformers.js on server side
+    if (isServer) {
+      config.externals.push("@xenova/transformers");
+    }
+
     config.resolve.alias = {
       ...config.resolve.alias,
       "onnxruntime-node": false,

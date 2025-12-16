@@ -27,53 +27,47 @@ export interface TranscriptionState {
 }
 
 interface TranscriptionStore extends TranscriptionState {
+  setFile: (file: string | null) => void;
+  setModel: (model: string | null) => void;
+  setStatus: (status: TranscriptionStatus) => void;
+  setProgress: (progress: number) => void;
+  setSegments: (segments: Segment[]) => void;
+  addSegment: (segment: Segment) => void;
+  setError: (error: string | null) => void;
+  setRecordingId: (recordingId: string | null) => void;
   setTranscriptionState: (state: Partial<TranscriptionState>) => void;
-  getTranscriptionState: () => TranscriptionState | null;
   clearTranscriptionState: () => void;
 }
 
+const initialState: TranscriptionState = {
+  file: null,
+  model: null,
+  status: "queued",
+  progress: 0,
+  segments: [],
+  error: null,
+  recordingId: null,
+};
+
 export const useTranscriptionStore = create(
   persist<TranscriptionStore>(
-    (set, get) => ({
-      file: null,
-      model: null,
-      status: "queued" as TranscriptionStatus,
-      progress: 0,
-      segments: [],
-      error: null,
-      recordingId: null,
-
+    (set) => ({
+      ...initialState,
+      setFile: (file) => set({ file }),
+      setModel: (model) => set({ model }),
+      setStatus: (status) => set({ status }),
+      setProgress: (progress) => set({ progress }),
+      setSegments: (segments) => set({ segments }),
+      addSegment: (segment) =>
+        set((state) => ({ segments: [...state.segments, segment] })),
+      setError: (error) => set({ error }),
+      setRecordingId: (recordingId) => set({ recordingId }),
       setTranscriptionState: (state) =>
         set((prev) => ({
           ...prev,
           ...state,
         })),
-
-      getTranscriptionState: () => {
-        const state = get();
-        if (!state.file && !state.recordingId) return null;
-
-        return {
-          file: state.file,
-          model: state.model,
-          status: state.status,
-          progress: state.progress,
-          segments: state.segments,
-          error: state.error,
-          recordingId: state.recordingId,
-        };
-      },
-
-      clearTranscriptionState: () =>
-        set({
-          file: null,
-          model: null,
-          status: "processingAudio" as TranscriptionStatus,
-          progress: 0,
-          segments: [],
-          error: null,
-          recordingId: null,
-        }),
+      clearTranscriptionState: () => set(initialState),
     }),
     {
       name: "transcription-storage",

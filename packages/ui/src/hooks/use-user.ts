@@ -307,7 +307,7 @@ export function useUser() {
         };
       }
     },
-    [user]
+    [user, localUser, setLocalUser]
   );
 
   const removeAvatar = useCallback(async (): Promise<{
@@ -376,7 +376,7 @@ export function useUser() {
         error: error instanceof Error ? error.message : "Remove failed",
       };
     }
-  }, [user]);
+  }, [user, localUser, setLocalUser]);
 
   const updateName = useCallback(
     async (newName: string): Promise<{ success: boolean; error?: string }> => {
@@ -419,7 +419,7 @@ export function useUser() {
         };
       }
     },
-    [user]
+    [user, localUser, setLocalUser]
   );
 
   const updateEmail = useCallback(
@@ -474,7 +474,7 @@ export function useUser() {
         };
       }
     },
-    [user]
+    [user, localUser, setLocalUser]
   );
 
   const changePassword = useCallback(
@@ -533,12 +533,25 @@ export function useUser() {
         return { success: false, error: error.message };
       }
 
-      const avatarUrl = user.user_metadata?.avatar_url;
-      if (avatarUrl) {
-        const match = avatarUrl.match(/\/avatars\/(.+)$/);
+      let avatarUrl = localUser?.avatarUrl;
+
+      if (!avatarUrl) {
+        const { data: publicData } = await supabase
+          .from("users")
+          .select("avatar_url")
+          .eq("id", user.id)
+          .single();
+        avatarUrl = publicData?.avatar_url;
+      }
+
+      if (avatarUrl && avatarUrl.includes(`/${AVATAR_BUCKET}/`)) {
+        const match = avatarUrl.match(new RegExp(`/${AVATAR_BUCKET}/(.+)$`));
         if (match && match[1]) {
           const filePath = decodeURIComponent(match[1]);
-          await supabase.storage.from(AVATAR_BUCKET).remove([filePath]);
+          await supabase.storage
+            .from(AVATAR_BUCKET)
+            .remove([filePath])
+            .catch(console.error);
         }
       }
 
@@ -558,7 +571,7 @@ export function useUser() {
           error instanceof Error ? error.message : "Account deletion failed",
       };
     }
-  }, [user]);
+  }, [user, localUser, signOut]);
 
   const fullName = useMemo(() => {
     if (loading) return null;

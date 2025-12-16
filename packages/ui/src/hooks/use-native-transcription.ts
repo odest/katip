@@ -1,4 +1,4 @@
-import { useEffect, useRef, type Dispatch, type SetStateAction } from "react";
+import { useEffect, useRef } from "react";
 import { stat, exists } from "@tauri-apps/plugin-fs";
 import { listen } from "@tauri-apps/api/event";
 import { invoke, convertFileSrc } from "@tauri-apps/api/core";
@@ -17,35 +17,17 @@ import { useSummaryStore } from "@workspace/ui/stores/summary-store";
 import { useLanguageStore } from "@workspace/ui/stores/language-store";
 import { useAdvancedStore } from "@workspace/ui/stores/advanced-store";
 import { usePerformanceStore } from "@workspace/ui/stores/performance-store";
-import type {
-  Segment,
-  TranscriptionState,
-  TranscriptionStatus,
+import {
+  useTranscriptionStore,
+  type Segment,
 } from "@workspace/ui/stores/transcription-store";
 
-interface UseTranscriptionParams {
-  isActiveTranscription: boolean;
-  storeRecordingId: string | null;
-  setStatus: Dispatch<SetStateAction<TranscriptionStatus>>;
-  setProgress: Dispatch<SetStateAction<number>>;
-  setSegments: Dispatch<SetStateAction<Segment[]>>;
-  setError: Dispatch<SetStateAction<string | null>>;
-  setTranscriptionState: (state: Partial<TranscriptionState>) => void;
-}
-
-export function useTranscriptionProcess({
-  isActiveTranscription,
-  storeRecordingId,
-  setStatus,
-  setProgress,
-  setSegments,
-  setError,
-  setTranscriptionState,
-}: UseTranscriptionParams) {
+export function useTranscriptionProcess() {
   const progressRef = useRef(0);
   const segmentsRef = useRef<Segment[]>([]);
   const fileHashRef = useRef<string | null>(null);
   const recordingIdRef = useRef<string | null>(null);
+  const hasStartedRef = useRef(false);
   const t = useTranslations("TranscriptionView");
 
   const { addRecording, getRecordingByHash, getRecordingById } =
@@ -58,14 +40,21 @@ export function useTranscriptionProcess({
   const { getSummaryByRecordingId } = useSummaries();
   const { getActionItemsBySummaryId } = useActionItems();
 
-  const { selectedAudio, setSelectedAudio } = useAudioStore();
-  const { selectedModel } = useModelStore();
-  const { language, translateToEnglish } = useLanguageStore();
-  const { useGPU, threadCount } = usePerformanceStore();
-  const advancedSettings = useAdvancedStore();
+  const { setSelectedAudio } = useAudioStore();
   const { setShowSideViews, setSummaryResult } = useSummaryStore();
+  const { status, setStatus, setProgress, addSegment, setTranscriptionState } =
+    useTranscriptionStore();
+
+  const isActiveTranscription =
+    status === "processingAudio" ||
+    status === "loadingModel" ||
+    status === "transcribing";
 
   useEffect(() => {
+    if (hasStartedRef.current) {
+      return;
+    }
+
     let unlisteners: Array<() => void> = [];
 
     const setupListeners = async () => {
@@ -79,113 +68,91 @@ export function useTranscriptionProcess({
 
       unlisteners.push(
         await listen<Segment>("new_segment", (event) => {
-          setSegments((prev) => {
-            const exists = prev.some(
-              (s) =>
-                s.start === event.payload.start && s.text === event.payload.text
-            );
-            if (exists) {
-              return prev;
-            }
-            const newSegments = [...prev, event.payload];
-            segmentsRef.current = newSegments;
+          const newSegment = event.payload;
+          const currentSegments = useTranscriptionStore.getState().segments;
 
-            setTranscriptionState({
-              file: selectedAudio as string,
-              model: selectedModel as string,
-              status: "transcribing",
-              progress: progressRef.current,
-              segments: newSegments,
-              error: null,
-            });
+          const exists = currentSegments.some(
+            (s) => s.start === newSegment.start && s.text === newSegment.text
+          );
 
-            return newSegments;
-          });
+          if (!exists) {
+            addSegment(newSegment);
+            segmentsRef.current = [...currentSegments, newSegment];
+          }
         })
       );
 
       unlisteners.push(
         await listen("transcribe_completed", async () => {
-          setStatus("done");
-          setProgress(100);
+          const currentSegments = useTranscriptionStore.getState().segments;
 
-          setTimeout(() => {
-            setSegments((currentSegments) => {
-              setTranscriptionState({
-                file: selectedAudio as string,
-                model: selectedModel as string,
-                status: "done",
-                progress: 100,
-                segments: currentSegments,
-                error: null,
-              });
+          setTranscriptionState({
+            status: "done",
+            progress: 100,
+          });
 
-              toast.success(t("transcriptionCompleted"));
+          toast.success(t("transcriptionCompleted"));
 
-              const currentUserId = useAuthStore.getState().userId;
+          const currentUserId = useAuthStore.getState().userId;
+          const currentAudio = useAudioStore.getState().selectedAudio;
+          const currentModel = useModelStore.getState().selectedModel;
+          const currentLanguage = useLanguageStore.getState().language;
 
-              if (currentUserId) {
-                (async () => {
-                  let recordingId = recordingIdRef.current;
+          if (currentUserId && currentAudio) {
+            try {
+              let recordingId = recordingIdRef.current;
 
-                  if (!recordingId && fileHashRef.current) {
-                    const duration = await getAudioDuration(
-                      convertFileSrc(selectedAudio as string)
-                    );
-                    const metadata = await stat(selectedAudio as string);
-                    recordingId = uuidv4();
+              if (!recordingId && fileHashRef.current) {
+                const duration = await getAudioDuration(
+                  convertFileSrc(currentAudio as string)
+                );
+                const metadata = await stat(currentAudio as string);
+                recordingId = uuidv4();
 
-                    await addRecording({
-                      id: recordingId,
-                      userId: currentUserId,
-                      title:
-                        (selectedAudio as string).split(/[\\/]/).pop() ||
-                        "Untitled",
-                      description: null,
-                      filePath: selectedAudio as string,
-                      fileHash: fileHashRef.current,
-                      duration: duration,
-                      fileSize: metadata.size,
-                      status: "completed",
-                      isFavorite: false,
-                      tags: null,
-                      isSynced: false,
-                      createdAt: new Date(),
-                      updatedAt: new Date(),
-                      deletedAt: null,
-                    });
-                  }
-
-                  if (recordingId) {
-                    const transcriptId = uuidv4();
-                    await addTranscript({
-                      id: transcriptId,
-                      recordingId: recordingId,
-                      userId: currentUserId,
-                      language: language,
-                      model: selectedModel as string,
-                      segments: currentSegments,
-                      createdAt: new Date(),
-                    });
-                  }
-                })();
+                await addRecording({
+                  id: recordingId,
+                  userId: currentUserId,
+                  title:
+                    (currentAudio as string).split(/[\\/]/).pop() || "Untitled",
+                  description: null,
+                  filePath: currentAudio as string,
+                  fileHash: fileHashRef.current,
+                  duration: duration,
+                  fileSize: metadata.size,
+                  status: "completed",
+                  isFavorite: false,
+                  tags: null,
+                  isSynced: false,
+                  createdAt: new Date(),
+                  updatedAt: new Date(),
+                  deletedAt: null,
+                });
               }
 
-              return currentSegments;
-            });
-          }, 0);
+              if (recordingId) {
+                const transcriptId = uuidv4();
+                await addTranscript({
+                  id: transcriptId,
+                  recordingId: recordingId,
+                  userId: currentUserId,
+                  language: currentLanguage,
+                  model: currentModel as string,
+                  segments: currentSegments,
+                  createdAt: new Date(),
+                });
+              }
+            } catch (error) {
+              console.error("Failed to save transcription:", error);
+            }
+          }
         })
       );
 
       unlisteners.push(
         await listen<string>("transcribe_error", (event) => {
           const errorMessage = event.payload;
-          setError(errorMessage);
-          setStatus("error");
 
           setTranscriptionState({
-            file: selectedAudio as string,
-            model: selectedModel as string,
             status: "error",
             progress: 0,
             segments: [],
@@ -200,13 +167,10 @@ export function useTranscriptionProcess({
 
       unlisteners.push(
         await listen("transcribe_cancelled", async () => {
-          setStatus("cancelled");
           const currentSegments = segmentsRef.current;
           const currentProgress = progressRef.current;
 
           setTranscriptionState({
-            file: selectedAudio as string,
-            model: selectedModel as string,
             status: "cancelled",
             progress: currentProgress,
             segments: currentSegments,
@@ -219,26 +183,29 @@ export function useTranscriptionProcess({
 
           if (currentSegments.length > 0) {
             const currentUserId = useAuthStore.getState().userId;
+            const currentAudio = useAudioStore.getState().selectedAudio;
+            const currentModel = useModelStore.getState().selectedModel;
+            const currentLanguage = useLanguageStore.getState().language;
 
-            if (currentUserId) {
+            if (currentUserId && currentAudio) {
               try {
                 let recordingId = recordingIdRef.current;
 
                 if (!recordingId && fileHashRef.current) {
                   const duration = await getAudioDuration(
-                    convertFileSrc(selectedAudio as string)
+                    convertFileSrc(currentAudio as string)
                   );
-                  const metadata = await stat(selectedAudio as string);
+                  const metadata = await stat(currentAudio as string);
                   recordingId = uuidv4();
 
                   await addRecording({
                     id: recordingId,
                     userId: currentUserId,
                     title:
-                      (selectedAudio as string).split(/[\\/]/).pop() ||
+                      (currentAudio as string).split(/[\\/]/).pop() ||
                       "Untitled",
                     description: null,
-                    filePath: selectedAudio as string,
+                    filePath: currentAudio as string,
                     fileHash: fileHashRef.current,
                     duration: duration,
                     fileSize: metadata.size,
@@ -258,8 +225,8 @@ export function useTranscriptionProcess({
                     id: transcriptId,
                     recordingId: recordingId,
                     userId: currentUserId,
-                    language: language,
-                    model: selectedModel as string,
+                    language: currentLanguage,
+                    model: currentModel as string,
                     segments: currentSegments,
                     createdAt: new Date(),
                   });
@@ -281,11 +248,28 @@ export function useTranscriptionProcess({
         return;
       }
 
+      const currentStatus = useTranscriptionStore.getState().status;
+      if (currentStatus === "done") {
+        console.log("Transcription already completed, skipping new start");
+        return;
+      }
+
+      hasStartedRef.current = true;
+
+      const currentAudio = useAudioStore.getState().selectedAudio;
+      const currentModel = useModelStore.getState().selectedModel;
+      const currentRecordingId = useTranscriptionStore.getState().recordingId;
+      const currentLanguage = useLanguageStore.getState().language;
+      const currentUseGPU = usePerformanceStore.getState().useGPU;
+      const currentThreadCount = usePerformanceStore.getState().threadCount;
+      const currentAdvanced = useAdvancedStore.getState();
+      const currentTranslate = useLanguageStore.getState().translateToEnglish;
+
       try {
         // If we have a recordingId from store (e.g., navigating from RecordingsPage),
         // load directly from DB without file check or hash calculation
-        if (storeRecordingId) {
-          const existingRecording = await getRecordingById(storeRecordingId);
+        if (currentRecordingId) {
+          const existingRecording = await getRecordingById(currentRecordingId);
 
           if (existingRecording) {
             recordingIdRef.current = existingRecording.id;
@@ -299,9 +283,6 @@ export function useTranscriptionProcess({
                 ? (transcript.segments as Segment[])
                 : [];
 
-              setStatus("done");
-              setProgress(100);
-              setSegments(segments);
               setSelectedAudio(existingRecording.filePath);
               setTranscriptionState({
                 file: existingRecording.filePath,
@@ -318,13 +299,14 @@ export function useTranscriptionProcess({
                   existingRecording.id
                 );
 
-                if (summary) {
+                if (summary && summary.content) {
                   const actionItems = await getActionItemsBySummaryId(
                     summary.id
                   );
                   setSummaryResult({
                     summary: summary.content as string,
                     action_items: actionItems.map((item) => ({
+                      id: item.id,
                       task: item.task,
                       assignee: item.assignee ?? "Unassigned",
                       completed: item.isCompleted ?? false,
@@ -343,14 +325,12 @@ export function useTranscriptionProcess({
           }
         }
 
-        const fileExists = await exists(selectedAudio as string);
+        const fileExists = await exists(currentAudio as string);
         if (!fileExists) {
-          const errorMessage = `File not found: ${selectedAudio}`;
-          setError(errorMessage);
-          setStatus("error");
+          const errorMessage = `File not found: ${currentAudio}`;
           setTranscriptionState({
-            file: selectedAudio as string,
-            model: selectedModel as string,
+            file: currentAudio as string,
+            model: currentModel as string,
             status: "error",
             progress: 0,
             segments: [],
@@ -360,7 +340,7 @@ export function useTranscriptionProcess({
         }
 
         const hash = await invoke<string>("calculate_file_hash", {
-          path: selectedAudio,
+          path: currentAudio,
         });
         fileHashRef.current = hash;
 
@@ -370,8 +350,8 @@ export function useTranscriptionProcess({
           recordingIdRef.current = existingRecording.id;
           const transcript = await getTranscriptByRecordingId(
             existingRecording.id,
-            selectedModel as string,
-            language
+            currentModel as string,
+            currentLanguage
           );
 
           if (transcript) {
@@ -379,9 +359,6 @@ export function useTranscriptionProcess({
               ? (transcript.segments as Segment[])
               : [];
 
-            setStatus("done");
-            setProgress(100);
-            setSegments(segments);
             setTranscriptionState({
               file: existingRecording.filePath,
               model: transcript.model as string,
@@ -396,11 +373,12 @@ export function useTranscriptionProcess({
                 existingRecording.id
               );
 
-              if (summary) {
+              if (summary && summary.content) {
                 const actionItems = await getActionItemsBySummaryId(summary.id);
                 setSummaryResult({
                   summary: summary.content as string,
                   action_items: actionItems.map((item) => ({
+                    id: item.id,
                     task: item.task,
                     assignee: item.assignee ?? "Unassigned",
                     completed: item.isCompleted ?? false,
@@ -423,11 +401,9 @@ export function useTranscriptionProcess({
           error instanceof Error
             ? error.message
             : "Failed to access audio file";
-        setError(errorMessage);
-        setStatus("error");
         setTranscriptionState({
-          file: selectedAudio as string,
-          model: selectedModel as string,
+          file: currentAudio as string,
+          model: currentModel as string,
           status: "error",
           progress: 0,
           segments: [],
@@ -437,10 +413,9 @@ export function useTranscriptionProcess({
       }
 
       try {
-        setStatus("processingAudio");
         setTranscriptionState({
-          file: selectedAudio as string,
-          model: selectedModel as string,
+          file: currentAudio as string,
+          model: currentModel as string,
           status: "processingAudio",
           progress: 0,
           segments: [],
@@ -448,68 +423,50 @@ export function useTranscriptionProcess({
         });
 
         await invoke("process_audio", {
-          audioPath: selectedAudio,
+          audioPath: currentAudio,
         });
 
         setStatus("loadingModel");
-        setTranscriptionState({
-          file: selectedAudio as string,
-          model: selectedModel as string,
-          status: "loadingModel",
-          progress: 0,
-          segments: [],
-          error: null,
-        });
 
         await invoke("load_model", {
-          modelPath: selectedModel,
-          useGpu: useGPU,
-          gpuDevice: advancedSettings.gpuDevice,
+          modelPath: currentModel,
+          useGpu: currentUseGPU,
+          gpuDevice: currentAdvanced.gpuDevice,
         });
 
         setStatus("transcribing");
-        setTranscriptionState({
-          file: selectedAudio as string,
-          model: selectedModel as string,
-          status: "transcribing",
-          progress: 0,
-          segments: [],
-          error: null,
-        });
 
         await invoke("transcribe", {
           options: {
-            language: language,
-            translate: translateToEnglish,
-            threadCount: threadCount,
-            strategy: advancedSettings.strategy,
-            bestOf: advancedSettings.bestOf,
-            beamSize: advancedSettings.beamSize,
-            temperature: advancedSettings.temperature,
-            initialPrompt: advancedSettings.initialPrompt,
-            patience: advancedSettings.patience,
-            splitOnWord: advancedSettings.splitOnWord,
-            suppressBlank: advancedSettings.suppressBlank,
-            suppressNonSpeechTokens: advancedSettings.suppressNonSpeechTokens,
-            tokenTimestamps: advancedSettings.tokenTimestamps,
-            maxLength: advancedSettings.maxLength,
+            language: currentLanguage,
+            translate: currentTranslate,
+            threadCount: currentThreadCount,
+            strategy: currentAdvanced.strategy,
+            bestOf: currentAdvanced.bestOf,
+            beamSize: currentAdvanced.beamSize,
+            temperature: currentAdvanced.temperature,
+            initialPrompt: currentAdvanced.initialPrompt,
+            patience: currentAdvanced.patience,
+            splitOnWord: currentAdvanced.splitOnWord,
+            suppressBlank: currentAdvanced.suppressBlank,
+            suppressNonSpeechTokens: currentAdvanced.suppressNonSpeechTokens,
+            tokenTimestamps: currentAdvanced.tokenTimestamps,
+            maxLength: currentAdvanced.maxLength,
           },
         });
       } catch (err) {
         const errorMessage =
           typeof err === "string" ? err : JSON.stringify(err);
-        setError(errorMessage);
-        setStatus("error");
-        toast.error(t("transcriptionFailed"), {
-          description: errorMessage,
-        });
         setTranscriptionState({
-          file: selectedAudio as string,
-          model: selectedModel as string,
+          file: currentAudio as string,
+          model: currentModel as string,
           status: "error",
           progress: 0,
           segments: [],
           error: errorMessage,
+        });
+        toast.error(t("transcriptionFailed"), {
+          description: errorMessage,
         });
       }
     };
@@ -521,4 +478,10 @@ export function useTranscriptionProcess({
       unlisteners.forEach((unlisten) => unlisten());
     };
   }, []);
+
+  const resetAndRestart = () => {
+    hasStartedRef.current = false;
+  };
+
+  return { resetAndRestart };
 }

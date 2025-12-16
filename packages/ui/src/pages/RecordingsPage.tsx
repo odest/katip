@@ -243,7 +243,7 @@ export function RecordingsPage() {
                 {t("startTranscription")}
               </>
             ),
-            onClick: () => router.push("/"),
+            onClick: () => router.push("/home"),
           }}
           secondaryAction={{
             label: (

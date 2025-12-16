@@ -1,7 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
-import { ComponentType } from "react";
+import { useCallback, ComponentType } from "react";
 import { ChevronRight, type LucideIcon } from "lucide-react";
 import {
   Collapsible,

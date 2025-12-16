@@ -105,7 +105,9 @@
     "copiedToClipboard": "Copiado para o clipboard",
     "failedToCopyToClipboard": "Falha ao copiar para o clipboard",
     "exportedSuccessfully": "Exportado com sucesso",
-    "failedToExport": "Falha ao exportar a transcrição"
+    "failedToExport": "Falha ao exportar a transcrição",
+    "fileNotFound": "Arquivo não encontrado",
+    "fileMovedOrDeleted": "O arquivo pode ter sido movido ou excluído."
   },
   "TranscriptionToolbar": {
     "cancel": "Cancelar",
@@ -139,12 +141,18 @@
   "SummaryView": {
     "message": "Gerando resumo...",
     "title": "Resumo",
-    "noSummaryAvailable": "Nenhum resumo disponível"
+    "noSummaryAvailable": "Nenhum resumo disponível",
+    "copy": "Copiar",
+    "copiedToClipboard": "Resumo copiado para a área de transferência",
+    "failedToCopy": "Falha ao copiar o resumo"
   },
   "ActionsView": {
     "message": "Gerando itens de ações...",
     "title": "Ações",
-    "noActionsAvailable": "Nenhum item de ação disponível"
+    "noActionsAvailable": "Nenhum item de ação disponível",
+    "copy": "Copiar",
+    "copiedToClipboard": "Itens de ação copiados para a área de transferência",
+    "failedToCopy": "Falha ao copiar os itens de ação"
   },
   "SettingsPage": {
     "general": "Geral",
@@ -420,19 +428,9 @@
   "ModelSelectCard": {
     "title": "Seleção de modelo Whisper",
     "description": "Selecione um modelo Whisper para usar na transcrição",
-    "modelPath": "Caminho do modelo",
-    "selectModelPath": "Selecionar caminho do modelo",
     "selectModel": "Selecionar modelo",
-    "selectModelPlaceholder": "Escolha um arquivo de modelo .bin",
-    "noModelsFound": "Nenhum modelo .bin encontrado no caminho selecionado",
     "selectedModelFile": "Arquivo de Modelo Selecionado",
-    "pathRequired": "Por favor, selecione primeiro o caminho do modelo",
-    "dragAndDrop": "Arraste e solte o arquivo de modelo aqui",
-    "orClickToBrowse": "Ou clique para navegar",
-    "browseFiles": "Procurar arquivos",
     "modelSelected": "Modelo selecionado com sucesso",
-    "fileUploaded": "Arquivo carregado com sucesso",
-    "fileRejected": "Arquivo rejeitado",
     "tinyDescription": "Mais rápido • 99 idiomas",
     "baseDescription": "Equilibrado • 99 idiomas",
     "smallDescription": "Boa precisão • 99 idiomas",
@@ -457,7 +455,10 @@
     "selectedModel": "Modelo Selecionado (CDN)",
     "useQuantizedModels": "Usar Modelos Quantizados",
     "useQuantizedModelsDescription": "Modelos quantizados são menores e mais rápidos com perda mínima de precisão. Recomendado para a maioria dos usuários.",
-    "quantized": "Quantizado"
+    "quantized": "Quantizado",
+    "selectModelFile": "Selecionar arquivo de modelo (.bin)",
+    "noModelHint": "Não tem um modelo? Baixe de",
+    "fileSelectError": "Falha ao selecionar arquivo de modelo"
   },
   "LanguageOptionsCard": {
     "title": "Opções de Idioma",

@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { save } from "@tauri-apps/plugin-dialog";
-import { writeTextFile } from "@tauri-apps/plugin-fs";
+import { writeTextFile, exists } from "@tauri-apps/plugin-fs";
 import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 import { toast } from "sonner";
 import { useTranslations } from "@workspace/i18n";
@@ -10,11 +9,7 @@ import { useTranscripts } from "@workspace/ui/hooks/use-transcripts";
 import { useAudioStore } from "@workspace/ui/stores/audio-store";
 import { useModelStore } from "@workspace/ui/stores/model-store";
 import { useLanguageStore } from "@workspace/ui/stores/language-store";
-import {
-  useTranscriptionStore,
-  TranscriptionStatus,
-  Segment,
-} from "@workspace/ui/stores/transcription-store";
+import { useTranscriptionStore } from "@workspace/ui/stores/transcription-store";
 import { useSummaryStore } from "@workspace/ui/stores/summary-store";
 import { Spinner } from "@workspace/ui/components/spinner";
 import { Progress } from "@workspace/ui/components/progress";
@@ -37,87 +32,88 @@ export const NativeTranscriptionView = ({
   const router = useRouter();
   const t = useTranslations("TranscriptionView");
 
-  const { getRecordingByHash } = useRecordings();
-  const { deleteTranscriptByRecordingId } = useTranscripts();
+  const { getRecordingByHash, deleteRecording } = useRecordings();
+  const { getFirstTranscriptByRecordingId, updateTranscriptSegments } =
+    useTranscripts();
 
   const { selectedAudio, setSelectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
+
   const {
-    status: storeStatus,
-    progress: storeProgress,
-    segments: storeSegments,
-    error: storeError,
-    file: storeFile,
-    model: storeModel,
-    recordingId: storeRecordingId,
-    setTranscriptionState,
+    status,
+    progress,
+    segments,
+    error,
+    recordingId,
+    setSegments,
     clearTranscriptionState,
   } = useTranscriptionStore();
+
   const { resetSummary } = useSummaryStore();
 
-  const isActiveTranscription =
-    storeFile === selectedAudio &&
-    storeModel === selectedModel &&
-    (storeStatus === "processingAudio" ||
-      storeStatus === "loadingModel" ||
-      storeStatus === "transcribing");
+  const { resetAndRestart } = useTranscriptionProcess();
 
-  const [status, setStatus] = useState<TranscriptionStatus>(
-    isActiveTranscription ? storeStatus : "processingAudio"
-  );
-  const [progress, setProgress] = useState(
-    isActiveTranscription ? storeProgress : 0
-  );
-  const [segments, setSegments] = useState<Segment[]>(
-    isActiveTranscription ? storeSegments : []
-  );
-  const [error, setError] = useState<string | null>(
-    isActiveTranscription ? storeError : null
-  );
+  const handleSegmentChange = async (index: number, newText: string) => {
+    const newSegments = [...segments];
+    newSegments[index] = { ...newSegments[index]!, text: newText };
+    setSegments(newSegments);
 
-  const handleSegmentChange = (index: number, newText: string) => {
-    setSegments((prevSegments) => {
-      const newSegments = [...prevSegments];
-      newSegments[index] = { ...newSegments[index]!, text: newText };
-      return newSegments;
-    });
+    if (recordingId) {
+      const transcript = await getFirstTranscriptByRecordingId(recordingId);
+      if (transcript) {
+        await updateTranscriptSegments(transcript.id, newSegments);
+      }
+    }
   };
 
   const handleNewTranscription = () => {
     clearTranscriptionState();
     resetSummary();
     setSelectedAudio(null);
-    router.push("/");
+    router.push("/home");
   };
 
   const handleRetry = async () => {
+    const fileExists =
+      selectedAudio &&
+      typeof selectedAudio === "string" &&
+      (await exists(selectedAudio));
+    if (!fileExists) {
+      toast.warning(t("fileNotFound"), {
+        description: t("fileMovedOrDeleted"),
+      });
+      return;
+    }
+
     try {
-      if (selectedAudio && selectedModel) {
-        let hash = "";
-        if (typeof selectedAudio === "string") {
-          hash = await invoke<string>("calculate_file_hash", {
-            path: selectedAudio,
-          });
-        }
+      await invoke("cancel_transcription");
+    } catch (error) {
+      // Ignore error if no transcription is running
+    }
+
+    try {
+      if (recordingId) {
+        await deleteRecording(recordingId);
+      } else if (selectedAudio && typeof selectedAudio === "string") {
+        const hash = await invoke<string>("calculate_file_hash", {
+          path: selectedAudio,
+        });
 
         if (hash) {
           const recording = await getRecordingByHash(hash);
           if (recording) {
-            const { language } = useLanguageStore.getState();
-            await deleteTranscriptByRecordingId(
-              recording.id,
-              selectedModel as string,
-              language
-            );
+            await deleteRecording(recording.id);
           }
         }
       }
     } catch (error) {
-      console.error("Failed to delete transcript on retry:", error);
+      console.error("Failed to delete recording on retry:", error);
     }
 
-    clearTranscriptionState();
-    resetSummary();
+    // Clear localStorage directly to avoid async persist issues
+    localStorage.removeItem("transcription-storage");
+    localStorage.removeItem("summary-storage");
+    resetAndRestart();
     window.location.reload();
   };
 
@@ -158,17 +154,6 @@ export const NativeTranscriptionView = ({
     }
   };
 
-  // start transcription process
-  useTranscriptionProcess({
-    isActiveTranscription,
-    storeRecordingId,
-    setStatus,
-    setProgress,
-    setSegments,
-    setError,
-    setTranscriptionState,
-  });
-
   if (status === "error") {
     return (
       <div className="flex flex-1 justify-center items-center p-6">
@@ -193,14 +178,14 @@ export const NativeTranscriptionView = ({
                 {t("returnToHome")}
               </>
             ),
-            onClick: () => router.push("/"),
+            onClick: () => router.push("/home"),
           }}
         />
       </div>
     );
   }
 
-  if (status === "processingAudio") {
+  if (status === "queued" || status === "processingAudio") {
     return (
       <div className="flex flex-1 flex-col justify-center items-center p-6 gap-4">
         <Spinner className="size-8" />

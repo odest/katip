@@ -16,8 +16,13 @@ fn main() {
     );
 
     if migrations_dir.exists() {
-        for entry in fs::read_dir(migrations_dir).unwrap() {
-            let entry = entry.unwrap();
+        let mut entries: Vec<_> = fs::read_dir(migrations_dir)
+            .unwrap()
+            .filter_map(|e| e.ok())
+            .collect();
+        entries.sort_by_key(|e| e.file_name());
+
+        for entry in entries {
             let path = entry.path();
 
             if path.extension().and_then(|e| e.to_str()) != Some("sql") {

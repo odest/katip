@@ -105,7 +105,9 @@
     "copiedToClipboard": "Copiado en el portapapeles",
     "failedToCopyToClipboard": "Error al copiar en el portapapeles",
     "exportedSuccessfully": "Exportado exitosamente",
-    "failedToExport": "Error al exportar la transcripción"
+    "failedToExport": "Error al exportar la transcripción",
+    "fileNotFound": "Archivo no encontrado",
+    "fileMovedOrDeleted": "El archivo puede haber sido movido o eliminado."
   },
   "TranscriptionToolbar": {
     "cancel": "Cancelar",
@@ -139,12 +141,18 @@
   "SummaryView": {
     "message": "Generando resumen...",
     "title": "Resumen",
-    "noSummaryAvailable": "No hay resumen disponible"
+    "noSummaryAvailable": "No hay resumen disponible",
+    "copy": "Copiar",
+    "copiedToClipboard": "Resumen copiado al portapapeles",
+    "failedToCopy": "Error al copiar el resumen"
   },
   "ActionsView": {
     "message": "Generando puntos de acción...",
     "title": "Acciones",
-    "noActionsAvailable": "No hay elementos de acción disponibles"
+    "noActionsAvailable": "No hay elementos de acción disponibles",
+    "copy": "Copiar",
+    "copiedToClipboard": "Elementos de acción copiados al portapapeles",
+    "failedToCopy": "Error al copiar los elementos de acción"
   },
   "SettingsPage": {
     "general": "General",
@@ -420,19 +428,9 @@
   "ModelSelectCard": {
     "title": "Selección de modelo Whisper",
     "description": "Selecciona un modelo Whisper para usar en la transcripción",
-    "modelPath": "Ruta del modelo",
-    "selectModelPath": "Seleccionar ruta del modelo",
     "selectModel": "Seleccionar modelo",
-    "selectModelPlaceholder": "Elige un archivo de modelo .bin",
-    "noModelsFound": "No se encontraron modelos .bin en la ruta seleccionada",
     "selectedModelFile": "Archivo de Modelo Seleccionado",
-    "pathRequired": "Por favor, selecciona primero la ruta del modelo",
-    "dragAndDrop": "Arrastra y suelta el archivo de modelo aquí",
-    "orClickToBrowse": "O haz clic para explorar",
-    "browseFiles": "Explorar archivos",
     "modelSelected": "Modelo seleccionado con éxito",
-    "fileUploaded": "Archivo subido exitosamente",
-    "fileRejected": "Archivo rechazado",
     "tinyDescription": "Más rápido • 99 idiomas",
     "baseDescription": "Equilibrado • 99 idiomas",
     "smallDescription": "Buena precisión • 99 idiomas",
@@ -457,7 +455,10 @@
     "selectedModel": "Modelo Seleccionado (CDN)",
     "useQuantizedModels": "Usar Modelos Cuantizados",
     "useQuantizedModelsDescription": "Los modelos cuantizados son más pequeños y rápidos con pérdida mínima de precisión. Recomendado para la mayoría de los usuarios.",
-    "quantized": "Cuantizado"
+    "quantized": "Cuantizado",
+    "selectModelFile": "Seleccionar archivo de modelo (.bin)",
+    "noModelHint": "¿No tienes un modelo? Descárgalo de",
+    "fileSelectError": "Error al seleccionar el archivo de modelo"
   },
   "LanguageOptionsCard": {
     "title": "Opciones de Idioma",

@@ -56,7 +56,7 @@ export function TranscribePage() {
   const { language } = useLanguageStore();
   const { userId } = useAuthStore.getState();
   const { addActionItems } = useActionItems();
-  const { getRecordingByHash } = useRecordings();
+  const { getRecordingByHash, getRecordingById } = useRecordings();
   const { getTranscriptByRecordingId } = useTranscripts();
   const { addSummary, deleteSummaryByRecordingId } = useSummaries();
   const { isMobile } = useSidebar();
@@ -66,9 +66,8 @@ export function TranscribePage() {
   const selectionsMissing = recordingId
     ? false
     : !selectedAudio || !selectedModel;
-  const TranscriptionView = isTauriApp
-    ? NativeTranscriptionView
-    : WebTranscriptionView;
+  const TranscriptionView =
+    isTauriApp && !isAndroid ? NativeTranscriptionView : WebTranscriptionView;
 
   useEffect(() => {
     if (showSideViews) {
@@ -112,53 +111,60 @@ export function TranscribePage() {
       setSummaryResult(result);
 
       try {
-        let hash = "";
-        if (isTauriApp && typeof selectedAudio === "string") {
-          hash = await invoke<string>("calculate_file_hash", {
-            path: selectedAudio,
-          });
-        } else if (selectedAudio instanceof File) {
-          hash = await calculateFileHash(selectedAudio);
+        let recording = null;
+
+        if (recordingId) {
+          recording = await getRecordingById(recordingId);
+        } else {
+          let hash = "";
+          if (isTauriApp && typeof selectedAudio === "string") {
+            hash = await invoke<string>("calculate_file_hash", {
+              path: selectedAudio,
+            });
+          } else if (selectedAudio instanceof File) {
+            hash = await calculateFileHash(selectedAudio);
+          }
+
+          if (hash) {
+            recording = await getRecordingByHash(hash);
+          }
         }
 
-        if (hash && userId) {
-          const recording = await getRecordingByHash(hash);
-          if (recording) {
-            const transcript = await getTranscriptByRecordingId(
-              recording.id,
-              selectedModel as string,
-              language
+        if (recording && userId) {
+          const transcript = await getTranscriptByRecordingId(
+            recording.id,
+            selectedModel as string,
+            language
+          );
+
+          await deleteSummaryByRecordingId(recording.id);
+
+          const summaryId = uuidv4();
+          await addSummary({
+            id: summaryId,
+            recordingId: recording.id,
+            transcriptId: transcript?.id,
+            userId,
+            content: result.summary,
+            provider: provider,
+            model: model,
+            createdAt: new Date(),
+          });
+
+          if (result.action_items && result.action_items.length > 0) {
+            await addActionItems(
+              result.action_items.map((item) => ({
+                id: uuidv4(),
+                summaryId,
+                recordingId: recording.id,
+                userId,
+                task: item.task,
+                assignee: item.assignee,
+                isCompleted: item.completed,
+                priority: item.priority,
+                createdAt: new Date(),
+              }))
             );
-
-            await deleteSummaryByRecordingId(recording.id);
-
-            const summaryId = uuidv4();
-            await addSummary({
-              id: summaryId,
-              recordingId: recording.id,
-              transcriptId: transcript?.id,
-              userId,
-              content: result.summary,
-              provider: provider,
-              model: model,
-              createdAt: new Date(),
-            });
-
-            if (result.action_items && result.action_items.length > 0) {
-              await addActionItems(
-                result.action_items.map((item) => ({
-                  id: uuidv4(),
-                  summaryId,
-                  recordingId: recording.id,
-                  userId,
-                  task: item.task,
-                  assignee: item.assignee,
-                  isCompleted: item.completed,
-                  priority: item.priority,
-                  createdAt: new Date(),
-                }))
-              );
-            }
           }
         }
       } catch (dbError) {
@@ -201,29 +207,7 @@ export function TranscribePage() {
                 {t("returnToHome")}
               </>
             ),
-            onClick: () => router.push("/"),
-          }}
-        />
-      </div>
-    );
-  }
-
-  // Show message if running on Android
-  if (isAndroid) {
-    return (
-      <div className="flex flex-1 justify-center items-center p-6">
-        <EmptyState
-          title={t("androidSupportComingSoonTitle")}
-          description={t("androidSupportComingSoonDesc")}
-          icons={[Laptop, Smartphone, Computer]}
-          action={{
-            label: (
-              <>
-                <Home />
-                {t("returnToHome")}
-              </>
-            ),
-            onClick: () => router.push("/"),
+            onClick: () => router.push("/home"),
           }}
         />
       </div>

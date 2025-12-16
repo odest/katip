@@ -105,7 +105,9 @@
     "copiedToClipboard": "Panoya kopyalandı",
     "failedToCopyToClipboard": "Panoya kopyalama başarısız oldu",
     "exportedSuccessfully": "Başarıyla dışa aktarıldı",
-    "failedToExport": "Transkripsiyon dışa aktarılamadı"
+    "failedToExport": "Transkripsiyon dışa aktarılamadı",
+    "fileNotFound": "Dosya bulunamadı",
+    "fileMovedOrDeleted": "Dosya taşınmış veya silinmiş olabilir."
   },
   "TranscriptionToolbar": {
     "cancel": "İptal Et",
@@ -139,12 +141,18 @@
   "SummaryView": {
     "message": "Özet oluşturuluyor...",
     "title": "Özet",
-    "noSummaryAvailable": "Özet mevcut değil"
+    "noSummaryAvailable": "Özet mevcut değil",
+    "copy": "Kopyala",
+    "copiedToClipboard": "Özet panoya kopyalandı",
+    "failedToCopy": "Özet kopyalanamadı"
   },
   "ActionsView": {
     "message": "Eylem öğeleri oluşturuluyor...",
     "title": "Eylemler",
-    "noActionsAvailable": "Eylem öğesi mevcut değil"
+    "noActionsAvailable": "Eylem öğesi mevcut değil",
+    "copy": "Kopyala",
+    "copiedToClipboard": "Eylem öğeleri panoya kopyalandı",
+    "failedToCopy": "Eylem öğeleri kopyalanamadı"
   },
   "SettingsPage": {
     "general": "Genel",
@@ -228,7 +236,7 @@
   "GuestCard": {
     "title": "Hesap",
     "description": "Hesap ayarlarınıza erişmek için giriş yapın",
-    "welcomeTitle": "Hoş Geldiniz, Misafir!",
+    "welcomeTitle": "Hoş Geldin, Misafir!",
     "welcomeMessage": "Deneyiminizi kişiselleştirmek ve ayarlarınızı cihazlar arasında senkronize etmek için giriş yapın veya hesap oluşturun.",
     "signIn": "Giriş Yap",
     "signUp": "Kayıt Ol"
@@ -420,19 +428,9 @@
   "ModelSelectCard": {
     "title": "Whisper Model Seçimi",
     "description": "Transkript için kullanılacak Whisper modelini seçin",
-    "modelPath": "Model Yolu",
-    "selectModelPath": "Model Yolu Seç",
     "selectModel": "Model Seç",
-    "selectModelPlaceholder": ".bin uzantılı bir model dosyası seçin",
-    "noModelsFound": "Seçilen yolda .bin modeli bulunamadı",
     "selectedModelFile": "Seçilen Model Dosyası",
-    "pathRequired": "Lütfen önce model yolunu seçin",
-    "dragAndDrop": "Model dosyasını buraya sürükleyip bırakın",
-    "orClickToBrowse": "Veya göz atmak için tıklayın",
-    "browseFiles": "Dosyalara göz at",
     "modelSelected": "Model başarıyla seçildi",
-    "fileUploaded": "Dosya başarıyla yüklendi",
-    "fileRejected": "Dosya reddedildi",
     "tinyDescription": "En hızlı • 99 dil",
     "baseDescription": "Dengeli • 99 dil",
     "smallDescription": "İyi doğruluk • 99 dil",
@@ -457,7 +455,10 @@
     "selectedModel": "Seçilen Model (CDN)",
     "useQuantizedModels": "Kuantize Modelleri Kullan",
     "useQuantizedModelsDescription": "Kuantize modeller minimum doğruluk kaybı ile daha küçük ve hızlıdır. Çoğu kullanıcı için önerilir.",
-    "quantized": "Kuantize"
+    "quantized": "Kuantize",
+    "selectModelFile": "Model Dosyası Seç (.bin)",
+    "noModelHint": "Model yok mu? Şuradan indir:",
+    "fileSelectError": "Model dosyası seçilemedi"
   },
   "LanguageOptionsCard": {
     "title": "Dil Seçenekleri",

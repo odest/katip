@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { isTauri, invoke } from "@tauri-apps/api/core";
+import { isTauri } from "@tauri-apps/api/core";
+import { platform } from "@tauri-apps/plugin-os";
 import { open } from "@tauri-apps/plugin-dialog";
-import { readDir } from "@tauri-apps/plugin-fs";
 import { Button } from "@workspace/ui/components/button";
 import {
   Card,
@@ -23,7 +23,7 @@ import {
 } from "@workspace/ui/components/select";
 import { useTranslations } from "@workspace/i18n";
 import { useModelStore } from "@workspace/ui/stores/model-store";
-import { FolderOpen, FileCode2, Zap } from "lucide-react";
+import { FileCode2, Zap } from "lucide-react";
 import { toast } from "sonner";
 import {
   getModelsByCategory,
@@ -32,99 +32,46 @@ import {
 } from "@workspace/ui/config/models";
 import { getCachedModels } from "@workspace/ui/lib/utils";
 
-interface ModelFile {
-  name: string;
-  path: string;
-}
-
 export function ModelSelectCard() {
   const t = useTranslations("ModelSelectCard");
   const {
     selectedModel,
-    modelPath,
     useQuantized,
     setSelectedModel,
-    setModelPath,
     setUseQuantized,
   } = useModelStore();
 
-  const [modelFiles, setModelFiles] = useState<ModelFile[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [isTauriApp, setIsTauriApp] = useState(false);
+  const [isAndroid, setIsAndroid] = useState(false);
   const [cachedModels, setCachedModels] = useState<Set<string>>(new Set());
 
-  const loadModelsFromPath = useCallback(
-    async (path: string) => {
-      setIsLoading(true);
-      try {
-        if (!path) {
-          throw new Error("No path provided");
-        }
-
-        // Add path to Tauri's file system scope
-        if (isTauriApp) {
-          try {
-            await invoke("add_fs_scope", { path });
-          } catch (scopeErr) {
-            console.warn("Failed to add path to scope:", scopeErr);
-            // Continue anyway as the path might already be in scope
-          }
-        }
-
-        const entries = await readDir(path);
-        const binFiles = entries
-          .filter((entry) => entry.isFile && entry.name.endsWith(".bin"))
-          .map((entry) => ({
-            name: entry.name,
-            path: `${path}/${entry.name}`,
-          }));
-
-        setModelFiles(binFiles);
-
-        if (binFiles.length === 0) {
-          toast.warning(t("noModelsFound"));
-        }
-      } catch (err) {
-        console.error("Error loading models:", err);
-        // Clear stored path if it's no longer accessible
-        if (err instanceof Error && err.message.includes("forbidden")) {
-          toast.error(
-            "Model path is no longer accessible. Please select a new path."
-          );
-          setModelPath("");
-          setSelectedModel(null);
-        } else {
-          toast.error("Failed to load models from path");
-        }
-        setModelFiles([]);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [t, setModelPath, setSelectedModel, isTauriApp]
-  );
-
   useEffect(() => {
-    setIsTauriApp(isTauri());
+    const checkPlatform = async () => {
+      const isTauriEnv = isTauri();
+      setIsTauriApp(isTauriEnv);
+      if (isTauriEnv) {
+        try {
+          const platformType = await platform();
+          setIsAndroid(platformType === "android");
+        } catch (err) {
+          console.error("Error detecting platform:", err);
+        }
+      }
+    };
+    checkPlatform();
   }, []);
 
   const checkCachedModels = useCallback(async () => {
-    if (isTauriApp) return;
+    if (isTauriApp && !isAndroid) return;
     const models = await getCachedModels();
     setCachedModels(models);
-  }, [isTauriApp]);
+  }, [isTauriApp, isAndroid]);
 
   useEffect(() => {
     checkCachedModels();
   }, [checkCachedModels]);
 
-  useEffect(() => {
-    if (isTauriApp && modelPath) {
-      loadModelsFromPath(modelPath);
-    }
-  }, [isTauriApp, modelPath, loadModelsFromPath]);
-
-  const handleSelectModelPath = async () => {
+  const handleSelectModelFile = async () => {
     if (!isTauriApp) {
       toast.error("This feature is only available in the desktop app");
       return;
@@ -132,28 +79,26 @@ export function ModelSelectCard() {
 
     try {
       const selected = await open({
-        directory: true,
         multiple: false,
+        directory: false,
+        filters: [
+          {
+            name: "Model Files",
+            extensions: ["bin"],
+          },
+        ],
       });
 
       if (typeof selected === "string") {
-        setModelPath(selected);
-        setSelectedModel("");
-        await loadModelsFromPath(selected);
+        const fileName = selected.split(/[\\/]/).pop() || selected;
+        setSelectedModel(selected);
+        toast.success(t("modelSelected"), {
+          description: fileName,
+        });
       }
     } catch (err) {
-      console.error("Error selecting model path:", err);
-      toast.error("Failed to select model path");
-    }
-  };
-
-  const handleModelSelect = (modelPath: string) => {
-    setSelectedModel(modelPath);
-    const selectedFile = modelFiles.find((m) => m.path === modelPath);
-    if (selectedFile) {
-      toast.success(t("modelSelected"), {
-        description: selectedFile.name,
-      });
+      console.error("Error selecting model file:", err);
+      toast.error(t("fileSelectError"));
     }
   };
 
@@ -164,74 +109,36 @@ export function ModelSelectCard() {
         <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Desktop: Model Path Selection */}
-        {isTauriApp && (
-          <div className="space-y-2">
-            <Label className="flex items-center gap-2">
-              <FolderOpen className="size-4" />
-              {t("modelPath")}
-            </Label>
-            <div className="flex gap-2">
-              <Button
-                onClick={handleSelectModelPath}
-                variant="outline"
-                className="flex-1 cursor-pointer"
+        {/* Desktop: Model File Selection (not for Android) */}
+        {isTauriApp && !isAndroid && (
+          <div className="space-y-4">
+            <Button
+              onClick={handleSelectModelFile}
+              variant="outline"
+              className="w-full cursor-pointer"
+            >
+              <FileCode2 className="size-4 mr-2" />
+              {typeof selectedModel === "string" && selectedModel
+                ? selectedModel.split(/[\\/]/).pop()
+                : t("selectModelFile")}
+            </Button>
+
+            <p className="text-xs text-muted-foreground">
+              {t("noModelHint")}{" "}
+              <a
+                href="https://huggingface.co/ggerganov/whisper.cpp/tree/main"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary underline hover:text-primary/80"
               >
-                {modelPath ? (
-                  <span className="truncate">
-                    {modelPath.split(/[\\/]/).pop()}
-                  </span>
-                ) : (
-                  t("selectModelPath")
-                )}
-              </Button>
-            </div>
+                Hugging Face
+              </a>
+            </p>
           </div>
         )}
 
-        {/* Desktop: Model File Dropdown */}
-        {isTauriApp && modelPath && (
-          <div className="space-y-2">
-            <Label className="flex items-center gap-2">
-              <FileCode2 className="size-4" />
-              {t("selectModel")}
-            </Label>
-            {isLoading ? (
-              <div className="flex items-center justify-center p-4">
-                <div className="animate-spin rounded-full border-4 border-primary border-t-transparent size-6" />
-              </div>
-            ) : modelFiles.length > 0 ? (
-              <Select
-                value={
-                  typeof selectedModel === "string" ? selectedModel : undefined
-                }
-                onValueChange={handleModelSelect}
-              >
-                <SelectTrigger className="w-full cursor-pointer">
-                  <SelectValue placeholder={t("selectModelPlaceholder")} />
-                </SelectTrigger>
-                <SelectContent>
-                  {modelFiles.map((model) => (
-                    <SelectItem
-                      key={model.name}
-                      value={model.path}
-                      className="cursor-pointer"
-                    >
-                      {model.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            ) : (
-              <p className="text-muted-foreground text-sm p-2 border rounded-md">
-                {t("noModelsFound")}
-              </p>
-            )}
-          </div>
-        )}
-
-        {/* Web: Model Selection (Transformers.js CDN) */}
-        {!isTauriApp && (
+        {/* Web/Android: Model Selection (Transformers.js CDN) */}
+        {(!isTauriApp || isAndroid) && (
           <div className="space-y-6">
             <div className="space-y-2">
               <Label className="flex items-center gap-2">
@@ -367,7 +274,7 @@ export function ModelSelectCard() {
           </div>
         )}
 
-        {isTauriApp && typeof selectedModel === "string" && selectedModel && (
+        {isTauriApp && !isAndroid && typeof selectedModel === "string" && selectedModel && (
           <div className="p-3 rounded-lg border bg-muted/50 space-y-1">
             <p className="text-xs font-medium text-muted-foreground">
               {t("selectedModelFile")}
@@ -378,7 +285,7 @@ export function ModelSelectCard() {
           </div>
         )}
 
-        {!isTauriApp && typeof selectedModel === "string" && selectedModel && (
+        {(!isTauriApp || isAndroid) && typeof selectedModel === "string" && selectedModel && (
           <div className="p-3 rounded-lg border bg-muted/50 space-y-1">
             <p className="text-xs font-medium text-muted-foreground">
               {t("selectedModel")}
@@ -400,8 +307,10 @@ export function ModelSelectCard() {
                 ? getModelById(selectedModel)?.quantizedSize +
                   " • " +
                   t("quantized")
-                : getModelById(selectedModel)?.size}{" "}
-              • {t(getModelById(selectedModel)?.description || "")}
+                : getModelById(selectedModel)?.size}
+              {getModelById(selectedModel)?.description && (
+                <> • {t(getModelById(selectedModel)!.description)}</>
+              )}
             </p>
           </div>
         )}

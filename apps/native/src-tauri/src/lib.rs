@@ -27,7 +27,6 @@ pub fn run() {
                 .build(),
         )
         .invoke_handler(tauri::generate_handler![
-            utils::add_fs_scope,
             utils::calculate_file_hash,
             transcription::process_audio,
             transcription::load_model,

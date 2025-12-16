@@ -141,12 +141,18 @@
   "SummaryView": {
     "message": "Generando resumen...",
     "title": "Resumen",
-    "noSummaryAvailable": "No hay resumen disponible"
+    "noSummaryAvailable": "No hay resumen disponible",
+    "copy": "Copiar",
+    "copiedToClipboard": "Resumen copiado al portapapeles",
+    "failedToCopy": "Error al copiar el resumen"
   },
   "ActionsView": {
     "message": "Generando puntos de acción...",
     "title": "Acciones",
-    "noActionsAvailable": "No hay elementos de acción disponibles"
+    "noActionsAvailable": "No hay elementos de acción disponibles",
+    "copy": "Copiar",
+    "copiedToClipboard": "Elementos de acción copiados al portapapeles",
+    "failedToCopy": "Error al copiar los elementos de acción"
   },
   "SettingsPage": {
     "general": "General",

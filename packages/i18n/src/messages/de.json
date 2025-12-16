@@ -141,12 +141,18 @@
   "SummaryView": {
     "message": "Zusammenfassung wird erstellt...",
     "title": "Zusammenfassung",
-    "noSummaryAvailable": "Keine Zusammenfassung verfügbar"
+    "noSummaryAvailable": "Keine Zusammenfassung verfügbar",
+    "copy": "Kopieren",
+    "copiedToClipboard": "Zusammenfassung in Zwischenablage kopiert",
+    "failedToCopy": "Kopieren der Zusammenfassung fehlgeschlagen"
   },
   "ActionsView": {
     "message": "Aktionspunkte werden erstellt...",
     "title": "Aktionen",
-    "noActionsAvailable": "Keine Aktionselemente verfügbar"
+    "noActionsAvailable": "Keine Aktionselemente verfügbar",
+    "copy": "Kopieren",
+    "copiedToClipboard": "Aktionselemente in Zwischenablage kopiert",
+    "failedToCopy": "Kopieren der Aktionselemente fehlgeschlagen"
   },
   "SettingsPage": {
     "general": "Allgemein",

@@ -141,12 +141,18 @@
   "SummaryView": {
     "message": "正在生成总结...",
     "title": "摘要",
-    "noSummaryAvailable": "无可用摘要"
+    "noSummaryAvailable": "无可用摘要",
+    "copy": "复制",
+    "copiedToClipboard": "摘要已复制到剪贴板",
+    "failedToCopy": "摘要复制失败"
   },
   "ActionsView": {
     "message": "正在生成操作项...",
     "title": "操作",
-    "noActionsAvailable": "无可用操作项"
+    "noActionsAvailable": "无可用操作项",
+    "copy": "复制",
+    "copiedToClipboard": "操作项已复制到剪贴板",
+    "failedToCopy": "操作项复制失败"
   },
   "SettingsPage": {
     "general": "常规",

@@ -141,12 +141,18 @@
   "SummaryView": {
     "message": "Génération du résumé...",
     "title": "Résumé",
-    "noSummaryAvailable": "Aucun résumé disponible"
+    "noSummaryAvailable": "Aucun résumé disponible",
+    "copy": "Copier",
+    "copiedToClipboard": "Résumé copié dans le presse-papiers",
+    "failedToCopy": "Échec de la copie du résumé"
   },
   "ActionsView": {
     "message": "Génération des éléments d'action...",
     "title": "Actions",
-    "noActionsAvailable": "Aucun élément d'action disponible"
+    "noActionsAvailable": "Aucun élément d'action disponible",
+    "copy": "Copier",
+    "copiedToClipboard": "Éléments d'action copiés dans le presse-papiers",
+    "failedToCopy": "Échec de la copie des éléments d'action"
   },
   "SettingsPage": {
     "general": "Général",

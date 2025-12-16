@@ -141,12 +141,18 @@
   "SummaryView": {
     "message": "要約を生成中...",
     "title": "要約",
-    "noSummaryAvailable": "要約はありません"
+    "noSummaryAvailable": "要約はありません",
+    "copy": "コピー",
+    "copiedToClipboard": "要約をクリップボードにコピーしました",
+    "failedToCopy": "要約のコピーに失敗しました"
   },
   "ActionsView": {
     "message": "アクション項目を生成中...",
     "title": "アクション",
-    "noActionsAvailable": "アクションアイテムはありません"
+    "noActionsAvailable": "アクションアイテムはありません",
+    "copy": "コピー",
+    "copiedToClipboard": "アクションアイテムをクリップボードにコピーしました",
+    "failedToCopy": "アクションアイテムのコピーに失敗しました"
   },
   "SettingsPage": {
     "general": "一般",

@@ -141,12 +141,18 @@
   "SummaryView": {
     "message": "Generating summary...",
     "title": "Summary",
-    "noSummaryAvailable": "No summary available"
+    "noSummaryAvailable": "No summary available",
+    "copy": "Copy",
+    "copiedToClipboard": "Summary copied to clipboard",
+    "failedToCopy": "Failed to copy summary"
   },
   "ActionsView": {
     "message": "Generating actions items...",
     "title": "Actions",
-    "noActionsAvailable": "No action items available"
+    "noActionsAvailable": "No action items available",
+    "copy": "Copy",
+    "copiedToClipboard": "Action items copied to clipboard",
+    "failedToCopy": "Failed to copy action items"
   },
   "SettingsPage": {
     "general": "General",

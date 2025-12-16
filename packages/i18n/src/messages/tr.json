@@ -141,12 +141,18 @@
   "SummaryView": {
     "message": "Özet oluşturuluyor...",
     "title": "Özet",
-    "noSummaryAvailable": "Özet mevcut değil"
+    "noSummaryAvailable": "Özet mevcut değil",
+    "copy": "Kopyala",
+    "copiedToClipboard": "Özet panoya kopyalandı",
+    "failedToCopy": "Özet kopyalanamadı"
   },
   "ActionsView": {
     "message": "Eylem öğeleri oluşturuluyor...",
     "title": "Eylemler",
-    "noActionsAvailable": "Eylem öğesi mevcut değil"
+    "noActionsAvailable": "Eylem öğesi mevcut değil",
+    "copy": "Kopyala",
+    "copiedToClipboard": "Eylem öğeleri panoya kopyalandı",
+    "failedToCopy": "Eylem öğeleri kopyalanamadı"
   },
   "SettingsPage": {
     "general": "Genel",

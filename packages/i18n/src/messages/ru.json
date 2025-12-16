@@ -141,12 +141,18 @@
   "SummaryView": {
     "message": "Генерация резюме...",
     "title": "Сводка",
-    "noSummaryAvailable": "Сводка недоступна"
+    "noSummaryAvailable": "Сводка недоступна",
+    "copy": "Копировать",
+    "copiedToClipboard": "Сводка скопирована в буфер обмена",
+    "failedToCopy": "Не удалось скопировать сводку"
   },
   "ActionsView": {
     "message": "Генерация элементов действий...",
     "title": "Действия",
-    "noActionsAvailable": "Нет доступных действий"
+    "noActionsAvailable": "Нет доступных действий",
+    "copy": "Копировать",
+    "copiedToClipboard": "Элементы действий скопированы в буфер обмена",
+    "failedToCopy": "Не удалось скопировать элементы действий"
   },
   "SettingsPage": {
     "general": "Общие",

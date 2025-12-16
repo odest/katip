@@ -141,12 +141,18 @@
   "SummaryView": {
     "message": "Generazione del riepilogo...",
     "title": "Riassunto",
-    "noSummaryAvailable": "Nessun riassunto disponibile"
+    "noSummaryAvailable": "Nessun riassunto disponibile",
+    "copy": "Copia",
+    "copiedToClipboard": "Riassunto copiato negli appunti",
+    "failedToCopy": "Impossibile copiare il riassunto"
   },
   "ActionsView": {
     "message": "Generazione degli elementi di azione...",
     "title": "Azioni",
-    "noActionsAvailable": "Nessuna azione disponibile"
+    "noActionsAvailable": "Nessuna azione disponibile",
+    "copy": "Copia",
+    "copiedToClipboard": "Elementi di azione copiati negli appunti",
+    "failedToCopy": "Impossibile copiare gli elementi di azione"
   },
   "SettingsPage": {
     "general": "Generale",

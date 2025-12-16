@@ -85,7 +85,7 @@ export function AppLayout({
             where: eq(users.id, userId),
           });
 
-          if (existingUser) {
+          if (existingUser?.id) {
             return;
           }
 

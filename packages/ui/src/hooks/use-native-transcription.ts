@@ -248,6 +248,12 @@ export function useTranscriptionProcess() {
         return;
       }
 
+      const currentStatus = useTranscriptionStore.getState().status;
+      if (currentStatus === "done") {
+        console.log("Transcription already completed, skipping new start");
+        return;
+      }
+
       hasStartedRef.current = true;
 
       const currentAudio = useAudioStore.getState().selectedAudio;
@@ -469,8 +475,13 @@ export function useTranscriptionProcess() {
 
     // Cleanup: remove event listeners on unmount
     return () => {
-      hasStartedRef.current = false;
       unlisteners.forEach((unlisten) => unlisten());
     };
   }, []);
+
+  const resetAndRestart = () => {
+    hasStartedRef.current = false;
+  };
+
+  return { resetAndRestart };
 }

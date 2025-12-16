@@ -105,7 +105,9 @@
     "copiedToClipboard": "Copiado en el portapapeles",
     "failedToCopyToClipboard": "Error al copiar en el portapapeles",
     "exportedSuccessfully": "Exportado exitosamente",
-    "failedToExport": "Error al exportar la transcripción"
+    "failedToExport": "Error al exportar la transcripción",
+    "fileNotFound": "Archivo no encontrado",
+    "fileMovedOrDeleted": "El archivo puede haber sido movido o eliminado."
   },
   "TranscriptionToolbar": {
     "cancel": "Cancelar",

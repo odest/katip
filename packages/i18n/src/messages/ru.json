@@ -105,7 +105,9 @@
     "copiedToClipboard": "Скопировано в буфер обмена",
     "failedToCopyToClipboard": "Не удалось скопировать в буфер обмена",
     "exportedSuccessfully": "Успешно экспортировано",
-    "failedToExport": "Не удалось экспортировать транскрипцию"
+    "failedToExport": "Не удалось экспортировать транскрипцию",
+    "fileNotFound": "Файл не найден",
+    "fileMovedOrDeleted": "Возможно, файл был перемещён или удалён."
   },
   "TranscriptionToolbar": {
     "cancel": "Отменить",

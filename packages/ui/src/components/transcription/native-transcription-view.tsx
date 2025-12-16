@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 import { save } from "@tauri-apps/plugin-dialog";
-import { writeTextFile } from "@tauri-apps/plugin-fs";
+import { writeTextFile, exists } from "@tauri-apps/plugin-fs";
 import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 import { toast } from "sonner";
 import { useTranslations } from "@workspace/i18n";
@@ -32,12 +32,9 @@ export const NativeTranscriptionView = ({
   const router = useRouter();
   const t = useTranslations("TranscriptionView");
 
-  const { getRecordingByHash } = useRecordings();
-  const {
-    deleteTranscriptByRecordingId,
-    getFirstTranscriptByRecordingId,
-    updateTranscriptSegments,
-  } = useTranscripts();
+  const { getRecordingByHash, deleteRecording } = useRecordings();
+  const { getFirstTranscriptByRecordingId, updateTranscriptSegments } =
+    useTranscripts();
 
   const { selectedAudio, setSelectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
@@ -54,7 +51,7 @@ export const NativeTranscriptionView = ({
 
   const { resetSummary } = useSummaryStore();
 
-  useTranscriptionProcess();
+  const { resetAndRestart } = useTranscriptionProcess();
 
   const handleSegmentChange = async (index: number, newText: string) => {
     const newSegments = [...segments];
@@ -77,33 +74,46 @@ export const NativeTranscriptionView = ({
   };
 
   const handleRetry = async () => {
+    const fileExists =
+      selectedAudio &&
+      typeof selectedAudio === "string" &&
+      (await exists(selectedAudio));
+    if (!fileExists) {
+      toast.warning(t("fileNotFound"), {
+        description: t("fileMovedOrDeleted"),
+      });
+      return;
+    }
+
     try {
-      if (selectedAudio && selectedModel) {
-        let hash = "";
-        if (typeof selectedAudio === "string") {
-          hash = await invoke<string>("calculate_file_hash", {
-            path: selectedAudio,
-          });
-        }
+      await invoke("cancel_transcription");
+    } catch (error) {
+      // Ignore error if no transcription is running
+    }
+
+    try {
+      if (recordingId) {
+        await deleteRecording(recordingId);
+      } else if (selectedAudio && typeof selectedAudio === "string") {
+        const hash = await invoke<string>("calculate_file_hash", {
+          path: selectedAudio,
+        });
 
         if (hash) {
           const recording = await getRecordingByHash(hash);
           if (recording) {
-            const { language } = useLanguageStore.getState();
-            await deleteTranscriptByRecordingId(
-              recording.id,
-              selectedModel as string,
-              language
-            );
+            await deleteRecording(recording.id);
           }
         }
       }
     } catch (error) {
-      console.error("Failed to delete transcript on retry:", error);
+      console.error("Failed to delete recording on retry:", error);
     }
 
-    clearTranscriptionState();
-    resetSummary();
+    // Clear localStorage directly to avoid async persist issues
+    localStorage.removeItem("transcription-storage");
+    localStorage.removeItem("summary-storage");
+    resetAndRestart();
     window.location.reload();
   };
 

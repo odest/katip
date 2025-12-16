@@ -105,7 +105,9 @@
     "copiedToClipboard": "Copiato negli appunti",
     "failedToCopyToClipboard": "Impossibile copiare negli appunti",
     "exportedSuccessfully": "Esportato con successo",
-    "failedToExport": "Impossibile esportare la trascrizione"
+    "failedToExport": "Impossibile esportare la trascrizione",
+    "fileNotFound": "File non trovato",
+    "fileMovedOrDeleted": "Il file potrebbe essere stato spostato o eliminato."
   },
   "TranscriptionToolbar": {
     "cancel": "Annulla",

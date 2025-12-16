@@ -105,7 +105,9 @@
     "copiedToClipboard": "已复制到剪贴板",
     "failedToCopyToClipboard": "复制到剪贴板失败",
     "exportedSuccessfully": "导出成功",
-    "failedToExport": "导出转录失败"
+    "failedToExport": "导出转录失败",
+    "fileNotFound": "找不到文件",
+    "fileMovedOrDeleted": "该文件可能已被移动或删除。"
   },
   "TranscriptionToolbar": {
     "cancel": "取消",

@@ -524,6 +524,12 @@ export function useWebTranscription() {
       return;
     }
 
+    const currentStatus = useTranscriptionStore.getState().status;
+    if (currentStatus === "done") {
+      console.log("Transcription already completed, skipping new start");
+      return;
+    }
+
     hasStartedRef.current = true;
     transcribe();
 

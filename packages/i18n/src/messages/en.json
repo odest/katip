@@ -105,7 +105,9 @@
     "copiedToClipboard": "Copied to clipboard",
     "failedToCopyToClipboard": "Failed to copy to clipboard",
     "exportedSuccessfully": "Exported successfully",
-    "failedToExport": "Failed to export transcription"
+    "failedToExport": "Failed to export transcription",
+    "fileNotFound": "File not found",
+    "fileMovedOrDeleted": "The file may have been moved or deleted."
   },
   "TranscriptionToolbar": {
     "cancel": "Cancel",

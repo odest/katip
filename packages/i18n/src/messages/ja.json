@@ -105,7 +105,9 @@
     "copiedToClipboard": "クリップボードにコピーされました",
     "failedToCopyToClipboard": "クリップボードへのコピーに失敗しました",
     "exportedSuccessfully": "正常にエクスポートされました",
-    "failedToExport": "文字起こしのエクスポートに失敗しました"
+    "failedToExport": "文字起こしのエクスポートに失敗しました",
+    "fileNotFound": "ファイルが見つかりません",
+    "fileMovedOrDeleted": "ファイルが移動または削除された可能性があります。"
   },
   "TranscriptionToolbar": {
     "cancel": "キャンセル",

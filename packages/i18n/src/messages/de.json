@@ -105,7 +105,9 @@
     "copiedToClipboard": "In die Zwischenablage kopiert",
     "failedToCopyToClipboard": "Kopieren in die Zwischenablage fehlgeschlagen",
     "exportedSuccessfully": "Erfolgreich exportiert",
-    "failedToExport": "Export der Transkription fehlgeschlagen"
+    "failedToExport": "Export der Transkription fehlgeschlagen",
+    "fileNotFound": "Datei nicht gefunden",
+    "fileMovedOrDeleted": "Die Datei wurde möglicherweise verschoben oder gelöscht."
   },
   "TranscriptionToolbar": {
     "cancel": "Abbrechen",

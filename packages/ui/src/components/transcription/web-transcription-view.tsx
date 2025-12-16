@@ -33,9 +33,8 @@ export const WebTranscriptionView = ({
   const router = useRouter();
   const t = useTranslations("TranscriptionView");
 
-  const { getRecordingByHash, addRecording } = useRecordings();
+  const { getRecordingByHash, addRecording, deleteRecording } = useRecordings();
   const {
-    deleteTranscriptByRecordingId,
     addTranscript,
     getFirstTranscriptByRecordingId,
     updateTranscriptSegments,
@@ -55,7 +54,7 @@ export const WebTranscriptionView = ({
     clearTranscriptionState,
   } = useTranscriptionStore();
 
-  const { resetSummary } = useSummaryStore();
+  const { resetSummary, setShowSideViews } = useSummaryStore();
 
   const { cancel: terminateWorker, transcribe } = useWebTranscription();
 
@@ -80,31 +79,34 @@ export const WebTranscriptionView = ({
   };
 
   const handleRetry = async () => {
+    if (!(selectedAudio instanceof File)) {
+      toast.warning(t("fileNotFound"), {
+        description: t("fileMovedOrDeleted"),
+      });
+      return;
+    }
+
     try {
-      if (selectedAudio && selectedModel) {
-        let hash = "";
-        if (selectedAudio instanceof File) {
-          hash = await calculateFileHash(selectedAudio);
-        }
+      if (recordingId) {
+        await deleteRecording(recordingId);
+      } else {
+        const hash = await calculateFileHash(selectedAudio);
 
         if (hash) {
           const recording = await getRecordingByHash(hash);
           if (recording) {
-            const { language } = useLanguageStore.getState();
-            await deleteTranscriptByRecordingId(
-              recording.id,
-              selectedModel as string,
-              language
-            );
+            await deleteRecording(recording.id);
           }
         }
       }
     } catch (error) {
-      console.error("Failed to delete transcript on retry:", error);
+      console.error("Failed to delete recording on retry:", error);
     }
 
-    clearTranscriptionState();
-    resetSummary();
+    // Clear localStorage directly to avoid async persist issues
+    localStorage.removeItem("transcription-storage");
+    localStorage.removeItem("summary-storage");
+    setShowSideViews(false);
     transcribe();
   };
 

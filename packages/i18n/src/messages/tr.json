@@ -105,7 +105,9 @@
     "copiedToClipboard": "Panoya kopyalandı",
     "failedToCopyToClipboard": "Panoya kopyalama başarısız oldu",
     "exportedSuccessfully": "Başarıyla dışa aktarıldı",
-    "failedToExport": "Transkripsiyon dışa aktarılamadı"
+    "failedToExport": "Transkripsiyon dışa aktarılamadı",
+    "fileNotFound": "Dosya bulunamadı",
+    "fileMovedOrDeleted": "Dosya taşınmış veya silinmiş olabilir."
   },
   "TranscriptionToolbar": {
     "cancel": "İptal Et",
@@ -228,7 +230,7 @@
   "GuestCard": {
     "title": "Hesap",
     "description": "Hesap ayarlarınıza erişmek için giriş yapın",
-    "welcomeTitle": "Hoş Geldiniz, Misafir!",
+    "welcomeTitle": "Hoş Geldin, Misafir!",
     "welcomeMessage": "Deneyiminizi kişiselleştirmek ve ayarlarınızı cihazlar arasında senkronize etmek için giriş yapın veya hesap oluşturun.",
     "signIn": "Giriş Yap",
     "signUp": "Kayıt Ol"

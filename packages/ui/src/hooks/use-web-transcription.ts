@@ -351,6 +351,7 @@ export function useWebTranscription() {
                   setSummaryResult({
                     summary: summary.content as string,
                     action_items: actionItems.map((item) => ({
+                      id: item.id,
                       task: item.task,
                       assignee: item.assignee ?? "Unassigned",
                       completed: item.isCompleted ?? false,
@@ -422,6 +423,7 @@ export function useWebTranscription() {
                 setSummaryResult({
                   summary: summary.content as string,
                   action_items: actionItems.map((item) => ({
+                    id: item.id,
                     task: item.task,
                     assignee: item.assignee ?? "Unassigned",
                     completed: item.isCompleted ?? false,

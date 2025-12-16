@@ -34,7 +34,12 @@ export const WebTranscriptionView = ({
   const t = useTranslations("TranscriptionView");
 
   const { getRecordingByHash, addRecording } = useRecordings();
-  const { deleteTranscriptByRecordingId, addTranscript } = useTranscripts();
+  const {
+    deleteTranscriptByRecordingId,
+    addTranscript,
+    getFirstTranscriptByRecordingId,
+    updateTranscriptSegments,
+  } = useTranscripts();
 
   const { selectedAudio, setSelectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
@@ -44,6 +49,7 @@ export const WebTranscriptionView = ({
     progress,
     segments,
     error,
+    recordingId,
     setSegments,
     setTranscriptionState,
     clearTranscriptionState,
@@ -53,10 +59,17 @@ export const WebTranscriptionView = ({
 
   const { cancel: terminateWorker, transcribe } = useWebTranscription();
 
-  const handleSegmentChange = (index: number, newText: string) => {
+  const handleSegmentChange = async (index: number, newText: string) => {
     const newSegments = [...segments];
     newSegments[index] = { ...newSegments[index]!, text: newText };
     setSegments(newSegments);
+
+    if (recordingId) {
+      const transcript = await getFirstTranscriptByRecordingId(recordingId);
+      if (transcript) {
+        await updateTranscriptSegments(transcript.id, newSegments);
+      }
+    }
   };
 
   const handleNewTranscription = () => {

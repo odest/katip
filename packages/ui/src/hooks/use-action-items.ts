@@ -35,8 +35,25 @@ export function useActionItems() {
     []
   );
 
+  const updateActionItemCompleted = useCallback(
+    async (actionItemId: string, isCompleted: boolean) => {
+      try {
+        await database
+          .update(actionItems)
+          .set({ isCompleted })
+          .where(eq(actionItems.id, actionItemId));
+        return { success: true };
+      } catch (error) {
+        console.error("Failed to update action item:", error);
+        return { success: false, error };
+      }
+    },
+    []
+  );
+
   return {
     addActionItems,
     getActionItemsBySummaryId,
+    updateActionItemCompleted,
   };
 }

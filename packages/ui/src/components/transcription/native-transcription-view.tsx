@@ -33,7 +33,11 @@ export const NativeTranscriptionView = ({
   const t = useTranslations("TranscriptionView");
 
   const { getRecordingByHash } = useRecordings();
-  const { deleteTranscriptByRecordingId } = useTranscripts();
+  const {
+    deleteTranscriptByRecordingId,
+    getFirstTranscriptByRecordingId,
+    updateTranscriptSegments,
+  } = useTranscripts();
 
   const { selectedAudio, setSelectedAudio } = useAudioStore();
   const { selectedModel } = useModelStore();
@@ -43,6 +47,7 @@ export const NativeTranscriptionView = ({
     progress,
     segments,
     error,
+    recordingId,
     setSegments,
     clearTranscriptionState,
   } = useTranscriptionStore();
@@ -51,10 +56,17 @@ export const NativeTranscriptionView = ({
 
   useTranscriptionProcess();
 
-  const handleSegmentChange = (index: number, newText: string) => {
+  const handleSegmentChange = async (index: number, newText: string) => {
     const newSegments = [...segments];
     newSegments[index] = { ...newSegments[index]!, text: newText };
     setSegments(newSegments);
+
+    if (recordingId) {
+      const transcript = await getFirstTranscriptByRecordingId(recordingId);
+      if (transcript) {
+        await updateTranscriptSegments(transcript.id, newSegments);
+      }
+    }
   };
 
   const handleNewTranscription = () => {

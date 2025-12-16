@@ -3,6 +3,7 @@ import { useTranslations } from "@workspace/i18n";
 import { cn } from "@workspace/ui/lib/utils";
 import { getBadgeStyles } from "@workspace/ui/lib/utils";
 import { useSummaryStore } from "@workspace/ui/stores/summary-store";
+import { useActionItems } from "@workspace/ui/hooks/use-action-items";
 import {
   Card,
   CardContent,
@@ -18,6 +19,18 @@ export const ActionsView = () => {
   const t = useTranslations("ActionsView");
   const { error, isSummarizing, summaryResult, toggleActionItem } =
     useSummaryStore();
+  const { updateActionItemCompleted } = useActionItems();
+
+  const handleToggle = async (index: number) => {
+    const item = summaryResult?.action_items[index];
+    if (!item) return;
+
+    toggleActionItem(index);
+
+    if (item.id) {
+      await updateActionItemCompleted(item.id, !item.completed);
+    }
+  };
 
   return (
     <div className="flex flex-col h-full w-full pt-6 pb-6 pr-6">
@@ -51,7 +64,7 @@ export const ActionsView = () => {
                     <Checkbox
                       id={`task-${index}`}
                       checked={item.completed || false}
-                      onCheckedChange={() => toggleActionItem(index)}
+                      onCheckedChange={() => handleToggle(index)}
                       className="mt-1"
                     />
                     <div className="flex flex-col gap-1.5 w-full">

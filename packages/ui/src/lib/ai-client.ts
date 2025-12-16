@@ -72,6 +72,7 @@ export const AI_PROVIDERS = isTauri()
 export interface SummaryResult {
   summary: string;
   action_items: Array<{
+    id?: string;
     task: string;
     assignee: string;
     priority: string;

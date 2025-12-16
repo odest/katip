@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.1.9](https://github.com/odest/katip/compare/v0.1.8...v0.1.9) (2025-12-16)
+
+
+### Features
+
+* **ai:** add cloud LLM provider support with API key auth ([c8edd84](https://github.com/odest/katip/commit/c8edd841ac9d6caea10537180f061c667175f479))
+* **android:** enable Transformers.js transcription on Android ([c91653b](https://github.com/odest/katip/commit/c91653b6eafa19ecf770aa5a7c83229b2a777f09))
+* transcription improvements, unified routing, and UX enhancements ([c1594b9](https://github.com/odest/katip/commit/c1594b9a4e3909d71754dcb3f55fb856943716d8))
+
+
+### Bug Fixes
+
+* **native:** sort migrations by filename for cross-platform consistency ([6e86723](https://github.com/odest/katip/commit/6e86723d4dff99695991a57ac5f9a091f3c2dcbb))
+
+
+### Code Refactoring
+
+* **native:** simplify model selection to single file picker ([a520d5a](https://github.com/odest/katip/commit/a520d5a6565bb03433749de65d270fb322aade2a))
+* **routing:** unify home route to /home for both web and native ([8ea750e](https://github.com/odest/katip/commit/8ea750e7d0b4430a108235d9c2cd205d7c292214))
+
 ## [0.1.8](https://github.com/odest/katip/compare/v0.1.7...v0.1.8) (2025-12-12)
 
 

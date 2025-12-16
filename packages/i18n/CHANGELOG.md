@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.1.8](https://github.com/odest/katip/compare/v0.1.7...v0.1.8) (2025-12-16)
+
+
+### Features
+
+* **ai:** add cloud LLM provider support with API key auth ([c8edd84](https://github.com/odest/katip/commit/c8edd841ac9d6caea10537180f061c667175f479))
+* improve audio processing and resolve RSC security vulnerabilities ([4795b77](https://github.com/odest/katip/commit/4795b778aba018ed7af96ffc1f77b8c9667a51e4))
+* **native:** replace hound with symphonia to support multiple formats ([d85f9e4](https://github.com/odest/katip/commit/d85f9e47a2b1a3ffb81319d1df67921fed8ad54b))
+* transcription improvements, unified routing, and UX enhancements ([c1594b9](https://github.com/odest/katip/commit/c1594b9a4e3909d71754dcb3f55fb856943716d8))
+* **ui:** add copy to clipboard functionality for summary and actions ([0386207](https://github.com/odest/katip/commit/0386207d3d36352722afb4000dda490ab7d5865f))
+
+
+### Bug Fixes
+
+* **deps:** upgrade next.js and react to resolve new RSC vulnerabilities ([bb3d376](https://github.com/odest/katip/commit/bb3d37699c0ffcfdf394daba2e0046c57674a6eb))
+* **transcription:** prevent restart after navigation and improve retry handling ([7e5ca82](https://github.com/odest/katip/commit/7e5ca82b57b3392aab98ad81fdb5ed134f5e8844))
+
+
+### Code Refactoring
+
+* **native:** simplify model selection to single file picker ([a520d5a](https://github.com/odest/katip/commit/a520d5a6565bb03433749de65d270fb322aade2a))
+
 ## [0.1.7](https://github.com/odest/katip/compare/v0.1.6...v0.1.7) (2025-12-12)
 
 

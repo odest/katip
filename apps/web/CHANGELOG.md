@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.9](https://github.com/odest/katip/compare/v0.1.8...v0.1.9) (2025-12-16)
+
+
+### Features
+
+* **landing:** add basic landing page with download options ([ced4f82](https://github.com/odest/katip/commit/ced4f82914e38be497b9552c6a4d9d37e899d6e7))
+
 ## [0.1.8](https://github.com/odest/katip/compare/v0.1.7...v0.1.8) (2025-12-16)
 
 

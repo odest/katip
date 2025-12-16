@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.1.9](https://github.com/odest/katip/compare/v0.1.8...v0.1.9) (2025-12-16)
+
+
+### Features
+
+* **ai:** add cloud LLM provider support with API key auth ([c8edd84](https://github.com/odest/katip/commit/c8edd841ac9d6caea10537180f061c667175f479))
+* transcription improvements, unified routing, and UX enhancements ([c1594b9](https://github.com/odest/katip/commit/c1594b9a4e3909d71754dcb3f55fb856943716d8))
+* **ui:** add copy to clipboard functionality for summary and actions ([0386207](https://github.com/odest/katip/commit/0386207d3d36352722afb4000dda490ab7d5865f))
+
+
+### Bug Fixes
+
+* **transcription:** prevent restart after navigation and improve retry handling ([7e5ca82](https://github.com/odest/katip/commit/7e5ca82b57b3392aab98ad81fdb5ed134f5e8844))
+
+
+### Code Refactoring
+
+* **native:** simplify model selection to single file picker ([a520d5a](https://github.com/odest/katip/commit/a520d5a6565bb03433749de65d270fb322aade2a))
+
 ## [0.1.8](https://github.com/odest/katip/compare/v0.1.7...v0.1.8) (2025-12-16)
 
 

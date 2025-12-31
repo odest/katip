@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.10](https://github.com/odest/katip/compare/v0.1.9...v0.1.10) (2025-12-31)
+
+
+### Documentation
+
+* update README with new light/dark screenshots and clarify docs ([7f9030f](https://github.com/odest/katip/commit/7f9030f96de96c6af6de055e54353cfa1024ed2c))
+
 ## [0.1.9](https://github.com/odest/katip/compare/v0.1.8...v0.1.9) (2025-12-16)
 
 

@@ -13,8 +13,8 @@
 
 <div align="center">
   <picture>
-    <source srcset=".github/assets/light.png" media="(prefers-color-scheme: dark)">
-    <source srcset=".github/assets/dark.png" media="(prefers-color-scheme: light)">
+    <source srcset=".github/assets/light.png" media="(prefers-color-scheme: light)">
+    <source srcset=".github/assets/dark.png" media="(prefers-color-scheme: dark)">
     <img src=".github/assets/dark.png" alt="Katip - AI Meeting Summarizer" width="800">
   </picture>
 </div>

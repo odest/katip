@@ -96,7 +96,7 @@ function createClient(baseUrl: string, apiKey?: string, provider?: string) {
   // OpenRouter requires HTTP-Referer header for authentication
   const defaultHeaders: Record<string, string> = {};
   if (provider === "openrouter") {
-    defaultHeaders["HTTP-Referer"] = "https://katip.odest.tech";
+    defaultHeaders["HTTP-Referer"] = "https://katip.odest.dev";
     defaultHeaders["X-Title"] = "Katip";
   }
 
@@ -112,7 +112,7 @@ function createClient(baseUrl: string, apiKey?: string, provider?: string) {
 export async function getModels(
   baseUrl: string,
   apiKey?: string,
-  provider?: string
+  provider?: string,
 ): Promise<string[]> {
   try {
     const client = createClient(baseUrl, apiKey, provider);
@@ -129,7 +129,7 @@ export async function generateSummary(
   model: string,
   baseUrl: string,
   provider?: string,
-  apiKey?: string
+  apiKey?: string,
 ): Promise<SummaryResult> {
   try {
     const client = createClient(baseUrl, apiKey, provider);

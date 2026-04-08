@@ -67,7 +67,7 @@
     "@workspace/eslint-config": "workspace:*",
     "@workspace/i18n": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
-    "drizzle-orm": "^0.44.7",
+    "drizzle-orm": "^0.45.2",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.9.2"
   },

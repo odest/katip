@@ -28,7 +28,7 @@
     "typescript": "~5.9.2"
   },
   "dependencies": {
-    "next-intl": "^4.3.4"
+    "next-intl": "^4.9.1"
   },
   "peerDependencies": {
     "next": "^15.5.10",

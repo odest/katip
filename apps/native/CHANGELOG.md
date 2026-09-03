@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.10](https://github.com/odest/katip/compare/v0.1.9...v0.1.10) (2026-09-03)
+
+
+### Bug Fixes
+
+* **deps:** upgrade next.js and react to resolve new RSC vulnerabilities ([a57167f](https://github.com/odest/katip/commit/a57167f20a7e1b88c0a0accfd8974e83e9c43503))
+
 ## [0.1.9](https://github.com/odest/katip/compare/v0.1.8...v0.1.9) (2025-12-16)
 
 

@@ -22,7 +22,7 @@
     "drizzle-orm": "^0.45.2"
   },
   "devDependencies": {
-    "@faker-js/faker": "^10.1.0",
+    "@faker-js/faker": "^10.5.0",
     "@types/sql.js": "^1.4.9",
     "sql.js": "^1.13.0",
     "uuid": "^14.0.0"
